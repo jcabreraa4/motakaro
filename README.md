@@ -1,21 +1,44 @@
-# shadcn/ui monorepo template
+# Motakaro
 
-This is a Next.js monorepo template with shadcn/ui.
+Monorepo con Next.js, shadcn/ui y Turborepo.
 
-## Adding components
+## Stack
 
-To add components to your app, run the following command at the root of your `web` app:
+- **Framework**: Next.js 16
+- **UI**: shadcn/ui + Base UI
+- **Styles**: Tailwind CSS v4
+- **Monorepo**: Turborepo
+- **Package Manager**: Bun
 
-```bash
-pnpm dlx shadcn@latest add button -c apps/web
+## Estructura
+```
+apps/
+└── web/          # App principal Next.js
+packages/
+└── ui/           # Componentes shadcn/ui compartidos
 ```
 
-This will place the ui components in the `packages/ui/src/components` directory.
+## Instalación
+```bash
+bun install
+```
 
-## Using components
+## Desarrollo
+```bash
+bun dev
+```
 
-To use the components in your app, import them from the `ui` package.
+## Añadir componentes
 
+Desde `apps/web`:
+```bash
+cd apps/web
+bunx --bun shadcn@latest add [componente]
+```
+
+Los componentes UI se instalan automáticamente en `packages/ui/src/components/`.
+
+## Usar componentes
 ```tsx
-import { Button } from "@workspace/ui/components/button";
+import { Button } from "@workspace/ui/components/button"
 ```
