@@ -1,17 +1,27 @@
+'use client';
+
+import { useMutation, useQuery } from 'convex/react';
+import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
 
 export default function Page() {
+  const users = useQuery(api.users.getMany);
+  const create = useMutation(api.users.addUser);
+
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="text-xl font-medium">Admins App</h1>
-          <Button className="mt-2 cursor-pointer">Button</Button>
-        </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
+    <main className="flex min-h-svh flex-col gap-3 p-6">
+      <h1 className="text-xl font-bold">Admins App</h1>
+      <Button
+        className="max-w-60 cursor-pointer"
+        onClick={() => create()}
+      >
+        Create User
+      </Button>
+      <div className="flex flex-col gap-3 font-medium">
+        {users?.map((user, index) => (
+          <p key={index}>{user.name}</p>
+        ))}
       </div>
-    </div>
+    </main>
   );
 }
