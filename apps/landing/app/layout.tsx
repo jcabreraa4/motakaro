@@ -1,8 +1,9 @@
+import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-
-import '@workspace/ui/globals.css';
-import { ThemeProvider } from '@/components/theme-provider';
+import { ThemeProvider } from '@/components/providers/theme-provider';
+import { ConvexClientProvider } from '@/components/providers/convex-provider';
 import { cn } from '@workspace/ui/lib/utils';
+import '@workspace/ui/globals.css';
 
 const fontSans = Geist({
   subsets: ['latin'],
@@ -13,6 +14,11 @@ const fontMono = Geist_Mono({
   subsets: ['latin'],
   variable: '--font-mono'
 });
+
+export const metadata: Metadata = {
+  title: 'Motakaro',
+  description: 'Motakaro Landing'
+};
 
 export default function RootLayout({
   children
@@ -26,7 +32,9 @@ export default function RootLayout({
       className={cn('antialiased', fontMono.variable, 'font-sans', fontSans.variable)}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ConvexClientProvider>
+          <ThemeProvider>{children}</ThemeProvider>
+        </ConvexClientProvider>
       </body>
     </html>
   );
