@@ -17,7 +17,10 @@ const fontMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Motakaro',
-  description: 'Motakaro Landing'
+  description: 'Motakaro Landing',
+  icons: {
+    icon: '/motakaro.webp'
+  }
 };
 
 export default function RootLayout({

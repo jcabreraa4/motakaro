@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { ClerkProvider } from '@clerk/nextjs';
 import { ThemeProvider } from '@/components/providers/theme-provider';
-import { ConvexClientProvider } from '@/components/providers/convex-provider';
+import { ConvexProvider } from '@/components/providers/convex-provider';
+import { Toaster } from '@workspace/ui/components/sonner';
 import { cn } from '@workspace/ui/lib/utils';
 import '@workspace/ui/globals.css';
 
@@ -17,7 +19,10 @@ const fontMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Motakaro',
-  description: 'Motakaro Admins'
+  description: 'Motakaro Admins',
+  icons: {
+    icon: '/motakaro.webp'
+  }
 };
 
 export default function RootLayout({
@@ -32,9 +37,14 @@ export default function RootLayout({
       className={cn('antialiased', fontMono.variable, 'font-sans', fontSans.variable)}
     >
       <body>
-        <ConvexClientProvider>
-          <ThemeProvider>{children}</ThemeProvider>
-        </ConvexClientProvider>
+        <ClerkProvider>
+          <ThemeProvider>
+            <ConvexProvider>
+              {children}
+              <Toaster />
+            </ConvexProvider>
+          </ThemeProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

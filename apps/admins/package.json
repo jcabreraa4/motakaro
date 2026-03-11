@@ -12,14 +12,19 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@workspace/ui": "workspace:*",
+    "@clerk/nextjs": "^7.0.2",
+    "@hookform/resolvers": "^5.2.2",
     "@workspace/backend": "workspace:*",
+    "@workspace/ui": "workspace:*",
     "convex": "^1.32.0",
     "lucide-react": "^0.577.0",
     "next": "16.1.6",
     "next-themes": "^0.4.6",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "react-hook-form": "^7.71.2",
+    "sonner": "^2.0.7",
+    "zod": "4.0.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.18",
