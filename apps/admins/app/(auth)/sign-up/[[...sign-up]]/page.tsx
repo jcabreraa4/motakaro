@@ -14,7 +14,8 @@ import { Label } from '@workspace/ui/components/label';
 import Link from 'next/link';
 import { z } from 'zod';
 
-const disabled = true;
+const disabled = process.env.NEXT_PUBLIC_SIGN_UP_ACTIVE! === 'false';
+const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
 
 const signUpSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -22,8 +23,6 @@ const signUpSchema = z.object({
   email: z.email('Invalid email address'),
   password: z.string().min(1, 'Password is required').min(6, 'Password is too short')
 });
-
-const redirectPage = '/overview';
 
 type SignUpFormType = z.infer<typeof signUpSchema>;
 
@@ -49,29 +48,57 @@ export default function SignInPage() {
   });
 
   async function handleSubmit(data: SignUpFormType) {
-    try {
-      await signUp.password({
-        emailAddress: data.email,
-        password: data.password,
-        firstName: data.name,
-        lastName: data.surname
-      });
-      if (signUp.status === 'complete') {
-        toast.success('You are successfully signed up.');
-        router.push(redirectPage);
-      } else {
-        toast.error('An internal error has occurred.');
-      }
-    } catch {
-      toast.error('Please check your credentials.');
+    const { error } = await signUp.password({
+      emailAddress: data.email,
+      password: data.password,
+      firstName: data.name,
+      lastName: data.surname
+    });
+    if (error) {
+      toast.error('An internal error has occurred.');
+      return;
+    }
+    const { error: emailError } = await signUp.verifications.sendEmailCode();
+    if (emailError) {
+      toast.error('An internal error has occurred.');
+    } else {
+      toast.info('A code has been sent to your email.');
     }
   }
 
-  if (disabled)
+  async function handleVerify(formData: FormData) {
+    const code = formData.get('code') as string;
+    const { error } = await signUp.verifications.verifyEmailCode({ code });
+    if (error) {
+      toast.error('Please check your credentials.');
+      return;
+    }
+    if (signUp.status === 'complete') {
+      await signUp.finalize({
+        navigate: ({ session, decorateUrl }) => {
+          if (session?.currentTask) {
+            console.log(session?.currentTask);
+            return;
+          }
+          const url = decorateUrl(redirectPage);
+          toast.success('You are successfully signed up.');
+          if (url.startsWith('http')) {
+            window.location.href = url;
+          } else {
+            router.push(url);
+          }
+        }
+      });
+    } else {
+      toast.error('An internal error has occurred.');
+    }
+  }
+
+  if (disabled) {
     return (
       <Card className="w-md py-4 xl:py-6">
-        <CardHeader className="px-4 lg:px-6">
-          <CardTitle>Sign Up</CardTitle>
+        <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
+          <CardTitle className="text-xl font-bold">Sign Up</CardTitle>
           <CardDescription>Sign ups are currently disabled.</CardDescription>
         </CardHeader>
         <CardFooter className="flex flex-col gap-2 px-4 lg:flex-row lg:px-6">
@@ -82,12 +109,58 @@ export default function SignInPage() {
         </CardFooter>
       </Card>
     );
+  }
+
+  if (signUp.status === 'missing_requirements' && signUp.unverifiedFields.includes('email_address') && signUp.missingFields.length === 0) {
+    return (
+      <Card className="w-md py-4 xl:py-6">
+        <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
+          <CardTitle className="text-xl font-bold">Verify your Account</CardTitle>
+          <CardDescription>Introduce the code sent to your email address.</CardDescription>
+        </CardHeader>
+        <CardContent className="px-4 lg:px-6">
+          <form
+            action={handleVerify}
+            className="flex flex-col gap-5"
+          >
+            <Field>
+              <FieldLabel htmlFor="code">Email Code</FieldLabel>
+              <Input
+                id="code"
+                name="code"
+                type="text"
+              />
+            </Field>
+            <Button
+              type="submit"
+              className="w-full cursor-pointer font-semibold"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Signing Up...' : 'Sign Up'}
+            </Button>
+          </form>
+        </CardContent>
+        <CardFooter className="flex flex-col gap-2 px-4 lg:flex-row lg:px-6">
+          <Label
+            className="cursor-pointer underline"
+            onClick={() =>
+              signUp.verifications.sendEmailCode().finally(() => {
+                toast.success('New code sent successfully.');
+              })
+            }
+          >
+            I Need a New Code
+          </Label>
+        </CardFooter>
+      </Card>
+    );
+  }
 
   return (
     <Card className="w-md py-4 xl:py-6">
-      <CardHeader className="px-4 lg:px-6">
-        <CardTitle>Sign Up</CardTitle>
-        <CardDescription className="hidden xl:block">Introduce your credentials.</CardDescription>
+      <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
+        <CardTitle className="text-xl font-bold">Create Account</CardTitle>
+        <CardDescription>Introduce your credentials.</CardDescription>
       </CardHeader>
       <CardContent className="px-4 lg:px-6">
         <form
@@ -106,6 +179,7 @@ export default function SignInPage() {
                     id="name"
                     type="text"
                     disabled={isLoading}
+                    placeholder="John"
                     aria-invalid={fieldState.invalid}
                   />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -123,6 +197,7 @@ export default function SignInPage() {
                     id="surname"
                     type="text"
                     disabled={isLoading}
+                    placeholder="Doe"
                     aria-invalid={fieldState.invalid}
                   />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -141,6 +216,7 @@ export default function SignInPage() {
                   id="email"
                   type="email"
                   disabled={isLoading}
+                  placeholder="m@example.com"
                   aria-invalid={fieldState.invalid}
                 />
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -166,7 +242,7 @@ export default function SignInPage() {
           />
           <Button
             type="submit"
-            className="w-full cursor-pointer"
+            className="w-full cursor-pointer font-semibold"
             disabled={isLoading}
           >
             {isLoading ? 'Signing Up...' : 'Sign Up'}

@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { mergeProps } from '@base-ui/react/merge-props';
-import { useRender } from '@base-ui/react/use-render';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { Slot } from 'radix-ui';
 
 import { cn } from '@workspace/ui/lib/utils';
 import { Separator } from '@workspace/ui/components/separator';
@@ -28,7 +27,7 @@ function ItemSeparator({ className, ...props }: React.ComponentProps<typeof Sepa
   );
 }
 
-const itemVariants = cva('group/item flex w-full flex-wrap items-center rounded-lg border text-sm transition-colors duration-100 outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 [a]:transition-colors [a]:hover:bg-muted', {
+const itemVariants = cva('group/item flex w-full flex-wrap items-center rounded-md border text-sm transition-colors duration-100 outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 [a]:transition-colors [a]:hover:bg-muted', {
   variants: {
     variant: {
       default: 'border-transparent',
@@ -36,7 +35,7 @@ const itemVariants = cva('group/item flex w-full flex-wrap items-center rounded-
       muted: 'border-transparent bg-muted/50'
     },
     size: {
-      default: 'gap-2.5 px-3 py-2.5',
+      default: 'gap-3.5 px-4 py-3.5',
       sm: 'gap-2.5 px-3 py-2.5',
       xs: 'gap-2 px-2.5 py-2 in-data-[slot=dropdown-menu-content]:p-0'
     }
@@ -47,22 +46,17 @@ const itemVariants = cva('group/item flex w-full flex-wrap items-center rounded-
   }
 });
 
-function Item({ className, variant = 'default', size = 'default', render, ...props }: useRender.ComponentProps<'div'> & VariantProps<typeof itemVariants>) {
-  return useRender({
-    defaultTagName: 'div',
-    props: mergeProps<'div'>(
-      {
-        className: cn(itemVariants({ variant, size, className }))
-      },
-      props
-    ),
-    render,
-    state: {
-      slot: 'item',
-      variant,
-      size
-    }
-  });
+function Item({ className, variant = 'default', size = 'default', asChild = false, ...props }: React.ComponentProps<'div'> & VariantProps<typeof itemVariants> & { asChild?: boolean }) {
+  const Comp = asChild ? Slot.Root : 'div';
+  return (
+    <Comp
+      data-slot="item"
+      data-variant={variant}
+      data-size={size}
+      className={cn(itemVariants({ variant, size, className }))}
+      {...props}
+    />
+  );
 }
 
 const itemMediaVariants = cva('flex shrink-0 items-center justify-center gap-2 group-has-data-[slot=item-description]/item:translate-y-0.5 group-has-data-[slot=item-description]/item:self-start [&_svg]:pointer-events-none', {
