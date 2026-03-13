@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useClerk, useOrganizationList, useSession } from '@clerk/nextjs';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
@@ -7,7 +8,6 @@ import { Label } from '@workspace/ui/components/label';
 import { BuildingIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Spinner } from '@workspace/ui/components/spinner';
-import { useState } from 'react';
 import { toast } from 'sonner';
 
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
@@ -20,7 +20,20 @@ export default function OrgSelectionPage() {
     userMemberships: { pageSize: 3 }
   });
 
+  const [showSpinner, setShowSpinner] = useState(false);
   const [isSelecting, setIsSelecting] = useState(false);
+
+  useEffect(() => {
+    if (!isLoaded || isSelecting || userMemberships.isLoading) {
+      setShowSpinner(false);
+      return;
+    }
+    if (userMemberships?.data?.length === 0 || !userMemberships?.data) {
+      const timer = setTimeout(() => setShowSpinner(true), 300);
+      return () => clearTimeout(timer);
+    }
+    setShowSpinner(false);
+  }, [isLoaded, isSelecting, userMemberships.isLoading, userMemberships?.data]);
 
   async function handleSelect(orgId: string) {
     if (!setActive) return;
@@ -47,9 +60,11 @@ export default function OrgSelectionPage() {
     }
   }
 
-  if (!isLoaded || isSelecting) return <Spinner className="size-12" />;
+  if (!isLoaded || isSelecting || userMemberships.isLoading || (!userMemberships?.data?.length && !showSpinner)) {
+    return <Spinner className="size-12 text-white" />;
+  }
 
-  if (userMemberships?.data?.length === 0) {
+  if (userMemberships?.data?.length === 0 || !userMemberships?.data) {
     return (
       <Card className="w-md py-4 xl:py-6">
         <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
@@ -73,7 +88,7 @@ export default function OrgSelectionPage() {
     <Card className="w-md py-4 xl:py-6">
       <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
         <CardTitle className="text-xl font-bold">Select Organization</CardTitle>
-        <CardDescription>You can always toggle your organization selection.</CardDescription>
+        <CardDescription>You&apos;ll be able to switch organizations within the app.</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-3 px-4 lg:px-6">
         {userMemberships?.data?.map((mem) => (

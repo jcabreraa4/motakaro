@@ -20,7 +20,7 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
     id: mem.organization.id,
     name: mem.organization.name,
     logo: mem.organization.imageUrl,
-    plan: mem.organization.slug ?? 'Without plan'
+    plan: (mem.organization.publicMetadata?.plan as string) ?? 'No Plan'
   }));
 
   return (

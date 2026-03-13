@@ -1,7 +1,7 @@
 import { Branding } from '@/components/motakaro/branding';
 import { SquareThemeButton } from '@/components/theme-buttons';
 
-export default function AccessLayout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <main className="flex h-screen items-center justify-center gap-6 bg-[#0A0A0A] px-5 lg:px-0">
       <div className="fixed top-0 left-0 z-50 p-5">

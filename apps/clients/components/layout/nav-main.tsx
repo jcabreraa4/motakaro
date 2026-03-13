@@ -23,41 +23,6 @@ const sections: Section[] = [
         title: 'Overview',
         url: '/overview',
         icon: LayoutDashboardIcon
-      },
-      {
-        title: 'Chatbots',
-        url: '/chatbots',
-        icon: BotIcon
-      }
-    ]
-  },
-  {
-    title: 'Database',
-    items: [
-      {
-        title: 'Contacts',
-        url: '/contacts',
-        icon: UsersIcon
-      },
-      {
-        title: 'Companies',
-        url: '/companies',
-        icon: Building2Icon
-      }
-    ]
-  },
-  {
-    title: 'Storage',
-    items: [
-      {
-        title: 'Documents',
-        url: '/documents',
-        icon: FileTextIcon
-      },
-      {
-        title: 'Multimedia',
-        url: '/multimedia',
-        icon: ImageIcon
       }
     ]
   }

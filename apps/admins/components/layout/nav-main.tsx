@@ -1,7 +1,7 @@
 'use client';
 
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
-import { BotIcon, FileTextIcon, ImageIcon, LayoutDashboardIcon, Building2Icon, UsersIcon, type LucideIcon } from 'lucide-react';
+import { type LucideIcon, BotIcon, FileTextIcon, ImageIcon, LayoutDashboardIcon, Building2Icon, UsersIcon, ListVideoIcon, HeadsetIcon, ChartColumnBigIcon } from 'lucide-react';
 import { cn } from '@workspace/ui/lib/utils';
 import { usePathname } from '@/hooks/use-pathname';
 import Link from 'next/link';
@@ -23,6 +23,16 @@ const sections: Section[] = [
         title: 'Overview',
         url: '/overview',
         icon: LayoutDashboardIcon
+      },
+      {
+        title: 'Meetings',
+        url: '/meetings',
+        icon: HeadsetIcon
+      },
+      {
+        title: 'Analytics',
+        url: '/analytics',
+        icon: ChartColumnBigIcon
       },
       {
         title: 'Chatbots',
@@ -58,6 +68,16 @@ const sections: Section[] = [
         title: 'Multimedia',
         url: '/multimedia',
         icon: ImageIcon
+      }
+    ]
+  },
+  {
+    title: 'Website',
+    items: [
+      {
+        title: 'Resources',
+        url: '/resources',
+        icon: ListVideoIcon
       }
     ]
   }
