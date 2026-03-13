@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useSignUp, useAuth } from '@clerk/nextjs';
+import { useSignUp, useAuth, useSession } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Controller, useForm } from 'react-hook-form';
@@ -27,13 +27,15 @@ const signUpSchema = z.object({
 type SignUpFormType = z.infer<typeof signUpSchema>;
 
 export default function SignInPage() {
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, orgId } = useAuth();
   const { signUp, fetchStatus } = useSignUp();
+  const { session } = useSession();
   const router = useRouter();
 
   useEffect(() => {
     if (isSignedIn) router.push(redirectPage);
-  }, [isSignedIn, router]);
+    if (session && !orgId) router.push('/org-selection');
+  }, [isSignedIn, session, orgId, router]);
 
   const isLoading = fetchStatus === 'fetching';
 

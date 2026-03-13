@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
 import { ThemeProvider } from '@/components/providers/theme-provider';
-import { ConvexProvider } from '@/components/providers/convex-provider';
 import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import { Toaster } from '@workspace/ui/components/sonner';
 import { cn } from '@workspace/ui/lib/utils';
@@ -39,7 +38,6 @@ export default function RootLayout({
     >
       <body suppressHydrationWarning>
         <ClerkProvider
-          dynamic
           taskUrls={{
             'choose-organization': '/org-selection'
           }}
@@ -50,12 +48,10 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <ConvexProvider>
-              <TooltipProvider>
-                {children}
-                <Toaster />
-              </TooltipProvider>
-            </ConvexProvider>
+            <TooltipProvider>
+              {children}
+              <Toaster />
+            </TooltipProvider>
           </ThemeProvider>
         </ClerkProvider>
       </body>

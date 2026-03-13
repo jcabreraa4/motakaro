@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useSignIn, useAuth } from '@clerk/nextjs';
+import { useSignIn, useAuth, useSession } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { Controller, useForm } from 'react-hook-form';
@@ -25,13 +25,15 @@ const signInSchema = z.object({
 type SignInFormType = z.infer<typeof signInSchema>;
 
 export default function SignInPage() {
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, orgId } = useAuth();
   const { signIn, fetchStatus } = useSignIn();
+  const { session } = useSession();
   const router = useRouter();
 
   useEffect(() => {
     if (isSignedIn) router.push(redirectPage);
-  }, [isSignedIn, router]);
+    if (session && !orgId) router.push('/org-selection');
+  }, [isSignedIn, session, orgId, router]);
 
   const isLoading = fetchStatus === 'fetching';
 
@@ -73,6 +75,7 @@ export default function SignInPage() {
       if (emailCodeFactor) await signIn.mfa.sendEmailCode();
       toast.info('A code has been sent to your email.');
     } else {
+      console.error(signIn.status);
       toast.error('An internal error has occurred.');
     }
   }
