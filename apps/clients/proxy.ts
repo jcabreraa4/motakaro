@@ -5,16 +5,14 @@ const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)']);
 const isOrgFreeRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)', '/org-selection(.*)']);
 
 export default clerkMiddleware(async (auth, req) => {
-  const { userId, orgId } = await auth();
-
-  if (!isPublicRoute(req)) {
-    await auth.protect();
-  }
+  const { userId, orgId } = await auth({ treatPendingAsSignedOut: false });
 
   if (userId && !orgId && !isOrgFreeRoute(req)) {
-    const searchParams = new URLSearchParams({ redirectUrl: req.url });
-    const orgSelection = new URL(`/org-selection?${searchParams.toString()}`, req.url);
-    return NextResponse.redirect(orgSelection);
+    return NextResponse.redirect(new URL('/org-selection', req.url));
+  }
+
+  if (!isPublicRoute(req) && !userId) {
+    return NextResponse.redirect(new URL('/sign-in', req.url));
   }
 });
 
