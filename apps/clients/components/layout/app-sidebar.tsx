@@ -1,7 +1,7 @@
+import { Sidebar, SidebarHeader, SidebarContent, SidebarRail, SidebarFooter } from '@workspace/ui/components/sidebar';
 import { NavMain } from '@/components/layout/nav-main';
 import { NavUser } from '@/components/layout/nav-user';
 import { NavTeam } from '@/components/layout/nav-team';
-import { Sidebar, SidebarHeader, SidebarContent, SidebarRail, SidebarFooter } from '@workspace/ui/components/sidebar';
 import { clerkClient, currentUser } from '@clerk/nextjs/server';
 
 export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -16,12 +16,27 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
     avatar: user!.imageUrl
   };
 
-  const teamsData = memberships.data.map((mem) => ({
-    id: mem.organization.id,
-    name: mem.organization.name,
-    logo: mem.organization.imageUrl,
-    plan: (mem.organization.publicMetadata?.plan as string) ?? 'No Plan'
-  }));
+  const teamsData = await Promise.all(
+    memberships.data.map(async ({ organization }) => {
+      try {
+        const subscription = await client.billing.getOrganizationBillingSubscription(organization.id);
+        const activeItem = subscription.subscriptionItems?.find((item) => item.status === 'active');
+        return {
+          id: organization.id,
+          name: organization.name,
+          logo: organization.imageUrl,
+          plan: activeItem?.plan?.name
+        };
+      } catch {
+        return {
+          id: organization.id,
+          name: organization.name,
+          logo: organization.imageUrl,
+          plan: undefined
+        };
+      }
+    })
+  );
 
   return (
     <Sidebar

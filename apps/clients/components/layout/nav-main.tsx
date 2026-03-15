@@ -1,7 +1,7 @@
 'use client';
 
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
-import { BotIcon, FileTextIcon, ImageIcon, LayoutDashboardIcon, Building2Icon, UsersIcon, type LucideIcon } from 'lucide-react';
+import { type LucideIcon, LayoutDashboardIcon } from 'lucide-react';
 import { cn } from '@workspace/ui/lib/utils';
 import { usePathname } from '@/hooks/use-pathname';
 import Link from 'next/link';

@@ -3,12 +3,12 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-const signInPage = process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL!;
+const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
 
 export default function Page() {
   const router = useRouter();
   useEffect(() => {
-    router.push(signInPage);
+    router.push(redirectPage);
   });
   return <main></main>;
 }

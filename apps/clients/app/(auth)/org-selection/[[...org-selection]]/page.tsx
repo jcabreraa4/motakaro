@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import { useClerk, useOrganizationList, useSession } from '@clerk/nextjs';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { Label } from '@workspace/ui/components/label';
 import { BuildingIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { Spinner } from '@workspace/ui/components/spinner';
 import { toast } from 'sonner';
 
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
@@ -47,6 +47,7 @@ export default function OrgSelectionPage() {
             return;
           }
           const url = decorateUrl(redirectPage);
+          toast.success('Organization selected successfully.');
           if (url.startsWith('http')) {
             window.location.href = url;
           } else {
@@ -61,7 +62,7 @@ export default function OrgSelectionPage() {
   }
 
   if (!isLoaded || isSelecting || userMemberships.isLoading || (!userMemberships?.data?.length && !showSpinner)) {
-    return <Spinner className="size-12 text-white" />;
+    return <CircleLoader className="text-white" />;
   }
 
   if (userMemberships?.data?.length === 0 || !userMemberships?.data) {

@@ -1,6 +1,7 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
+  "globalEnv": ["CLERK_CLIENTS_APP_SECRET_KEY"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

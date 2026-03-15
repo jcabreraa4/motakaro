@@ -1,6 +1,15 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  transpilePackages: ["@workspace/ui"],
-}
 
-export default nextConfig
+const nextConfig = {
+  transpilePackages: ['@workspace/ui'],
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '*.convex.cloud'
+      }
+    ]
+  }
+};
+
+export default nextConfig;

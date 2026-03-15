@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/providers/theme-provider';
 import { ConvexProvider } from '@/components/providers/convex-provider';
 import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import { Toaster } from '@workspace/ui/components/sonner';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { cn } from '@workspace/ui/lib/utils';
 import '@workspace/ui/globals.css';
 
@@ -39,19 +40,21 @@ export default function RootLayout({
     >
       <body suppressHydrationWarning>
         <ClerkProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <ConvexProvider>
-              <TooltipProvider>
-                {children}
-                <Toaster />
-              </TooltipProvider>
-            </ConvexProvider>
-          </ThemeProvider>
+          <NuqsAdapter>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <ConvexProvider>
+                <TooltipProvider>
+                  {children}
+                  <Toaster />
+                </TooltipProvider>
+              </ConvexProvider>
+            </ThemeProvider>
+          </NuqsAdapter>
         </ClerkProvider>
       </body>
     </html>

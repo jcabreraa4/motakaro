@@ -6,9 +6,10 @@ import { useClerk, useOrganization, useOrganizationList } from '@clerk/nextjs';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@workspace/ui/components/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
-import { toast } from 'sonner';
+import { Skeleton } from '@workspace/ui/components/skeleton';
 import { useTheme } from 'next-themes';
 import { dark } from '@clerk/themes';
+import { toast } from 'sonner';
 
 function TeamSkeleton() {
   return (
@@ -18,10 +19,10 @@ function TeamSkeleton() {
           size="lg"
           className="hover:bg-inherit active:bg-inherit data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
         >
-          <Avatar className="flex h-8 w-8 items-center justify-center rounded-lg">CN</Avatar>
-          <div className="grid flex-1 text-left text-sm leading-tight">
-            <span className="truncate font-medium">Organization</span>
-            <span className="truncate text-xs">Organization Plan</span>
+          <Skeleton className="h-8 w-8 rounded-2xl border" />
+          <div className="grid flex-1 gap-1 text-left text-sm leading-tight">
+            <Skeleton className="h-4 rounded-sm border" />
+            <Skeleton className="h-2.5 w-20 rounded-sm border" />
           </div>
           <ChevronsUpDown className="ml-auto" />
         </SidebarMenuButton>
@@ -32,7 +33,7 @@ function TeamSkeleton() {
 
 interface TeamDataProps {
   name: string;
-  plan: string;
+  plan?: string;
   logo: string;
 }
 
@@ -50,7 +51,7 @@ function TeamData({ name, plan, logo }: TeamDataProps) {
       </Avatar>
       <div className="grid flex-1 text-left text-sm leading-tight">
         <span className="truncate font-medium">{name}</span>
-        <span className="truncate text-xs">{plan}</span>
+        {plan && <span className="truncate text-xs">{plan} Plan</span>}
       </div>
     </>
   );
@@ -60,7 +61,7 @@ type Team = {
   id: string;
   name: string;
   logo: string;
-  plan: string;
+  plan?: string;
 };
 
 interface NavTeamProps {

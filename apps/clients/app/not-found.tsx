@@ -11,7 +11,7 @@ export default function NotFound() {
       <div className="fixed top-0 right-0 z-50 p-5">
         <SquareThemeButton className="hidden lg:flex" />
       </div>
-      <section className="flex h-14 w-full justify-center gap-5">
+      <section className="pointer-events-none flex h-14 w-full justify-center gap-5 select-none">
         <div className="flex h-full items-center border-e-2 pe-5">
           <p className="text-3xl font-semibold">404</p>
         </div>
