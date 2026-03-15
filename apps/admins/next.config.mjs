@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   transpilePackages: ['@workspace/ui'],
   images: {
@@ -6,8 +7,13 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'img.clerk.com'
+      },
+      {
+        protocol: 'https',
+        hostname: '*.convex.cloud'
       }
     ]
   }
 };
+
 export default nextConfig;

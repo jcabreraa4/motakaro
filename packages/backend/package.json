@@ -13,7 +13,9 @@
     "typescript": "latest"
   },
   "dependencies": {
+    "@clerk/backend": "^3.2.0",
     "@types/node": "^25.4.0",
-    "convex": "^1.32.0"
+    "convex": "^1.32.0",
+    "svix": "^1.88.0"
   }
 }

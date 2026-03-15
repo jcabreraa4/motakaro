@@ -126,4 +126,16 @@
   body {
     @apply bg-background text-foreground;
   }
+  /* Scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #171717 transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #171717;
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #444444;
+  }
 }

@@ -1,16 +1,18 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useSignUp, useAuth } from '@clerk/nextjs';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@workspace/ui/components/button';
 import { Input } from '@workspace/ui/components/input';
+import { Label } from '@workspace/ui/components/label';
+import { Button } from '@workspace/ui/components/button';
 import { Field, FieldLabel, FieldError } from '@workspace/ui/components/field';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
-import { Label } from '@workspace/ui/components/label';
+import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@workspace/ui/components/input-otp';
+import { useSignUp, useAuth } from '@clerk/nextjs';
+import { RefreshCwIcon } from 'lucide-react';
+import { toast } from 'sonner';
 import Link from 'next/link';
 import { z } from 'zod';
 
@@ -30,6 +32,8 @@ export default function SignInPage() {
   const { isSignedIn } = useAuth();
   const { signUp, fetchStatus } = useSignUp();
   const router = useRouter();
+
+  const [emailCode, setEmailCode] = useState('');
 
   useEffect(() => {
     if (isSignedIn) router.push(redirectPage);
@@ -66,9 +70,9 @@ export default function SignInPage() {
     }
   }
 
-  async function handleVerify(formData: FormData) {
-    const code = formData.get('code') as string;
-    const { error } = await signUp.verifications.verifyEmailCode({ code });
+  async function handleVerify(e: React.SubmitEvent) {
+    e.preventDefault();
+    const { error } = await signUp.verifications.verifyEmailCode({ code: emailCode });
     if (error) {
       toast.error('Please check your credentials.');
       return;
@@ -115,21 +119,70 @@ export default function SignInPage() {
     return (
       <Card className="w-md py-4 xl:py-6">
         <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
-          <CardTitle className="text-xl font-bold">Verify your Account</CardTitle>
+          <CardTitle className="text-xl font-bold">Verify your Email</CardTitle>
           <CardDescription>Introduce the code sent to your email address.</CardDescription>
         </CardHeader>
         <CardContent className="px-4 lg:px-6">
           <form
-            action={handleVerify}
+            onSubmit={handleVerify}
             className="flex flex-col gap-5"
           >
             <Field>
-              <FieldLabel htmlFor="code">Email Code</FieldLabel>
-              <Input
-                id="code"
+              <div className="flex items-end justify-between">
+                <FieldLabel htmlFor="code">Verification Code</FieldLabel>
+                <Button
+                  size="xs"
+                  type="button"
+                  variant="outline"
+                  className="cursor-pointer"
+                  onClick={() =>
+                    signUp.verifications.sendEmailCode().finally(() => {
+                      toast.success('New code sent successfully.');
+                    })
+                  }
+                >
+                  <RefreshCwIcon />
+                  Resend Code
+                </Button>
+              </div>
+              <InputOTP
+                required
                 name="code"
-                type="text"
-              />
+                maxLength={6}
+                value={emailCode}
+                onChange={setEmailCode}
+                className="w-full"
+              >
+                <InputOTPGroup className="flex-1 *:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-full *:data-[slot=input-otp-slot]:text-xl">
+                  <InputOTPSlot
+                    index={0}
+                    className="flex-1"
+                  />
+                  <InputOTPSlot
+                    index={1}
+                    className="flex-1"
+                  />
+                  <InputOTPSlot
+                    index={2}
+                    className="flex-1"
+                  />
+                </InputOTPGroup>
+                <InputOTPSeparator className="mx-2" />
+                <InputOTPGroup className="flex-1 *:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-full *:data-[slot=input-otp-slot]:text-xl">
+                  <InputOTPSlot
+                    index={3}
+                    className="flex-1"
+                  />
+                  <InputOTPSlot
+                    index={4}
+                    className="flex-1"
+                  />
+                  <InputOTPSlot
+                    index={5}
+                    className="flex-1"
+                  />
+                </InputOTPGroup>
+              </InputOTP>
             </Field>
             <Button
               type="submit"
@@ -140,16 +193,12 @@ export default function SignInPage() {
             </Button>
           </form>
         </CardContent>
-        <CardFooter className="flex flex-col gap-2 px-4 lg:flex-row lg:px-6">
+        <CardFooter className="px-4 lg:px-6">
           <Label
             className="cursor-pointer underline"
-            onClick={() =>
-              signUp.verifications.sendEmailCode().finally(() => {
-                toast.success('New code sent successfully.');
-              })
-            }
+            onClick={() => signUp.reset()}
           >
-            I Need a New Code
+            I want to start over
           </Label>
         </CardFooter>
       </Card>
