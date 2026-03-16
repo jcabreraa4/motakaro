@@ -12,7 +12,7 @@ export default function Page() {
   if (!contacts) return <CircleLoader />;
 
   return (
-    <main className="flex w-full flex-col gap-2 overflow-hidden p-4 lg:p-5">
+    <main className="flex w-full flex-col gap-2 overflow-hidden p-3 lg:p-5">
       {contacts?.map((contact) => (
         <div key={contact._id}>
           Name: {contact.name} {contact.surname} | Id: {contact.clerkId}

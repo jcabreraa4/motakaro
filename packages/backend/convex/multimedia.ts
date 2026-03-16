@@ -1,3 +1,4 @@
+import { Id } from './_generated/dataModel';
 import { mutation, query } from './_generated/server';
 import { ConvexError, v } from 'convex/values';
 
@@ -19,25 +20,29 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.id('multimedia')
+    id: v.string()
   },
   handler: async (ctx, args) => {
-    // Check Identity
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity || identity.issuer !== adminsIssuer) {
-      throw new Error('Unauthorized');
+    try {
+      // Check Identity
+      const identity = await ctx.auth.getUserIdentity();
+      if (!identity || identity.issuer !== adminsIssuer) {
+        throw new Error('Unauthorized');
+      }
+
+      // Obtain the Media File
+      const mediaFile = await ctx.db.get('multimedia', args.id as Id<'multimedia'>);
+      if (!mediaFile) return null;
+
+      // Obtain the Storage Url
+      const url = await ctx.storage.getUrl(mediaFile.storageId);
+      if (!url) return null;
+
+      // Return the Media File
+      return { ...mediaFile, url };
+    } catch {
+      return null;
     }
-
-    // Obtain the Media File
-    const mediaFile = await ctx.db.get(args.id);
-    if (!mediaFile) return null;
-
-    // Obtain the Storage Url
-    const url = await ctx.storage.getUrl(mediaFile.storageId);
-    if (!url) return null;
-
-    // Return the Media File
-    return { ...mediaFile, url };
   }
 });
 
