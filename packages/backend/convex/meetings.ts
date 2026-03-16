@@ -1,0 +1,80 @@
+import { internalMutation, query } from './_generated/server';
+import { v } from 'convex/values';
+
+const adminsIssuer = process.env.CLERK_JWT_ADMINS_DOMAIN;
+
+export const list = query({
+  handler: async (ctx) => {
+    // Check Identity
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || identity.issuer !== adminsIssuer) {
+      throw new Error('Unauthorized');
+    }
+
+    // Return all Meetings
+    return ctx.db.query('meetings').collect();
+  }
+});
+
+export const get = query({
+  args: {
+    id: v.optional(v.id('meetings')),
+    calcomId: v.optional(v.string())
+  },
+  handler: async (ctx, args) => {
+    // Check Identity
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || identity.issuer !== adminsIssuer) {
+      throw new Error('Unauthorized');
+    }
+
+    // Return one Meeting
+    if (args.id) return await ctx.db.get(args.id);
+    if (args.calcomId) {
+      return await ctx.db
+        .query('meetings')
+        .withIndex('by_calcom_id', (q) => q.eq('calcomId', args.calcomId!))
+        .first();
+    }
+    return null;
+  }
+});
+
+// Internal Mutations
+
+export const upsert = internalMutation({
+  args: {
+    name: v.string(),
+    note: v.string(),
+    status: v.union(v.literal('scheduled'), v.literal('cancelled'), v.literal('rejected'), v.literal('started'), v.literal('finished')),
+    startTime: v.number(),
+    endTime: v.number(),
+    attendees: v.array(v.string()),
+    calcomId: v.string()
+  },
+  handler: async (ctx, args) => {
+    const meeting = await ctx.db
+      .query('meetings')
+      .withIndex('by_calcom_id', (q) => q.eq('calcomId', args.calcomId))
+      .first();
+    if (meeting) {
+      await ctx.db.patch(meeting._id, args);
+    } else {
+      await ctx.db.insert('meetings', args);
+    }
+  }
+});
+
+export const updateStatus = internalMutation({
+  args: {
+    calcomId: v.string(),
+    status: v.union(v.literal('scheduled'), v.literal('cancelled'), v.literal('rejected'), v.literal('started'), v.literal('finished'))
+  },
+  handler: async (ctx, { calcomId, status }) => {
+    const meeting = await ctx.db
+      .query('meetings')
+      .withIndex('by_calcom_id', (q) => q.eq('calcomId', calcomId))
+      .first();
+    if (meeting) await ctx.db.patch(meeting._id, { status });
+  }
+});

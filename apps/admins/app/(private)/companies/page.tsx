@@ -12,7 +12,7 @@ export default function Page() {
   if (!companies) return <CircleLoader />;
 
   return (
-    <main className="flex w-full flex-col gap-2 overflow-hidden p-4 lg:p-5">
+    <main className="flex w-full flex-col gap-2 overflow-hidden p-3 lg:p-5">
       {companies?.map((company) => (
         <div key={company._id}>
           Name: {company.name} | Id: {company.clerkId}

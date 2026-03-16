@@ -11,7 +11,7 @@ import { FileTextIcon } from 'lucide-react';
 export function MediaPage({ preloaded }: { preloaded: Preloaded<typeof api.multimedia.get> }) {
   const file = usePreloadedQuery(preloaded);
 
-  if (!file)
+  if (!file) {
     return (
       <main className="flex w-full flex-col items-center justify-center gap-5">
         <div className="flex flex-col items-center gap-3">
@@ -26,6 +26,7 @@ export function MediaPage({ preloaded }: { preloaded: Preloaded<typeof api.multi
         </Link>
       </main>
     );
+  }
 
   const type = mediaType(file.type);
 

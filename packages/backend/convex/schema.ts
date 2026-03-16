@@ -44,7 +44,16 @@ export default defineSchema({
     starred: v.boolean(),
     updated: v.number(),
     thumbnail: v.string()
-  })
+  }),
+  meetings: defineTable({
+    name: v.string(),
+    note: v.string(),
+    status: v.union(v.literal('scheduled'), v.literal('cancelled'), v.literal('rejected'), v.literal('started'), v.literal('finished')),
+    attendees: v.array(v.string()),
+    startTime: v.number(),
+    endTime: v.number(),
+    calcomId: v.string()
+  }).index('by_calcom_id', ['calcomId'])
 });
 
 export type Company = Doc<'companies'>;
