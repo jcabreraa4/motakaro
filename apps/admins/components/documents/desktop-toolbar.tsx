@@ -349,7 +349,7 @@ function ImageButton() {
             <ImageIcon className="size-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent className="w-fit">
           <DropdownMenuItem onClick={onUpload}>
             <UploadIcon className="mr-2 size-4" />
             Upload image

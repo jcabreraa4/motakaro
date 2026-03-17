@@ -1,5 +1,6 @@
+import { Id } from './_generated/dataModel';
 import { internalMutation, query } from './_generated/server';
-import { v } from 'convex/values';
+import { ConvexError, v } from 'convex/values';
 
 const adminsIssuer = process.env.CLERK_JWT_ADMINS_DOMAIN;
 
@@ -8,7 +9,7 @@ export const list = query({
     // Check Identity
     const identity = await ctx.auth.getUserIdentity();
     if (!identity || identity.issuer !== adminsIssuer) {
-      throw new Error('Unauthorized');
+      throw new ConvexError('Unauthorized');
     }
 
     // Return all Meetings
@@ -18,25 +19,29 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.optional(v.id('meetings')),
+    id: v.optional(v.string()),
     calcomId: v.optional(v.string())
   },
   handler: async (ctx, args) => {
-    // Check Identity
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity || identity.issuer !== adminsIssuer) {
-      throw new Error('Unauthorized');
-    }
+    try {
+      // Check Identity
+      const identity = await ctx.auth.getUserIdentity();
+      if (!identity || identity.issuer !== adminsIssuer) {
+        throw new ConvexError('Unauthorized');
+      }
 
-    // Return one Meeting
-    if (args.id) return await ctx.db.get(args.id);
-    if (args.calcomId) {
-      return await ctx.db
-        .query('meetings')
-        .withIndex('by_calcom_id', (q) => q.eq('calcomId', args.calcomId!))
-        .first();
+      // Return one Meeting
+      if (args.id) return await ctx.db.get('meetings', args.id as Id<'meetings'>);
+      if (args.calcomId) {
+        return await ctx.db
+          .query('meetings')
+          .withIndex('by_calcom_id', (q) => q.eq('calcomId', args.calcomId!))
+          .first();
+      }
+      return null;
+    } catch {
+      return null;
     }
-    return null;
   }
 });
 

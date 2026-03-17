@@ -9,11 +9,15 @@ export const list = query({
     // Check Identity
     const identity = await ctx.auth.getUserIdentity();
     if (!identity || identity.issuer !== adminsIssuer) {
-      throw new Error('Unauthorized');
+      throw new ConvexError('Unauthorized');
     }
 
     // Return all Multimedia
-    const multimedia = await ctx.db.query('multimedia').collect();
+    const multimedia = await ctx.db
+      .query('multimedia')
+      .withIndex('by_updated', (q) => q)
+      .order('desc')
+      .collect();
     return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await ctx.storage.getUrl(file.storageId) })));
   }
 });
@@ -27,7 +31,7 @@ export const get = query({
       // Check Identity
       const identity = await ctx.auth.getUserIdentity();
       if (!identity || identity.issuer !== adminsIssuer) {
-        throw new Error('Unauthorized');
+        throw new ConvexError('Unauthorized');
       }
 
       // Obtain the Media File
@@ -51,7 +55,7 @@ export const storage = mutation({
     // Check Identity
     const identity = await ctx.auth.getUserIdentity();
     if (!identity || identity.issuer !== adminsIssuer) {
-      throw new Error('Unauthorized');
+      throw new ConvexError('Unauthorized');
     }
 
     // Return Storage Url
@@ -73,7 +77,7 @@ export const create = mutation({
     // Check Identity
     const identity = await ctx.auth.getUserIdentity();
     if (!identity || identity.issuer !== adminsIssuer) {
-      throw new Error('Unauthorized');
+      throw new ConvexError('Unauthorized');
     }
 
     // Create one Media File
@@ -100,7 +104,7 @@ export const remove = mutation({
     // Check Identity
     const identity = await ctx.auth.getUserIdentity();
     if (!identity || identity.issuer !== adminsIssuer) {
-      throw new Error('Unauthorized');
+      throw new ConvexError('Unauthorized');
     }
 
     // Obtain the Media File
@@ -124,7 +128,7 @@ export const update = mutation({
     // Check Identity
     const identity = await ctx.auth.getUserIdentity();
     if (!identity || identity.issuer !== adminsIssuer) {
-      throw new Error('Unauthorized');
+      throw new ConvexError('Unauthorized');
     }
 
     // Obtain the Media File

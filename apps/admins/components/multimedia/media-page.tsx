@@ -1,15 +1,22 @@
 'use client';
 
-import Link from 'next/link';
+import { useEffect } from 'react';
 import { Preloaded, usePreloadedQuery } from 'convex/react';
 import { AudioRender, ImageRender, OtherRender, VideoRender } from '@/components/multimedia/media-render';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
+import { useAppStateStore } from '@/store/state-store';
 import { mediaType } from '@/utils/media-type';
 import { FileTextIcon } from 'lucide-react';
+import Link from 'next/link';
 
-export function MediaPage({ preloaded }: { preloaded: Preloaded<typeof api.multimedia.get> }) {
-  const file = usePreloadedQuery(preloaded);
+export function MediaPage({ preloadedMedia }: { preloadedMedia: Preloaded<typeof api.multimedia.get> }) {
+  const file = usePreloadedQuery(preloadedMedia);
+  const setSubroute = useAppStateStore((state) => state.setSubroute);
+
+  useEffect(() => {
+    if (file) setSubroute(file.name);
+  }, [file, setSubroute]);
 
   if (!file) {
     return (
@@ -39,13 +46,16 @@ export function MediaPage({ preloaded }: { preloaded: Preloaded<typeof api.multi
             alt={file.name}
             width={file.width}
             height={file.height}
-            className="mx-auto h-full border border-black"
+            className="max-h-[80vh] rounded-lg border border-black bg-black"
           />
         ) : type === 'video' ? (
-          <div className="relative aspect-video overflow-hidden rounded-md border border-black bg-black">
+          <div className="relative overflow-hidden">
             <VideoRender
               interact
               src={file.url}
+              width={file.width}
+              height={file.height}
+              className="max-h-[80vh] w-full rounded-lg border border-black bg-black"
             />
           </div>
         ) : type === 'audio' ? (

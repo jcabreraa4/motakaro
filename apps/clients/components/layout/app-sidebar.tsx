@@ -1,8 +1,8 @@
 import { Sidebar, SidebarHeader, SidebarContent, SidebarRail, SidebarFooter } from '@workspace/ui/components/sidebar';
+import { clerkClient, currentUser } from '@clerk/nextjs/server';
 import { NavMain } from '@/components/layout/nav-main';
 import { NavUser } from '@/components/layout/nav-user';
 import { NavTeam } from '@/components/layout/nav-team';
-import { clerkClient, currentUser } from '@clerk/nextjs/server';
 
 export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const user = await currentUser();

@@ -1,10 +1,11 @@
 'use client';
 
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
-import { type LucideIcon, BotIcon, FileTextIcon, ImageIcon, LayoutDashboardIcon, Building2Icon, UsersIcon, ListVideoIcon, HeadsetIcon, ChartColumnBigIcon } from 'lucide-react';
+import { type LucideIcon, BotIcon, FileTextIcon, ImageIcon, LayoutDashboardIcon, Building2Icon, UsersIcon, ListVideoIcon, HeadsetIcon, ChartColumnBigIcon, PencilRulerIcon } from 'lucide-react';
 import { cn } from '@workspace/ui/lib/utils';
 import { usePathname } from '@/hooks/use-pathname';
 import Link from 'next/link';
+import { useAppStateStore } from '@/store/state-store';
 
 type Section = {
   title: string;
@@ -68,6 +69,11 @@ const sections: Section[] = [
         title: 'Multimedia',
         url: '/multimedia',
         icon: ImageIcon
+      },
+      {
+        title: 'Blackboards',
+        url: '/blackboards',
+        icon: PencilRulerIcon
       }
     ]
   },
@@ -85,6 +91,7 @@ const sections: Section[] = [
 
 export function NavMain() {
   const { segments } = usePathname();
+  const setSubroute = useAppStateStore((state) => state.setSubroute);
 
   function isActive(url: string) {
     if (`/${segments[0]}` === url) return true;
@@ -104,6 +111,7 @@ export function NavMain() {
                     asChild
                     tooltip={item.title}
                     className={cn(isActive(item.url) && 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground active:bg-primary active:text-primary-foreground')}
+                    onClick={() => setSubroute(null)}
                   >
                     <Link href={item.url}>
                       <item.icon className="size-4" />

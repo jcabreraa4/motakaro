@@ -1,9 +1,9 @@
 'use client';
 
-import { usePathname } from '@/hooks/use-pathname';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from '@workspace/ui/components/breadcrumb';
-import { Separator } from '@workspace/ui/components/separator';
 import { SidebarTrigger } from '@workspace/ui/components/sidebar';
+import { Separator } from '@workspace/ui/components/separator';
+import { usePathname } from '@/hooks/use-pathname';
 import Link from 'next/link';
 
 function capitalize(word: string) {

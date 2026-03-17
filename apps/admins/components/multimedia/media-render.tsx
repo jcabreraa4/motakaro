@@ -39,13 +39,14 @@ export function ImageRender({ src, alt, width, height, className, fill = false }
   }
 
   if (width && height) {
+    const isVertical = height > width;
     return (
       <Image
         src={src}
         alt={alt}
         width={width}
         height={height}
-        className={cn('pointer-events-none mx-auto h-auto max-h-[80vh] w-auto max-w-full rounded-md', className)}
+        className={cn('pointer-events-none mx-auto h-auto w-auto max-w-full', isVertical ? 'h-full' : 'w-full', className)}
       />
     );
   }
@@ -54,28 +55,46 @@ export function ImageRender({ src, alt, width, height, className, fill = false }
     <img
       src={src}
       alt={alt}
-      className={cn('pointer-events-none h-auto max-h-[80vh] max-w-full rounded-md', className)}
+      className={cn('pointer-events-none mx-auto h-auto w-auto max-w-full', className)}
     />
   );
 }
 
 interface VideoRenderProps {
   src: string;
+  width?: number;
+  height?: number;
   interact?: boolean;
   className?: string;
 }
 
-export function VideoRender({ src, interact = false, className }: VideoRenderProps) {
+export function VideoRender({ src, width, height, interact = false, className }: VideoRenderProps) {
   const [loading, setLoading] = useState(true);
+
+  if (interact) {
+    return (
+      <>
+        {loading && <RenderLoader />}
+        <video
+          controls
+          src={src}
+          width={width}
+          height={height}
+          className={cn('object-cover', className)}
+          onLoadedData={() => setLoading(false)}
+        />
+      </>
+    );
+  }
 
   return (
     <>
       {loading && <RenderLoader />}
       <video
-        controls={interact}
         src={src}
+        preload="metadata"
         className={cn('object-cover', className)}
-        onLoadedData={() => setLoading(false)}
+        onLoadedMetadata={() => setLoading(false)}
       />
     </>
   );
@@ -90,12 +109,12 @@ interface AudioRenderProps {
 export function AudioRender({ src, interact = false, className }: AudioRenderProps) {
   const [loading, setLoading] = useState(true);
 
-  if (interact)
+  if (interact) {
     return (
       <>
         {loading && <RenderLoader />}
         <div className="flex aspect-video flex-col items-center justify-center gap-2 rounded-md bg-gray-100 dark:bg-gray-100 dark:text-black">
-          <div className="flex flex-1 items-center gap-2 pt-5">
+          <div className="flex flex-1 items-center justify-center gap-3 pt-5">
             <HeadphonesIcon className="size-6 lg:size-8" />
             <p className="text-lg font-semibold lg:text-2xl">Audio File</p>
           </div>
@@ -110,6 +129,7 @@ export function AudioRender({ src, interact = false, className }: AudioRenderPro
         </div>
       </>
     );
+  }
 
   return (
     <div className="flex aspect-video items-center justify-center gap-2 rounded-md bg-gray-100 dark:bg-gray-100 dark:text-black">

@@ -1,9 +1,9 @@
 'use client';
 
 import { BuildingIcon, ChevronsUpDown, CircleUserIcon, LogOutIcon, MoonIcon, SunIcon, UserRoundIcon } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@workspace/ui/components/sidebar';
+import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { useClerk } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
 import { useTheme } from 'next-themes';
@@ -34,11 +34,7 @@ function UserData({ name, email, avatar }: UserDataProps) {
   );
 }
 
-interface NavUserProps {
-  name: string;
-  email: string;
-  avatar: string;
-}
+interface NavUserProps extends UserDataProps {}
 
 export function NavUser({ name, email, avatar }: NavUserProps) {
   const { isMobile } = useSidebar();

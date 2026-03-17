@@ -6,14 +6,60 @@ import { Webhook } from 'svix';
 
 const http = httpRouter();
 
-// Clerk Webhook
+// Clerk Admins Webhook
 
 http.route({
-  path: '/clerk-webhook',
+  path: '/clerk-admins-webhook',
   method: 'POST',
   handler: httpAction(async (ctx, request) => {
     // Verify Request
-    const event = await validateClerkRequest(request);
+    const event = await validateClerkAdminsRequest(request);
+    if (!event) return new Response('Error occurred', { status: 400 });
+
+    // Handle Event
+    if (event.type === 'user.created' || event.type === 'user.updated') {
+      await ctx.runMutation(internal.workers.upsert, {
+        name: event.data.first_name ?? undefined,
+        surname: event.data.last_name ?? undefined,
+        email: event.data.email_addresses[0]?.email_address ?? '',
+        avatar: event.data.image_url ?? undefined,
+        clerkId: event.data.id
+      });
+    } else if (event.type === 'user.deleted') {
+      await ctx.runMutation(internal.workers.remove, {
+        clerkId: event.data.id!
+      });
+    }
+    return new Response(null, { status: 200 });
+  })
+});
+
+async function validateClerkAdminsRequest(req: Request): Promise<WebhookEvent | null> {
+  const payloadStr = await req.text();
+  const svixId = req.headers.get('svix-id');
+  const svixTimestamp = req.headers.get('svix-timestamp');
+  const svixSignature = req.headers.get('svix-signature');
+  if (!svixId || !svixTimestamp || !svixSignature) return null;
+  const wh = new Webhook(process.env.CLERK_ADMINS_WEBHOOK_SECRET!);
+  try {
+    return wh.verify(payloadStr, {
+      'svix-id': svixId,
+      'svix-timestamp': svixTimestamp,
+      'svix-signature': svixSignature
+    }) as WebhookEvent;
+  } catch {
+    return null;
+  }
+}
+
+// Clerk Clients Webhook
+
+http.route({
+  path: '/clerk-clients-webhook',
+  method: 'POST',
+  handler: httpAction(async (ctx, request) => {
+    // Verify Request
+    const event = await validateClerkClientsRequest(request);
     if (!event) return new Response('Error occurred', { status: 400 });
 
     // Handle Event
@@ -44,13 +90,13 @@ http.route({
   })
 });
 
-async function validateClerkRequest(req: Request): Promise<WebhookEvent | null> {
+async function validateClerkClientsRequest(req: Request): Promise<WebhookEvent | null> {
   const payloadStr = await req.text();
   const svixId = req.headers.get('svix-id');
   const svixTimestamp = req.headers.get('svix-timestamp');
   const svixSignature = req.headers.get('svix-signature');
   if (!svixId || !svixTimestamp || !svixSignature) return null;
-  const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET!);
+  const wh = new Webhook(process.env.CLERK_CLIENTS_WEBHOOK_SECRET!);
   try {
     return wh.verify(payloadStr, {
       'svix-id': svixId,

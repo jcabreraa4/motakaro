@@ -12,7 +12,7 @@ async function requireOwner(ctx: QueryCtx | MutationCtx, documentId: string) {
   // Check Identity
   const identity = await ctx.auth.getUserIdentity();
   if (!identity || identity.issuer !== adminsIssuer) {
-    throw new Error('Unauthorized');
+    throw new ConvexError('Unauthorized');
   }
 
   const document = await ctx.db.get(documentId as Id<'documents'>);

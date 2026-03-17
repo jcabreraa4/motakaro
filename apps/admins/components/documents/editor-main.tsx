@@ -1,21 +1,28 @@
 'use client';
 
-import dynamic from 'next/dynamic';
+import { useEffect } from 'react';
+import { api } from '@workspace/backend/_generated/api';
 import { DesktopToolbar } from '@/components/documents/desktop-toolbar';
 import { MobileToolbar } from '@/components/documents/mobile-toolbar';
 import { Button } from '@workspace/ui/components/button';
-import { api } from '@workspace/backend/_generated/api';
+import { useAppStateStore } from '@/store/state-store';
 import { useEditor } from '@/hooks/use-editor';
 import { FileTextIcon } from 'lucide-react';
 import { Preloaded } from 'convex/react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
 const EditorPaper = dynamic(() => import('@/components/documents/editor-paper').then((m) => ({ default: m.EditorPaper })), { ssr: false });
 
 export function EditorMain({ preloadedDocument }: { preloadedDocument: Preloaded<typeof api.documents.get> }) {
   const { document } = useEditor(preloadedDocument);
+  const setSubroute = useAppStateStore((state) => state.setSubroute);
 
-  if (!document)
+  useEffect(() => {
+    if (document) setSubroute(document.name);
+  }, [document, setSubroute]);
+
+  if (!document) {
     return (
       <section className="flex w-full flex-col items-center justify-center gap-5">
         <div className="flex flex-col items-center gap-3">
@@ -30,9 +37,10 @@ export function EditorMain({ preloadedDocument }: { preloadedDocument: Preloaded
         </Link>
       </section>
     );
+  }
 
   return (
-    <main className="flex w-full flex-col gap-3 p-3 xl:p-4">
+    <main className="flex w-full flex-col gap-3 p-3 lg:p-5">
       <DesktopToolbar
         document={document}
         className="hidden xl:flex"

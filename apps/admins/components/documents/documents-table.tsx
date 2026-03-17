@@ -58,7 +58,7 @@ function DocumentRow({ document }: { document: Document }) {
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="w-45"
+            className="w-fit"
           >
             <UpdateDialog
               id={document._id}

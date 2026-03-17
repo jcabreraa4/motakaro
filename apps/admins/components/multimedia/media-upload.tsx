@@ -55,6 +55,18 @@ export function MediaUpload({ variant = 'default', className }: MediaUploadProps
             resolve();
           };
         });
+      } else if (fileType.includes('video')) {
+        await new Promise<void>((resolve) => {
+          const video = document.createElement('video');
+          video.preload = 'metadata';
+          video.onloadedmetadata = () => {
+            width = video.videoWidth;
+            height = video.videoHeight;
+            URL.revokeObjectURL(video.src);
+            resolve();
+          };
+          video.src = URL.createObjectURL(file);
+        });
       }
       const fetchUrl = await generateUrl();
       const response = await fetch(fetchUrl, { method: 'POST', headers: { 'Content-Type': fileType }, body: file });

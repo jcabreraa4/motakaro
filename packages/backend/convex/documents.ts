@@ -9,11 +9,15 @@ export const list = query({
     // Check Identity
     const identity = await ctx.auth.getUserIdentity();
     if (!identity || identity.issuer !== adminsIssuer) {
-      throw new Error('Unauthorized');
+      throw new ConvexError('Unauthorized');
     }
 
     // Return all Documents
-    return await ctx.db.query('documents').collect();
+    return await ctx.db
+      .query('documents')
+      .withIndex('by_updated', (q) => q)
+      .order('desc')
+      .collect();
   }
 });
 
@@ -26,7 +30,7 @@ export const get = query({
       // Check Identity
       const identity = await ctx.auth.getUserIdentity();
       if (!identity || identity.issuer !== adminsIssuer) {
-        throw new Error('Unauthorized');
+        throw new ConvexError('Unauthorized');
       }
 
       // Return one Document
@@ -46,7 +50,7 @@ export const create = mutation({
     // Check Identity
     const identity = await ctx.auth.getUserIdentity();
     if (!identity || identity.issuer !== adminsIssuer) {
-      throw new Error('Unauthorized');
+      throw new ConvexError('Unauthorized');
     }
 
     // Create the Document
@@ -66,7 +70,7 @@ export const remove = mutation({
     // Check Identity
     const identity = await ctx.auth.getUserIdentity();
     if (!identity || identity.issuer !== adminsIssuer) {
-      throw new Error('Unauthorized');
+      throw new ConvexError('Unauthorized');
     }
 
     // Obtain the Document
@@ -89,7 +93,7 @@ export const update = mutation({
     // Check Identity
     const identity = await ctx.auth.getUserIdentity();
     if (!identity || identity.issuer !== adminsIssuer) {
-      throw new Error('Unauthorized');
+      throw new ConvexError('Unauthorized');
     }
 
     // Obtain the Document

@@ -16,7 +16,7 @@ interface OtherRenderProps {
 export function OtherMediaRender({ src, interact = false, className }: OtherRenderProps) {
   const [loading, setLoading] = useState(true);
 
-  if (interact)
+  if (interact) {
     return (
       <>
         {loading && <RenderLoader />}
@@ -27,6 +27,7 @@ export function OtherMediaRender({ src, interact = false, className }: OtherRend
         />
       </>
     );
+  }
 
   return (
     <>
