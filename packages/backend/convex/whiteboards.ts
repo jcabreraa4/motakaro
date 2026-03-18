@@ -1,23 +1,13 @@
-import { Id } from './_generated/dataModel';
 import { mutation, query } from './_generated/server';
 import { ConvexError, v } from 'convex/values';
+import { Id } from './_generated/dataModel';
 
 const adminsIssuer = process.env.CLERK_JWT_ADMINS_DOMAIN;
 
 export const list = query({
   handler: async (ctx) => {
-    // Check Identity
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity || identity.issuer !== adminsIssuer) {
-      throw new ConvexError('Unauthorized');
-    }
-
-    // Return all Documents
-    return await ctx.db
-      .query('documents')
-      .withIndex('by_updated', (q) => q)
-      .order('desc')
-      .collect();
+    // Return all Whiteboards
+    return await ctx.db.query('whiteboards').collect();
   }
 });
 
@@ -33,8 +23,8 @@ export const get = query({
         throw new ConvexError('Unauthorized');
       }
 
-      // Return one Document
-      return await ctx.db.get('documents', args.id as Id<'documents'>);
+      // Return the Whiteboard
+      return await ctx.db.get('whiteboards', args.id as Id<'whiteboards'>);
     } catch {
       return null;
     }
@@ -43,7 +33,51 @@ export const get = query({
 
 export const create = mutation({
   args: {
+    name: v.optional(v.string())
+  },
+  handler: async (ctx, args) => {
+    // Check Identity
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || identity.issuer !== adminsIssuer) {
+      throw new ConvexError('Unauthorized');
+    }
+
+    // Create one Whiteboard
+    return await ctx.db.insert('whiteboards', {
+      name: args.name ?? 'Untitled Whiteboard',
+      note: '',
+      starred: false,
+      updated: Date.now(),
+      content: ''
+    });
+  }
+});
+
+export const remove = mutation({
+  args: {
+    id: v.id('whiteboards')
+  },
+  handler: async (ctx, args) => {
+    // Check Identity
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || identity.issuer !== adminsIssuer) {
+      throw new ConvexError('Unauthorized');
+    }
+
+    // Obtain the Whiteboard
+    const whiteboard = await ctx.db.get(args.id);
+    if (!whiteboard) throw new ConvexError('Not found');
+
+    // Remove the Whiteboard
+    await ctx.db.delete(args.id);
+  }
+});
+
+export const update = mutation({
+  args: {
+    id: v.id('whiteboards'),
     name: v.optional(v.string()),
+    starred: v.optional(v.boolean()),
     content: v.optional(v.string())
   },
   handler: async (ctx, args) => {
@@ -53,60 +87,15 @@ export const create = mutation({
       throw new ConvexError('Unauthorized');
     }
 
-    // Create the Document
-    return await ctx.db.insert('documents', {
-      name: args.name ?? 'Untitled Document',
-      note: '',
-      content: args.content ?? '{"type":"doc","content":[]}',
-      starred: false,
-      updated: Date.now()
-    });
-  }
-});
+    // Obtain the Whiteboard
+    const whiteboard = await ctx.db.get(args.id);
+    if (!whiteboard) throw new ConvexError('Not found');
 
-export const remove = mutation({
-  args: {
-    id: v.id('documents')
-  },
-  handler: async (ctx, args) => {
-    // Check Identity
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity || identity.issuer !== adminsIssuer) {
-      throw new ConvexError('Unauthorized');
-    }
-
-    // Obtain the Document
-    const document = await ctx.db.get(args.id);
-    if (!document) throw new ConvexError('Not found');
-
-    // Remove the Document
-    await ctx.db.delete(args.id);
-  }
-});
-
-export const update = mutation({
-  args: {
-    id: v.id('documents'),
-    name: v.optional(v.string()),
-    content: v.optional(v.string()),
-    starred: v.optional(v.boolean())
-  },
-  handler: async (ctx, args) => {
-    // Check Identity
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity || identity.issuer !== adminsIssuer) {
-      throw new ConvexError('Unauthorized');
-    }
-
-    // Obtain the Document
-    const document = await ctx.db.get(args.id);
-    if (!document) throw new ConvexError('Not found');
-
-    // Update the Document
+    // Update the Whiteboard
     await ctx.db.patch(args.id, {
       ...(args.name !== undefined ? { name: args.name } : {}),
-      ...(args.content !== undefined ? { content: args.content } : {}),
       ...(args.starred !== undefined ? { starred: args.starred } : {}),
+      ...(args.content !== undefined ? { content: args.content } : {}),
       updated: Date.now()
     });
   }

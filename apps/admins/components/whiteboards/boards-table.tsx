@@ -1,9 +1,9 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
-import { ExternalLinkIcon, FilePenIcon, FileTextIcon, MoreHorizontalIcon, StarIcon, StarOffIcon, TrashIcon } from 'lucide-react';
+import { ExternalLinkIcon, FilePenIcon, PencilRulerIcon, MoreHorizontalIcon, StarIcon, StarOffIcon, TrashIcon } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table';
-import { UpdateDialog } from '@/components/documents/update-dialog';
-import { RemoveDialog } from '@/components/documents/remove-dialog';
-import type { Document } from '@workspace/backend/schema';
+import { UpdateDialog } from '@/components/whiteboards/update-dialog';
+import { RemoveDialog } from '@/components/whiteboards/remove-dialog';
+import type { Whiteboard } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
 import { useRouter } from 'next/navigation';
@@ -11,38 +11,38 @@ import { useMutation } from 'convex/react';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 
-function DocumentRow({ document }: { document: Document }) {
+function WhiteboardRow({ whiteboard }: { whiteboard: Whiteboard }) {
   const router = useRouter();
 
-  const updateDocument = useMutation(api.documents.update);
+  const updateWhiteboard = useMutation(api.whiteboards.update);
 
-  function openDocument() {
-    router.push(`/documents/${document._id}`);
+  function openWhiteboard() {
+    router.push(`/whiteboards/${whiteboard._id}`);
   }
 
   function openWindow() {
-    window.open(`/documents/${document._id}`, '_blank');
+    window.open(`/whiteboards/${whiteboard._id}`, '_blank');
   }
 
   return (
     <TableRow className="h-12 cursor-pointer p-20">
       <TableCell
         className="w-12.5 p-4"
-        onClick={openDocument}
+        onClick={openWhiteboard}
       >
-        {document.starred ? <StarIcon className="text-yellow-500" /> : <FileTextIcon />}
+        {whiteboard.starred ? <StarIcon className="text-yellow-500" /> : <PencilRulerIcon />}
       </TableCell>
       <TableCell
         className="font-medium"
-        onClick={openDocument}
+        onClick={openWhiteboard}
       >
-        <div className="w-35 max-w-120 truncate md:w-fit">{document.name}</div>
+        <div className="w-35 max-w-120 truncate md:w-fit">{whiteboard.name}</div>
       </TableCell>
       <TableCell
         className="hidden text-muted-foreground md:table-cell"
-        onClick={openDocument}
+        onClick={openWhiteboard}
       >
-        {format(new Date(document._creationTime), 'MMM dd, yyyy')}
+        {format(new Date(whiteboard._creationTime), 'MMM dd, yyyy')}
       </TableCell>
       <TableCell className="text-right">
         <DropdownMenu>
@@ -61,28 +61,28 @@ function DocumentRow({ document }: { document: Document }) {
             className="w-fit"
           >
             <UpdateDialog
-              id={document._id}
-              name={document.name}
+              id={whiteboard._id}
+              name={whiteboard.name}
             >
               <DropdownMenuItem
                 className="cursor-pointer"
                 onSelect={(e) => e.preventDefault()}
               >
                 <FilePenIcon />
-                Rename Document
+                Rename Whiteboard
               </DropdownMenuItem>
             </UpdateDialog>
             <DropdownMenuItem
               className="cursor-pointer"
               onSelect={(e) => {
                 e.preventDefault();
-                updateDocument({ id: document._id, starred: !document.starred }).finally(() => {
-                  toast.success(document.starred ? 'Document removed from starred successfully.' : 'Document added to starred successfully.');
+                updateWhiteboard({ id: whiteboard._id, starred: !whiteboard.starred }).finally(() => {
+                  toast.success(whiteboard.starred ? 'Whiteboard removed from starred successfully.' : 'Whiteboard added to starred successfully.');
                 });
               }}
             >
-              {document.starred ? <StarOffIcon /> : <StarIcon />}
-              {document.starred ? 'Quit from Favorites' : 'Add to Favorites'}
+              {whiteboard.starred ? <StarOffIcon /> : <StarIcon />}
+              {whiteboard.starred ? 'Quit from Favorites' : 'Add to Favorites'}
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
@@ -92,13 +92,13 @@ function DocumentRow({ document }: { document: Document }) {
               Open in a new Tab
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <RemoveDialog id={document._id}>
+            <RemoveDialog id={whiteboard._id}>
               <DropdownMenuItem
                 className="cursor-pointer"
                 onSelect={(e) => e.preventDefault()}
               >
                 <TrashIcon />
-                Remove Document
+                Remove Whiteboard
               </DropdownMenuItem>
             </RemoveDialog>
           </DropdownMenuContent>
@@ -108,9 +108,9 @@ function DocumentRow({ document }: { document: Document }) {
   );
 }
 
-export function DocumentsTable({ documents }: { documents: Document[] }) {
-  const starredDocuments = documents.filter((document) => document.starred);
-  const nonStarredDocuments = documents.filter((document) => !document.starred);
+export function BoardsTable({ whiteboards }: { whiteboards: Whiteboard[] }) {
+  const starredWhiteboards = whiteboards.filter((whiteboard) => whiteboard.starred);
+  const nonStarredWhiteboards = whiteboards.filter((whiteboard) => !whiteboard.starred);
 
   return (
     <Table>
@@ -123,16 +123,16 @@ export function DocumentsTable({ documents }: { documents: Document[] }) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {starredDocuments.map((document) => (
-          <DocumentRow
-            key={document._id}
-            document={document}
+        {starredWhiteboards.map((whiteboard) => (
+          <WhiteboardRow
+            key={whiteboard._id}
+            whiteboard={whiteboard}
           />
         ))}
-        {nonStarredDocuments.map((document) => (
-          <DocumentRow
-            key={document._id}
-            document={document}
+        {nonStarredWhiteboards.map((whiteboard) => (
+          <WhiteboardRow
+            key={whiteboard._id}
+            whiteboard={whiteboard}
           />
         ))}
       </TableBody>

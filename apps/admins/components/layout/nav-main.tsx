@@ -66,14 +66,14 @@ const sections: Section[] = [
         icon: FileTextIcon
       },
       {
+        title: 'Whiteboards',
+        url: '/whiteboards',
+        icon: PencilRulerIcon
+      },
+      {
         title: 'Multimedia',
         url: '/multimedia',
         icon: ImageIcon
-      },
-      {
-        title: 'Blackboards',
-        url: '/blackboards',
-        icon: PencilRulerIcon
       }
     ]
   },
