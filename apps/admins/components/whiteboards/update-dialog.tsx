@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 interface UpdateDialogProps {
-  id: Id<'documents'>;
+  id: Id<'whiteboards'>;
   name: string;
   children: React.ReactNode;
 }
@@ -17,11 +17,11 @@ interface UpdateDialogProps {
 export function UpdateDialog({ id, name, children }: UpdateDialogProps) {
   const [input, setInput] = useState(name);
 
-  const updateDocument = useMutation(api.documents.update);
+  const updateWhiteboard = useMutation(api.whiteboards.update);
 
-  function renameDocument() {
-    updateDocument({ id, name: input }).finally(() => {
-      toast.success('Document renamed successfully.');
+  function renameWhiteboard() {
+    updateWhiteboard({ id, name: input }).finally(() => {
+      toast.success('Whiteboard renamed successfully.');
     });
   }
 
@@ -30,8 +30,8 @@ export function UpdateDialog({ id, name, children }: UpdateDialogProps) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Rename Document</DialogTitle>
-          <DialogDescription>Rename the selected document.</DialogDescription>
+          <DialogTitle>Rename Whiteboard</DialogTitle>
+          <DialogDescription>Rename the selected whiteboard.</DialogDescription>
         </DialogHeader>
         <Input
           value={input}
@@ -41,10 +41,10 @@ export function UpdateDialog({ id, name, children }: UpdateDialogProps) {
           <DialogClose asChild>
             <Button
               className="w-full cursor-pointer"
-              onClick={renameDocument}
+              onClick={renameWhiteboard}
             >
               <SaveIcon />
-              Rename Document
+              Rename Whiteboard
             </Button>
           </DialogClose>
         </DialogFooter>

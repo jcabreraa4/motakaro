@@ -17,11 +17,11 @@ interface CreateButtonProps {
 export function CreateButton({ variant, className, disabled }: CreateButtonProps) {
   const router = useRouter();
 
-  const createDocument = useMutation(api.blackboards.create);
+  const createWhiteboard = useMutation(api.whiteboards.create);
 
   function handleCreate() {
-    createDocument({}).then((documentId) => {
-      router.push(`/blackboards/${documentId}`);
+    createWhiteboard({}).then((whiteboardId) => {
+      router.push(`/whiteboards/${whiteboardId}`);
     });
   }
 
@@ -33,7 +33,7 @@ export function CreateButton({ variant, className, disabled }: CreateButtonProps
       disabled={disabled}
     >
       <PlusIcon />
-      Create Blackboard
+      Create Whiteboard
     </Button>
   );
 }

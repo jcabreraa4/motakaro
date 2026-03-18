@@ -25,6 +25,7 @@ export default defineSchema({
     surname: v.optional(v.string()),
     email: v.string(),
     avatar: v.optional(v.string()),
+    seen: v.optional(v.number()),
     clerkId: v.string()
   }).index('by_clerk_id', ['clerkId']),
   companies: defineTable({
@@ -34,6 +35,16 @@ export default defineSchema({
     clerkId: v.string()
   }).index('by_clerk_id', ['clerkId']),
   documents: defineTable({
+    name: v.string(),
+    note: v.string(),
+    starred: v.boolean(),
+    updated: v.number(),
+    content: v.string(),
+    companyId: v.optional(v.id('companies'))
+  })
+    .index('by_updated', ['updated'])
+    .index('by_companyId_updated', ['companyId', 'updated']),
+  whiteboards: defineTable({
     name: v.string(),
     note: v.string(),
     starred: v.boolean(),
@@ -57,15 +68,6 @@ export default defineSchema({
   })
     .index('by_updated', ['updated'])
     .index('by_companyId_updated', ['companyId', 'updated']),
-  blackboards: defineTable({
-    name: v.string(),
-    note: v.string(),
-    starred: v.boolean(),
-    updated: v.number(),
-    companyId: v.optional(v.id('companies'))
-  })
-    .index('by_updated', ['updated'])
-    .index('by_companyId_updated', ['companyId', 'updated']),
   resources: defineTable({
     name: v.string(),
     note: v.string(),
@@ -83,5 +85,5 @@ export type Contact = Doc<'contacts'>;
 export type Company = Doc<'companies'>;
 export type Document = Doc<'documents'>;
 export type MediaFile = Doc<'multimedia'>;
-export type Blackboard = Doc<'blackboards'>;
+export type Whiteboard = Doc<'whiteboards'>;
 export type Resource = Doc<'resources'>;

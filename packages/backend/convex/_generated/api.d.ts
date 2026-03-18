@@ -8,7 +8,6 @@
  * @module
  */
 
-import type * as blackboards from "../blackboards.js";
 import type * as companies from "../companies.js";
 import type * as contacts from "../contacts.js";
 import type * as documents from "../documents.js";
@@ -17,6 +16,7 @@ import type * as meetings from "../meetings.js";
 import type * as multimedia from "../multimedia.js";
 import type * as prosemirror from "../prosemirror.js";
 import type * as resources from "../resources.js";
+import type * as whiteboards from "../whiteboards.js";
 import type * as workers from "../workers.js";
 
 import type {
@@ -26,7 +26,6 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
-  blackboards: typeof blackboards;
   companies: typeof companies;
   contacts: typeof contacts;
   documents: typeof documents;
@@ -35,6 +34,7 @@ declare const fullApi: ApiFromModules<{
   multimedia: typeof multimedia;
   prosemirror: typeof prosemirror;
   resources: typeof resources;
+  whiteboards: typeof whiteboards;
   workers: typeof workers;
 }>;
 

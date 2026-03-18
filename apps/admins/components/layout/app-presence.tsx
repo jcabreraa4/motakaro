@@ -29,7 +29,7 @@ export function AppPresence({ className }: { className?: string }) {
               <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full border border-background bg-green-500" />
             </div>
           </TooltipTrigger>
-          <TooltipContent>
+          <TooltipContent side="bottom">
             <p>{`${worker.name ?? ''} ${worker.surname ?? ''}`.trim()}</p>
           </TooltipContent>
         </Tooltip>

@@ -15,12 +15,12 @@ import { toast } from 'sonner';
 
 const validTypes = ['image', 'video', 'pdf', 'audio'];
 
-interface MediaUploadProps {
+interface UploadDialogProps {
   variant?: ButtonVariant;
   className?: string;
 }
 
-export function MediaUpload({ variant = 'default', className }: MediaUploadProps) {
+export function UploadDialog({ variant = 'default', className }: UploadDialogProps) {
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);

@@ -1,9 +1,8 @@
-import { Id } from './_generated/dataModel';
-import { internalMutation, query } from './_generated/server';
+import { internalMutation, mutation, query } from './_generated/server';
 import { ConvexError, v } from 'convex/values';
+import { Id } from './_generated/dataModel';
 
 const adminsIssuer = process.env.CLERK_JWT_ADMINS_DOMAIN;
-const clientsIssuer = process.env.CLERK_JWT_CLIENTS_DOMAIN;
 
 export const list = query({
   handler: async (ctx) => {
@@ -27,33 +26,45 @@ export const get = query({
     try {
       // Check Identity
       const identity = await ctx.auth.getUserIdentity();
-      if (!identity) throw new ConvexError('Unauthorized');
-
-      // Identity is Admin
-      if (identity.issuer !== adminsIssuer) {
-        // Return one Contact
-        if (args.id) return await ctx.db.get('contacts', args.id as Id<'contacts'>);
-        if (args.clerkId) {
-          return await ctx.db
-            .query('contacts')
-            .withIndex('by_clerk_id', (q) => q.eq('clerkId', args.clerkId!))
-            .first();
-        }
+      if (!identity || identity.issuer !== adminsIssuer) {
+        throw new ConvexError('Unauthorized');
       }
 
-      // Identity is Client
-      if (identity.issuer === clientsIssuer) {
-        // Return one Contact
-        const clerkId = identity.subject;
+      // Return one Contact
+      if (args.id) return await ctx.db.get('contacts', args.id as Id<'contacts'>);
+      if (args.clerkId) {
         return await ctx.db
           .query('contacts')
-          .withIndex('by_clerk_id', (q) => q.eq('clerkId', clerkId))
+          .withIndex('by_clerk_id', (q) => q.eq('clerkId', args.clerkId!))
           .first();
       }
       return null;
     } catch {
       return null;
     }
+  }
+});
+
+export const update = mutation({
+  args: {
+    clerkId: v.string()
+  },
+  handler: async (ctx, { clerkId }) => {
+    // Check Identity
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || identity.issuer !== adminsIssuer) {
+      throw new ConvexError('Unauthorized');
+    }
+
+    // Obtain the Contact
+    const contact = await ctx.db
+      .query('contacts')
+      .withIndex('by_clerk_id', (q) => q.eq('clerkId', clerkId))
+      .first();
+    if (!contact) throw new ConvexError('Not found');
+
+    // Update the Contact
+    if (contact) await ctx.db.patch(contact._id, { seen: Date.now() });
   }
 });
 

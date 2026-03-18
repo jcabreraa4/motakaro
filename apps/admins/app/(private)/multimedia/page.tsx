@@ -7,7 +7,7 @@ import { MediaTable } from '@/components/multimedia/media-table';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
-import { MediaUpload } from '@/components/multimedia/media-upload';
+import { UploadDialog } from '@/components/multimedia/upload-dialog';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { api } from '@workspace/backend/_generated/api';
 import { useParams } from '@/hooks/use-params';
@@ -56,7 +56,7 @@ export default function Page() {
             <SearchIcon />
           </InputGroupAddon>
         </InputGroup>
-        <MediaUpload
+        <UploadDialog
           variant="outline"
           className="min-w-50"
         />
@@ -74,7 +74,7 @@ export default function Page() {
               <EmptyDescription className="text-md">You haven&apos;t uploaded any files yet. Get started by uploading your first file.</EmptyDescription>
             </EmptyHeader>
             <EmptyContent>
-              <MediaUpload className="min-w-50" />
+              <UploadDialog className="min-w-50" />
             </EmptyContent>
           </Empty>
         </section>
