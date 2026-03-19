@@ -2,6 +2,12 @@
 
 const nextConfig = {
   transpilePackages: ['@workspace/ui'],
+  webpack: (config) => {
+    config.externals.push({
+      canvas: 'commonjs canvas'
+    });
+    return config;
+  },
   images: {
     remotePatterns: [
       {

@@ -1,13 +1,29 @@
 'use client';
 
 import { useEffect } from 'react';
-import { api } from '@workspace/backend/_generated/api';
-import { CanvasToolbar } from '@/components/whiteboards/canvas-toolbar';
-import { Preloaded, usePreloadedQuery } from 'convex/react';
-import { Button } from '@workspace/ui/components/button';
 import { useAppStateStore } from '@/store/state-store';
+import { api } from '@workspace/backend/_generated/api';
+import { Preloaded, usePreloadedQuery } from 'convex/react';
+import { CanvasToolbar } from '@/components/whiteboards/canvas-toolbar';
+import type { Whiteboard } from '@workspace/backend/schema';
+import { Button } from '@workspace/ui/components/button';
+import { useCanvas } from '@/hooks/use-canvas';
 import { PencilRulerIcon } from 'lucide-react';
 import Link from 'next/link';
+
+function CanvasEditor({ whiteboard }: { whiteboard: Whiteboard }) {
+  const { mainRef, canvasElRef } = useCanvas(whiteboard);
+
+  return (
+    <main
+      ref={mainRef}
+      className="relative flex min-h-0 flex-1 touch-none overflow-hidden"
+    >
+      <CanvasToolbar />
+      <canvas ref={canvasElRef} />
+    </main>
+  );
+}
 
 export function CanvasMain({ preloadedWhiteboard }: { preloadedWhiteboard: Preloaded<typeof api.whiteboards.get> }) {
   const whiteboard = usePreloadedQuery(preloadedWhiteboard);
@@ -34,14 +50,5 @@ export function CanvasMain({ preloadedWhiteboard }: { preloadedWhiteboard: Prelo
     );
   }
 
-  return (
-    <main className="relative w-full touch-none">
-      <CanvasToolbar
-        redo={() => {}}
-        undo={() => {}}
-        canRedo={false}
-        canUndo={false}
-      />
-    </main>
-  );
+  return <CanvasEditor whiteboard={whiteboard} />;
 }

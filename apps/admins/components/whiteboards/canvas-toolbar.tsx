@@ -1,18 +1,16 @@
-import { type LucideIcon, CircleIcon, MousePointer2Icon, PencilIcon, Redo2Icon, SquareIcon, StickyNoteIcon, TypeIcon, Undo2Icon } from 'lucide-react';
+import { type LucideIcon, CircleIcon, EraserIcon, MousePointer2Icon, PencilIcon, Redo2Icon, SquareIcon, TypeIcon, Undo2Icon } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip';
 import { Button } from '@workspace/ui/components/button';
 import { useAppStateStore } from '@/store/state-store';
+import { useCanvasStore, type Tool } from '@/store/canvas-store';
 import { cn } from '@workspace/ui/lib/utils';
 
-type ToolbarButton = {
+interface ToolbarButtonProps {
   label: string;
   icon: LucideIcon;
   onClick: () => void;
   isActive?: boolean;
   isDisabled?: boolean;
-};
-
-interface ToolbarButtonProps extends ToolbarButton {
   showChat: boolean;
 }
 
@@ -37,95 +35,73 @@ function ToolbarButton({ label, icon: Icon, onClick, isActive, isDisabled, showC
   );
 }
 
-interface CanvasToolbarProps {
-  undo: () => void;
-  redo: () => void;
-  canUndo: boolean;
-  canRedo: boolean;
-}
+const tools: { label: string; icon: LucideIcon; tool: Tool }[] = [
+  {
+    label: 'Select',
+    icon: MousePointer2Icon,
+    tool: 'select'
+  },
+  {
+    label: 'Pencil',
+    icon: PencilIcon,
+    tool: 'pencil'
+  },
+  {
+    label: 'Text',
+    icon: TypeIcon,
+    tool: 'text'
+  },
+  {
+    label: 'Rectangle',
+    icon: SquareIcon,
+    tool: 'rectangle'
+  },
+  {
+    label: 'Ellipse',
+    icon: CircleIcon,
+    tool: 'ellipse'
+  },
+  {
+    label: 'Eraser',
+    icon: EraserIcon,
+    tool: 'eraser'
+  }
+];
 
-interface ToolbarSection {
-  buttons: ToolbarButton[];
-}
-
-export function CanvasToolbar({ undo, redo, canUndo, canRedo }: CanvasToolbarProps) {
+export function CanvasToolbar() {
   const showChat = useAppStateStore((state) => state.showChat);
-
-  const toolbarSections: ToolbarSection[] = [
-    {
-      buttons: [
-        {
-          label: 'Select',
-          icon: MousePointer2Icon,
-          onClick: () => {},
-          isActive: false
-        },
-        {
-          label: 'Text',
-          icon: TypeIcon,
-          onClick: () => {},
-          isActive: false
-        },
-        {
-          label: 'Note',
-          icon: StickyNoteIcon,
-          onClick: () => {},
-          isActive: false
-        },
-        {
-          label: 'Rectangle',
-          icon: SquareIcon,
-          onClick: () => {},
-          isActive: false
-        },
-        {
-          label: 'Ellipse',
-          icon: CircleIcon,
-          onClick: () => {},
-          isActive: false
-        },
-        {
-          label: 'Pencil',
-          icon: PencilIcon,
-          onClick: () => {},
-          isActive: false
-        }
-      ]
-    },
-    {
-      buttons: [
-        {
-          label: 'Undo',
-          icon: Undo2Icon,
-          onClick: () => {},
-          isDisabled: true
-        },
-        {
-          label: 'Redo',
-          icon: Redo2Icon,
-          onClick: () => {},
-          isDisabled: true
-        }
-      ]
-    }
-  ];
+  const { activeTool, setActiveTool, canUndo, canRedo, undo, redo } = useCanvasStore();
 
   return (
-    <div className={cn('absolute top-[50%] flex -translate-y-[50%] flex-col gap-4', showChat ? 'left-4' : 'right-4')}>
-      {toolbarSections.map((section, index) => (
-        <div
-          key={index}
-          className="flex flex-col items-center gap-1 rounded-md border bg-sidebar p-0.5 shadow-md"
-        >
-          {section.buttons.map((button) => (
-            <ToolbarButton
-              key={button.label}
-              showChat={showChat}
-              {...button}
-            />
-          ))}
-        </div>
-      ))}
+    <div className={cn('absolute top-[50%] z-10 flex -translate-y-[50%] flex-col gap-4', showChat ? 'left-4' : 'right-4')}>
+      <div className="flex flex-col items-center gap-1 rounded-md border bg-sidebar p-0.5 shadow-md">
+        {tools.map(({ label, icon, tool }) => (
+          <ToolbarButton
+            key={tool}
+            label={label}
+            icon={icon}
+            showChat={showChat}
+            isActive={activeTool === tool}
+            onClick={() => setActiveTool(tool)}
+          />
+        ))}
+      </div>
+      <div className="flex flex-col items-center gap-1 rounded-md border bg-sidebar p-0.5 shadow-md">
+        <ToolbarButton
+          label="Undo"
+          icon={Undo2Icon}
+          showChat={showChat}
+          isDisabled={!canUndo}
+          onClick={undo}
+        />
+        <ToolbarButton
+          label="Redo"
+          icon={Redo2Icon}
+          showChat={showChat}
+          isDisabled={!canRedo}
+          onClick={redo}
+        />
+      </div>
     </div>
   );
 }

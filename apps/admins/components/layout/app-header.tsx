@@ -55,7 +55,7 @@ export function AppHeader() {
             {subroute && (
               <div className="pointer-events-none hidden items-center gap-2.5 select-none lg:flex">
                 <BreadcrumbItem>
-                  <ChevronRightIcon className="size-4 text-black" />
+                  <ChevronRightIcon className="size-4 text-black dark:text-white" />
                 </BreadcrumbItem>
                 <BreadcrumbItem>
                   <BreadcrumbPage>{subroute}</BreadcrumbPage>
