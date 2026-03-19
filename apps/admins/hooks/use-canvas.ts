@@ -113,7 +113,14 @@ export function useCanvas(whiteboard: Whiteboard | null) {
   useEffect(() => {
     if (!canvasElRef.current || !mainRef.current || fabricRef.current) return;
 
-    const canvas = new FabricCanvas(canvasElRef.current, { width: 1, height: 1, backgroundColor: '#ffffff' });
+    const canvas = new FabricCanvas(canvasElRef.current, {
+      width: 1,
+      height: 1,
+      backgroundColor: '#ffffff',
+      selectionColor: 'rgba(0, 127, 216, 0.1)',
+      selectionBorderColor: '#007fd8',
+      selectionLineWidth: 1
+    });
     const brush = new PencilBrush(canvas);
     brush.color = '#000000';
     brush.width = 3;
@@ -144,6 +151,7 @@ export function useCanvas(whiteboard: Whiteboard | null) {
       }
       pushHistory();
       useCanvasStore.getState().setActiveTool('select');
+      canvas.defaultCursor = 'default';
     });
 
     canvas.on('object:modified', () => {

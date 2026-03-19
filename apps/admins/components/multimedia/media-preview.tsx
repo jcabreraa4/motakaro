@@ -2,7 +2,7 @@
 
 import { BanIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { AudioRender, ImageRender, OtherRender, VideoRender } from '@/components/multimedia/media-render';
+import { Thumbnail, ImageRender, VideoRender, AudioRender, OtherRender } from '@/components/multimedia/media-render';
 import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { Id } from '@workspace/backend/_generated/dataModel';
 import { mediaType } from '@/utils/media-type';
@@ -29,7 +29,7 @@ export function MediaPreview({ id, src, name, type, interact = false }: MediaPre
 
   return (
     <div
-      className={cn('relative aspect-video overflow-hidden rounded-md border border-black bg-black select-none', id && 'cursor-pointer')}
+      className={cn('relative aspect-video overflow-hidden rounded-md border border-black bg-black select-none dark:border-white', id && 'cursor-pointer')}
       onClick={handleClick}
     >
       {fileType === 'image' ? (
@@ -55,10 +55,10 @@ export function MediaPreview({ id, src, name, type, interact = false }: MediaPre
           interact={interact || isMobile}
         />
       ) : (
-        <div className="flex aspect-video items-center justify-center gap-2 rounded-md bg-gray-100 dark:bg-gray-100 dark:text-black">
-          <BanIcon className="size-6 lg:size-8" />
-          <p className="text-lg font-semibold lg:text-2xl">Type not Allowed</p>
-        </div>
+        <Thumbnail
+          icon={BanIcon}
+          text="Type not Allowed"
+        />
       )}
     </div>
   );

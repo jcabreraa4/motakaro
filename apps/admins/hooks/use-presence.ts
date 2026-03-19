@@ -10,7 +10,7 @@ export function usePresence() {
   useEffect(() => {
     if (!user) return;
     update({ clerkId: user.id });
-    const interval = setInterval(() => update({ clerkId: user.id }), 40000);
+    const interval = setInterval(() => update({ clerkId: user.id }), 60000);
     return () => clearInterval(interval);
   }, [user?.id, update, user]);
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { HeadphonesIcon, Loader2Icon } from 'lucide-react';
+import { type LucideIcon, HeadphonesIcon, Loader2Icon, VideoIcon } from 'lucide-react';
 import { cn } from '@workspace/ui/lib/utils';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -12,6 +12,20 @@ export function RenderLoader() {
   return (
     <div className="absolute inset-0 z-10 flex items-center justify-center bg-white">
       <Loader2Icon className="size-12 animate-spin text-black" />
+    </div>
+  );
+}
+
+interface ThumbnailProps {
+  icon: LucideIcon;
+  text: string;
+}
+
+export function Thumbnail({ icon: Icon, text }: ThumbnailProps) {
+  return (
+    <div className="flex aspect-video items-center justify-center gap-2 rounded-md bg-sidebar">
+      <Icon className="size-6 lg:size-8" />
+      <p className="text-lg font-semibold lg:text-2xl">{text}</p>
     </div>
   );
 }
@@ -55,6 +69,7 @@ export function ImageRender({ src, alt, width, height, className, fill = false }
     <img
       src={src}
       alt={alt}
+      loading="lazy"
       className={cn('pointer-events-none mx-auto h-auto w-auto max-w-full', className)}
     />
   );
@@ -80,6 +95,7 @@ export function VideoRender({ src, width, height, interact = false, className }:
           src={src}
           width={width}
           height={height}
+          preload="metadata"
           className={cn('object-cover', className)}
           onLoadedData={() => setLoading(false)}
         />
@@ -88,15 +104,10 @@ export function VideoRender({ src, width, height, interact = false, className }:
   }
 
   return (
-    <>
-      {loading && <RenderLoader />}
-      <video
-        src={src}
-        preload="metadata"
-        className={cn('object-cover', className)}
-        onLoadedMetadata={() => setLoading(false)}
-      />
-    </>
+    <Thumbnail
+      icon={VideoIcon}
+      text="Video File"
+    />
   );
 }
 
@@ -107,35 +118,30 @@ interface AudioRenderProps {
 }
 
 export function AudioRender({ src, interact = false, className }: AudioRenderProps) {
-  const [loading, setLoading] = useState(true);
-
   if (interact) {
     return (
-      <>
-        {loading && <RenderLoader />}
-        <div className="flex aspect-video flex-col items-center justify-center gap-2 rounded-md bg-gray-100 dark:bg-gray-100 dark:text-black">
-          <div className="flex flex-1 items-center justify-center gap-3 pt-5">
-            <HeadphonesIcon className="size-6 lg:size-8" />
-            <p className="text-lg font-semibold lg:text-2xl">Audio File</p>
-          </div>
-          <div className="w-full px-2 pb-2">
-            <audio
-              controls
-              src={src}
-              className={cn('w-full', className)}
-              onLoadedData={() => setLoading(false)}
-            />
-          </div>
+      <div className="flex aspect-video flex-col items-center justify-center gap-2 rounded-md bg-gray-100 dark:bg-gray-100 dark:text-black">
+        <div className="flex flex-1 items-center justify-center gap-3 pt-5">
+          <HeadphonesIcon className="size-6 lg:size-8" />
+          <p className="text-lg font-semibold lg:text-2xl">Audio File</p>
         </div>
-      </>
+        <div className="w-full px-2 pb-2">
+          <audio
+            controls
+            src={src}
+            preload="none"
+            className={cn('w-full', className)}
+          />
+        </div>
+      </div>
     );
   }
 
   return (
-    <div className="flex aspect-video items-center justify-center gap-2 rounded-md bg-gray-100 dark:bg-gray-100 dark:text-black">
-      <HeadphonesIcon className="size-6 lg:size-8" />
-      <p className="text-lg font-semibold lg:text-2xl">Audio File</p>
-    </div>
+    <Thumbnail
+      icon={HeadphonesIcon}
+      text="Audio File"
+    />
   );
 }
 
