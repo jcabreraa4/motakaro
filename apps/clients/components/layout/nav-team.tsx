@@ -83,7 +83,7 @@ export function NavTeam({ teams }: NavTeamProps) {
       const match = teams.find((team) => team.id === organization.id);
       setActiveTeam(match ?? teams[0] ?? null);
     }
-  }, [organization?.id]);
+  }, [organization?.id, teams]);
 
   async function handleSwitch(team: Team) {
     setActiveTeam(team);

@@ -46,7 +46,7 @@ export function MediaPage({ preloadedMedia }: { preloadedMedia: Preloaded<typeof
             alt={file.name}
             width={file.width}
             height={file.height}
-            className="max-h-[80vh] rounded-lg border border-black bg-black"
+            className="max-h-[80vh] rounded-lg border border-black bg-black dark:border-white"
           />
         ) : type === 'video' ? (
           <div className="relative overflow-hidden">
@@ -55,18 +55,18 @@ export function MediaPage({ preloadedMedia }: { preloadedMedia: Preloaded<typeof
               src={file.url}
               width={file.width}
               height={file.height}
-              className="max-h-[80vh] w-full rounded-lg border border-black bg-black"
+              className="max-h-[80vh] w-full rounded-lg border border-black bg-black dark:border-white"
             />
           </div>
         ) : type === 'audio' ? (
-          <div className="relative aspect-video overflow-hidden rounded-md border border-black bg-black">
+          <div className="relative aspect-video overflow-hidden rounded-md border border-black bg-black dark:border-white">
             <AudioRender
               interact
               src={file.url}
             />
           </div>
         ) : (
-          <div className="relative h-[80vh] overflow-hidden rounded-md border border-black bg-black">
+          <div className="relative h-[80vh] overflow-hidden rounded-md border border-black bg-black dark:border-white">
             <OtherRender
               interact
               src={file.url}

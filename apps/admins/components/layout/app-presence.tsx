@@ -17,12 +17,12 @@ export function AppPresence({ className }: { className?: string }) {
   if (!others?.length) return null;
 
   return (
-    <div className={cn('flex -space-x-2 *:ring-2 *:ring-background', className)}>
+    <div className={cn('flex gap-2', className)}>
       {others.map((worker) => (
         <Tooltip key={worker.clerkId}>
           <TooltipTrigger asChild>
             <div className="relative cursor-default">
-              <Avatar className="h-8 w-8">
+              <Avatar className="border-red h-8 w-8 border-red-500">
                 <AvatarImage src={worker.avatar} />
                 <AvatarFallback className="text-xs">{worker.name?.[0]?.toUpperCase() ?? '?'}</AvatarFallback>
               </Avatar>
