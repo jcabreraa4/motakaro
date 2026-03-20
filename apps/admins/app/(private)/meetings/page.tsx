@@ -18,9 +18,6 @@ export default function Page() {
         <HeadsetIcon className="size-14" />
         <p className="text-2xl font-semibold">Under Construction</p>
       </div>
-      {meetings?.map((meeting) => (
-        <p key={meeting._id}>Name: {meeting.name}</p>
-      ))}
     </main>
   );
 }

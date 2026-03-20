@@ -18,9 +18,6 @@ export default function Page() {
         <Building2Icon className="size-14" />
         <p className="text-2xl font-semibold">Under Construction</p>
       </div>
-      {companies?.map((company) => (
-        <p key={company._id}>Name: {company.name}</p>
-      ))}
     </main>
   );
 }

@@ -59,3 +59,57 @@ export const create = mutation({
     });
   }
 });
+
+export const remove = mutation({
+  args: {
+    id: v.id('resources')
+  },
+  handler: async (ctx, args) => {
+    // Check Identity
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || identity.issuer !== adminsIssuer) {
+      throw new ConvexError('Unauthorized');
+    }
+
+    // Obtain the Resource
+    const resource = await ctx.db.get(args.id);
+    if (!resource) throw new ConvexError('Not found');
+
+    // Remove the Resource
+    await ctx.db.delete(args.id);
+  }
+});
+
+export const update = mutation({
+  args: {
+    id: v.id('resources'),
+    name: v.optional(v.string()),
+    note: v.optional(v.string()),
+    link: v.optional(v.string()),
+    embed: v.optional(v.string()),
+    starred: v.optional(v.boolean()),
+    thumbnail: v.optional(v.string())
+  },
+  handler: async (ctx, args) => {
+    // Check Identity
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || identity.issuer !== adminsIssuer) {
+      throw new ConvexError('Unauthorized');
+    }
+
+    // Obtain the Resource
+    const resource = await ctx.db.get(args.id);
+    if (!resource) throw new ConvexError('Not found');
+
+    // Update the Resource
+    await ctx.db.patch(args.id, {
+      ...(args.name !== undefined ? { name: args.name } : {}),
+      ...(args.note !== undefined ? { note: args.note } : {}),
+      ...(args.link !== undefined ? { link: args.link } : {}),
+      ...(args.embed !== undefined ? { embed: args.embed } : {}),
+      ...(args.starred !== undefined ? { starred: args.starred } : {}),
+      ...(args.thumbnail !== undefined ? { thumbnail: args.thumbnail } : {}),
+      updated: Date.now()
+    });
+  }
+});

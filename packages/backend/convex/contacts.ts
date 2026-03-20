@@ -3,6 +3,7 @@ import { ConvexError, v } from 'convex/values';
 import { Id } from './_generated/dataModel';
 
 const adminsIssuer = process.env.CLERK_JWT_ADMINS_DOMAIN;
+const clientsIssuer = process.env.CLERK_JWT_CLIENTS_DOMAIN;
 
 export const list = query({
   handler: async (ctx) => {
@@ -45,6 +46,23 @@ export const get = query({
   }
 });
 
+export const actives = query({
+  handler: async (ctx) => {
+    // Check Identity
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity || identity.issuer !== adminsIssuer) {
+      throw new ConvexError('Unauthorized');
+    }
+
+    // Obtain the Contacts
+    const threshold = Date.now() - 30000;
+    return await ctx.db
+      .query('contacts')
+      .filter((q) => q.gte(q.field('seen'), threshold))
+      .collect();
+  }
+});
+
 export const update = mutation({
   args: {
     clerkId: v.string()
@@ -52,7 +70,7 @@ export const update = mutation({
   handler: async (ctx, { clerkId }) => {
     // Check Identity
     const identity = await ctx.auth.getUserIdentity();
-    if (!identity || identity.issuer !== adminsIssuer) {
+    if (!identity || identity.issuer !== clientsIssuer) {
       throw new ConvexError('Unauthorized');
     }
 

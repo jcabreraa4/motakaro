@@ -45,7 +45,7 @@ export const get = query({
   }
 });
 
-export const getActive = query({
+export const actives = query({
   handler: async (ctx) => {
     // Check Identity
     const identity = await ctx.auth.getUserIdentity();

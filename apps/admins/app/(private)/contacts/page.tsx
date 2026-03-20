@@ -18,9 +18,6 @@ export default function Page() {
         <UsersIcon className="size-14" />
         <p className="text-2xl font-semibold">Under Construction</p>
       </div>
-      {contacts?.map((contact) => (
-        <p key={contact._id}>Name: {contact.name}</p>
-      ))}
     </main>
   );
 }
