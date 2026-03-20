@@ -1,15 +1,24 @@
-import { Id } from './_generated/dataModel';
 import { internalMutation, mutation, query } from './_generated/server';
 import { ConvexError, v } from 'convex/values';
-
-const adminsIssuer = process.env.CLERK_JWT_ADMINS_DOMAIN;
+import { Id } from './_generated/dataModel';
+import { verifyAdminAuth } from './auth';
 
 export const list = query({
-  handler: async (ctx) => {
+  args: {
+    filter: v.optional(v.union(v.literal('actives')))
+  },
+  handler: async (ctx, args) => {
     // Check Identity
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity || identity.issuer !== adminsIssuer) {
-      throw new ConvexError('Unauthorized');
+    const identity = await verifyAdminAuth(ctx);
+
+    // Check for Filter
+    if (args.filter === 'actives') {
+      // Return active Workers
+      const threshold = Date.now() - 30000;
+      return await ctx.db
+        .query('workers')
+        .filter((q) => q.gte(q.field('seen'), threshold))
+        .collect();
     }
 
     // Return all Workers
@@ -23,13 +32,10 @@ export const get = query({
     clerkId: v.optional(v.string())
   },
   handler: async (ctx, args) => {
-    try {
-      // Check Identity
-      const identity = await ctx.auth.getUserIdentity();
-      if (!identity || identity.issuer !== adminsIssuer) {
-        throw new ConvexError('Unauthorized');
-      }
+    // Check Identity
+    const identity = await verifyAdminAuth(ctx);
 
+    try {
       // Return one Worker
       if (args.id) return await ctx.db.get('workers', args.id as Id<'workers'>);
       if (args.clerkId) {
@@ -45,33 +51,13 @@ export const get = query({
   }
 });
 
-export const actives = query({
-  handler: async (ctx) => {
-    // Check Identity
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity || identity.issuer !== adminsIssuer) {
-      throw new ConvexError('Unauthorized');
-    }
-
-    // Obtain the Workers
-    const threshold = Date.now() - 30000;
-    return await ctx.db
-      .query('workers')
-      .filter((q) => q.gte(q.field('seen'), threshold))
-      .collect();
-  }
-});
-
 export const update = mutation({
   args: {
     clerkId: v.string()
   },
   handler: async (ctx, { clerkId }) => {
     // Check Identity
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity || identity.issuer !== adminsIssuer) {
-      throw new ConvexError('Unauthorized');
-    }
+    const identity = await verifyAdminAuth(ctx);
 
     // Obtain the Worker
     const worker = await ctx.db

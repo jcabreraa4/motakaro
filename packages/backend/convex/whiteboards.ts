@@ -1,11 +1,13 @@
 import { mutation, query } from './_generated/server';
 import { ConvexError, v } from 'convex/values';
 import { Id } from './_generated/dataModel';
-
-const adminsIssuer = process.env.CLERK_JWT_ADMINS_DOMAIN;
+import { verifyAdminAuth } from './auth';
 
 export const list = query({
   handler: async (ctx) => {
+    // Check Identity
+    const identity = await verifyAdminAuth(ctx);
+
     // Return all Whiteboards
     return await ctx.db.query('whiteboards').collect();
   }
@@ -16,13 +18,10 @@ export const get = query({
     id: v.string()
   },
   handler: async (ctx, args) => {
-    try {
-      // Check Identity
-      const identity = await ctx.auth.getUserIdentity();
-      if (!identity || identity.issuer !== adminsIssuer) {
-        throw new ConvexError('Unauthorized');
-      }
+    // Check Identity
+    const identity = await verifyAdminAuth(ctx);
 
+    try {
       // Return the Whiteboard
       return await ctx.db.get('whiteboards', args.id as Id<'whiteboards'>);
     } catch {
@@ -37,10 +36,7 @@ export const create = mutation({
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity || identity.issuer !== adminsIssuer) {
-      throw new ConvexError('Unauthorized');
-    }
+    const identity = await verifyAdminAuth(ctx);
 
     // Create one Whiteboard
     return await ctx.db.insert('whiteboards', {
@@ -59,10 +55,7 @@ export const remove = mutation({
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity || identity.issuer !== adminsIssuer) {
-      throw new ConvexError('Unauthorized');
-    }
+    const identity = await verifyAdminAuth(ctx);
 
     // Obtain the Whiteboard
     const whiteboard = await ctx.db.get(args.id);
@@ -82,10 +75,7 @@ export const update = mutation({
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity || identity.issuer !== adminsIssuer) {
-      throw new ConvexError('Unauthorized');
-    }
+    const identity = await verifyAdminAuth(ctx);
 
     // Obtain the Whiteboard
     const whiteboard = await ctx.db.get(args.id);
