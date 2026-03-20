@@ -89,7 +89,7 @@ export function MobileToolbar({ document, className }: MobileToolbarProps) {
           <MenubarSeparator />
           <UpdateDialog
             id={document._id}
-            title={document.name}
+            name={document.name}
           >
             <MenubarItem onSelect={(e) => e.preventDefault()}>
               <FilePenIcon className="mr-2 size-4" />

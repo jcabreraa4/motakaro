@@ -1,8 +1,7 @@
-import { Id } from './_generated/dataModel';
 import { mutation, query } from './_generated/server';
 import { ConvexError, v } from 'convex/values';
-
-const adminsIssuer = process.env.CLERK_JWT_ADMINS_DOMAIN;
+import { Id } from './_generated/dataModel';
+import { verifyAdminAuth } from './auth';
 
 export const list = query({
   handler: async (ctx) => {
@@ -16,13 +15,10 @@ export const get = query({
     id: v.string()
   },
   handler: async (ctx, args) => {
-    try {
-      // Check Identity
-      const identity = await ctx.auth.getUserIdentity();
-      if (!identity || identity.issuer !== adminsIssuer) {
-        throw new ConvexError('Unauthorized');
-      }
+    // Check Identity
+    const identity = await verifyAdminAuth(ctx);
 
+    try {
       // Return the Resource
       return await ctx.db.get('resources', args.id as Id<'resources'>);
     } catch {
@@ -42,10 +38,7 @@ export const create = mutation({
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity || identity.issuer !== adminsIssuer) {
-      throw new ConvexError('Unauthorized');
-    }
+    const identity = await verifyAdminAuth(ctx);
 
     // Create one Resource
     return await ctx.db.insert('resources', {
@@ -66,10 +59,7 @@ export const remove = mutation({
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity || identity.issuer !== adminsIssuer) {
-      throw new ConvexError('Unauthorized');
-    }
+    const identity = await verifyAdminAuth(ctx);
 
     // Obtain the Resource
     const resource = await ctx.db.get(args.id);
@@ -92,10 +82,7 @@ export const update = mutation({
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity || identity.issuer !== adminsIssuer) {
-      throw new ConvexError('Unauthorized');
-    }
+    const identity = await verifyAdminAuth(ctx);
 
     // Obtain the Resource
     const resource = await ctx.db.get(args.id);

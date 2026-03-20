@@ -1,17 +1,12 @@
-import { Id } from './_generated/dataModel';
+import { adminsIssuer, clientsIssuer, verifyAdminAuth, verifyIdentity } from './auth';
 import { internalMutation, query } from './_generated/server';
-import { ConvexError, v } from 'convex/values';
-
-const adminsIssuer = process.env.CLERK_JWT_ADMINS_DOMAIN;
-const clientsIssuer = process.env.CLERK_JWT_CLIENTS_DOMAIN;
+import { Id } from './_generated/dataModel';
+import { v } from 'convex/values';
 
 export const list = query({
   handler: async (ctx) => {
     // Check Identity
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity || identity.issuer !== adminsIssuer) {
-      throw new ConvexError('Unauthorized');
-    }
+    const identity = await verifyAdminAuth(ctx);
 
     // Return all Companies
     return await ctx.db.query('companies').collect();
@@ -24,11 +19,10 @@ export const get = query({
     clerkId: v.optional(v.string())
   },
   handler: async (ctx, args) => {
-    try {
-      // Check Identity
-      const identity = await ctx.auth.getUserIdentity();
-      if (!identity) throw new ConvexError('Unauthorized');
+    // Check Identity
+    const identity = await verifyIdentity(ctx);
 
+    try {
       // Identity is Admin
       if (identity.issuer !== adminsIssuer) {
         // Return one Company
@@ -57,6 +51,8 @@ export const get = query({
   }
 });
 
+// Internal Mutations
+
 export const upsert = internalMutation({
   args: {
     name: v.string(),
@@ -78,7 +74,9 @@ export const upsert = internalMutation({
 });
 
 export const remove = internalMutation({
-  args: { clerkId: v.string() },
+  args: {
+    clerkId: v.string()
+  },
   handler: async (ctx, { clerkId }) => {
     const company = await ctx.db
       .query('companies')

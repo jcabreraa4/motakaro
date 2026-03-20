@@ -1,16 +1,12 @@
-import { Id } from './_generated/dataModel';
 import { internalMutation, query } from './_generated/server';
-import { ConvexError, v } from 'convex/values';
-
-const adminsIssuer = process.env.CLERK_JWT_ADMINS_DOMAIN;
+import { Id } from './_generated/dataModel';
+import { verifyAdminAuth } from './auth';
+import { v } from 'convex/values';
 
 export const list = query({
   handler: async (ctx) => {
     // Check Identity
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity || identity.issuer !== adminsIssuer) {
-      throw new ConvexError('Unauthorized');
-    }
+    const identity = await verifyAdminAuth(ctx);
 
     // Return all Meetings
     return ctx.db.query('meetings').collect();
@@ -23,13 +19,10 @@ export const get = query({
     calcomId: v.optional(v.string())
   },
   handler: async (ctx, args) => {
-    try {
-      // Check Identity
-      const identity = await ctx.auth.getUserIdentity();
-      if (!identity || identity.issuer !== adminsIssuer) {
-        throw new ConvexError('Unauthorized');
-      }
+    // Check Identity
+    const identity = await verifyAdminAuth(ctx);
 
+    try {
       // Return one Meeting
       if (args.id) return await ctx.db.get('meetings', args.id as Id<'meetings'>);
       if (args.calcomId) {
