@@ -49,7 +49,7 @@ export function AppHeader() {
           <BreadcrumbList>
             <BreadcrumbItem onClick={cleanSubroute}>
               <Link href={`/${segments[0]}`}>
-                <BreadcrumbPage>{section}</BreadcrumbPage>
+                <BreadcrumbPage className="font-medium">{section}</BreadcrumbPage>
               </Link>
             </BreadcrumbItem>
             {subroute && (

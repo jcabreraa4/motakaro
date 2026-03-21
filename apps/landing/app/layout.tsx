@@ -6,7 +6,6 @@ import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import { Toaster } from '@workspace/ui/components/sonner';
 import { cn } from '@workspace/ui/lib/utils';
 import '@workspace/ui/globals.css';
-import '@/app/landing.css';
 
 const fontSans = Geist({
   subsets: ['latin'],

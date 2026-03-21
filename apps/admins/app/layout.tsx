@@ -7,7 +7,6 @@ import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import { Toaster } from '@workspace/ui/components/sonner';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { cn } from '@workspace/ui/lib/utils';
-import '@workspace/ui/scrollbar.css';
 import '@workspace/ui/globals.css';
 
 const fontSans = Geist({

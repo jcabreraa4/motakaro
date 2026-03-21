@@ -104,7 +104,7 @@ export function HyperText({ children, className, duration = 800, delay = 0, as: 
 
         iterationCount.current = progress * maxIterations;
 
-        setDisplayText((currentText) => currentText.map((letter, index) => (letter === ' ' ? letter : index <= iterationCount.current ? children[index] : characterSet[getRandomInt(characterSet.length)])));
+        setDisplayText((currentText) => currentText.map((letter, index) => (letter === ' ' ? letter : index <= iterationCount.current ? (children[index] ?? letter) : (characterSet[getRandomInt(characterSet.length)] ?? letter))));
 
         if (progress < 1) {
           animationFrameId = requestAnimationFrame(animate);

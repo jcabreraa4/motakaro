@@ -26,7 +26,7 @@ export function AppHeader() {
           <BreadcrumbList>
             <BreadcrumbItem>
               <Link href={`/${segments[0]}`}>
-                <BreadcrumbPage>{section}</BreadcrumbPage>
+                <BreadcrumbPage className="font-medium">{section}</BreadcrumbPage>
               </Link>
             </BreadcrumbItem>
           </BreadcrumbList>
