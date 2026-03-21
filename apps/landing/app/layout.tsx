@@ -2,9 +2,11 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { ConvexProvider } from '@/components/providers/convex-provider';
+import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import { Toaster } from '@workspace/ui/components/sonner';
 import { cn } from '@workspace/ui/lib/utils';
 import '@workspace/ui/globals.css';
+import '@/app/landing.css';
 
 const fontSans = Geist({
   subsets: ['latin'],
@@ -43,8 +45,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ConvexProvider>
-            {children}
-            <Toaster />
+            <TooltipProvider>
+              {children}
+              <Toaster />
+            </TooltipProvider>
           </ConvexProvider>
         </ThemeProvider>
       </body>

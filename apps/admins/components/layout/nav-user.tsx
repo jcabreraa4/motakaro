@@ -5,8 +5,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@workspace/ui/components/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { useClerk } from '@clerk/nextjs';
-import { dark } from '@clerk/themes';
 import { useTheme } from 'next-themes';
+import { dark } from '@clerk/themes';
 
 interface UserDataProps {
   name: string;
