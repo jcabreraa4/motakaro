@@ -1,7 +1,7 @@
 'use client';
 
-import { usePresence } from '@/hooks/use-presence';
 import { useAuth } from '@clerk/nextjs';
+import { usePresence } from '@/hooks/use-presence';
 import { api } from '@workspace/backend/_generated/api';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip';
