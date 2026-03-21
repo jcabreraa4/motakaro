@@ -2,7 +2,7 @@ import { ActionButton } from '@/components/motakaro/action-button';
 import { PlaybookButton } from '@/components/motakaro/playbook-button';
 import { MediaDialog } from '@workspace/ui/custom/media-dialog';
 
-export function MainHeader() {
+export function Header() {
   return (
     <header className="container mx-auto px-3 py-20 xl:px-5">
       <section className="flex flex-col gap-10 xl:flex-row xl:gap-0">

@@ -39,9 +39,9 @@ export default function RootLayout({
     >
       <body suppressHydrationWarning>
         <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
           enableSystem
+          attribute="class"
+          defaultTheme="light"
           disableTransitionOnChange
         >
           <ConvexProvider>
