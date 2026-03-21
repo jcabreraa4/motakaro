@@ -28,6 +28,10 @@ const sections: Section[] = [
   {
     url: '/playbook',
     name: 'Playbook'
+  },
+  {
+    url: '/resources',
+    name: 'Resources'
   }
 ];
 

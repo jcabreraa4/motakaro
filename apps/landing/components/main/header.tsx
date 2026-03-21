@@ -18,7 +18,7 @@ export function Header() {
         <MediaDialog
           className="w-full xl:w-2/4"
           animationStyle="from-center"
-          thumbnailAlt="Hero Video"
+          thumbnailAlt="Header Video"
           videoSrc=""
           thumbnailSrc="/header.webp"
         />
