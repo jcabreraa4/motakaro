@@ -10,7 +10,7 @@ import { useQuery } from 'convex/react';
 export default function Page() {
   const resources = useQuery(api.resources.list);
 
-  function openResource(link: string) {
+  function openLink(link: string) {
     if (!link) return;
     window.open(link, '_blank');
   }
@@ -37,7 +37,7 @@ export default function Page() {
               <CardHeader className="mx-0 px-0">
                 <CardTitle
                   className={cn(`line-clamp-2 text-xl font-bold transition xl:text-xl`, resource.link && 'cursor-pointer hover:underline')}
-                  onClick={() => openResource(resource.link)}
+                  onClick={() => openLink(resource.link)}
                 >
                   {resource.name}
                 </CardTitle>

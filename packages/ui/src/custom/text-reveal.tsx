@@ -11,7 +11,8 @@ export interface TextRevealProps extends ComponentPropsWithoutRef<'div'> {
 export const TextReveal: FC<TextRevealProps> = ({ children, className }) => {
   const targetRef = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({
-    target: targetRef
+    target: targetRef,
+    offset: ['start 0', 'end end']
   });
 
   if (typeof children !== 'string') throw new Error('TextReveal: children must be a string');
@@ -23,11 +24,8 @@ export const TextReveal: FC<TextRevealProps> = ({ children, className }) => {
       ref={targetRef}
       className={cn('relative z-0 h-[200vh]', className)}
     >
-      <div className={'sticky top-0 mx-auto flex h-[50%] max-w-4xl items-center bg-transparent px-4 py-20'}>
-        <span
-          ref={targetRef}
-          className={'flex flex-wrap p-5 text-4xl font-bold text-black/20 md:p-8 md:text-4xl lg:p-10 lg:text-5xl xl:text-6xl dark:text-white/20'}
-        >
+      <div className={'sticky top-0 mx-auto flex h-[50%] max-w-4xl items-center bg-transparent px-[1rem] py-[5rem]'}>
+        <span className={'flex flex-wrap p-5 text-4xl font-bold text-black/20 md:p-8 md:text-4xl lg:p-10 lg:text-5xl xl:text-6xl dark:text-white/20'}>
           {words.map((word, i) => {
             const start = i / words.length;
             const end = start + 1 / words.length;
