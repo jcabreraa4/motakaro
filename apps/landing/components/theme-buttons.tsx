@@ -2,17 +2,23 @@
 
 import { MoonIcon, SunIcon } from 'lucide-react';
 import { Button } from '@workspace/ui/components/button';
+import { ButtonSize } from '@workspace/ui/types/button';
 import { cn } from '@workspace/ui/lib/utils';
 import { useTheme } from 'next-themes';
 
-export function SquareThemeButton({ className }: { className?: string }) {
+interface SquareThemeButtonProps {
+  size?: ButtonSize;
+  className?: string;
+}
+
+export function SquareThemeButton({ size = 'icon-lg', className }: SquareThemeButtonProps) {
   const { theme, setTheme } = useTheme();
 
   return (
     <Button
-      size="icon-lg"
+      size={size}
       variant="outline"
-      className={cn('cursor-pointer', className)}
+      className={cn('cursor-pointer', theme == 'light' ? 'text-black' : 'text-white', className)}
       onClick={() => setTheme(theme == 'light' ? 'dark' : 'light')}
     >
       {theme == 'light' ? <SunIcon /> : <MoonIcon />}
