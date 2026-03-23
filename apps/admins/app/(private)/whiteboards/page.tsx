@@ -56,9 +56,9 @@ export default function Page() {
           </Empty>
         </section>
       ) : (
-        <div className="flex min-h-0 flex-1 flex-col gap-8 overflow-y-scroll lg:pe-3">
+        <section className="flex min-h-0 flex-1 flex-col gap-8 overflow-y-scroll lg:pe-3">
           <BoardsTable whiteboards={filteredBoards || []} />
-        </div>
+        </section>
       )}
     </main>
   );

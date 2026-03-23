@@ -8,6 +8,8 @@ interface CopyTextProps {
 }
 
 export async function copyText({ text, type }: CopyTextProps) {
+  if (!text) return;
+
   const device: Device = window.innerWidth <= 767 ? 'mobile' : window.innerWidth <= 1024 ? 'tablet' : 'computer';
 
   function capitalize(word: string) {

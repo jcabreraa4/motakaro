@@ -1,6 +1,6 @@
 import { ActionButton } from '@/components/motakaro/action-button';
 import { PlaybookButton } from '@/components/motakaro/playbook-button';
-import { MediaDialog } from '@workspace/ui/custom/media-dialog';
+import { VideoDialog } from '@workspace/ui/custom/video-dialog';
 
 export function Header() {
   return (
@@ -15,7 +15,7 @@ export function Header() {
             <PlaybookButton />
           </div>
         </div>
-        <MediaDialog
+        <VideoDialog
           className="w-full xl:w-2/4"
           animationStyle="from-center"
           thumbnailAlt="Header Video"

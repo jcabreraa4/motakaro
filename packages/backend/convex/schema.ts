@@ -75,7 +75,8 @@ export default defineSchema({
     embed: v.string(),
     starred: v.boolean(),
     updated: v.number(),
-    thumbnail: v.string()
+    thumbnail: v.string(),
+    published: v.boolean()
   })
 });
 

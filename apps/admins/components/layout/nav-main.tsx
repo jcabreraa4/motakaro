@@ -74,12 +74,7 @@ const sections: Section[] = [
         title: 'Multimedia',
         url: '/multimedia',
         icon: ImageIcon
-      }
-    ]
-  },
-  {
-    title: 'Website',
-    items: [
+      },
       {
         title: 'Resources',
         url: '/resources',
