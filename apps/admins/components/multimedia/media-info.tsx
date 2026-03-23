@@ -14,12 +14,12 @@ export function MediaInfo({ name, size, type, className }: MediaInfoProps) {
   const fileType = mediaType(type);
 
   return (
-    <section className={cn('flex h-13 flex-col gap-1 overflow-hidden', className)}>
+    <div className={cn('flex h-13 flex-col gap-1 overflow-hidden', className)}>
       <div className="flex items-center">
         <div className="min-w-8">{fileType === 'image' ? <ImageIcon /> : fileType === 'video' ? <VideoIcon /> : fileType === 'audio' ? <HeadphonesIcon /> : <FileTextIcon />}</div>
         <p className="truncate text-lg font-semibold">{name}</p>
       </div>
       <p className="text-sm text-gray-500">{sizeToText(size)}</p>
-    </section>
+    </div>
   );
 }

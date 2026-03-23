@@ -1,14 +1,14 @@
 'use client';
 
-import { MediaDialog } from '@workspace/ui/custom/media-dialog';
-import { Card, CardHeader, CardTitle, CardContent } from '@workspace/ui/components/card';
+import { useQuery } from 'convex/react';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
+import { VideoDialog } from '@workspace/ui/custom/video-dialog';
 import { api } from '@workspace/backend/_generated/api';
 import { cn } from '@workspace/ui/lib/utils';
-import { useQuery } from 'convex/react';
 
 export default function Page() {
-  const resources = useQuery(api.resources.list);
+  const resources = useQuery(api.resources.list, { filter: 'published' });
+  const filteredResources = resources?.filter((resource) => resource.embed && resource.name);
 
   function openLink(link: string) {
     if (!link) return;
@@ -22,27 +22,23 @@ export default function Page() {
       <div className="flex flex-col gap-10">
         <h1 className="text-4xl font-black xl:text-5xl">Video Resources</h1>
         <div className="grid grid-flow-row grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-          {resources.map((resource) => (
-            <Card
+          {filteredResources?.map((resource) => (
+            <div
               key={resource._id}
-              className="m-0 border-0 p-0 shadow-white"
+              className="flex flex-col gap-2"
             >
-              <CardContent className="mx-0 px-0">
-                <MediaDialog
-                  videoSrc={resource.embed}
-                  thumbnailSrc={resource.thumbnail || '/header.webp'}
-                  thumbnailAlt={resource.name}
-                />
-              </CardContent>
-              <CardHeader className="mx-0 px-0">
-                <CardTitle
-                  className={cn(`line-clamp-2 text-xl font-bold transition xl:text-xl`, resource.link && 'cursor-pointer hover:underline')}
-                  onClick={() => openLink(resource.link)}
-                >
-                  {resource.name}
-                </CardTitle>
-              </CardHeader>
-            </Card>
+              <VideoDialog
+                videoSrc={resource.embed}
+                thumbnailSrc={resource.thumbnail || '/header.webp'}
+                thumbnailAlt={resource.name}
+              />
+              <p
+                className={cn(`truncate text-xl font-bold transition select-none xl:text-xl`, resource.link && 'cursor-pointer hover:underline')}
+                onClick={() => openLink(resource.link)}
+              >
+                {resource.name}
+              </p>
+            </div>
           ))}
         </div>
       </div>

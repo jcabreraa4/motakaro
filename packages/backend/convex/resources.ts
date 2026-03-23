@@ -4,7 +4,19 @@ import { Id } from './_generated/dataModel';
 import { verifyAdminAuth } from './auth';
 
 export const list = query({
-  handler: async (ctx) => {
+  args: {
+    filter: v.optional(v.union(v.literal('published')))
+  },
+  handler: async (ctx, args) => {
+    // Check for Filter
+    if (args.filter === 'published') {
+      // Return published Resources
+      return await ctx.db
+        .query('resources')
+        .filter((q) => q.gte(q.field('published'), true))
+        .collect();
+    }
+
     // Return all Resources
     return await ctx.db.query('resources').collect();
   }
@@ -30,11 +42,10 @@ export const get = query({
 export const create = mutation({
   args: {
     name: v.string(),
-    note: v.optional(v.string()),
-    link: v.optional(v.string()),
-    embed: v.optional(v.string()),
-    starred: v.optional(v.boolean()),
-    thumbnail: v.optional(v.string())
+    link: v.string(),
+    embed: v.string(),
+    thumbnail: v.string(),
+    note: v.optional(v.string())
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -44,11 +55,12 @@ export const create = mutation({
     return await ctx.db.insert('resources', {
       name: args.name,
       note: args.note ?? '',
-      link: args.link ?? '',
-      embed: args.embed ?? '',
-      starred: args.starred ?? false,
+      link: args.link,
+      embed: args.embed,
+      starred: false,
       updated: Date.now(),
-      thumbnail: args.thumbnail ?? ''
+      thumbnail: args.thumbnail,
+      published: false
     });
   }
 });
@@ -78,7 +90,8 @@ export const update = mutation({
     link: v.optional(v.string()),
     embed: v.optional(v.string()),
     starred: v.optional(v.boolean()),
-    thumbnail: v.optional(v.string())
+    thumbnail: v.optional(v.string()),
+    published: v.optional(v.boolean())
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -96,6 +109,7 @@ export const update = mutation({
       ...(args.embed !== undefined ? { embed: args.embed } : {}),
       ...(args.starred !== undefined ? { starred: args.starred } : {}),
       ...(args.thumbnail !== undefined ? { thumbnail: args.thumbnail } : {}),
+      ...(args.published !== undefined ? { published: args.published } : {}),
       updated: Date.now()
     });
   }

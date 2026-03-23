@@ -19,11 +19,12 @@ export function RenderLoader() {
 interface ThumbnailProps {
   icon: LucideIcon;
   text: string;
+  className?: string;
 }
 
-export function Thumbnail({ icon: Icon, text }: ThumbnailProps) {
+export function Thumbnail({ icon: Icon, text, className }: ThumbnailProps) {
   return (
-    <div className="flex aspect-video items-center justify-center gap-2 rounded-md bg-sidebar">
+    <div className={cn('flex aspect-video items-center justify-center gap-2 rounded-md bg-sidebar', className)}>
       <Icon className="size-6 lg:size-8" />
       <p className="text-lg font-semibold lg:text-2xl">{text}</p>
     </div>
@@ -80,11 +81,28 @@ interface VideoRenderProps {
   width?: number;
   height?: number;
   interact?: boolean;
+  external?: boolean;
   className?: string;
 }
 
-export function VideoRender({ src, width, height, interact = false, className }: VideoRenderProps) {
+export function VideoRender({ src, width, height, interact = false, external = false, className }: VideoRenderProps) {
   const [loading, setLoading] = useState(true);
+
+  if (external) {
+    return (
+      <>
+        {loading && <RenderLoader />}
+        <iframe
+          src={src}
+          allowFullScreen
+          title="Media Player"
+          onLoad={() => setLoading(false)}
+          className={cn('object-cover', className)}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        />
+      </>
+    );
+  }
 
   if (interact) {
     return (

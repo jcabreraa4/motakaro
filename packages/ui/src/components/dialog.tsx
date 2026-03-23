@@ -77,7 +77,7 @@ function DialogContent({
           >
             <Button
               variant="ghost"
-              className="absolute top-4 right-4"
+              className="absolute top-4 right-4 cursor-pointer"
               size="icon-sm"
             >
               <XIcon />

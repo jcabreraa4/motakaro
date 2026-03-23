@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { CopyIcon, DownloadIcon, ExpandIcon, LucideIcon, PenIcon, SaveIcon, StarIcon, TrashIcon } from 'lucide-react';
+import { type LucideIcon, CopyIcon, DownloadIcon, ExpandIcon, PenIcon, SaveIcon, StarIcon, TrashIcon } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
 import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { Textarea } from '@workspace/ui/components/textarea';
+import { Id } from '@workspace/backend/_generated/dataModel';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
 import { Input } from '@workspace/ui/components/input';
@@ -14,12 +15,6 @@ import { copyText } from '@/utils/copy-text';
 import { useRouter } from 'next/navigation';
 import { useMutation } from 'convex/react';
 import { toast } from 'sonner';
-
-interface SectionButtonProps {
-  onClick: () => void;
-  icon: LucideIcon;
-  isActive?: boolean;
-}
 
 type UrlMediaFile = MediaFile & { url: string | null };
 
@@ -40,6 +35,12 @@ async function mediaDownload(url: string, name: string) {
   }
 }
 
+interface SectionButtonProps {
+  onClick?: () => void;
+  icon: LucideIcon;
+  isActive?: boolean;
+}
+
 function SectionButton({ onClick, icon: Icon, isActive }: SectionButtonProps) {
   const isMobile = useIsMobile();
 
@@ -55,12 +56,17 @@ function SectionButton({ onClick, icon: Icon, isActive }: SectionButtonProps) {
   );
 }
 
-function UpdateDialog({ file }: { file: MediaFile }) {
-  const [open, setOpen] = useState<boolean>(false);
-  const [info, setInfo] = useState({ name: file.name, note: file.note });
+function DeleteDialog({ id }: { id: Id<'multimedia'> }) {
+  const [open, setOpen] = useState(false);
 
   const deleteFile = useMutation(api.multimedia.remove);
-  const updateFile = useMutation(api.multimedia.update);
+
+  function handleDelete() {
+    deleteFile({ id }).finally(() => {
+      toast.success('File deleted successfully.');
+      setOpen(false);
+    });
+  }
 
   return (
     <Dialog
@@ -68,10 +74,47 @@ function UpdateDialog({ file }: { file: MediaFile }) {
       onOpenChange={setOpen}
     >
       <DialogTrigger asChild>
-        <SectionButton
-          onClick={() => {}}
-          icon={PenIcon}
-        />
+        <SectionButton icon={TrashIcon} />
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Delete File</DialogTitle>
+        </DialogHeader>
+        <DialogFooter>
+          <Button
+            variant="destructive"
+            className="flex-1 cursor-pointer"
+            onClick={handleDelete}
+          >
+            <TrashIcon />
+            Delete File
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function UpdateDialog({ file }: { file: MediaFile }) {
+  const [open, setOpen] = useState(false);
+  const [info, setInfo] = useState({ name: file.name, note: file.note });
+
+  const updateFile = useMutation(api.multimedia.update);
+
+  function handleUpdate() {
+    updateFile({ id: file._id, name: info.name, note: info.note }).finally(() => {
+      toast.success('File updated successfully.');
+      setOpen(false);
+    });
+  }
+
+  return (
+    <Dialog
+      open={open}
+      onOpenChange={setOpen}
+    >
+      <DialogTrigger asChild>
+        <SectionButton icon={PenIcon} />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -98,27 +141,10 @@ function UpdateDialog({ file }: { file: MediaFile }) {
         <DialogFooter>
           <Button
             className="flex-1 cursor-pointer"
-            onClick={() =>
-              updateFile({ id: file._id, name: info.name, note: info.note }).finally(() => {
-                toast.success('File updated successfully.');
-                setOpen(false);
-              })
-            }
+            onClick={handleUpdate}
           >
             <SaveIcon />
             Update File
-          </Button>
-          <Button
-            className="flex-1 cursor-pointer"
-            onClick={() =>
-              deleteFile({ id: file._id }).finally(() => {
-                toast.success('File deleted successfully.');
-                setOpen(false);
-              })
-            }
-          >
-            <TrashIcon />
-            Delete File
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -160,6 +186,7 @@ export function MediaToolbar({ file }: { file: UrlMediaFile }) {
         />
       ))}
       <UpdateDialog file={file} />
+      <DeleteDialog id={file._id} />
       <SectionButton
         icon={ExpandIcon}
         onClick={handleClick}
