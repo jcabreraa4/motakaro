@@ -42,7 +42,7 @@ export function Questions() {
             <AccordionItem
               key={index}
               value={`item-${index}`}
-              className="border-black py-2"
+              className="border-black py-2 dark:border-white"
             >
               <AccordionTrigger className="cursor-pointer text-2xl font-bold">{section.name}</AccordionTrigger>
               <AccordionContent className="text-lg font-medium">{section.description}</AccordionContent>

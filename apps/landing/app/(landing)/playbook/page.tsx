@@ -7,7 +7,7 @@ export default function Playbook() {
         src={playbookUrl}
         allow="fullscreen"
         title="Motakaro Playbook"
-        className="w-full flex-1 bg-black"
+        className="w-full flex-1 rounded-md bg-black"
       />
     </main>
   );

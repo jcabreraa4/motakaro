@@ -17,7 +17,7 @@ const sections: Section[] = [
     points: ['Investment in marketing is inefficient and costly, attracting low qualified profiles that do not convert and raise the cost of acquisition.', "Without a content strategy, your brand isn't perceived as a reference. If you don't stand out in the market, customers choose the competition.", "Buyers research, consume content, and trust experts before contacting sales. If you're not on their radar beforehand, you're not an option.", "Your team can't spend hours recording, optimizing ads, and managing LinkedIn. Without a clear strategy, effort doesn't translate into results."]
   },
   {
-    name: 'THE SOLUTIONS',
+    name: 'OUR SOLUTIONS',
     points: ['We generate demand with strategic content and optimized ads, reducing your acquisition cost and attracting customers ready to buy.', 'We convert your CEO or C-level knowledge into high-impact content, differentiating you with a unique narrative that builds trust and authority.', 'Your company appears at the key moment with content and ads that educate buyers before they look for solutions.', 'We take care of everything: interviews, editing, ads, and optimization, maximizing your LinkedIn investment while you focus on closing sales.']
   }
 ];
@@ -27,12 +27,12 @@ export function Differentiation() {
     <div className="relative flex w-full items-center justify-center overflow-hidden bg-black">
       <section className="container mx-auto px-3 py-15 xl:px-5 xl:py-20">
         <div className="flex flex-col gap-15">
-          <SparklesText className="text-center text-white">Our Magic</SparklesText>
+          <SparklesText className="text-center text-white">Like Magic</SparklesText>
           <div className="flex w-full flex-col items-center gap-5 text-white xl:flex-row xl:justify-evenly">
             {sections.map((section, index) => (
               <Card
                 key={index}
-                className={cn('w-full max-w-xl border-0 bg-black px-1 py-5 md:p-5', section.name === sections[1]!.name && 'shadow-[0px_4px_15px_#007fd8]')}
+                className={cn('w-full max-w-xl bg-black px-1 py-5 ring-0 md:p-5', section.name === sections[1]!.name && 'shadow-[0px_4px_15px_#007fd8]')}
               >
                 <CardHeader>
                   <CardTitle>

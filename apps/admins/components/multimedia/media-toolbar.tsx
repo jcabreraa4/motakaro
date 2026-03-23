@@ -133,8 +133,8 @@ function UpdateDialog({ file }: { file: MediaFile }) {
           <Label htmlFor="note">Note</Label>
           <Textarea
             id="note"
-            value={info.note}
             className="h-20"
+            value={info.note}
             onChange={(e) => setInfo({ ...info, note: e.target.value })}
           />
         </div>

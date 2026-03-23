@@ -42,10 +42,11 @@ export const get = query({
 export const create = mutation({
   args: {
     name: v.string(),
+    note: v.string(),
     link: v.string(),
     embed: v.string(),
     thumbnail: v.string(),
-    note: v.optional(v.string())
+    published: v.boolean()
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -60,7 +61,7 @@ export const create = mutation({
       starred: false,
       updated: Date.now(),
       thumbnail: args.thumbnail,
-      published: false
+      published: args.published
     });
   }
 });

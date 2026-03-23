@@ -1,11 +1,11 @@
 'use client';
 
-import Cal, { getCalApi } from '@calcom/embed-react';
 import { useEffect } from 'react';
+import Cal, { getCalApi } from '@calcom/embed-react';
 
 export default function Page() {
   useEffect(() => {
-    (async function () {
+    async function handleCalcom() {
       const cal = await getCalApi({ namespace: 'discovery' });
       cal('ui', {
         theme: 'dark',
@@ -16,7 +16,8 @@ export default function Page() {
         hideEventTypeDetails: false,
         layout: 'month_view'
       });
-    })();
+    }
+    handleCalcom();
   }, []);
 
   return (
