@@ -15,8 +15,8 @@ import { useParams } from '@/hooks/use-params';
 export default function Page() {
   const { isLoaded } = useAuth();
 
-  const [typeFilter, setTypeFilter] = useParams('type');
   const [searchFilter, setSearchFilter] = useParams('search');
+  const [typeFilter, setTypeFilter] = useParams('type');
   const effectiveTypeFilter = typeFilter || 'all';
 
   const multimedia = useQuery(api.multimedia.list, isLoaded ? {} : 'skip');

@@ -38,11 +38,13 @@ export function ResourcePage({ preloadedResource }: { preloadedResource: Preload
     <main className="flex w-full flex-1 justify-center p-3 lg:p-5">
       <section className="flex w-full max-w-5xl flex-col justify-center gap-6 md:px-5">
         {resource.embed ? (
-          <VideoRender
-            external
-            src={resource.embed}
-            className="aspect-video max-h-[80vh] w-full rounded-lg border border-black bg-black dark:border-white"
-          />
+          <div className="relative">
+            <VideoRender
+              external
+              src={resource.embed}
+              className="aspect-video max-h-[80vh] w-full rounded-lg border border-black bg-black dark:border-white"
+            />
+          </div>
         ) : (
           <Thumbnail
             icon={CircleAlertIcon}

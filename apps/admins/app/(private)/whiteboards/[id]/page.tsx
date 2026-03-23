@@ -8,6 +8,6 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   const { getToken } = await auth();
   const token = await getToken({ template: 'convex' });
   if (!token) throw new Error('Unauthorized');
-  const preloadedWhiteboard = await preloadQuery(api.whiteboards.get, { id }, { token });
-  return <CanvasMain preloadedWhiteboard={preloadedWhiteboard} />;
+  const preloaded = await preloadQuery(api.whiteboards.get, { id }, { token });
+  return <CanvasMain preloadedWhiteboard={preloaded} />;
 }
