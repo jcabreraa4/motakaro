@@ -1,9 +1,10 @@
 'use client';
 
-import { BuildingIcon, ChevronsUpDown, CircleUserIcon, LogOutIcon, MoonIcon, SunIcon, UserRoundIcon } from 'lucide-react';
+import { BuildingIcon, ChevronsUpDown, CircleUserIcon, LogOutIcon, UserRoundIcon } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@workspace/ui/components/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
+import { DropdownThemeButton } from '@workspace/ui/custom/theme-buttons';
 import { usePresence } from '@/hooks/use-presence';
 import { useClerk } from '@clerk/nextjs';
 import { useTheme } from 'next-themes';
@@ -40,7 +41,7 @@ interface NavUserProps extends UserDataProps {}
 export function NavUser({ name, email, avatar }: NavUserProps) {
   const { isMobile } = useSidebar();
   const { signOut, openUserProfile, openOrganizationProfile } = useClerk();
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
 
   usePresence();
 
@@ -104,13 +105,7 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
                 <BuildingIcon />
                 Organization
               </DropdownMenuItem>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => setTheme(theme == 'light' ? 'dark' : 'light')}
-              >
-                {theme == 'light' ? <SunIcon /> : <MoonIcon />}
-                {theme == 'light' ? 'Light Mode' : 'Dark Mode'}
-              </DropdownMenuItem>
+              <DropdownThemeButton />
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem

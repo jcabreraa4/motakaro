@@ -67,6 +67,7 @@
     "./components/*": "./src/components/*.tsx",
     "./hooks/*": "./src/hooks/*.ts",
     "./chatbots/*": "./src/chatbots/*.tsx",
-    "./custom/*": "./src/custom/*.tsx"
+    "./custom/*": "./src/custom/*.tsx",
+    "./types/*": "./src/types/*.ts"
   }
 }

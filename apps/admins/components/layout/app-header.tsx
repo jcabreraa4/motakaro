@@ -3,12 +3,12 @@
 import { useEffect } from 'react';
 import { usePathname } from '@/hooks/use-pathname';
 import { useAppStateStore } from '@/store/state-store';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from '@workspace/ui/components/breadcrumb';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
 import { SidebarTrigger } from '@workspace/ui/components/sidebar';
 import { Separator } from '@workspace/ui/components/separator';
 import { AppPresence } from '@/components/layout/app-presence';
 import { Button } from '@workspace/ui/components/button';
-import { BotIcon, ChevronRightIcon } from 'lucide-react';
+import { BotIcon } from 'lucide-react';
 import Link from 'next/link';
 
 const chatbotPage = 'chatbots';
@@ -53,14 +53,12 @@ export function AppHeader() {
               </Link>
             </BreadcrumbItem>
             {subroute && (
-              <div className="pointer-events-none hidden items-center gap-2.5 select-none lg:flex">
-                <BreadcrumbItem>
-                  <ChevronRightIcon className="size-4 text-black dark:text-white" />
-                </BreadcrumbItem>
-                <BreadcrumbItem>
+              <>
+                <BreadcrumbSeparator className="text-black dark:text-white" />
+                <BreadcrumbItem className="pointer-events-none select-none">
                   <BreadcrumbPage>{subroute}</BreadcrumbPage>
                 </BreadcrumbItem>
-              </div>
+              </>
             )}
           </BreadcrumbList>
         </Breadcrumb>

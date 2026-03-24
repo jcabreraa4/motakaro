@@ -1,5 +1,5 @@
 import { Branding } from '@/components/motakaro/branding';
-import { SquareThemeButton } from '@/components/theme-buttons';
+import { SquareThemeButton } from '@workspace/ui/custom/theme-buttons';
 import { Particles } from '@workspace/ui/custom/particles';
 
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;

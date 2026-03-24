@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
 import { usePathname } from 'next/navigation';
-import { SquareThemeButton } from '@/components/theme-buttons';
 import { ActionButton } from '@/components/motakaro/action-button';
+import { AnimatedThemeButton } from '@workspace/ui/custom/theme-buttons';
 import { Branding } from '@/components/motakaro/branding';
 import { MenuIcon, XIcon } from 'lucide-react';
 import { cn } from '@workspace/ui/lib/utils';
@@ -63,7 +63,7 @@ export function AppNavbar() {
             </a>
           </div>
           <div className="flex items-center gap-3 md:gap-3">
-            <SquareThemeButton
+            <AnimatedThemeButton
               size="icon"
               className="border-[#262626] bg-[#0B0B0B] text-white hover:bg-[#131313] hover:text-white"
             />

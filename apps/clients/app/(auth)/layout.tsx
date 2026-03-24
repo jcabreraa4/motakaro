@@ -1,5 +1,5 @@
 import { Branding } from '@/components/motakaro/branding';
-import { SquareThemeButton } from '@/components/theme-buttons';
+import { SquareThemeButton } from '@workspace/ui/custom/theme-buttons';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

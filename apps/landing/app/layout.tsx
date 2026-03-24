@@ -41,7 +41,6 @@ export default function RootLayout({
           enableSystem
           attribute="class"
           defaultTheme="light"
-          disableTransitionOnChange
         >
           <ConvexProvider>
             <TooltipProvider>
