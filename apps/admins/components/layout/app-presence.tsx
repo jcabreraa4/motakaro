@@ -12,7 +12,7 @@ export function AppPresence({ className }: { className?: string }) {
   usePresence();
   const { userId, isLoaded } = useAuth();
   const activeWorkers = useQuery(api.workers.list, isLoaded ? { filter: 'actives' } : 'skip');
-  const others = activeWorkers?.filter((w) => w.clerkId !== userId);
+  const others = activeWorkers?.filter((worker) => worker.clerkId !== userId);
 
   if (!others?.length) return null;
 

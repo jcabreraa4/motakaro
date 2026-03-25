@@ -76,7 +76,7 @@ export function VideoDialog({ animationStyle = 'from-center', videoSrc, thumbnai
           width={1920}
           height={1080}
           draggable="false"
-          className="aspect-video w-full rounded-md border shadow-lg transition-all duration-200 ease-out group-hover:brightness-[0.8]"
+          className={cn('aspect-video w-full rounded-md border shadow-lg transition-all duration-200 ease-out', videoSrc && 'group-hover:brightness-[0.8]')}
         />
         {videoSrc && (
           <div className="absolute inset-0 flex aspect-video scale-[0.9] items-center justify-center rounded-2xl transition-all duration-200 ease-out group-hover:scale-100">

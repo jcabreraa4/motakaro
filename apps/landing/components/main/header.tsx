@@ -16,11 +16,11 @@ export function Header() {
           </div>
         </div>
         <VideoDialog
-          className="w-full xl:w-2/4"
-          animationStyle="from-center"
-          thumbnailAlt="Header Video"
           videoSrc=""
           thumbnailSrc="/header.webp"
+          thumbnailAlt="Header Video"
+          animationStyle="from-center"
+          className="w-full xl:w-2/4"
         />
       </section>
     </header>
