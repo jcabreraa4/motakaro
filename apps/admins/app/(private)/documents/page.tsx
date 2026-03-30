@@ -56,9 +56,7 @@ export default function Page() {
           </Empty>
         </section>
       ) : (
-        <section className="h-0 flex-1 overflow-y-scroll lg:pe-3">
-          <DocumentsTable documents={filteredDocuments || []} />
-        </section>
+        <DocumentsTable documents={filteredDocuments || []} />
       )}
     </main>
   );

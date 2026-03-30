@@ -113,29 +113,31 @@ export function BoardsTable({ whiteboards }: { whiteboards: Whiteboard[] }) {
   const nonStarredWhiteboards = whiteboards.filter((whiteboard) => !whiteboard.starred);
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow className="border-none hover:bg-transparent">
-          <TableHead>Name</TableHead>
-          <TableHead>&nbsp;</TableHead>
-          <TableHead className="hidden md:table-cell">Created</TableHead>
-          <TableHead className="text-right">Actions</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {starredWhiteboards.map((whiteboard) => (
-          <WhiteboardRow
-            key={whiteboard._id}
-            whiteboard={whiteboard}
-          />
-        ))}
-        {nonStarredWhiteboards.map((whiteboard) => (
-          <WhiteboardRow
-            key={whiteboard._id}
-            whiteboard={whiteboard}
-          />
-        ))}
-      </TableBody>
-    </Table>
+    <section className="flex min-h-0 flex-1 flex-col gap-8 overflow-y-scroll lg:pe-3">
+      <Table>
+        <TableHeader>
+          <TableRow className="border-none hover:bg-transparent">
+            <TableHead>Name</TableHead>
+            <TableHead>&nbsp;</TableHead>
+            <TableHead className="hidden md:table-cell">Created</TableHead>
+            <TableHead className="text-right">Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {starredWhiteboards.map((whiteboard) => (
+            <WhiteboardRow
+              key={whiteboard._id}
+              whiteboard={whiteboard}
+            />
+          ))}
+          {nonStarredWhiteboards.map((whiteboard) => (
+            <WhiteboardRow
+              key={whiteboard._id}
+              whiteboard={whiteboard}
+            />
+          ))}
+        </TableBody>
+      </Table>
+    </section>
   );
 }

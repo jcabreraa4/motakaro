@@ -6,26 +6,24 @@ import { api } from '@workspace/backend/_generated/api';
 import { Preloaded, usePreloadedQuery } from 'convex/react';
 import { CanvasToolbar } from '@/components/whiteboards/canvas-toolbar';
 import type { Whiteboard } from '@workspace/backend/schema';
+import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { Button } from '@workspace/ui/components/button';
-import { useCanvas } from '@/hooks/use-canvas';
 import { PencilRulerIcon } from 'lucide-react';
+import { useCanvas } from '@/hooks/use-canvas';
+import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
 
-function CanvasEditor({ whiteboard }: { whiteboard: Whiteboard }) {
-  const { mainRef, canvasElRef } = useCanvas(whiteboard);
-
-  return (
-    <main
-      ref={mainRef}
-      className="relative flex min-h-0 flex-1 touch-none overflow-hidden"
-    >
-      <CanvasToolbar />
-      <canvas ref={canvasElRef} />
-    </main>
-  );
+interface CanvasMainProps {
+  preloadedWhiteboard: Preloaded<typeof api.whiteboards.get>;
 }
 
-export function CanvasMain({ preloadedWhiteboard }: { preloadedWhiteboard: Preloaded<typeof api.whiteboards.get> }) {
+export function CanvasMain({ preloadedWhiteboard }: CanvasMainProps) {
+  const { isLoaded } = useAuth();
+  if (!isLoaded) return <CircleLoader />;
+  return <CanvasMainInner preloadedWhiteboard={preloadedWhiteboard} />;
+}
+
+function CanvasMainInner({ preloadedWhiteboard }: CanvasMainProps) {
   const whiteboard = usePreloadedQuery(preloadedWhiteboard);
   const setSubroute = useAppStateStore((state) => state.setSubroute);
 
@@ -51,4 +49,18 @@ export function CanvasMain({ preloadedWhiteboard }: { preloadedWhiteboard: Prelo
   }
 
   return <CanvasEditor whiteboard={whiteboard} />;
+}
+
+function CanvasEditor({ whiteboard }: { whiteboard: Whiteboard }) {
+  const { mainRef, canvasElRef } = useCanvas(whiteboard);
+
+  return (
+    <main
+      ref={mainRef}
+      className="relative flex min-h-0 flex-1 touch-none overflow-hidden"
+    >
+      <CanvasToolbar />
+      <canvas ref={canvasElRef} />
+    </main>
+  );
 }

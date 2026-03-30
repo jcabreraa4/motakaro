@@ -113,29 +113,31 @@ export function DocumentsTable({ documents }: { documents: Document[] }) {
   const nonStarredDocuments = documents.filter((document) => !document.starred);
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow className="border-none hover:bg-transparent">
-          <TableHead>Name</TableHead>
-          <TableHead>&nbsp;</TableHead>
-          <TableHead className="hidden md:table-cell">Created</TableHead>
-          <TableHead className="text-right">Actions</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {starredDocuments.map((document) => (
-          <DocumentRow
-            key={document._id}
-            document={document}
-          />
-        ))}
-        {nonStarredDocuments.map((document) => (
-          <DocumentRow
-            key={document._id}
-            document={document}
-          />
-        ))}
-      </TableBody>
-    </Table>
+    <section className="h-0 flex-1 overflow-y-scroll lg:pe-3">
+      <Table>
+        <TableHeader>
+          <TableRow className="border-none hover:bg-transparent">
+            <TableHead>Name</TableHead>
+            <TableHead>&nbsp;</TableHead>
+            <TableHead className="hidden md:table-cell">Created</TableHead>
+            <TableHead className="text-right">Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {starredDocuments.map((document) => (
+            <DocumentRow
+              key={document._id}
+              document={document}
+            />
+          ))}
+          {nonStarredDocuments.map((document) => (
+            <DocumentRow
+              key={document._id}
+              document={document}
+            />
+          ))}
+        </TableBody>
+      </Table>
+    </section>
   );
 }
