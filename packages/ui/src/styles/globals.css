@@ -141,6 +141,15 @@
   }
 }
 
+@media print {
+  * {
+    scrollbar-width: none !important;
+  }
+  ::-webkit-scrollbar {
+    display: none !important;
+  }
+}
+
 /* Custom: Selection */
 ::selection {
   background-color: #007fd8;
@@ -153,4 +162,12 @@
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
+}
+
+/* Custom: Improve Printing */
+
+@media print {
+  @page {
+    margin: 0;
+  }
 }

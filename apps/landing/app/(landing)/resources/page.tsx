@@ -27,9 +27,8 @@ export default function Page() {
                 className="flex flex-col gap-2"
               >
                 <VideoDialog
-                  videoSrc={resource.embed}
-                  thumbnailSrc={resource.thumbnail || '/header.webp'}
-                  thumbnailAlt={resource.name}
+                  video={resource.embed}
+                  thumbnail={resource.thumbnail || '/header.webp'}
                 />
                 <p
                   className={cn(`truncate text-xl font-bold transition select-none xl:text-xl`, resource.link && 'cursor-pointer hover:underline')}

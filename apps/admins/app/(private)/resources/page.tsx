@@ -77,9 +77,7 @@ export default function Page() {
           </Empty>
         </section>
       ) : (
-        <section className="flex min-h-0 flex-1 flex-col gap-8 overflow-y-scroll lg:pe-3">
-          <ResourcesTable resources={filteredResources || []} />
-        </section>
+        <ResourcesTable resources={filteredResources || []} />
       )}
     </main>
   );

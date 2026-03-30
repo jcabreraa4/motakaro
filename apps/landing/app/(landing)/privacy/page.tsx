@@ -39,7 +39,7 @@ const sections: Section[] = [
   },
   {
     number: 7,
-    name: 'Contact',
+    name: 'Contact Us',
     description: 'If you have questions about this policy or how we handle your data, you can contact us via our support email.'
   }
 ];
@@ -49,7 +49,7 @@ export default function Page() {
     <section className="container mx-auto px-3 py-15 xl:px-5 xl:py-20">
       <div className="flex flex-col gap-5">
         <h1 className="text-4xl font-black xl:text-5xl">Privacy Policy</h1>
-        <h2 className="text-xl font-semibold xl:text-2xl">In this privacy policy, we explain how we collect, use, and protect your personal information when you interact with our website and services.</h2>
+        <h2 className="text-xl font-semibold xl:text-2xl">Here we explain how we collect, use, and protect your personal information when you interact with our website and services.</h2>
         <div className="flex flex-col gap-6 xl:gap-10">
           {sections.map((section, index) => (
             <div

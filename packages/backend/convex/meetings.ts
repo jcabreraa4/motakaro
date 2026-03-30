@@ -44,10 +44,14 @@ export const upsert = internalMutation({
   args: {
     name: v.string(),
     note: v.string(),
+    url: v.string(),
+    start: v.number(),
+    end: v.number(),
     status: v.union(v.literal('scheduled'), v.literal('cancelled'), v.literal('rejected'), v.literal('started'), v.literal('finished')),
-    startTime: v.number(),
-    endTime: v.number(),
+    organizer: v.string(),
     attendees: v.array(v.string()),
+    cancellation: v.string(),
+    rejection: v.string(),
     calcomId: v.string()
   },
   handler: async (ctx, args) => {

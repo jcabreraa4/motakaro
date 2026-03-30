@@ -12,7 +12,7 @@ export function ResourcesTable({ resources }: { resources: Resource[] }) {
   const nonStarredResources = resources.filter((file) => !file.starred);
 
   return (
-    <>
+    <section className="flex min-h-0 flex-1 flex-col gap-8 overflow-y-scroll lg:pe-3">
       {starredResources.length != 0 && (
         <div className={cn('grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3', showChat ? '2xl:grid-cols-3' : '2xl:grid-cols-4')}>
           {starredResources.map((resource) => (
@@ -56,6 +56,6 @@ export function ResourcesTable({ resources }: { resources: Resource[] }) {
         </div>
       )}
       <div className="py-0.5 lg:hidden" />
-    </>
+    </section>
   );
 }
