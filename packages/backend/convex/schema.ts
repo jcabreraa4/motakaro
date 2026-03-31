@@ -10,20 +10,23 @@ export default defineSchema({
     avatar: v.optional(v.string()),
     seen: v.optional(v.number()),
     clerkId: v.string()
-  }).index('by_clerk_id', ['clerkId']),
+  }).index('by_clerkId', ['clerkId']),
   meetings: defineTable({
     name: v.string(),
     note: v.string(),
     url: v.string(),
     start: v.number(),
     end: v.number(),
-    status: v.union(v.literal('scheduled'), v.literal('cancelled'), v.literal('rejected'), v.literal('started'), v.literal('finished')),
     organizer: v.string(),
     attendees: v.array(v.string()),
+    website: v.optional(v.string()),
+    attribution: v.optional(v.string()),
+    rescheduled: v.optional(v.string()),
     cancellation: v.optional(v.string()),
     rejection: v.optional(v.string()),
+    status: v.union(v.literal('scheduled'), v.literal('cancelled'), v.literal('rejected'), v.literal('ongoing'), v.literal('finished')),
     calcomId: v.string()
-  }).index('by_calcom_id', ['calcomId']),
+  }).index('by_calcomId', ['calcomId']),
   contacts: defineTable({
     name: v.optional(v.string()),
     surname: v.optional(v.string()),
@@ -31,13 +34,13 @@ export default defineSchema({
     avatar: v.optional(v.string()),
     seen: v.optional(v.number()),
     clerkId: v.string()
-  }).index('by_clerk_id', ['clerkId']),
+  }).index('by_clerkId', ['clerkId']),
   companies: defineTable({
     name: v.string(),
     logo: v.optional(v.string()),
     plan: v.optional(v.string()),
     clerkId: v.string()
-  }).index('by_clerk_id', ['clerkId']),
+  }).index('by_clerkId', ['clerkId']),
   documents: defineTable({
     name: v.string(),
     note: v.string(),

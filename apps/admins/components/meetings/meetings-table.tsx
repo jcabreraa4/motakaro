@@ -1,5 +1,5 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
-import { CheckCircleIcon, ExternalLinkIcon, SettingsIcon } from 'lucide-react';
+import { CalendarX2Icon, CheckCircleIcon, CircleSlash, ClockIcon, ExternalLinkIcon, RadioIcon, SettingsIcon } from 'lucide-react';
 import { Button } from '@workspace/ui/components/button';
 import { Meeting } from '@workspace/backend/schema';
 import { cn } from '@workspace/ui/lib/utils';
@@ -20,19 +20,19 @@ export function MeetingsTable({ meetings }: { meetings: Meeting[] }) {
   }
 
   return (
-    <section className="flex flex-col gap-5 overflow-y-scroll p-0.5 lg:pe-3">
+    <section className="flex w-full flex-col gap-5 overflow-y-scroll p-0.5 lg:pe-3">
       {meetings.map((meeting) => (
         <Card
           key={meeting._id}
           className="min-h-fit"
         >
           <CardHeader>
-            <CardTitle className="flex items-center gap-3">
-              <div className={cn('pointer-events-none rounded-lg p-2 text-black select-none lg:w-30', meeting.status === 'scheduled' ? 'bg-green-300' : meeting.status === 'rejected' ? 'bg-red-300' : meeting.status === 'started' ? 'animate-pulse bg-motakaro text-white' : meeting.status === 'finished' ? 'bg-yellow-300' : 'bg-black text-white dark:bg-white dark:text-black')}>
-                <span className="hidden justify-center text-sm font-bold lg:flex">{meeting.status.toUpperCase()}</span>
-                <span className="lg:hidden">
-                  <CheckCircleIcon className="size-5" />
-                </span>
+            <CardTitle className="flex items-center gap-3 truncate">
+              <div className={cn('pointer-events-none flex items-center justify-center rounded-lg p-2 text-black select-none lg:w-40', meeting.status === 'scheduled' ? 'bg-motakaro text-white' : meeting.status === 'cancelled' ? 'bg-red-300' : meeting.status === 'ongoing' ? 'animate-pulse bg-green-300' : meeting.status === 'finished' ? 'bg-primary text-white dark:text-black' : 'bg-yellow-300')}>
+                <div className="flex gap-2">
+                  {meeting.status === 'scheduled' ? <ClockIcon className="size-5" /> : meeting.status === 'cancelled' ? <CalendarX2Icon className="size-5" /> : meeting.status === 'ongoing' ? <RadioIcon className="size-5" /> : meeting.status === 'finished' ? <CheckCircleIcon className="size-5" /> : <CircleSlash className="size-5" />}
+                  <span className="hidden justify-center text-sm font-bold lg:flex">{meeting.status.toUpperCase()}</span>
+                </div>
               </div>
               <span className="truncate text-sm lg:text-lg">{meeting.name}</span>
             </CardTitle>
@@ -46,15 +46,6 @@ export function MeetingsTable({ meetings }: { meetings: Meeting[] }) {
               <span className="pointer-events-none font-semibold select-none">Organizer: </span>
               {meeting.organizer}
             </p>
-            {meeting.attendees.length > 1 && (
-              <p>
-                <span className="pointer-events-none font-semibold select-none">Other Attendees: </span>
-                {meeting.attendees
-                  .filter((attendee) => attendee !== meeting.organizer)
-                  .map((attendee) => attendee)
-                  .join(', ')}
-              </p>
-            )}
           </CardContent>
           <CardFooter className="flex gap-2">
             <Button

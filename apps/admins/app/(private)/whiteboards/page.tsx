@@ -2,7 +2,7 @@
 
 import { useAuth } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
-import { ImageIcon, SearchIcon } from 'lucide-react';
+import { PencilRulerIcon, SearchIcon } from 'lucide-react';
 import { BoardsTable } from '@/components/whiteboards/boards-table';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
@@ -45,7 +45,7 @@ export default function Page() {
           <Empty>
             <EmptyHeader>
               <EmptyMedia variant="icon">
-                <ImageIcon className="size-6" />
+                <PencilRulerIcon className="size-6" />
               </EmptyMedia>
               <EmptyTitle className="text-xl">No Whiteboards Available</EmptyTitle>
               <EmptyDescription className="text-md">You haven&apos;t created any whiteboards yet. Get started by creating your first whiteboard.</EmptyDescription>
@@ -53,6 +53,18 @@ export default function Page() {
             <EmptyContent>
               <CreateButton className="min-w-50" />
             </EmptyContent>
+          </Empty>
+        </section>
+      ) : filteredBoards?.length === 0 ? (
+        <section className="flex min-h-0 flex-1 items-center justify-center">
+          <Empty>
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <PencilRulerIcon className="size-6" />
+              </EmptyMedia>
+              <EmptyTitle className="text-xl">No Whiteboards Found</EmptyTitle>
+              <EmptyDescription className="text-md">No whiteboards match your search criteria. Try adjusting your filters or search term.</EmptyDescription>
+            </EmptyHeader>
           </Empty>
         </section>
       ) : (

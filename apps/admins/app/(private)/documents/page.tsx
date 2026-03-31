@@ -55,6 +55,18 @@ export default function Page() {
             </EmptyContent>
           </Empty>
         </section>
+      ) : filteredDocuments?.length === 0 ? (
+        <section className="flex min-h-0 flex-1 items-center justify-center">
+          <Empty>
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <FileTextIcon className="size-6" />
+              </EmptyMedia>
+              <EmptyTitle className="text-xl">No Documents Found</EmptyTitle>
+              <EmptyDescription className="text-md">No documents match your search criteria. Try adjusting your filters or search term.</EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        </section>
       ) : (
         <DocumentsTable documents={filteredDocuments || []} />
       )}

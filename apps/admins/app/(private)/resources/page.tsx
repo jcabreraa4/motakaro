@@ -76,6 +76,18 @@ export default function Page() {
             </EmptyContent>
           </Empty>
         </section>
+      ) : filteredResources?.length === 0 ? (
+        <section className="flex min-h-0 flex-1 items-center justify-center">
+          <Empty>
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <ListVideoIcon className="size-6" />
+              </EmptyMedia>
+              <EmptyTitle className="text-xl">No Resources Found</EmptyTitle>
+              <EmptyDescription className="text-md">No resources match your search criteria. Try adjusting your filters or search term.</EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        </section>
       ) : (
         <ResourcesTable resources={filteredResources || []} />
       )}

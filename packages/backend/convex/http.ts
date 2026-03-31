@@ -110,36 +110,24 @@ async function validateClerkClientsRequest(req: Request): Promise<WebhookEvent |
 
 // Calcom Webhook
 
-/*
-Custom Payload Template
-{
- "trigger": "{{triggerEvent}}",
- "name": "{{title}}",
- "url": "{{metadata.videoCallUrl}}"
- "start": "{{startTime}}",
- "end": "{{endTime}}",
- "organizer": "{{organizer.email}}",
- "attendees": "{{attendees}}",
- "cancellation": "{{cancellationReason}}",
- "rejecttion": "{{rejectionReason}}",
- "calcomId": "{{uid}}"
-}
-*/
-
 http.route({
   path: '/cal-webhook',
   method: 'POST',
   handler: httpAction(async (ctx, request) => {
     const body = await request.text();
+
+    // Verify Request
     const signature = request.headers.get('X-Cal-Signature-256');
     if (!validateCalcomRequest(body, signature)) {
       return new Response('Invalid signature', { status: 401 });
     }
 
+    // Extract Data
     const event = JSON.parse(body);
     const trigger = event.triggerEvent;
     const payload = event.payload;
 
+    // Handle Event
     if (trigger === 'BOOKING_CREATED') {
       await ctx.runMutation(internal.meetings.upsert, {
         name: payload.title,
@@ -150,32 +138,45 @@ http.route({
         status: 'scheduled',
         organizer: payload.organizer.email,
         attendees: payload.attendees.map((a: { email: string }) => a.email),
+        website: payload.responses?.website?.value ?? '',
+        attribution: payload.responses?.attribution?.value ?? '',
+        rescheduled: '',
         cancellation: '',
         rejection: '',
         calcomId: payload.uid
       });
+    } else if (trigger === 'BOOKING_RESCHEDULED') {
+      await ctx.runMutation(internal.meetings.upsert, {
+        start: new Date(payload.startTime).getTime(),
+        end: new Date(payload.endTime).getTime(),
+        rescheduled: payload.rescheduleReason ?? '',
+        status: 'scheduled',
+        calcomId: payload.rescheduleUid ?? payload.uid,
+        newCalcomId: payload.uid
+      });
     } else if (trigger === 'BOOKING_CANCELLED') {
-      await ctx.runMutation(internal.meetings.updateStatus, {
-        calcomId: payload.uid,
-        status: 'cancelled'
+      await ctx.runMutation(internal.meetings.upsert, {
+        cancellation: payload.cancellationReason ?? '',
+        status: 'cancelled',
+        calcomId: payload.uid
       });
     } else if (trigger === 'BOOKING_REJECTED') {
-      await ctx.runMutation(internal.meetings.updateStatus, {
-        calcomId: payload.uid,
-        status: 'rejected'
+      await ctx.runMutation(internal.meetings.upsert, {
+        rejection: payload.rejectionReason ?? '',
+        status: 'rejected',
+        calcomId: payload.uid
       });
     } else if (trigger === 'MEETING_STARTED') {
-      await ctx.runMutation(internal.meetings.updateStatus, {
-        calcomId: payload.uid,
-        status: 'started'
+      await ctx.runMutation(internal.meetings.upsert, {
+        status: 'ongoing',
+        calcomId: payload.uid
       });
     } else if (trigger === 'MEETING_ENDED') {
-      await ctx.runMutation(internal.meetings.updateStatus, {
-        calcomId: payload.uid,
-        status: 'finished'
+      await ctx.runMutation(internal.meetings.upsert, {
+        status: 'finished',
+        calcomId: payload.uid
       });
     }
-
     return new Response(null, { status: 200 });
   })
 });

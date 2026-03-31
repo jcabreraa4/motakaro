@@ -41,7 +41,7 @@ export const get = query({
       if (args.clerkId) {
         return await ctx.db
           .query('contacts')
-          .withIndex('by_clerk_id', (q) => q.eq('clerkId', args.clerkId!))
+          .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId!))
           .first();
       }
       return null;
@@ -62,7 +62,7 @@ export const update = mutation({
     // Obtain the Contact
     const contact = await ctx.db
       .query('contacts')
-      .withIndex('by_clerk_id', (q) => q.eq('clerkId', clerkId))
+      .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
       .first();
     if (!contact) throw new ConvexError('Not found');
 
@@ -84,7 +84,7 @@ export const upsert = internalMutation({
   handler: async (ctx, args) => {
     const contact = await ctx.db
       .query('contacts')
-      .withIndex('by_clerk_id', (q) => q.eq('clerkId', args.clerkId))
+      .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
     if (contact) {
       await ctx.db.patch(contact._id, args);
@@ -101,7 +101,7 @@ export const remove = internalMutation({
   handler: async (ctx, { clerkId }) => {
     const contact = await ctx.db
       .query('contacts')
-      .withIndex('by_clerk_id', (q) => q.eq('clerkId', clerkId))
+      .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
       .first();
     if (contact) await ctx.db.delete(contact._id);
   }

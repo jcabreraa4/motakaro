@@ -45,7 +45,7 @@ export function AppNavbar() {
       <nav className="fixed top-0 left-0 z-50 flex h-18 w-full items-center bg-black text-white shadow-md">
         <section className="container mx-auto flex items-center justify-between px-3 md:px-5">
           <Branding />
-          <div className="hidden items-center gap-5 md:flex">
+          <div className="hidden items-center gap-5 select-none md:flex">
             {sections.map((section, index) => (
               <Link
                 key={index}

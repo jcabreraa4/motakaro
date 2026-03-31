@@ -30,7 +30,7 @@ export const get = query({
         if (args.clerkId) {
           return await ctx.db
             .query('companies')
-            .withIndex('by_clerk_id', (q) => q.eq('clerkId', args.clerkId!))
+            .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId!))
             .first();
         }
       }
@@ -41,7 +41,7 @@ export const get = query({
         const clerkId = identity.org_id as string;
         return await ctx.db
           .query('contacts')
-          .withIndex('by_clerk_id', (q) => q.eq('clerkId', clerkId))
+          .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
           .first();
       }
       return null;
@@ -63,7 +63,7 @@ export const upsert = internalMutation({
   handler: async (ctx, args) => {
     const company = await ctx.db
       .query('companies')
-      .withIndex('by_clerk_id', (q) => q.eq('clerkId', args.clerkId))
+      .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
     if (company) {
       await ctx.db.patch(company._id, args);
@@ -80,7 +80,7 @@ export const remove = internalMutation({
   handler: async (ctx, { clerkId }) => {
     const company = await ctx.db
       .query('companies')
-      .withIndex('by_clerk_id', (q) => q.eq('clerkId', clerkId))
+      .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
       .first();
     if (company) await ctx.db.delete(company._id);
   }

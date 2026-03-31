@@ -78,6 +78,18 @@ export default function Page() {
             </EmptyContent>
           </Empty>
         </section>
+      ) : filteredFiles?.length === 0 ? (
+        <section className="flex min-h-0 flex-1 items-center justify-center">
+          <Empty>
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <ImageIcon className="size-6" />
+              </EmptyMedia>
+              <EmptyTitle className="text-xl">No Multimedia Found</EmptyTitle>
+              <EmptyDescription className="text-md">No multimedia match your search criteria. Try adjusting your filters or search term.</EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        </section>
       ) : (
         <MediaTable multimedia={filteredFiles || []} />
       )}
