@@ -17,6 +17,8 @@ export default defineSchema({
     url: v.string(),
     start: v.number(),
     end: v.number(),
+    starred: v.boolean(),
+    updated: v.number(),
     organizer: v.string(),
     attendees: v.array(v.string()),
     website: v.optional(v.string()),

@@ -4,9 +4,11 @@ import { useQuery } from 'convex/react';
 import { useParams } from '@/hooks/use-params';
 import { HeadsetIcon, SearchIcon, TrashIcon } from 'lucide-react';
 import { MeetingsTable } from '@/components/meetings/meetings-table';
-import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
+import { CreateDialog } from '@/components/meetings/create-dialog';
+import { StarredTable } from '@/components/meetings/starred-table';
 import { Calendar } from '@workspace/ui/components/calendar';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { Button } from '@workspace/ui/components/button';
@@ -30,6 +32,8 @@ export default function Page() {
     setDateFilter(day ? format(day, 'yyyy-MM-dd') : '');
   }
 
+  const starredMeetings = meetings?.filter((meeting) => meeting.starred);
+
   const filteredMeetings = meetings
     ?.filter((meeting) => searchFilter === '' || meeting.name.toLowerCase().includes(searchFilter.toLowerCase()))
     .filter((meeting) => (effectiveStatusFilter === 'all' ? true : meeting.status.includes(effectiveStatusFilter)))
@@ -37,7 +41,8 @@ export default function Page() {
 
   return (
     <main className="flex w-full overflow-hidden">
-      <section className="hidden max-w-100 min-w-100 py-5 pl-5 xl:block">
+      <section className="hidden max-w-100 min-w-100 flex-col gap-5 overflow-hidden overflow-y-auto py-5 pr-0.5 pl-5 xl:flex">
+        <CreateDialog variant="outline" />
         <div className="flex flex-col gap-2">
           <Calendar
             mode="single"
@@ -56,6 +61,7 @@ export default function Page() {
             Unselect Date
           </Button>
         </div>
+        <StarredTable meetings={starredMeetings || []} />
       </section>
       <div className="flex w-full flex-col gap-3 overflow-hidden p-3 lg:gap-5 lg:p-5">
         <section className="flex flex-col gap-3 lg:flex-row xl:gap-5">
@@ -104,6 +110,9 @@ export default function Page() {
                 <EmptyTitle className="text-xl">No Meetings Available</EmptyTitle>
                 <EmptyDescription className="text-md">There are no meetings available yet. Get started by booking your first meeting.</EmptyDescription>
               </EmptyHeader>
+              <EmptyContent>
+                <CreateDialog className="min-w-50" />
+              </EmptyContent>
             </Empty>
           </section>
         ) : filteredMeetings?.length === 0 ? (

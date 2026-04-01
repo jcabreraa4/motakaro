@@ -1,7 +1,7 @@
-import { internalMutation, query } from './_generated/server';
+import { internalMutation, mutation, query } from './_generated/server';
+import { ConvexError, v } from 'convex/values';
 import { Id } from './_generated/dataModel';
 import { verifyAdminAuth } from './auth';
-import { v } from 'convex/values';
 
 export const list = query({
   handler: async (ctx) => {
@@ -38,6 +38,27 @@ export const get = query({
   }
 });
 
+export const update = mutation({
+  args: {
+    id: v.id('meetings'),
+    starred: v.optional(v.boolean())
+  },
+  handler: async (ctx, args) => {
+    // Check Identity
+    const identity = await verifyAdminAuth(ctx);
+
+    // Obtain the Meeting
+    const meeting = await ctx.db.get(args.id);
+    if (!meeting) throw new ConvexError('Not found');
+
+    // Update the Meeting
+    await ctx.db.patch(args.id, {
+      ...(args.starred !== undefined ? { starred: args.starred } : {}),
+      updated: Date.now()
+    });
+  }
+});
+
 // Internal Mutations
 
 export const upsert = internalMutation({
@@ -71,7 +92,8 @@ export const upsert = internalMutation({
         ...(args.cancellation !== undefined ? { cancellation: args.cancellation } : {}),
         ...(args.rejection !== undefined ? { rejection: args.rejection } : {}),
         ...(args.newCalcomId !== undefined ? { calcomId: args.newCalcomId } : {}),
-        status: args.status
+        status: args.status,
+        updated: Date.now()
       });
     } else {
       return await ctx.db.insert('meetings', {
@@ -80,6 +102,8 @@ export const upsert = internalMutation({
         url: args.url ?? '',
         start: args.start ?? 0,
         end: args.end ?? 0,
+        starred: false,
+        updated: Date.now(),
         organizer: args.organizer ?? '',
         attendees: args.attendees ?? [args.organizer ?? ''],
         website: args.website,

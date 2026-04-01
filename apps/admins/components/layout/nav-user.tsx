@@ -5,6 +5,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@workspace/ui/components/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { DropdownThemeButton } from '@workspace/ui/custom/theme-buttons';
+import { cn } from '@workspace/ui/lib/utils';
 import { useClerk } from '@clerk/nextjs';
 import { useTheme } from 'next-themes';
 import { dark } from '@clerk/themes';
@@ -13,9 +14,10 @@ interface UserDataProps {
   name: string;
   email: string;
   avatar: string;
+  className?: string;
 }
 
-function UserData({ name, email, avatar }: UserDataProps) {
+function UserData({ name, email, avatar, className }: UserDataProps) {
   return (
     <>
       <Avatar className="h-8 w-8 rounded-lg">
@@ -27,7 +29,7 @@ function UserData({ name, email, avatar }: UserDataProps) {
           <UserRoundIcon />
         </AvatarFallback>
       </Avatar>
-      <div className="grid flex-1 text-left text-sm leading-tight">
+      <div className={cn('grid flex-1 text-left text-sm leading-tight', className)}>
         <span className="truncate font-medium">{name}</span>
         <span className="truncate text-xs">{email}</span>
       </div>
@@ -59,6 +61,7 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
                 name={name}
                 email={email}
                 avatar={avatar}
+                className="select-none"
               />
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>

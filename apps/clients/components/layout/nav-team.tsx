@@ -7,6 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@workspace/ui/components/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Skeleton } from '@workspace/ui/components/skeleton';
+import { cn } from '@workspace/ui/lib/utils';
 import { useTheme } from 'next-themes';
 import { dark } from '@clerk/themes';
 import { toast } from 'sonner';
@@ -35,9 +36,10 @@ interface TeamDataProps {
   name: string;
   plan?: string;
   logo: string;
+  className?: string;
 }
 
-function TeamData({ name, plan, logo }: TeamDataProps) {
+function TeamData({ name, plan, logo, className }: TeamDataProps) {
   return (
     <>
       <Avatar className="h-8 w-8 rounded-lg">
@@ -49,7 +51,7 @@ function TeamData({ name, plan, logo }: TeamDataProps) {
           <BuildingIcon />
         </AvatarFallback>
       </Avatar>
-      <div className="grid flex-1 text-left text-sm leading-tight">
+      <div className={cn('grid flex-1 text-left text-sm leading-tight', className)}>
         <span className="truncate font-medium">{name}</span>
         {plan && <span className="truncate text-xs">{plan} Plan</span>}
       </div>
@@ -115,6 +117,7 @@ export function NavTeam({ teams }: NavTeamProps) {
               name={firstTeam.name}
               plan={firstTeam.plan}
               logo={firstTeam.logo}
+              className="select-none"
             />
             <ChevronsUpDown className="ml-auto" />
           </SidebarMenuButton>
@@ -140,6 +143,7 @@ export function NavTeam({ teams }: NavTeamProps) {
                 name={activeTeam.name}
                 plan={activeTeam.plan}
                 logo={activeTeam.logo}
+                className="select-none"
               />
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
@@ -150,7 +154,7 @@ export function NavTeam({ teams }: NavTeamProps) {
             side={isMobile ? 'bottom' : 'right'}
             sideOffset={4}
           >
-            <DropdownMenuLabel className="text-xs text-muted-foreground">Other Organizations</DropdownMenuLabel>
+            <DropdownMenuLabel className="text-xs text-muted-foreground select-none">Other Organizations</DropdownMenuLabel>
             {otherTeams.map((team) => (
               <DropdownMenuItem
                 key={team.id}

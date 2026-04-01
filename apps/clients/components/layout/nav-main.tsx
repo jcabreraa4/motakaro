@@ -57,7 +57,7 @@ export function NavMain() {
                   >
                     <Link href={item.url}>
                       <item.icon className="size-4" />
-                      <span>{item.title}</span>
+                      <span className="select-none">{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
