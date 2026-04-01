@@ -75,6 +75,7 @@ export const update = mutation({
   args: {
     id: v.id('documents'),
     name: v.optional(v.string()),
+    note: v.optional(v.string()),
     content: v.optional(v.string()),
     starred: v.optional(v.boolean())
   },
@@ -89,6 +90,7 @@ export const update = mutation({
     // Update the Document
     await ctx.db.patch(args.id, {
       ...(args.name !== undefined ? { name: args.name } : {}),
+      ...(args.note !== undefined ? { note: args.note } : {}),
       ...(args.content !== undefined ? { content: args.content } : {}),
       ...(args.starred !== undefined ? { starred: args.starred } : {}),
       updated: Date.now()

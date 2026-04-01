@@ -1,5 +1,5 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
-import { ExternalLinkIcon, FilePenIcon, PencilRulerIcon, MoreHorizontalIcon, StarIcon, StarOffIcon, TrashIcon } from 'lucide-react';
+import { ExternalLinkIcon, FilePenIcon, PencilRulerIcon, MoreHorizontalIcon, StarIcon, StarOffIcon, TrashIcon, SquarePenIcon } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table';
 import { UpdateDialog } from '@/components/whiteboards/update-dialog';
 import { RemoveDialog } from '@/components/whiteboards/remove-dialog';
@@ -63,13 +63,14 @@ function WhiteboardRow({ whiteboard }: { whiteboard: Whiteboard }) {
             <UpdateDialog
               id={whiteboard._id}
               name={whiteboard.name}
+              note={whiteboard.note}
             >
               <DropdownMenuItem
                 className="cursor-pointer"
                 onSelect={(e) => e.preventDefault()}
               >
-                <FilePenIcon />
-                Rename Whiteboard
+                <SquarePenIcon />
+                Update Whiteboard
               </DropdownMenuItem>
             </UpdateDialog>
             <DropdownMenuItem

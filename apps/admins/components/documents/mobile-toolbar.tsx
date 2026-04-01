@@ -90,10 +90,11 @@ export function MobileToolbar({ document, className }: MobileToolbarProps) {
           <UpdateDialog
             id={document._id}
             name={document.name}
+            note={document.note}
           >
             <MenubarItem onSelect={(e) => e.preventDefault()}>
               <FilePenIcon className="mr-2 size-4" />
-              Rename
+              Update
             </MenubarItem>
           </UpdateDialog>
           <RemoveDialog

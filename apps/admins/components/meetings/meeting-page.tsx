@@ -50,6 +50,12 @@ function MeetingPageInner({ preloadedMeeting }: MeetingPageProps) {
       <section className="flex w-full max-w-5xl flex-col justify-center gap-6 md:px-5">
         <h1 className="text-3xl font-semibold">{meeting.name}</h1>
         <p>{meeting.note}</p>
+        <p>{meeting.url}</p>
+        <p>{meeting.start}</p>
+        <p>{meeting.end}</p>
+        <p>{meeting.organizer}</p>
+        <p>{meeting.website}</p>
+        <p>{meeting.attribution}</p>
       </section>
     </main>
   );

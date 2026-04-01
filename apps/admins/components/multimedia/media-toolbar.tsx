@@ -95,14 +95,20 @@ function DeleteDialog({ id }: { id: Id<'multimedia'> }) {
   );
 }
 
-function UpdateDialog({ file }: { file: MediaFile }) {
+interface UpdateDialogProps {
+  id: Id<'multimedia'>;
+  name: string;
+  note: string;
+}
+
+function UpdateDialog({ id, name, note }: UpdateDialogProps) {
   const [open, setOpen] = useState(false);
-  const [info, setInfo] = useState({ name: file.name, note: file.note });
+  const [info, setInfo] = useState({ name, note });
 
   const updateFile = useMutation(api.multimedia.update);
 
   function handleUpdate() {
-    updateFile({ id: file._id, name: info.name, note: info.note }).finally(() => {
+    updateFile({ id, name: info.name, note: info.note }).finally(() => {
       toast.success('File updated successfully.');
       setOpen(false);
     });
@@ -119,7 +125,7 @@ function UpdateDialog({ file }: { file: MediaFile }) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Update File</DialogTitle>
-          <DialogDescription>Change your file&apos;s information.</DialogDescription>
+          <DialogDescription>Update the selected file&apos;s information.</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-2">
           <Label htmlFor="name">Name</Label>
@@ -185,7 +191,11 @@ export function MediaToolbar({ file }: { file: UrlMediaFile }) {
           {...sectionButton}
         />
       ))}
-      <UpdateDialog file={file} />
+      <UpdateDialog
+        id={file._id}
+        name={file.name}
+        note={file.note}
+      />
       <DeleteDialog id={file._id} />
       <SectionButton
         icon={ExpandIcon}

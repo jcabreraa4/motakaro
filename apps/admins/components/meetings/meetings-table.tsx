@@ -77,7 +77,7 @@ export function MeetingsTable({ meetings }: { meetings: Meeting[] }) {
               onClick={() => handleManage(meeting._id)}
             >
               <SettingsIcon />
-              Manage Meeting
+              Manage Booking
             </Button>
           </CardFooter>
         </Card>

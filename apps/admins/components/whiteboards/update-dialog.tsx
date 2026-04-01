@@ -7,21 +7,24 @@ import { useMutation } from 'convex/react';
 import { SaveIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { Label } from '@workspace/ui/components/label';
+import { Textarea } from '@workspace/ui/components/textarea';
 
 interface UpdateDialogProps {
   id: Id<'whiteboards'>;
   name: string;
+  note: string;
   children: React.ReactNode;
 }
 
-export function UpdateDialog({ id, name, children }: UpdateDialogProps) {
-  const [input, setInput] = useState(name);
+export function UpdateDialog({ id, name, note, children }: UpdateDialogProps) {
+  const [info, setInfo] = useState({ name, note });
 
   const updateWhiteboard = useMutation(api.whiteboards.update);
 
-  function renameWhiteboard() {
-    updateWhiteboard({ id, name: input }).finally(() => {
-      toast.success('Whiteboard renamed successfully.');
+  function updateInfo() {
+    updateWhiteboard({ id, name: info.name, note: info.note }).finally(() => {
+      toast.success('Whiteboard updated successfully.');
     });
   }
 
@@ -30,21 +33,34 @@ export function UpdateDialog({ id, name, children }: UpdateDialogProps) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Rename Whiteboard</DialogTitle>
-          <DialogDescription>Rename the selected whiteboard.</DialogDescription>
+          <DialogTitle>Update Whiteboard</DialogTitle>
+          <DialogDescription>Update the selected whiteboard&apos;s information.</DialogDescription>
         </DialogHeader>
-        <Input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="name">Name</Label>
+          <Input
+            id="name"
+            value={info.name}
+            onChange={(e) => setInfo({ ...info, name: e.target.value })}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="note">Note</Label>
+          <Textarea
+            id="note"
+            className="h-20"
+            value={info.note}
+            onChange={(e) => setInfo({ ...info, note: e.target.value })}
+          />
+        </div>
         <DialogFooter>
           <DialogClose asChild>
             <Button
               className="w-full cursor-pointer"
-              onClick={renameWhiteboard}
+              onClick={updateInfo}
             >
               <SaveIcon />
-              Rename Whiteboard
+              Update Whiteboard
             </Button>
           </DialogClose>
         </DialogFooter>

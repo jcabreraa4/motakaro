@@ -1,7 +1,7 @@
 'use client';
 
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
-import { type LucideIcon, BotIcon, FileTextIcon, ImageIcon, LayoutDashboardIcon, Building2Icon, UsersIcon, ListVideoIcon, HeadsetIcon, ChartColumnBigIcon, PencilRulerIcon } from 'lucide-react';
+import { type LucideIcon, BotIcon, FileTextIcon, ImageIcon, LayoutDashboardIcon, Building2Icon, UsersIcon, ListVideoIcon, HeadsetIcon, ChartColumnBigIcon, PencilRulerIcon, WalletIcon } from 'lucide-react';
 import { useAppStateStore } from '@/store/state-store';
 import { usePathname } from '@/hooks/use-pathname';
 import { cn } from '@workspace/ui/lib/utils';
@@ -54,6 +54,11 @@ const sections: Section[] = [
         title: 'Companies',
         url: '/companies',
         icon: Building2Icon
+      },
+      {
+        title: 'Payments',
+        url: '/payments',
+        icon: WalletIcon
       }
     ]
   },

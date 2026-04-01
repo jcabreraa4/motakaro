@@ -70,6 +70,7 @@ export const update = mutation({
   args: {
     id: v.id('whiteboards'),
     name: v.optional(v.string()),
+    note: v.optional(v.string()),
     starred: v.optional(v.boolean()),
     content: v.optional(v.string())
   },
@@ -84,6 +85,7 @@ export const update = mutation({
     // Update the Whiteboard
     await ctx.db.patch(args.id, {
       ...(args.name !== undefined ? { name: args.name } : {}),
+      ...(args.note !== undefined ? { note: args.note } : {}),
       ...(args.starred !== undefined ? { starred: args.starred } : {}),
       ...(args.content !== undefined ? { content: args.content } : {}),
       updated: Date.now()

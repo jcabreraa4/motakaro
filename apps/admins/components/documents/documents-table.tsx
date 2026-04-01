@@ -63,13 +63,14 @@ function DocumentRow({ document }: { document: Document }) {
             <UpdateDialog
               id={document._id}
               name={document.name}
+              note={document.note}
             >
               <DropdownMenuItem
                 className="cursor-pointer"
                 onSelect={(e) => e.preventDefault()}
               >
                 <FilePenIcon />
-                Rename Document
+                Update Document
               </DropdownMenuItem>
             </UpdateDialog>
             <DropdownMenuItem

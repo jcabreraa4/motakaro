@@ -7,21 +7,24 @@ import { useMutation } from 'convex/react';
 import { SaveIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { Label } from '@workspace/ui/components/label';
+import { Textarea } from '@workspace/ui/components/textarea';
 
 interface UpdateDialogProps {
   id: Id<'documents'>;
   name: string;
+  note: string;
   children: React.ReactNode;
 }
 
-export function UpdateDialog({ id, name, children }: UpdateDialogProps) {
-  const [input, setInput] = useState(name);
+export function UpdateDialog({ id, name, note, children }: UpdateDialogProps) {
+  const [info, setInfo] = useState({ name, note });
 
   const updateDocument = useMutation(api.documents.update);
 
-  function renameDocument() {
-    updateDocument({ id, name: input }).finally(() => {
-      toast.success('Document renamed successfully.');
+  function updateInfo() {
+    updateDocument({ id, name: info.name, note: info.note }).finally(() => {
+      toast.success('Document updated successfully.');
     });
   }
 
@@ -30,21 +33,34 @@ export function UpdateDialog({ id, name, children }: UpdateDialogProps) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Rename Document</DialogTitle>
-          <DialogDescription>Rename the selected document.</DialogDescription>
+          <DialogTitle>Update Document</DialogTitle>
+          <DialogDescription>Update the selected document&apos;s information.</DialogDescription>
         </DialogHeader>
-        <Input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="name">Name</Label>
+          <Input
+            id="name"
+            value={info.name}
+            onChange={(e) => setInfo({ ...info, name: e.target.value })}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="note">Note</Label>
+          <Textarea
+            id="note"
+            className="h-20"
+            value={info.note}
+            onChange={(e) => setInfo({ ...info, note: e.target.value })}
+          />
+        </div>
         <DialogFooter>
           <DialogClose asChild>
             <Button
               className="w-full cursor-pointer"
-              onClick={renameDocument}
+              onClick={updateInfo}
             >
               <SaveIcon />
-              Rename Document
+              Update Document
             </Button>
           </DialogClose>
         </DialogFooter>
