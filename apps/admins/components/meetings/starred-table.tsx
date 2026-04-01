@@ -1,26 +1,21 @@
-import { api } from '@workspace/backend/_generated/api';
-import { Button } from '@workspace/ui/components/button';
-import { Card, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
+import { Card, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import { Button } from '@workspace/ui/components/button';
 import { Meeting } from '@workspace/backend/schema';
-import { useRouter } from 'next/navigation';
-import { useMutation } from 'convex/react';
+import { cn } from '@workspace/ui/lib/utils';
 import { StarIcon } from 'lucide-react';
-import { toast } from 'sonner';
 
-export function StarredTable({ meetings }: { meetings: Meeting[] }) {
-  const router = useRouter();
+interface StarredTableProps {
+  meetings: Meeting[];
+  searchFilter: string;
+  setSearchFilter: (filter: string) => void;
+  className?: string;
+}
 
-  const updateMeeting = useMutation(api.meetings.update);
-
-  function handleManage(id: string) {
-    if (!id) return;
-    router.push(`/meetings/${id}`);
-  }
-
+export function StarredTable({ meetings, searchFilter, setSearchFilter, className }: StarredTableProps) {
   if (meetings.length === 0) {
     return (
-      <Card className="h-full min-h-45">
+      <Card className={className}>
         <Empty className="h-full">
           <EmptyHeader>
             <EmptyMedia variant="icon">
@@ -34,31 +29,21 @@ export function StarredTable({ meetings }: { meetings: Meeting[] }) {
   }
 
   return (
-    <Card className="h-full min-h-45">
+    <Card className={className}>
       <CardHeader>
         <CardTitle>Starred Meetings</CardTitle>
       </CardHeader>
       <div className="mx-1 h-full overflow-y-scroll">
         <div className="flex flex-col gap-3 px-5">
           {meetings.map((meeting) => (
-            <div
+            <Button
               key={meeting._id}
-              className="flex gap-2"
+              variant={searchFilter === meeting._id ? 'default' : 'secondary'}
+              className={cn('w-full cursor-pointer truncate', searchFilter === meeting._id ? 'border-l-0' : 'border-l-3', meeting.status === 'scheduled' ? 'border-l-motakaro' : meeting.status === 'cancelled' ? 'border-l-red-300' : meeting.status === 'ongoing' ? 'border-l-green-300' : meeting.status === 'finished' ? 'border-l-primary' : 'border-l-yellow-300')}
+              onClick={() => (searchFilter === meeting._id ? setSearchFilter('') : setSearchFilter(meeting._id))}
             >
-              <Button
-                variant="secondary"
-                className="flex-1 cursor-pointer truncate"
-                onClick={() => handleManage(meeting._id)}
-              >
-                <span className="w-full truncate text-left">{meeting.name}</span>
-              </Button>
-              <Button
-                className="cursor-pointer"
-                onClick={() => updateMeeting({ id: meeting._id, starred: false }).finally(() => toast.success('Meeting removed from starred successfully.'))}
-              >
-                <StarIcon />
-              </Button>
-            </div>
+              <span className="w-full truncate text-left">{meeting.name}</span>
+            </Button>
           ))}
         </div>
       </div>

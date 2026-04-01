@@ -7,8 +7,10 @@ import { MeetingsTable } from '@/components/meetings/meetings-table';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
+import { Card, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { CreateDialog } from '@/components/meetings/create-dialog';
 import { StarredTable } from '@/components/meetings/starred-table';
+import { Skeleton } from '@workspace/ui/components/skeleton';
 import { Calendar } from '@workspace/ui/components/calendar';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { Button } from '@workspace/ui/components/button';
@@ -35,7 +37,7 @@ export default function Page() {
   const starredMeetings = meetings?.filter((meeting) => meeting.starred);
 
   const filteredMeetings = meetings
-    ?.filter((meeting) => searchFilter === '' || meeting.name.toLowerCase().includes(searchFilter.toLowerCase()))
+    ?.filter((meeting) => searchFilter === '' || meeting.name.toLowerCase().includes(searchFilter.toLowerCase()) || meeting.note.toLowerCase().includes(searchFilter.toLowerCase()) || meeting._id.toLowerCase().includes(searchFilter.toLowerCase()) || meeting.organizer.toLowerCase().includes(searchFilter.toLowerCase()))
     .filter((meeting) => (effectiveStatusFilter === 'all' ? true : meeting.status.includes(effectiveStatusFilter)))
     .filter((meeting) => !dateFilter || format(new Date(meeting.start), 'yyyy-MM-dd') === dateFilter);
 
@@ -61,7 +63,30 @@ export default function Page() {
             Unselect Date
           </Button>
         </div>
-        <StarredTable meetings={starredMeetings || []} />
+        {!meetings ? (
+          <Card className="h-full min-h-45">
+            <CardHeader>
+              <CardTitle>Starred Meetings</CardTitle>
+            </CardHeader>
+            <div className="mx-1 h-full overflow-y-scroll">
+              <div className="flex flex-col gap-3 px-5">
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((index) => (
+                  <Skeleton
+                    key={index}
+                    className="h-9 w-full"
+                  />
+                ))}
+              </div>
+            </div>
+          </Card>
+        ) : (
+          <StarredTable
+            meetings={starredMeetings || []}
+            searchFilter={searchFilter}
+            setSearchFilter={setSearchFilter}
+            className="h-full min-h-45"
+          />
+        )}
       </section>
       <div className="flex w-full flex-col gap-3 overflow-hidden p-3 lg:gap-5 lg:p-5">
         <section className="flex flex-col gap-3 lg:flex-row xl:gap-5">

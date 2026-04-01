@@ -60,7 +60,7 @@ function ResourcePageInner({ preloadedResource }: ResourcePageProps) {
         ) : (
           <Thumbnail
             icon={CircleAlertIcon}
-            text="No Video Linked"
+            text="No Video Attached"
             className="aspect-video border border-black dark:border-white"
           />
         )}

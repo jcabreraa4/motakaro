@@ -20,7 +20,7 @@ export default function Page() {
   const effectiveStatusFilter = statusFilter || 'all';
 
   const resources = useQuery(api.resources.list, isLoaded ? {} : 'skip');
-  const filteredResources = resources?.filter((resource) => searchFilter === '' || resource.name.toLowerCase().includes(searchFilter.toLowerCase())).filter((resource) => (effectiveStatusFilter === 'all' ? true : resource.published === (effectiveStatusFilter === 'true')));
+  const filteredResources = resources?.filter((resource) => searchFilter === '' || resource.name.toLowerCase().includes(searchFilter.toLowerCase()) || resource.note.toLowerCase().includes(searchFilter.toLowerCase()) || resource._id.toLowerCase().includes(searchFilter.toLowerCase()) || resource.link.toLowerCase().includes(searchFilter.toLowerCase())).filter((resource) => (effectiveStatusFilter === 'all' ? true : resource.published === (effectiveStatusFilter === 'true')));
 
   return (
     <main className="flex w-full flex-col gap-3 overflow-hidden p-3 lg:gap-5 lg:p-5">

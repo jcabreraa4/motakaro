@@ -17,7 +17,7 @@ export default function Page() {
   const [searchFilter, setSearchFilter] = useParams('search');
 
   const whiteboards = useQuery(api.whiteboards.list, isLoaded ? {} : 'skip');
-  const filteredBoards = whiteboards?.filter((board) => board.name.toLowerCase().includes(searchFilter.toLowerCase()));
+  const filteredBoards = whiteboards?.filter((whiteboard) => searchFilter === '' || whiteboard.name.toLowerCase().includes(searchFilter.toLowerCase()) || whiteboard.note.toLowerCase().includes(searchFilter.toLowerCase()) || whiteboard._id.toLowerCase().includes(searchFilter.toLowerCase()));
 
   return (
     <main className="flex w-full flex-col gap-3 overflow-hidden p-3 lg:gap-5 lg:p-5">

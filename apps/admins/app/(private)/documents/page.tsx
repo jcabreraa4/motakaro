@@ -17,7 +17,7 @@ export default function Page() {
   const [searchFilter, setSearchFilter] = useParams('search');
 
   const documents = useQuery(api.documents.list, isLoaded ? {} : 'skip');
-  const filteredDocuments = documents?.filter((document) => document.name.toLowerCase().includes(searchFilter.toLowerCase()));
+  const filteredDocuments = documents?.filter((document) => searchFilter === '' || document.name.toLowerCase().includes(searchFilter.toLowerCase()) || document.note.toLowerCase().includes(searchFilter.toLowerCase()) || document._id.toLowerCase().includes(searchFilter.toLowerCase()));
 
   return (
     <main className="flex w-full flex-col gap-3 overflow-hidden p-3 lg:gap-5 lg:p-5">
