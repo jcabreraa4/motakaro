@@ -1,6 +1,6 @@
 import { Branding } from '@/components/motakaro/branding';
 import { AnimatedThemeButton } from '@workspace/ui/custom/theme-buttons';
-import { Particles } from '@workspace/ui/custom/particles';
+import { Particles } from '@workspace/ui/magicui/particles';
 
 export default function NotFound() {
   return (

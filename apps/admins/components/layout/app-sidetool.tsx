@@ -1,0 +1,27 @@
+'use client';
+
+import { usePathname } from '@/hooks/use-pathname';
+import { ChatKnowledge } from '@/components/chatbots/chat-knowledge';
+import { SideChatbot } from '@/components/chatbots/side-chatbot';
+import { useAppStateStore } from '@/store/state-store';
+import { cn } from '@workspace/ui/lib/utils';
+
+const chatbotPage = 'chatbots';
+
+export function AppSideTool({ className }: { className?: string }) {
+  const { segments } = usePathname();
+  const isChatbotsPage = segments[0] === chatbotPage;
+
+  const showChat = useAppStateStore((state) => state.showChat);
+  const showKnowledge = useAppStateStore((state) => state.showKnowledge);
+
+  if (!isChatbotsPage && showChat) {
+    return <SideChatbot className={className} />;
+  }
+
+  if (isChatbotsPage && showKnowledge) {
+    return <ChatKnowledge className={cn(className)} />;
+  }
+
+  return null;
+}

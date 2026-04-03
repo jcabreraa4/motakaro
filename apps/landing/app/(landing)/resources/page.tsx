@@ -2,7 +2,7 @@
 
 import { useQuery } from 'convex/react';
 import { Skeleton } from '@workspace/ui/components/skeleton';
-import { VideoDialog } from '@workspace/ui/custom/video-dialog';
+import { VideoDialog } from '@workspace/ui/magicui/video-dialog';
 import { api } from '@workspace/backend/_generated/api';
 import { cn } from '@workspace/ui/lib/utils';
 

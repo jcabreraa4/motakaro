@@ -1,9 +1,9 @@
-import { BoxReveal } from '@workspace/ui/custom/box-reveal';
-import { SparklesText } from '@workspace/ui/custom/sparkles-text';
-import { GridPattern } from '@workspace/ui/custom/grid-pattern';
+import { BoxReveal } from '@workspace/ui/magicui/box-reveal';
+import { SparklesText } from '@workspace/ui/magicui/sparkles-text';
+import { GridPattern } from '@workspace/ui/magicui/grid-pattern';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@workspace/ui/components/card';
 import { ActionButton } from '@/components/motakaro/action-button';
-import { HyperText } from '@workspace/ui/custom/hyper-text';
+import { HyperText } from '@workspace/ui/magicui/hyper-text';
 import { cn } from '@workspace/ui/lib/utils';
 
 type Section = {

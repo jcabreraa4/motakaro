@@ -1,6 +1,6 @@
 import { Branding } from '@/components/motakaro/branding';
 import { SquareThemeButton } from '@workspace/ui/custom/theme-buttons';
-import { Particles } from '@workspace/ui/custom/particles';
+import { Particles } from '@workspace/ui/magicui/particles';
 
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
 

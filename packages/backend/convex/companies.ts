@@ -1,50 +1,28 @@
-import { adminsIssuer, clientsIssuer, verifyAdminAuth, verifyIdentity } from './auth';
 import { internalMutation, query } from './_generated/server';
-import { Id } from './_generated/dataModel';
+import { verifyAdminAuth } from './auth';
 import { v } from 'convex/values';
 
 export const list = query({
   handler: async (ctx) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     // Return all Companies
-    return await ctx.db.query('companies').collect();
+    return await ctx.db.query('companies').order('desc').collect();
   }
 });
 
 export const get = query({
   args: {
-    id: v.optional(v.string()),
-    clerkId: v.optional(v.string())
+    id: v.id('companies')
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await verifyIdentity(ctx);
+    await verifyAdminAuth(ctx);
 
     try {
-      // Identity is Admin
-      if (identity.issuer !== adminsIssuer) {
-        // Return one Company
-        if (args.id) return await ctx.db.get('companies', args.id as Id<'companies'>);
-        if (args.clerkId) {
-          return await ctx.db
-            .query('companies')
-            .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId!))
-            .first();
-        }
-      }
-
-      // Identity is Client
-      if (identity.issuer === clientsIssuer) {
-        // Return one Company
-        const clerkId = identity.org_id as string;
-        return await ctx.db
-          .query('contacts')
-          .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
-          .first();
-      }
-      return null;
+      // Return the Company
+      return await ctx.db.get(args.id);
     } catch {
       return null;
     }
@@ -61,13 +39,18 @@ export const upsert = internalMutation({
     clerkId: v.string()
   },
   handler: async (ctx, args) => {
+    // Obtain the Company
     const company = await ctx.db
       .query('companies')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
+
+    // Check for Company
     if (company) {
+      // Update the Company
       await ctx.db.patch(company._id, args);
     } else {
+      // Create the Company
       await ctx.db.insert('companies', args);
     }
   }
@@ -78,10 +61,13 @@ export const remove = internalMutation({
     clerkId: v.string()
   },
   handler: async (ctx, { clerkId }) => {
+    // Obtain the Company
     const company = await ctx.db
       .query('companies')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
       .first();
+
+    // Remove the Company
     if (company) await ctx.db.delete(company._id);
   }
 });

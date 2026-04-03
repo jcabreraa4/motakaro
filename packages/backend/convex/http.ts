@@ -18,7 +18,7 @@ http.route({
 
     // Handle Event
     if (event.type === 'user.created' || event.type === 'user.updated') {
-      await ctx.runMutation(internal.workers.upsert, {
+      await ctx.runMutation(internal.employees.upsert, {
         name: event.data.first_name ?? undefined,
         surname: event.data.last_name ?? undefined,
         email: event.data.email_addresses[0]?.email_address ?? '',
@@ -26,7 +26,7 @@ http.route({
         clerkId: event.data.id
       });
     } else if (event.type === 'user.deleted') {
-      await ctx.runMutation(internal.workers.remove, {
+      await ctx.runMutation(internal.employees.remove, {
         clerkId: event.data.id!
       });
     }
@@ -131,25 +131,22 @@ http.route({
     if (trigger === 'BOOKING_CREATED') {
       await ctx.runMutation(internal.meetings.upsert, {
         name: payload.title,
-        note: payload.responses?.notes?.value ?? '',
-        url: payload.videoCallData?.url ?? '',
+        note: payload.responses?.notes?.value,
+        url: payload.videoCallData?.url,
         start: new Date(payload.startTime).getTime(),
         end: new Date(payload.endTime).getTime(),
-        status: 'scheduled',
         organizer: payload.organizer.email,
         attendees: payload.attendees.map((a: { email: string }) => a.email),
-        website: payload.responses?.website?.value ?? '',
-        attribution: payload.responses?.attribution?.value ?? '',
-        rescheduled: '',
-        cancellation: '',
-        rejection: '',
+        website: payload.responses?.website?.value,
+        attribution: payload.responses?.attribution?.value,
+        status: 'scheduled',
         calcomId: payload.uid
       });
     } else if (trigger === 'BOOKING_RESCHEDULED') {
       await ctx.runMutation(internal.meetings.upsert, {
         start: new Date(payload.startTime).getTime(),
         end: new Date(payload.endTime).getTime(),
-        rescheduled: payload.rescheduleReason ?? '',
+        rescheduled: payload.rescheduleReason,
         status: 'scheduled',
         calcomId: payload.rescheduleUid ?? payload.uid,
         newCalcomId: payload.uid

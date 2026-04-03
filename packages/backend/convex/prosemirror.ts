@@ -9,7 +9,7 @@ export const prosemirrorSync = new ProsemirrorSync((components as any).prosemirr
 
 async function requireOwner(ctx: QueryCtx | MutationCtx, documentId: string) {
   // Check Identity
-  const identity = await verifyAdminAuth(ctx);
+  await verifyAdminAuth(ctx);
 
   const document = await ctx.db.get(documentId as Id<'documents'>);
   if (!document) throw new ConvexError('Not found');

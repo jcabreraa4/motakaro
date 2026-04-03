@@ -1,7 +1,6 @@
 import { internalMutation, mutation, query } from './_generated/server';
 import { verifyAdminAuth, verifyClientAuth } from './auth';
 import { ConvexError, v } from 'convex/values';
-import { Id } from './_generated/dataModel';
 
 export const list = query({
   args: {
@@ -9,7 +8,7 @@ export const list = query({
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     // Check for Filter
     if (args.filter === 'actives') {
@@ -18,6 +17,7 @@ export const list = query({
       return await ctx.db
         .query('contacts')
         .filter((q) => q.gte(q.field('seen'), threshold))
+        .order('desc')
         .collect();
     }
 
@@ -28,23 +28,15 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.optional(v.string()),
-    clerkId: v.optional(v.string())
+    id: v.id('contacts')
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     try {
-      // Return one Contact
-      if (args.id) return await ctx.db.get('contacts', args.id as Id<'contacts'>);
-      if (args.clerkId) {
-        return await ctx.db
-          .query('contacts')
-          .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId!))
-          .first();
-      }
-      return null;
+      // Return the Contact
+      return await ctx.db.get(args.id);
     } catch {
       return null;
     }
@@ -57,7 +49,7 @@ export const update = mutation({
   },
   handler: async (ctx, { clerkId }) => {
     // Check Identity
-    const identity = await verifyClientAuth(ctx);
+    await verifyClientAuth(ctx);
 
     // Obtain the Contact
     const contact = await ctx.db
@@ -82,13 +74,18 @@ export const upsert = internalMutation({
     clerkId: v.string()
   },
   handler: async (ctx, args) => {
+    // Obtain the Contact
     const contact = await ctx.db
       .query('contacts')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
+
+    // Check for Contact
     if (contact) {
+      // Update the Contact
       await ctx.db.patch(contact._id, args);
     } else {
+      // Create the Contact
       await ctx.db.insert('contacts', args);
     }
   }
@@ -99,10 +96,13 @@ export const remove = internalMutation({
     clerkId: v.string()
   },
   handler: async (ctx, { clerkId }) => {
+    // Obtain the Contact
     const contact = await ctx.db
       .query('contacts')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
       .first();
+
+    // Remove the Contact
     if (contact) await ctx.db.delete(contact._id);
   }
 });

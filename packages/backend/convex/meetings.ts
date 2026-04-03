@@ -1,37 +1,28 @@
 import { internalMutation, mutation, query } from './_generated/server';
 import { ConvexError, v } from 'convex/values';
-import { Id } from './_generated/dataModel';
 import { verifyAdminAuth } from './auth';
 
 export const list = query({
   handler: async (ctx) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     // Return all Meetings
-    return ctx.db.query('meetings').collect();
+    return ctx.db.query('meetings').order('desc').collect();
   }
 });
 
 export const get = query({
   args: {
-    id: v.optional(v.string()),
-    calcomId: v.optional(v.string())
+    id: v.id('meetings')
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     try {
-      // Return one Meeting
-      if (args.id) return await ctx.db.get('meetings', args.id as Id<'meetings'>);
-      if (args.calcomId) {
-        return await ctx.db
-          .query('meetings')
-          .withIndex('by_calcomId', (q) => q.eq('calcomId', args.calcomId!))
-          .first();
-      }
-      return null;
+      // Return the Meeting
+      return await ctx.db.get(args.id);
     } catch {
       return null;
     }
@@ -45,7 +36,7 @@ export const update = mutation({
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     // Obtain the Meeting
     const meeting = await ctx.db.get(args.id);
@@ -53,8 +44,7 @@ export const update = mutation({
 
     // Update the Meeting
     await ctx.db.patch(args.id, {
-      ...(args.starred !== undefined ? { starred: args.starred } : {}),
-      updated: Date.now()
+      ...(args.starred !== undefined ? { starred: args.starred } : {})
     });
   }
 });
@@ -80,22 +70,18 @@ export const upsert = internalMutation({
     calcomId: v.string()
   },
   handler: async (ctx, args) => {
+    // Obtain the Meeting
     const meeting = await ctx.db
       .query('meetings')
       .withIndex('by_calcomId', (q) => q.eq('calcomId', args.calcomId))
       .first();
+
+    // Check for Meeting
     if (meeting) {
-      await ctx.db.patch(meeting._id, {
-        ...(args.start !== undefined ? { start: args.start } : {}),
-        ...(args.end !== undefined ? { end: args.end } : {}),
-        ...(args.rescheduled !== undefined ? { rescheduled: args.rescheduled } : {}),
-        ...(args.cancellation !== undefined ? { cancellation: args.cancellation } : {}),
-        ...(args.rejection !== undefined ? { rejection: args.rejection } : {}),
-        ...(args.newCalcomId !== undefined ? { calcomId: args.newCalcomId } : {}),
-        status: args.status,
-        updated: Date.now()
-      });
+      // Update the Meeting
+      await ctx.db.patch(meeting._id, args);
     } else {
+      // Create the Meeting
       return await ctx.db.insert('meetings', {
         name: args.name ?? 'Untitled Booking',
         note: args.note ?? '',
@@ -103,14 +89,10 @@ export const upsert = internalMutation({
         start: args.start ?? 0,
         end: args.end ?? 0,
         starred: false,
-        updated: Date.now(),
         organizer: args.organizer ?? '',
         attendees: args.attendees ?? [args.organizer ?? ''],
         website: args.website,
         attribution: args.attribution,
-        rescheduled: args.rescheduled,
-        cancellation: args.cancellation,
-        rejection: args.rejection,
         status: args.status,
         calcomId: args.calcomId
       });

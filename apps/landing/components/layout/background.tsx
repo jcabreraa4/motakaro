@@ -2,7 +2,7 @@
 
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
-import { Particles } from '@workspace/ui/custom/particles';
+import { Particles } from '@workspace/ui/magicui/particles';
 
 export function Background() {
   const { resolvedTheme } = useTheme();

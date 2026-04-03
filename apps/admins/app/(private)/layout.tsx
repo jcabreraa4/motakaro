@@ -1,9 +1,9 @@
-import { Suspense } from 'react';
-import { cookies } from 'next/headers';
 import { SidebarInset, SidebarProvider } from '@workspace/ui/components/sidebar';
-import { AppChatbot } from '@/components/layout/app-chatbot';
+import { AppSideTool } from '@/components/layout/app-sidetool';
 import { AppSidebar } from '@/components/layout/app-sidebar';
 import { AppHeader } from '@/components/layout/app-header';
+import { cookies } from 'next/headers';
+import { Suspense } from 'react';
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
@@ -18,7 +18,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
           <div className="flex min-h-0 flex-1 overflow-hidden">
             <Suspense>{children}</Suspense>
           </div>
-          <AppChatbot className="hidden 2xl:flex" />
+          <AppSideTool className="hidden 2xl:flex" />
         </div>
       </SidebarInset>
     </SidebarProvider>

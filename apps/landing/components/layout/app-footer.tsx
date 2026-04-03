@@ -1,4 +1,4 @@
-import { DotPattern } from '@workspace/ui/custom/dot-pattern';
+import { DotPattern } from '@workspace/ui/magicui/dot-pattern';
 import { Branding } from '@/components/motakaro/branding';
 import { Button } from '@workspace/ui/components/button';
 import { cn } from '@workspace/ui/lib/utils';

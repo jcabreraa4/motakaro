@@ -1,6 +1,6 @@
 import { ActionButton } from '@/components/motakaro/action-button';
 import { PlaybookButton } from '@/components/motakaro/playbook-button';
-import { VideoDialog } from '@workspace/ui/custom/video-dialog';
+import { VideoDialog } from '@workspace/ui/magicui/video-dialog';
 
 export function Header() {
   return (

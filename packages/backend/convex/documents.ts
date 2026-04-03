@@ -1,12 +1,11 @@
 import { mutation, query } from './_generated/server';
 import { ConvexError, v } from 'convex/values';
-import { Id } from './_generated/dataModel';
 import { verifyAdminAuth } from './auth';
 
 export const list = query({
   handler: async (ctx) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     // Return all Documents
     return await ctx.db
@@ -19,15 +18,15 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.string()
+    id: v.id('documents')
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     try {
-      // Return one Document
-      return await ctx.db.get('documents', args.id as Id<'documents'>);
+      // Return the Document
+      return await ctx.db.get(args.id);
     } catch {
       return null;
     }
@@ -35,19 +34,15 @@ export const get = query({
 });
 
 export const create = mutation({
-  args: {
-    name: v.optional(v.string()),
-    content: v.optional(v.string())
-  },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     // Create the Document
     return await ctx.db.insert('documents', {
-      name: args.name ?? 'Untitled Document',
+      name: 'Untitled Document',
       note: '',
-      content: args.content ?? '{"type":"doc","content":[]}',
+      content: '',
       starred: false,
       updated: Date.now()
     });
@@ -60,7 +55,7 @@ export const remove = mutation({
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     // Obtain the Document
     const document = await ctx.db.get(args.id);
@@ -81,7 +76,7 @@ export const update = mutation({
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     // Obtain the Document
     const document = await ctx.db.get(args.id);

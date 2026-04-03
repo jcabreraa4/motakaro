@@ -8,7 +8,7 @@ import { SidebarTrigger } from '@workspace/ui/components/sidebar';
 import { Separator } from '@workspace/ui/components/separator';
 import { AppPresence } from '@/components/layout/app-presence';
 import { Button } from '@workspace/ui/components/button';
-import { BotIcon } from 'lucide-react';
+import { BotIcon, BrainIcon } from 'lucide-react';
 import Link from 'next/link';
 
 const chatbotPage = 'chatbots';
@@ -25,6 +25,9 @@ export function AppHeader() {
 
   const showChat = useAppStateStore((state) => state.showChat);
   const toggleChat = useAppStateStore((state) => state.toggleChat);
+
+  const showKnowledge = useAppStateStore((state) => state.showKnowledge);
+  const toggleKnowledge = useAppStateStore((state) => state.toggleKnowledge);
 
   const subroute = useAppStateStore((state) => state.subroute);
   const setSubroute = useAppStateStore((state) => state.setSubroute);
@@ -65,13 +68,21 @@ export function AppHeader() {
       </div>
       <div className="flex items-center gap-5">
         <AppPresence className="hidden select-none 2xl:flex" />
-        {showChatButton && (
+        {showChatButton ? (
           <Button
             variant={showChat ? 'default' : 'outline'}
             className="hidden cursor-pointer 2xl:block"
             onClick={toggleChat}
           >
             <BotIcon />
+          </Button>
+        ) : (
+          <Button
+            variant={showKnowledge ? 'default' : 'outline'}
+            className="cursor-pointer"
+            onClick={toggleKnowledge}
+          >
+            <BrainIcon />
           </Button>
         )}
       </div>

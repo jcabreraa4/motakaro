@@ -1,6 +1,5 @@
 import { mutation, query } from './_generated/server';
 import { ConvexError, v } from 'convex/values';
-import { Id } from './_generated/dataModel';
 import { verifyAdminAuth } from './auth';
 
 export const list = query({
@@ -10,29 +9,35 @@ export const list = query({
   handler: async (ctx, args) => {
     // Check for Filter
     if (args.filter === 'published') {
-      // Return published Resources
+      // Return Published Resources
       return await ctx.db
         .query('resources')
+        .withIndex('by_updated', (q) => q)
         .filter((q) => q.gte(q.field('published'), true))
+        .order('desc')
         .collect();
     }
 
     // Return all Resources
-    return await ctx.db.query('resources').collect();
+    return await ctx.db
+      .query('resources')
+      .withIndex('by_updated', (q) => q)
+      .order('desc')
+      .collect();
   }
 });
 
 export const get = query({
   args: {
-    id: v.string()
+    id: v.id('resources')
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     try {
       // Return the Resource
-      return await ctx.db.get('resources', args.id as Id<'resources'>);
+      return await ctx.db.get(args.id);
     } catch {
       return null;
     }
@@ -50,12 +55,12 @@ export const create = mutation({
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     // Create one Resource
     return await ctx.db.insert('resources', {
       name: args.name,
-      note: args.note ?? '',
+      note: args.note,
       link: args.link,
       embed: args.embed,
       starred: false,
@@ -72,7 +77,7 @@ export const remove = mutation({
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     // Obtain the Resource
     const resource = await ctx.db.get(args.id);
@@ -96,7 +101,7 @@ export const update = mutation({
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     // Obtain the Resource
     const resource = await ctx.db.get(args.id);

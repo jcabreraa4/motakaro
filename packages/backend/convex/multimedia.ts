@@ -1,12 +1,11 @@
 import { mutation, query } from './_generated/server';
 import { ConvexError, v } from 'convex/values';
-import { Id } from './_generated/dataModel';
 import { verifyAdminAuth } from './auth';
 
 export const list = query({
   handler: async (ctx) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     // Return all Multimedia
     const multimedia = await ctx.db
@@ -20,15 +19,15 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.string()
+    id: v.id('multimedia')
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     try {
       // Obtain the Media File
-      const mediaFile = await ctx.db.get('multimedia', args.id as Id<'multimedia'>);
+      const mediaFile = await ctx.db.get(args.id);
       if (!mediaFile) return null;
 
       // Obtain the Storage Url
@@ -43,10 +42,10 @@ export const get = query({
   }
 });
 
-export const storage = mutation({
+export const upload = mutation({
   handler: async (ctx) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     // Return Storage Url
     return await ctx.storage.generateUploadUrl();
@@ -60,16 +59,15 @@ export const create = mutation({
     size: v.number(),
     width: v.optional(v.number()),
     height: v.optional(v.number()),
-    storageId: v.id('_storage'),
-    companyId: v.optional(v.id('companies'))
+    storageId: v.id('_storage')
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
-    // Create one Media File
+    // Create the Media File
     return await ctx.db.insert('multimedia', {
-      name: args.name,
+      name: args.name ?? 'Untitled File',
       note: '',
       type: args.type,
       size: args.size,
@@ -77,8 +75,7 @@ export const create = mutation({
       height: args.height,
       starred: false,
       updated: Date.now(),
-      storageId: args.storageId,
-      companyId: args.companyId
+      storageId: args.storageId
     });
   }
 });
@@ -89,7 +86,7 @@ export const remove = mutation({
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     // Obtain the Media File
     const mediaFile = await ctx.db.get(args.id);
@@ -110,7 +107,7 @@ export const update = mutation({
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await verifyAdminAuth(ctx);
+    await verifyAdminAuth(ctx);
 
     // Obtain the Media File
     const mediaFile = await ctx.db.get(args.id);

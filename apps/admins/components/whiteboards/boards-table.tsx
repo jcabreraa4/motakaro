@@ -1,5 +1,5 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
-import { ExternalLinkIcon, FilePenIcon, PencilRulerIcon, MoreHorizontalIcon, StarIcon, StarOffIcon, TrashIcon, SquarePenIcon } from 'lucide-react';
+import { ExternalLinkIcon, PencilRulerIcon, MoreHorizontalIcon, StarIcon, StarOffIcon, TrashIcon, SquarePenIcon } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table';
 import { UpdateDialog } from '@/components/whiteboards/update-dialog';
 import { RemoveDialog } from '@/components/whiteboards/remove-dialog';

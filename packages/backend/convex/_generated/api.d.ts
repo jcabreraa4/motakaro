@@ -12,13 +12,14 @@ import type * as auth from "../auth.js";
 import type * as companies from "../companies.js";
 import type * as contacts from "../contacts.js";
 import type * as documents from "../documents.js";
+import type * as embeddings from "../embeddings.js";
+import type * as employees from "../employees.js";
 import type * as http from "../http.js";
 import type * as meetings from "../meetings.js";
 import type * as multimedia from "../multimedia.js";
 import type * as prosemirror from "../prosemirror.js";
 import type * as resources from "../resources.js";
 import type * as whiteboards from "../whiteboards.js";
-import type * as workers from "../workers.js";
 
 import type {
   ApiFromModules,
@@ -31,13 +32,14 @@ declare const fullApi: ApiFromModules<{
   companies: typeof companies;
   contacts: typeof contacts;
   documents: typeof documents;
+  embeddings: typeof embeddings;
+  employees: typeof employees;
   http: typeof http;
   meetings: typeof meetings;
   multimedia: typeof multimedia;
   prosemirror: typeof prosemirror;
   resources: typeof resources;
   whiteboards: typeof whiteboards;
-  workers: typeof workers;
 }>;
 
 /**
