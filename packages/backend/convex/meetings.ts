@@ -1,5 +1,6 @@
 import { internalMutation, mutation, query } from './_generated/server';
 import { ConvexError, v } from 'convex/values';
+import { Id } from './_generated/dataModel';
 import { verifyAdminAuth } from './auth';
 
 export const list = query({
@@ -14,7 +15,7 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.id('meetings')
+    id: v.string()
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -22,7 +23,7 @@ export const get = query({
 
     try {
       // Return the Meeting
-      return await ctx.db.get(args.id);
+      return await ctx.db.get(args.id as Id<'meetings'>);
     } catch {
       return null;
     }
@@ -40,7 +41,7 @@ export const update = mutation({
 
     // Obtain the Meeting
     const meeting = await ctx.db.get(args.id);
-    if (!meeting) throw new ConvexError('Not found');
+    if (!meeting) throw new ConvexError('Meeting not found');
 
     // Update the Meeting
     await ctx.db.patch(args.id, {
@@ -62,7 +63,7 @@ export const upsert = internalMutation({
     attendees: v.optional(v.array(v.string())),
     website: v.optional(v.string()),
     attribution: v.optional(v.string()),
-    rescheduled: v.optional(v.string()),
+    rescheduling: v.optional(v.string()),
     cancellation: v.optional(v.string()),
     rejection: v.optional(v.string()),
     status: v.union(v.literal('scheduled'), v.literal('cancelled'), v.literal('rejected'), v.literal('ongoing'), v.literal('finished')),

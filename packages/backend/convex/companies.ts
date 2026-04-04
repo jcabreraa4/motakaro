@@ -1,6 +1,7 @@
 import { internalMutation, query } from './_generated/server';
+import { ConvexError, v } from 'convex/values';
+import { Id } from './_generated/dataModel';
 import { verifyAdminAuth } from './auth';
-import { v } from 'convex/values';
 
 export const list = query({
   handler: async (ctx) => {
@@ -14,7 +15,7 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.id('companies')
+    id: v.string()
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -22,7 +23,7 @@ export const get = query({
 
     try {
       // Return the Company
-      return await ctx.db.get(args.id);
+      return await ctx.db.get(args.id as Id<'companies'>);
     } catch {
       return null;
     }
@@ -31,7 +32,7 @@ export const get = query({
 
 // Internal Mutations
 
-export const upsert = internalMutation({
+export const internalUpsert = internalMutation({
   args: {
     name: v.string(),
     logo: v.optional(v.string()),
@@ -56,7 +57,7 @@ export const upsert = internalMutation({
   }
 });
 
-export const remove = internalMutation({
+export const internalRemove = internalMutation({
   args: {
     clerkId: v.string()
   },
@@ -66,8 +67,9 @@ export const remove = internalMutation({
       .query('companies')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
       .first();
+    if (!company) throw new ConvexError('Company not found');
 
     // Remove the Company
-    if (company) await ctx.db.delete(company._id);
+    await ctx.db.delete(company._id);
   }
 });

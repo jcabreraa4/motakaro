@@ -1,5 +1,6 @@
 import { mutation, query } from './_generated/server';
 import { ConvexError, v } from 'convex/values';
+import { Id } from './_generated/dataModel';
 import { verifyAdminAuth } from './auth';
 
 export const list = query({
@@ -18,7 +19,7 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.id('documents')
+    id: v.string()
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -26,7 +27,7 @@ export const get = query({
 
     try {
       // Return the Document
-      return await ctx.db.get(args.id);
+      return await ctx.db.get(args.id as Id<'documents'>);
     } catch {
       return null;
     }
@@ -34,7 +35,7 @@ export const get = query({
 });
 
 export const create = mutation({
-  handler: async (ctx, args) => {
+  handler: async (ctx) => {
     // Check Identity
     await verifyAdminAuth(ctx);
 
@@ -59,7 +60,7 @@ export const remove = mutation({
 
     // Obtain the Document
     const document = await ctx.db.get(args.id);
-    if (!document) throw new ConvexError('Not found');
+    if (!document) throw new ConvexError('Document not found');
 
     // Remove the Document
     await ctx.db.delete(args.id);
@@ -80,7 +81,7 @@ export const update = mutation({
 
     // Obtain the Document
     const document = await ctx.db.get(args.id);
-    if (!document) throw new ConvexError('Not found');
+    if (!document) throw new ConvexError('Document not found');
 
     // Update the Document
     await ctx.db.patch(args.id, {

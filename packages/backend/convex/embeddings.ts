@@ -54,7 +54,7 @@ export const remove = mutation({
 
     // Obtain the Embedding
     const embedding = await ctx.db.get(args.id);
-    if (!embedding) throw new ConvexError('Not found');
+    if (!embedding) throw new ConvexError('Embedding not found');
 
     // Remove the Embedding
     await ctx.db.delete(args.id);

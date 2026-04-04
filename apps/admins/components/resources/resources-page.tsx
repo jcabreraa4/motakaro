@@ -36,7 +36,7 @@ function ResourcePageInner({ preloaded }: ResourcePageProps) {
           <p className="text-xl font-semibold">404 Not Found</p>
           <p>The resource you are looking for could not be found.</p>
         </div>
-        <Link href="/multimedia">
+        <Link href="/resources">
           <Button className="cursor-pointer">
             <ListVideoIcon />
             Check Resources

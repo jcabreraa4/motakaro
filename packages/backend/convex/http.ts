@@ -16,20 +16,25 @@ http.route({
     const event = await validateClerkAdminsRequest(request);
     if (!event) return new Response('Error occurred', { status: 400 });
 
-    // Handle Event
+    // Log Webhook Data
+    console.log(`Clerk Admins Webhook Data: ${JSON.stringify(event.data)}`);
+
+    // Handle User Events
     if (event.type === 'user.created' || event.type === 'user.updated') {
-      await ctx.runMutation(internal.employees.upsert, {
+      await ctx.runMutation(internal.employees.internalUpsert, {
+        email: event.data.email_addresses[0]?.email_address ?? '',
         name: event.data.first_name ?? undefined,
         surname: event.data.last_name ?? undefined,
-        email: event.data.email_addresses[0]?.email_address ?? '',
         avatar: event.data.image_url ?? undefined,
         clerkId: event.data.id
       });
     } else if (event.type === 'user.deleted') {
-      await ctx.runMutation(internal.employees.remove, {
+      await ctx.runMutation(internal.employees.internalRemove, {
         clerkId: event.data.id!
       });
     }
+
+    // Return 200 OK Status
     return new Response(null, { status: 200 });
   })
 });
@@ -62,30 +67,52 @@ http.route({
     const event = await validateClerkClientsRequest(request);
     if (!event) return new Response('Error occurred', { status: 400 });
 
-    // Handle Event
+    // Log Webhook Data
+    console.log(`Clerk Clients Webhook Data: ${JSON.stringify(event.data)}`);
+
+    // Handle User Events
+    if (event.type === 'user.created' || event.type === 'user.updated') {
+      await ctx.runMutation(internal.contacts.internalUpsert, {
+        email: event.data.email_addresses[0]?.email_address ?? '',
+        name: event.data.first_name ?? undefined,
+        surname: event.data.last_name ?? undefined,
+        avatar: event.data.image_url ?? undefined,
+        clerkId: event.data.id
+      });
+    } else if (event.type === 'user.deleted') {
+      await ctx.runMutation(internal.contacts.internalRemove, {
+        clerkId: event.data.id!
+      });
+    }
+
+    // Handle Organization Events
     if (event.type === 'organization.created' || event.type === 'organization.updated') {
-      await ctx.runMutation(internal.companies.upsert, {
+      await ctx.runMutation(internal.companies.internalUpsert, {
         name: event.data.name,
         logo: event.data.image_url ?? undefined,
         clerkId: event.data.id
       });
     } else if (event.type === 'organization.deleted') {
-      await ctx.runMutation(internal.companies.remove, {
-        clerkId: event.data.id!
-      });
-    } else if (event.type === 'user.created' || event.type === 'user.updated') {
-      await ctx.runMutation(internal.contacts.upsert, {
-        name: event.data.first_name ?? undefined,
-        surname: event.data.last_name ?? undefined,
-        email: event.data.email_addresses[0]?.email_address ?? '',
-        avatar: event.data.image_url ?? undefined,
-        clerkId: event.data.id
-      });
-    } else if (event.type === 'user.deleted') {
-      await ctx.runMutation(internal.contacts.remove, {
+      await ctx.runMutation(internal.companies.internalRemove, {
         clerkId: event.data.id!
       });
     }
+
+    // Handle Membership Events
+    if (event.type === 'organizationMembership.created' || event.type === 'organizationMembership.updated') {
+      await ctx.runMutation(internal.memberships.internalUpsert, {
+        contactClerkId: event.data.public_user_data.user_id,
+        companyClerkId: event.data.organization.id,
+        orgRole: event.data.role
+      });
+    } else if (event.type === 'organizationMembership.deleted') {
+      await ctx.runMutation(internal.memberships.internalRemove, {
+        contactClerkId: event.data.public_user_data.user_id,
+        companyClerkId: event.data.organization.id
+      });
+    }
+
+    // Return 200 OK Status
     return new Response(null, { status: 200 });
   })
 });
@@ -127,7 +154,7 @@ http.route({
     const trigger = event.triggerEvent;
     const payload = event.payload;
 
-    // Handle Event
+    // Handle Booking Event
     if (trigger === 'BOOKING_CREATED') {
       await ctx.runMutation(internal.meetings.upsert, {
         name: payload.title,
@@ -146,7 +173,7 @@ http.route({
       await ctx.runMutation(internal.meetings.upsert, {
         start: new Date(payload.startTime).getTime(),
         end: new Date(payload.endTime).getTime(),
-        rescheduled: payload.rescheduleReason,
+        rescheduling: payload.rescheduleReason,
         status: 'scheduled',
         calcomId: payload.rescheduleUid ?? payload.uid,
         newCalcomId: payload.uid

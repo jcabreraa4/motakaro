@@ -1,6 +1,7 @@
 import { internalMutation, mutation, query } from './_generated/server';
 import { verifyAdminAuth, verifyClientAuth } from './auth';
 import { ConvexError, v } from 'convex/values';
+import { Id } from './_generated/dataModel';
 
 export const list = query({
   args: {
@@ -28,7 +29,7 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.id('contacts')
+    id: v.string()
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -36,7 +37,7 @@ export const get = query({
 
     try {
       // Return the Contact
-      return await ctx.db.get(args.id);
+      return await ctx.db.get(args.id as Id<'contacts'>);
     } catch {
       return null;
     }
@@ -56,7 +57,7 @@ export const update = mutation({
       .query('contacts')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
       .first();
-    if (!contact) throw new ConvexError('Not found');
+    if (!contact) throw new ConvexError('Contact not found');
 
     // Update the Contact
     if (contact) await ctx.db.patch(contact._id, { seen: Date.now() });
@@ -65,7 +66,7 @@ export const update = mutation({
 
 // Internal Mutations
 
-export const upsert = internalMutation({
+export const internalUpsert = internalMutation({
   args: {
     name: v.optional(v.string()),
     surname: v.optional(v.string()),
@@ -91,7 +92,7 @@ export const upsert = internalMutation({
   }
 });
 
-export const remove = internalMutation({
+export const internalRemove = internalMutation({
   args: {
     clerkId: v.string()
   },
@@ -101,8 +102,9 @@ export const remove = internalMutation({
       .query('contacts')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
       .first();
+    if (!contact) throw new ConvexError('Contact not found');
 
     // Remove the Contact
-    if (contact) await ctx.db.delete(contact._id);
+    await ctx.db.delete(contact._id);
   }
 });

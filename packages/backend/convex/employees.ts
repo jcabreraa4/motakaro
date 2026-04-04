@@ -72,7 +72,7 @@ export const update = mutation({
         .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId!))
         .first();
     }
-    if (!employee) throw new ConvexError('Not found');
+    if (!employee) throw new ConvexError('Employee not found');
 
     // Update the Employee
     await ctx.db.patch(employee._id, {
@@ -84,7 +84,7 @@ export const update = mutation({
 
 // Internal Mutations
 
-export const upsert = internalMutation({
+export const internalUpsert = internalMutation({
   args: {
     email: v.string(),
     name: v.optional(v.string()),
@@ -110,7 +110,7 @@ export const upsert = internalMutation({
   }
 });
 
-export const remove = internalMutation({
+export const internalRemove = internalMutation({
   args: {
     clerkId: v.string()
   },
@@ -120,8 +120,9 @@ export const remove = internalMutation({
       .query('employees')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
       .first();
+    if (!employee) throw new ConvexError('Employee not found');
 
     // Remove the Employee
-    if (employee) await ctx.db.delete(employee._id);
+    await ctx.db.delete(employee._id);
   }
 });

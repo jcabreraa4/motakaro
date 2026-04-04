@@ -12,7 +12,7 @@ async function requireOwner(ctx: QueryCtx | MutationCtx, documentId: string) {
   await verifyAdminAuth(ctx);
 
   const document = await ctx.db.get(documentId as Id<'documents'>);
-  if (!document) throw new ConvexError('Not found');
+  if (!document) throw new ConvexError('Document not found');
 }
 
 export const { getSnapshot, submitSnapshot, latestVersion, getSteps, submitSteps } = prosemirrorSync.syncApi<DataModel>({

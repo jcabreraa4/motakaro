@@ -16,6 +16,7 @@ import type * as embeddings from "../embeddings.js";
 import type * as employees from "../employees.js";
 import type * as http from "../http.js";
 import type * as meetings from "../meetings.js";
+import type * as memberships from "../memberships.js";
 import type * as multimedia from "../multimedia.js";
 import type * as prosemirror from "../prosemirror.js";
 import type * as resources from "../resources.js";
@@ -36,6 +37,7 @@ declare const fullApi: ApiFromModules<{
   employees: typeof employees;
   http: typeof http;
   meetings: typeof meetings;
+  memberships: typeof memberships;
   multimedia: typeof multimedia;
   prosemirror: typeof prosemirror;
   resources: typeof resources;

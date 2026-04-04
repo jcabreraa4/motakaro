@@ -1,5 +1,6 @@
 import { mutation, query } from './_generated/server';
 import { ConvexError, v } from 'convex/values';
+import { Id } from './_generated/dataModel';
 import { verifyAdminAuth } from './auth';
 
 export const list = query({
@@ -19,7 +20,7 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.id('multimedia')
+    id: v.string()
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -27,7 +28,7 @@ export const get = query({
 
     try {
       // Obtain the Media File
-      const mediaFile = await ctx.db.get(args.id);
+      const mediaFile = await ctx.db.get(args.id as Id<'multimedia'>);
       if (!mediaFile) return null;
 
       // Obtain the Storage Url
@@ -90,7 +91,7 @@ export const remove = mutation({
 
     // Obtain the Media File
     const mediaFile = await ctx.db.get(args.id);
-    if (!mediaFile) throw new ConvexError('Not found');
+    if (!mediaFile) throw new ConvexError('Media file not found');
 
     // Remove the Media File
     await ctx.storage.delete(mediaFile.storageId);
@@ -111,7 +112,7 @@ export const update = mutation({
 
     // Obtain the Media File
     const mediaFile = await ctx.db.get(args.id);
-    if (!mediaFile) throw new ConvexError('Not found');
+    if (!mediaFile) throw new ConvexError('Media file not found');
 
     // Update the Media File
     await ctx.db.patch(args.id, {

@@ -1,5 +1,6 @@
 import { mutation, query } from './_generated/server';
 import { ConvexError, v } from 'convex/values';
+import { Id } from './_generated/dataModel';
 import { verifyAdminAuth } from './auth';
 
 export const list = query({
@@ -18,7 +19,7 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.id('whiteboards')
+    id: v.string()
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -26,7 +27,7 @@ export const get = query({
 
     try {
       // Return the Whiteboard
-      return await ctx.db.get(args.id);
+      return await ctx.db.get(args.id as Id<'whiteboards'>);
     } catch {
       return null;
     }
@@ -59,7 +60,7 @@ export const remove = mutation({
 
     // Obtain the Whiteboard
     const whiteboard = await ctx.db.get(args.id);
-    if (!whiteboard) throw new ConvexError('Not found');
+    if (!whiteboard) throw new ConvexError('Whiteboard not found');
 
     // Remove the Whiteboard
     await ctx.db.delete(args.id);
@@ -80,7 +81,7 @@ export const update = mutation({
 
     // Obtain the Whiteboard
     const whiteboard = await ctx.db.get(args.id);
-    if (!whiteboard) throw new ConvexError('Not found');
+    if (!whiteboard) throw new ConvexError('Whiteboard not found');
 
     // Update the Whiteboard
     await ctx.db.patch(args.id, {

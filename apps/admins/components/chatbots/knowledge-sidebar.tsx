@@ -36,7 +36,7 @@ export function KnowledgeSidebar({ className }: { className?: string }) {
   }
 
   return (
-    <section className={cn('flex w-120 flex-col gap-5 overflow-y-scroll border-l p-5', className)}>
+    <section className={cn('flex w-120 flex-col gap-5 border-l p-5', className)}>
       <div className="flex w-full flex-col gap-3">
         <div className="flex flex-col gap-2">
           <Label htmlFor="context">Personal Context</Label>
