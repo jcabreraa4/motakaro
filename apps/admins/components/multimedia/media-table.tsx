@@ -1,5 +1,5 @@
 import { MediaPreview } from '@/components/multimedia/media-preview';
-import { MediaToolbar } from '@/components/multimedia/media-toolbar';
+import { TableToolbar } from '@/components/multimedia/table-toolbar';
 import { MediaInfo } from '@/components/multimedia/media-info';
 import { useAppStateStore } from '@/store/state-store';
 import { MediaFile } from '@workspace/backend/schema';
@@ -33,7 +33,7 @@ export function MediaTable({ multimedia }: { multimedia: UrlMediaFile[] }) {
                 size={file.size}
                 type={file.type}
               />
-              <MediaToolbar file={file} />
+              <TableToolbar file={file} />
             </div>
           ))}
         </div>
@@ -56,7 +56,7 @@ export function MediaTable({ multimedia }: { multimedia: UrlMediaFile[] }) {
                 size={file.size}
                 type={file.type}
               />
-              <MediaToolbar file={file} />
+              <TableToolbar file={file} />
             </div>
           ))}
         </div>

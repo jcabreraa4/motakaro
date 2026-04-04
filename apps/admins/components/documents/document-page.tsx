@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { FileTextIcon } from 'lucide-react';
 import { api } from '@workspace/backend/_generated/api';
 import { DesktopToolbar } from '@/components/documents/desktop-toolbar';
 import { MobileToolbar } from '@/components/documents/mobile-toolbar';
@@ -8,7 +9,6 @@ import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { Button } from '@workspace/ui/components/button';
 import { useAppStateStore } from '@/store/state-store';
 import { useEditor } from '@/hooks/use-editor';
-import { FileTextIcon } from 'lucide-react';
 import { Preloaded } from 'convex/react';
 import { useAuth } from '@clerk/nextjs';
 import dynamic from 'next/dynamic';
@@ -16,17 +16,17 @@ import Link from 'next/link';
 
 const EditorPaper = dynamic(() => import('@/components/documents/editor-paper').then((m) => ({ default: m.EditorPaper })), { ssr: false });
 
-interface EditorMainProps {
+interface DocumentPageProps {
   preloadedDocument: Preloaded<typeof api.documents.get>;
 }
 
-export function EditorMain({ preloadedDocument }: EditorMainProps) {
+export function DocumentPage({ preloadedDocument }: DocumentPageProps) {
   const { isLoaded } = useAuth();
   if (!isLoaded) return <CircleLoader />;
-  return <EditorMainInner preloadedDocument={preloadedDocument} />;
+  return <DocumentPageInner preloadedDocument={preloadedDocument} />;
 }
 
-function EditorMainInner({ preloadedDocument }: EditorMainProps) {
+function DocumentPageInner({ preloadedDocument }: DocumentPageProps) {
   const { document } = useEditor(preloadedDocument);
   const setSubroute = useAppStateStore((state) => state.setSubroute);
 

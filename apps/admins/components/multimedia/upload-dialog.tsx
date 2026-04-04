@@ -1,17 +1,15 @@
-'use client';
-
-import { useState } from 'react';
-import { useMutation } from 'convex/react';
-import { useDropzone } from 'react-dropzone';
-import { Button } from '@workspace/ui/components/button';
-import { Loader2Icon, PlusIcon, TrashIcon } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
 import { MediaPreview } from '@/components/multimedia/media-preview';
 import { FileDropzone } from '@workspace/ui/custom/file-dropzone';
+import { Loader2Icon, PlusIcon, TrashIcon } from 'lucide-react';
 import { MediaInfo } from '@/components/multimedia/media-info';
 import { ButtonVariant } from '@workspace/ui/types/button';
+import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
+import { useDropzone } from 'react-dropzone';
 import { cn } from '@workspace/ui/lib/utils';
+import { useMutation } from 'convex/react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 const validTypes = ['image', 'video', 'pdf', 'audio'];

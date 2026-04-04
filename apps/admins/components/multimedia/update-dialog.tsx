@@ -1,17 +1,17 @@
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { Id } from '@workspace/backend/_generated/dataModel';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
-import { Label } from '@workspace/ui/components/label';
 import { Input } from '@workspace/ui/components/input';
+import { Label } from '@workspace/ui/components/label';
 import { useMutation } from 'convex/react';
 import { SaveIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 interface UpdateDialogProps {
-  id: Id<'whiteboards'>;
+  id: Id<'multimedia'>;
   name: string;
   note: string;
   children: React.ReactNode;
@@ -21,11 +21,11 @@ export function UpdateDialog({ id, name, note, children }: UpdateDialogProps) {
   const [open, setOpen] = useState(false);
   const [info, setInfo] = useState({ name, note });
 
-  const updateWhiteboard = useMutation(api.whiteboards.update);
+  const updateFile = useMutation(api.multimedia.update);
 
-  function updateInfo() {
-    updateWhiteboard({ id, name: info.name, note: info.note }).finally(() => {
-      toast.success('Whiteboard updated successfully.');
+  function handleUpdate() {
+    updateFile({ id, name: info.name, note: info.note }).finally(() => {
+      toast.success('File updated successfully.');
       setOpen(false);
     });
   }
@@ -38,8 +38,8 @@ export function UpdateDialog({ id, name, note, children }: UpdateDialogProps) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Update Whiteboard</DialogTitle>
-          <DialogDescription>Update the selected whiteboard&apos;s information.</DialogDescription>
+          <DialogTitle>Update File</DialogTitle>
+          <DialogDescription>Update the selected file&apos;s information.</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-2">
           <Label htmlFor="name">Name</Label>
@@ -59,15 +59,13 @@ export function UpdateDialog({ id, name, note, children }: UpdateDialogProps) {
           />
         </div>
         <DialogFooter>
-          <DialogClose asChild>
-            <Button
-              className="w-full cursor-pointer"
-              onClick={updateInfo}
-            >
-              <SaveIcon />
-              Update Whiteboard
-            </Button>
-          </DialogClose>
+          <Button
+            className="flex-1 cursor-pointer"
+            onClick={handleUpdate}
+          >
+            <SaveIcon />
+            Update File
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

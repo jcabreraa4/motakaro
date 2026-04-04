@@ -5,6 +5,7 @@ import { api } from '@workspace/backend/_generated/api';
 import { useRouter } from 'next/navigation';
 import { useMutation } from 'convex/react';
 import { TrashIcon } from 'lucide-react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 interface DeleteDialogProps {
@@ -15,17 +16,24 @@ interface DeleteDialogProps {
 
 export function RemoveDialog({ id, redirect = false, children }: DeleteDialogProps) {
   const router = useRouter();
+
+  const [open, setOpen] = useState(false);
+
   const deleteDocument = useMutation(api.documents.remove);
 
   function removeDocument() {
     deleteDocument({ id }).finally(() => {
       toast.success('Document removed successfully.');
+      setOpen(false);
       if (redirect) router.push('/documents');
     });
   }
 
   return (
-    <Dialog>
+    <Dialog
+      open={open}
+      onOpenChange={setOpen}
+    >
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>

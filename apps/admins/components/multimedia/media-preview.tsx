@@ -1,12 +1,10 @@
-'use client';
-
-import { BanIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { Thumbnail, ImageRender, VideoRender, AudioRender, OtherRender } from '@/components/multimedia/media-render';
 import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { Id } from '@workspace/backend/_generated/dataModel';
 import { mediaType } from '@/utils/media-type';
 import { cn } from '@workspace/ui/lib/utils';
+import { useRouter } from 'next/navigation';
+import { BanIcon } from 'lucide-react';
 
 interface MediaPreviewProps {
   id?: Id<'multimedia'>;

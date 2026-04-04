@@ -5,6 +5,7 @@ import { api } from '@workspace/backend/_generated/api';
 import { useRouter } from 'next/navigation';
 import { useMutation } from 'convex/react';
 import { TrashIcon } from 'lucide-react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 interface RemoveDialogProps {
@@ -15,17 +16,24 @@ interface RemoveDialogProps {
 
 export function RemoveDialog({ id, redirect = false, children }: RemoveDialogProps) {
   const router = useRouter();
+
+  const [open, setOpen] = useState(false);
+
   const deleteWhiteboard = useMutation(api.whiteboards.remove);
 
   function removeWhiteboard() {
     deleteWhiteboard({ id }).finally(() => {
       toast.success('Whiteboard removed successfully.');
+      setOpen(false);
       if (redirect) router.push('/whiteboards');
     });
   }
 
   return (
-    <Dialog>
+    <Dialog
+      open={open}
+      onOpenChange={setOpen}
+    >
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>

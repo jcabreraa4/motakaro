@@ -1,5 +1,5 @@
 import { ResourcePreview } from '@/components/resources/resource-preview';
-import { ResourceToolbar } from '@/components/resources/resource-toolbar';
+import { TableToolbar } from '@/components/resources/table-toolbar';
 import { ResourceInfo } from '@/components/resources/resource-info';
 import { useAppStateStore } from '@/store/state-store';
 import { Resource } from '@workspace/backend/schema';
@@ -29,7 +29,7 @@ export function ResourcesTable({ resources }: { resources: Resource[] }) {
                 name={resource.name}
                 published={resource.published}
               />
-              <ResourceToolbar resource={resource} />
+              <TableToolbar resource={resource} />
             </div>
           ))}
         </div>
@@ -50,7 +50,7 @@ export function ResourcesTable({ resources }: { resources: Resource[] }) {
                 name={resource.name}
                 published={resource.published}
               />
-              <ResourceToolbar resource={resource} />
+              <TableToolbar resource={resource} />
             </div>
           ))}
         </div>

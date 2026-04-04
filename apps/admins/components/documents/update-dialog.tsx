@@ -1,14 +1,14 @@
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
+import { Textarea } from '@workspace/ui/components/textarea';
 import { Id } from '@workspace/backend/_generated/dataModel';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
 import { Input } from '@workspace/ui/components/input';
+import { Label } from '@workspace/ui/components/label';
 import { useMutation } from 'convex/react';
 import { SaveIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { Label } from '@workspace/ui/components/label';
-import { Textarea } from '@workspace/ui/components/textarea';
 
 interface UpdateDialogProps {
   id: Id<'documents'>;
@@ -18,6 +18,7 @@ interface UpdateDialogProps {
 }
 
 export function UpdateDialog({ id, name, note, children }: UpdateDialogProps) {
+  const [open, setOpen] = useState(false);
   const [info, setInfo] = useState({ name, note });
 
   const updateDocument = useMutation(api.documents.update);
@@ -25,11 +26,15 @@ export function UpdateDialog({ id, name, note, children }: UpdateDialogProps) {
   function updateInfo() {
     updateDocument({ id, name: info.name, note: info.note }).finally(() => {
       toast.success('Document updated successfully.');
+      setOpen(false);
     });
   }
 
   return (
-    <Dialog>
+    <Dialog
+      open={open}
+      onOpenChange={setOpen}
+    >
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>

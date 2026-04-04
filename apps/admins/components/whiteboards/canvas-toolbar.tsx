@@ -1,8 +1,8 @@
 import { type LucideIcon, CircleIcon, EraserIcon, MousePointer2Icon, PencilIcon, Redo2Icon, SquareIcon, TypeIcon, Undo2Icon } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip';
+import { useCanvasStore, type Tool } from '@/store/canvas-store';
 import { Button } from '@workspace/ui/components/button';
 import { useAppStateStore } from '@/store/state-store';
-import { useCanvasStore, type Tool } from '@/store/canvas-store';
 import { cn } from '@workspace/ui/lib/utils';
 
 interface ToolbarButtonProps {

@@ -1,10 +1,8 @@
-'use client';
-
-import { useRouter } from 'next/navigation';
-import { CircleAlertIcon } from 'lucide-react';
 import { ImageRender, Thumbnail } from '@/components/multimedia/media-render';
 import { Id } from '@workspace/backend/_generated/dataModel';
+import { CircleAlertIcon } from 'lucide-react';
 import { cn } from '@workspace/ui/lib/utils';
+import { useRouter } from 'next/navigation';
 
 interface ResourcePreviewProps {
   id?: Id<'resources'>;

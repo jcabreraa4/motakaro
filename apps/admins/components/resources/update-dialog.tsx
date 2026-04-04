@@ -1,22 +1,16 @@
-'use client';
-
-import { useState } from 'react';
-import { type LucideIcon, CopyIcon, ExpandIcon, LinkIcon, PenIcon, SaveIcon, StarIcon, TrashIcon } from 'lucide-react';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
-import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { Textarea } from '@workspace/ui/components/textarea';
-import { Id } from '@workspace/backend/_generated/dataModel';
+import { CopyIcon, LinkIcon, SaveIcon } from 'lucide-react';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
 import { Resource } from '@workspace/backend/schema';
 import { copyText } from '@/utils/copy-text';
-import { useRouter } from 'next/navigation';
 import { useMutation } from 'convex/react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 function CopyLinkButton({ link }: { link: string }) {
@@ -32,67 +26,12 @@ function CopyLinkButton({ link }: { link: string }) {
   );
 }
 
-interface SectionButtonProps {
-  onClick?: () => void;
-  icon: LucideIcon;
-  isActive?: boolean;
+interface UpdateDialogProps {
+  resource: Resource;
+  children: React.ReactNode;
 }
 
-function SectionButton({ onClick, icon: Icon, isActive }: SectionButtonProps) {
-  const isMobile = useIsMobile();
-
-  return (
-    <Button
-      onClick={onClick}
-      size={isMobile ? 'icon' : 'default'}
-      variant={isActive ? 'default' : 'outline'}
-      className="cursor-pointer"
-    >
-      <Icon />
-    </Button>
-  );
-}
-
-function DeleteDialog({ id }: { id: Id<'resources'> }) {
-  const [open, setOpen] = useState(false);
-
-  const deleteResource = useMutation(api.resources.remove);
-
-  function handleDelete() {
-    deleteResource({ id }).finally(() => {
-      toast.success('Resource deleted successfully.');
-      setOpen(false);
-    });
-  }
-
-  return (
-    <Dialog
-      open={open}
-      onOpenChange={setOpen}
-    >
-      <DialogTrigger asChild>
-        <SectionButton icon={TrashIcon} />
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Delete Resource</DialogTitle>
-        </DialogHeader>
-        <DialogFooter>
-          <Button
-            variant="destructive"
-            className="flex-1 cursor-pointer"
-            onClick={handleDelete}
-          >
-            <TrashIcon />
-            Delete Resource
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-function UpdateDialog({ resource }: { resource: Resource }) {
+export function UpdateDialog({ resource, children }: UpdateDialogProps) {
   const [open, setOpen] = useState(false);
   const [info, setInfo] = useState({ name: resource.name, note: resource.note, link: resource.link, embed: resource.embed, thumbnail: resource.thumbnail, published: resource.published.toString() });
 
@@ -110,9 +49,7 @@ function UpdateDialog({ resource }: { resource: Resource }) {
       open={open}
       onOpenChange={setOpen}
     >
-      <SheetTrigger asChild>
-        <SectionButton icon={PenIcon} />
-      </SheetTrigger>
+      <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <SheetHeader>
           <SheetTitle>Update Resource</SheetTitle>
@@ -214,50 +151,5 @@ function UpdateDialog({ resource }: { resource: Resource }) {
         </SheetFooter>
       </SheetContent>
     </Sheet>
-  );
-}
-
-export function ResourceToolbar({ resource }: { resource: Resource }) {
-  const router = useRouter();
-  const updateFile = useMutation(api.resources.update);
-
-  const sectionButtons = [
-    {
-      icon: StarIcon,
-      onClick: () => updateFile({ id: resource._id, starred: !resource.starred }).finally(() => toast.success(resource.starred ? 'Resource removed from starred successfully.' : 'Resource added to starred successfully.')),
-      isActive: resource.starred
-    },
-    {
-      icon: CopyIcon,
-      onClick: () => {
-        if (!resource.link) {
-          toast.error('The resource has no link available.');
-          return;
-        }
-        copyText({ text: resource.link, type: 'link' });
-      }
-    }
-  ];
-
-  function handleClick() {
-    if (!resource._id) return;
-    router.push(`/resources/${resource._id}`);
-  }
-
-  return (
-    <div className="flex gap-3">
-      {sectionButtons.map((sectionButton, index) => (
-        <SectionButton
-          key={index}
-          {...sectionButton}
-        />
-      ))}
-      <UpdateDialog resource={resource} />
-      <DeleteDialog id={resource._id} />
-      <SectionButton
-        icon={ExpandIcon}
-        onClick={handleClick}
-      />
-    </div>
   );
 }

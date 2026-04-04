@@ -1,10 +1,8 @@
-'use client';
-
-import { useRouter } from 'next/navigation';
-import { Button } from '@workspace/ui/components/button';
 import { ButtonVariant } from '@workspace/ui/types/button';
+import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
 import { cn } from '@workspace/ui/lib/utils';
+import { useRouter } from 'next/navigation';
 import { useMutation } from 'convex/react';
 import { PlusIcon } from 'lucide-react';
 

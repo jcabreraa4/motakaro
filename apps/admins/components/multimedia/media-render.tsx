@@ -1,9 +1,7 @@
-'use client';
-
-import { useState } from 'react';
 import { type LucideIcon, HeadphonesIcon, Loader2Icon, VideoIcon } from 'lucide-react';
 import { cn } from '@workspace/ui/lib/utils';
 import dynamic from 'next/dynamic';
+import { useState } from 'react';
 import Image from 'next/image';
 
 const OtherMediaRender = dynamic(() => import('@/components/multimedia/other-render').then((m) => m.OtherMediaRender), { ssr: false });
