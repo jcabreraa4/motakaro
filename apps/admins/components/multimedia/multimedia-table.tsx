@@ -1,6 +1,6 @@
-import { MediaPreview } from '@/components/multimedia/media-preview';
-import { TableToolbar } from '@/components/multimedia/table-toolbar';
-import { MediaInfo } from '@/components/multimedia/media-info';
+import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
+import { MultimediaToolbar } from '@/components/multimedia/multimedia-toolbar';
+import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
 import { useAppStateStore } from '@/store/state-store';
 import { MediaFile } from '@workspace/backend/schema';
 import { cn } from '@workspace/ui/lib/utils';
@@ -22,18 +22,18 @@ export function MediaTable({ multimedia }: { multimedia: UrlMediaFile[] }) {
               key={file._id}
               className="flex flex-col gap-5"
             >
-              <MediaPreview
+              <MultimediaPreview
                 id={file._id}
                 src={file.url!}
                 name={file.name}
                 type={file.type}
               />
-              <MediaInfo
+              <MultimediaInfo
                 name={file.name}
                 size={file.size}
                 type={file.type}
               />
-              <TableToolbar file={file} />
+              <MultimediaToolbar file={file} />
             </div>
           ))}
         </div>
@@ -45,18 +45,18 @@ export function MediaTable({ multimedia }: { multimedia: UrlMediaFile[] }) {
               key={file._id}
               className="flex flex-col gap-5"
             >
-              <MediaPreview
+              <MultimediaPreview
                 id={file._id}
                 src={file.url!}
                 name={file.name}
                 type={file.type}
               />
-              <MediaInfo
+              <MultimediaInfo
                 name={file.name}
                 size={file.size}
                 type={file.type}
               />
-              <TableToolbar file={file} />
+              <MultimediaToolbar file={file} />
             </div>
           ))}
         </div>

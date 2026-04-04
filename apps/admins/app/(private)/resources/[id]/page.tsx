@@ -1,4 +1,4 @@
-import { ResourcePage } from '@/components/resources/resource-page';
+import { ResourcePage } from '@/components/resources/resources-page';
 import { Id } from '@workspace/backend/_generated/dataModel';
 import { api } from '@workspace/backend/_generated/api';
 import { preloadQuery } from 'convex/nextjs';
@@ -10,5 +10,5 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   const token = await getToken({ template: 'convex' });
   if (!token) throw new Error('Unauthorized');
   const preloaded = await preloadQuery(api.resources.get, { id: id as Id<'resources'> }, { token });
-  return <ResourcePage preloadedResource={preloaded} />;
+  return <ResourcePage preloaded={preloaded} />;
 }

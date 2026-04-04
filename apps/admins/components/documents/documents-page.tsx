@@ -14,20 +14,20 @@ import { useAuth } from '@clerk/nextjs';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-const EditorPaper = dynamic(() => import('@/components/documents/editor-paper').then((m) => ({ default: m.EditorPaper })), { ssr: false });
+const DocumentsPaper = dynamic(() => import('@/components/documents/documents-paper').then((m) => ({ default: m.DocumentsPaper })), { ssr: false });
 
-interface DocumentPageProps {
-  preloadedDocument: Preloaded<typeof api.documents.get>;
+interface DocumentsPageProps {
+  preloaded: Preloaded<typeof api.documents.get>;
 }
 
-export function DocumentPage({ preloadedDocument }: DocumentPageProps) {
+export function DocumentsPage({ preloaded }: DocumentsPageProps) {
   const { isLoaded } = useAuth();
   if (!isLoaded) return <CircleLoader />;
-  return <DocumentPageInner preloadedDocument={preloadedDocument} />;
+  return <DocumentsPageInner preloaded={preloaded} />;
 }
 
-function DocumentPageInner({ preloadedDocument }: DocumentPageProps) {
-  const { document } = useEditor(preloadedDocument);
+function DocumentsPageInner({ preloaded }: DocumentsPageProps) {
+  const { document } = useEditor(preloaded);
   const setSubroute = useAppStateStore((state) => state.setSubroute);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ function DocumentPageInner({ preloadedDocument }: DocumentPageProps) {
         document={document}
         className="xl:hidden"
       />
-      <EditorPaper paperId={document._id} />
+      <DocumentsPaper paperId={document._id} />
     </main>
   );
 }

@@ -3,7 +3,7 @@
 import { useAuth } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 import { ImageIcon, SearchIcon } from 'lucide-react';
-import { MediaTable } from '@/components/multimedia/media-table';
+import { MediaTable } from '@/components/multimedia/multimedia-table';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';

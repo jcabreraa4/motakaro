@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { Preloaded, usePreloadedQuery } from 'convex/react';
-import { AudioRender, ImageRender, OtherRender, VideoRender } from '@/components/multimedia/media-render';
+import { AudioRender, ImageRender, OtherRender, VideoRender } from '@/components/multimedia/multimedia-render';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
@@ -12,18 +12,18 @@ import { FileTextIcon } from 'lucide-react';
 import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
 
-interface MediaPageProps {
-  preloadedMedia: Preloaded<typeof api.multimedia.get>;
+interface MultimediaPageProps {
+  preloaded: Preloaded<typeof api.multimedia.get>;
 }
 
-export function MediaPage({ preloadedMedia }: MediaPageProps) {
+export function MultimediaPage({ preloaded }: MultimediaPageProps) {
   const { isLoaded } = useAuth();
   if (!isLoaded) return <CircleLoader />;
-  return <MediaPageInner preloadedMedia={preloadedMedia} />;
+  return <MediaPageInner preloaded={preloaded} />;
 }
 
-function MediaPageInner({ preloadedMedia }: MediaPageProps) {
-  const file = usePreloadedQuery(preloadedMedia);
+function MediaPageInner({ preloaded }: MultimediaPageProps) {
+  const file = usePreloadedQuery(preloaded);
   const setSubroute = useAppStateStore((state) => state.setSubroute);
 
   useEffect(() => {

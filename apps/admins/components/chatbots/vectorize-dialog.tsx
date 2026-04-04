@@ -1,8 +1,8 @@
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
-import { MediaPreview } from '@/components/multimedia/media-preview';
+import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
+import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
 import { FileDropzone } from '@workspace/ui/custom/file-dropzone';
 import { Loader2Icon, PlusIcon, TrashIcon } from 'lucide-react';
-import { MediaInfo } from '@/components/multimedia/media-info';
 import { ButtonVariant } from '@workspace/ui/types/button';
 import { Button } from '@workspace/ui/components/button';
 import { useDropzone } from 'react-dropzone';
@@ -65,12 +65,12 @@ export function VectorizeDialog({ variant = 'default', className }: VectorizeDia
         </DialogHeader>
         {file ? (
           <div className="flex flex-col gap-5 overflow-hidden">
-            <MediaPreview
+            <MultimediaPreview
               src={URL.createObjectURL(file)}
               type={file.type}
               interact={!loading}
             />
-            <MediaInfo
+            <MultimediaInfo
               name={file.name}
               size={file.size}
               type={file.type}

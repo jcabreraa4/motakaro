@@ -31,7 +31,7 @@ function SectionButton({ onClick, icon: Icon, isActive }: SectionButtonProps) {
   );
 }
 
-export function TableToolbar({ resource }: { resource: Resource }) {
+export function ResourcesToolbar({ resource }: { resource: Resource }) {
   const router = useRouter();
   const updateFile = useMutation(api.resources.update);
 

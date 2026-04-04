@@ -3,7 +3,7 @@ import { sizeToText } from '@/utils/size-to-text';
 import { mediaType } from '@/utils/media-type';
 import { cn } from '@workspace/ui/lib/utils';
 
-interface MediaInfoProps {
+interface MultimediaInfoProps {
   name: string;
   size: number;
   type: string;
@@ -11,7 +11,7 @@ interface MediaInfoProps {
   showIcon?: boolean;
 }
 
-export function MediaInfo({ name, size, type, className, showIcon = true }: MediaInfoProps) {
+export function MultimediaInfo({ name, size, type, className, showIcon = true }: MultimediaInfoProps) {
   const fileType = mediaType(type);
 
   return (

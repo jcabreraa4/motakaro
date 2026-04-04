@@ -1,22 +1,20 @@
-'use client';
-
-import { Link } from '@tiptap/extension-link';
-import { Highlight } from '@tiptap/extension-highlight';
-import { TextAlign } from '@tiptap/extension-text-align';
-import { useTiptapSync } from '@convex-dev/prosemirror-sync/tiptap';
 import { BulletList, TaskItem, TaskList } from '@tiptap/extension-list';
+import { useTiptapSync } from '@convex-dev/prosemirror-sync/tiptap';
 import { Id } from '@workspace/backend/_generated/dataModel';
 import { TextStyleKit } from '@tiptap/extension-text-style';
 import { ImageResize } from 'tiptap-extension-resize-image';
 import { useEditor, EditorContent } from '@tiptap/react';
+import { TextAlign } from '@tiptap/extension-text-align';
+import { Highlight } from '@tiptap/extension-highlight';
 import { api } from '@workspace/backend/_generated/api';
 import { useEditorStore } from '@/store/editor-store';
 import { TableKit } from '@tiptap/extension-table';
 import { StarterKit } from '@tiptap/starter-kit';
+import { Link } from '@tiptap/extension-link';
 import { Loader2 } from 'lucide-react';
 import { useEffect } from 'react';
 
-export function EditorPaper({ paperId }: { paperId: Id<'documents'> }) {
+export function DocumentsPaper({ paperId }: { paperId: Id<'documents'> }) {
   const { setEditor } = useEditorStore();
   const sync = useTiptapSync(api.prosemirror, paperId);
 

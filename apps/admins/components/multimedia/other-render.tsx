@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { RenderLoader } from '@/components/multimedia/media-render';
+import { RenderLoader } from '@/components/multimedia/multimedia-render';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { cn } from '@workspace/ui/lib/utils';
 

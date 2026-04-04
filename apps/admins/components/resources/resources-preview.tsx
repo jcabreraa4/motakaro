@@ -1,4 +1,4 @@
-import { ImageRender, Thumbnail } from '@/components/multimedia/media-render';
+import { ImageRender, Thumbnail } from '@/components/multimedia/multimedia-render';
 import { Id } from '@workspace/backend/_generated/dataModel';
 import { CircleAlertIcon } from 'lucide-react';
 import { cn } from '@workspace/ui/lib/utils';
@@ -10,7 +10,7 @@ interface ResourcePreviewProps {
   name?: string;
 }
 
-export function ResourcePreview({ id, src, name }: ResourcePreviewProps) {
+export function ResourcesPreview({ id, src, name }: ResourcePreviewProps) {
   const router = useRouter();
 
   function handleClick() {

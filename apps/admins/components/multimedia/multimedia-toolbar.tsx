@@ -46,7 +46,7 @@ function SectionButton({ onClick, icon: Icon, isActive }: SectionButtonProps) {
   );
 }
 
-export function TableToolbar({ file }: { file: UrlMediaFile }) {
+export function MultimediaToolbar({ file }: { file: UrlMediaFile }) {
   const router = useRouter();
   const updateFile = useMutation(api.multimedia.update);
 

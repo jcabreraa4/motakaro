@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { Preloaded, usePreloadedQuery } from 'convex/react';
-import { Thumbnail, VideoRender } from '@/components/multimedia/media-render';
+import { Thumbnail, VideoRender } from '@/components/multimedia/multimedia-render';
 import { CircleAlertIcon, ListVideoIcon } from 'lucide-react';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { Button } from '@workspace/ui/components/button';
@@ -12,17 +12,17 @@ import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
 
 interface ResourcePageProps {
-  preloadedResource: Preloaded<typeof api.resources.get>;
+  preloaded: Preloaded<typeof api.resources.get>;
 }
 
-export function ResourcePage({ preloadedResource }: ResourcePageProps) {
+export function ResourcePage({ preloaded }: ResourcePageProps) {
   const { isLoaded } = useAuth();
   if (!isLoaded) return <CircleLoader />;
-  return <ResourcePageInner preloadedResource={preloadedResource} />;
+  return <ResourcePageInner preloaded={preloaded} />;
 }
 
-function ResourcePageInner({ preloadedResource }: ResourcePageProps) {
-  const resource = usePreloadedQuery(preloadedResource);
+function ResourcePageInner({ preloaded }: ResourcePageProps) {
+  const resource = usePreloadedQuery(preloaded);
   const setSubroute = useAppStateStore((state) => state.setSubroute);
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { CanvasMain } from '@/components/whiteboards/canvas-main';
+import { WhiteboardsPage } from '@/components/whiteboards/whiteboards-page';
 import { Id } from '@workspace/backend/_generated/dataModel';
 import { api } from '@workspace/backend/_generated/api';
 import { preloadQuery } from 'convex/nextjs';
@@ -10,5 +10,5 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   const token = await getToken({ template: 'convex' });
   if (!token) throw new Error('Unauthorized');
   const preloaded = await preloadQuery(api.whiteboards.get, { id: id as Id<'whiteboards'> }, { token });
-  return <CanvasMain preloadedWhiteboard={preloaded} />;
+  return <WhiteboardsPage preloaded={preloaded} />;
 }

@@ -109,7 +109,7 @@ function WhiteboardRow({ whiteboard }: { whiteboard: Whiteboard }) {
   );
 }
 
-export function BoardsTable({ whiteboards }: { whiteboards: Whiteboard[] }) {
+export function WhiteboardsTable({ whiteboards }: { whiteboards: Whiteboard[] }) {
   const starredWhiteboards = whiteboards.filter((whiteboard) => whiteboard.starred);
   const nonStarredWhiteboards = whiteboards.filter((whiteboard) => !whiteboard.starred);
 

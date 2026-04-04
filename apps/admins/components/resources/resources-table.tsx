@@ -1,6 +1,6 @@
-import { ResourcePreview } from '@/components/resources/resource-preview';
-import { TableToolbar } from '@/components/resources/table-toolbar';
-import { ResourceInfo } from '@/components/resources/resource-info';
+import { ResourcesPreview } from '@/components/resources/resources-preview';
+import { ResourcesToolbar } from '@/components/resources/resources-toolbar';
+import { ResourcesInfo } from '@/components/resources/resources-info';
 import { useAppStateStore } from '@/store/state-store';
 import { Resource } from '@workspace/backend/schema';
 import { cn } from '@workspace/ui/lib/utils';
@@ -20,16 +20,16 @@ export function ResourcesTable({ resources }: { resources: Resource[] }) {
               key={resource._id}
               className="flex flex-col gap-5"
             >
-              <ResourcePreview
+              <ResourcesPreview
                 id={resource._id}
                 src={resource.thumbnail}
                 name={resource.name}
               />
-              <ResourceInfo
+              <ResourcesInfo
                 name={resource.name}
                 published={resource.published}
               />
-              <TableToolbar resource={resource} />
+              <ResourcesToolbar resource={resource} />
             </div>
           ))}
         </div>
@@ -41,16 +41,16 @@ export function ResourcesTable({ resources }: { resources: Resource[] }) {
               key={resource._id}
               className="flex flex-col gap-5"
             >
-              <ResourcePreview
+              <ResourcesPreview
                 id={resource._id}
                 src={resource.thumbnail}
                 name={resource.name}
               />
-              <ResourceInfo
+              <ResourcesInfo
                 name={resource.name}
                 published={resource.published}
               />
-              <TableToolbar resource={resource} />
+              <ResourcesToolbar resource={resource} />
             </div>
           ))}
         </div>

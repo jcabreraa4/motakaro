@@ -8,8 +8,8 @@ import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTi
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Card, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import { StarredsTable } from '@/components/meetings/starreds-table';
 import { CreateDialog } from '@/components/meetings/create-dialog';
-import { StarredTable } from '@/components/meetings/starred-table';
 import { Skeleton } from '@workspace/ui/components/skeleton';
 import { Calendar } from '@workspace/ui/components/calendar';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
@@ -80,7 +80,7 @@ export default function Page() {
             </div>
           </Card>
         ) : (
-          <StarredTable
+          <StarredsTable
             meetings={starredMeetings || []}
             searchFilter={searchFilter}
             setSearchFilter={setSearchFilter}

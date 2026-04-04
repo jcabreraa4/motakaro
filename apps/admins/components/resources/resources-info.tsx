@@ -7,7 +7,7 @@ interface ResourceInfoProps {
   className?: string;
 }
 
-export function ResourceInfo({ name, published, className }: ResourceInfoProps) {
+export function ResourcesInfo({ name, published, className }: ResourceInfoProps) {
   return (
     <div className={cn('flex h-13 flex-col gap-1 overflow-hidden', className)}>
       <div className="flex items-center">

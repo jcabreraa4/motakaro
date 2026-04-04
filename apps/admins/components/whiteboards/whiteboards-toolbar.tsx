@@ -68,7 +68,7 @@ const tools: { label: string; icon: LucideIcon; tool: Tool }[] = [
   }
 ];
 
-export function CanvasToolbar() {
+export function WhiteboardsToolbar() {
   const showChat = useAppStateStore((state) => state.showChat);
   const { activeTool, setActiveTool, canUndo, canRedo, undo, redo } = useCanvasStore();
 

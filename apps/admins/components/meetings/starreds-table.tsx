@@ -5,14 +5,14 @@ import { Meeting } from '@workspace/backend/schema';
 import { cn } from '@workspace/ui/lib/utils';
 import { StarIcon } from 'lucide-react';
 
-interface StarredTableProps {
+interface StarredsTableProps {
   meetings: Meeting[];
   searchFilter: string;
   setSearchFilter: (filter: string) => void;
   className?: string;
 }
 
-export function StarredTable({ meetings, searchFilter, setSearchFilter, className }: StarredTableProps) {
+export function StarredsTable({ meetings, searchFilter, setSearchFilter, className }: StarredsTableProps) {
   if (meetings.length === 0) {
     return (
       <Card className={className}>

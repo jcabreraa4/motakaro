@@ -14,7 +14,7 @@ import { cn } from '@workspace/ui/lib/utils';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-export function ChatKnowledge({ className }: { className?: string }) {
+export function KnowledgeSidebar({ className }: { className?: string }) {
   const { user } = useUser();
   const { isLoaded } = useAuth();
 

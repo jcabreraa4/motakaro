@@ -3,7 +3,7 @@
 import { useAuth } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 import { PencilRulerIcon, SearchIcon } from 'lucide-react';
-import { BoardsTable } from '@/components/whiteboards/boards-table';
+import { WhiteboardsTable } from '@/components/whiteboards/whiteboards-table';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
 import { CreateButton } from '@/components/whiteboards/create-button';
@@ -68,7 +68,7 @@ export default function Page() {
           </Empty>
         </section>
       ) : (
-        <BoardsTable whiteboards={filteredBoards || []} />
+        <WhiteboardsTable whiteboards={filteredBoards || []} />
       )}
     </main>
   );

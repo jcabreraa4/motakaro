@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useAppStateStore } from '@/store/state-store';
 import { api } from '@workspace/backend/_generated/api';
 import { Preloaded, usePreloadedQuery } from 'convex/react';
-import { CanvasToolbar } from '@/components/whiteboards/canvas-toolbar';
+import { WhiteboardsToolbar } from '@/components/whiteboards/whiteboards-toolbar';
 import type { Whiteboard } from '@workspace/backend/schema';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { Button } from '@workspace/ui/components/button';
@@ -13,18 +13,18 @@ import { useCanvas } from '@/hooks/use-canvas';
 import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
 
-interface CanvasMainProps {
-  preloadedWhiteboard: Preloaded<typeof api.whiteboards.get>;
+interface WhiteboardsPageProps {
+  preloaded: Preloaded<typeof api.whiteboards.get>;
 }
 
-export function CanvasMain({ preloadedWhiteboard }: CanvasMainProps) {
+export function WhiteboardsPage({ preloaded }: WhiteboardsPageProps) {
   const { isLoaded } = useAuth();
   if (!isLoaded) return <CircleLoader />;
-  return <CanvasMainInner preloadedWhiteboard={preloadedWhiteboard} />;
+  return <CanvasMainInner preloaded={preloaded} />;
 }
 
-function CanvasMainInner({ preloadedWhiteboard }: CanvasMainProps) {
-  const whiteboard = usePreloadedQuery(preloadedWhiteboard);
+function CanvasMainInner({ preloaded }: WhiteboardsPageProps) {
+  const whiteboard = usePreloadedQuery(preloaded);
   const setSubroute = useAppStateStore((state) => state.setSubroute);
 
   useEffect(() => {
@@ -59,7 +59,7 @@ function CanvasEditor({ whiteboard }: { whiteboard: Whiteboard }) {
       ref={mainRef}
       className="relative flex min-h-0 flex-1 touch-none overflow-hidden"
     >
-      <CanvasToolbar />
+      <WhiteboardsToolbar />
       <canvas ref={canvasElRef} />
     </main>
   );

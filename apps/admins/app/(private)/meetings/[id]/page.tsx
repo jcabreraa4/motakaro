@@ -1,4 +1,4 @@
-import { MeetingPage } from '@/components/meetings/meeting-page';
+import { MeetingsPage } from '@/components/meetings/meetings-page';
 import { Id } from '@workspace/backend/_generated/dataModel';
 import { api } from '@workspace/backend/_generated/api';
 import { preloadQuery } from 'convex/nextjs';
@@ -10,5 +10,5 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   const token = await getToken({ template: 'convex' });
   if (!token) throw new Error('Unauthorized');
   const preloaded = await preloadQuery(api.meetings.get, { id: id as Id<'meetings'> }, { token });
-  return <MeetingPage preloadedMeeting={preloaded} />;
+  return <MeetingsPage preloaded={preloaded} />;
 }

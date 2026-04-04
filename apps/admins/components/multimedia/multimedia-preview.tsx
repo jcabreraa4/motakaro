@@ -1,4 +1,4 @@
-import { Thumbnail, ImageRender, VideoRender, AudioRender, OtherRender } from '@/components/multimedia/media-render';
+import { Thumbnail, ImageRender, VideoRender, AudioRender, OtherRender } from '@/components/multimedia/multimedia-render';
 import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { Id } from '@workspace/backend/_generated/dataModel';
 import { mediaType } from '@/utils/media-type';
@@ -6,7 +6,7 @@ import { cn } from '@workspace/ui/lib/utils';
 import { useRouter } from 'next/navigation';
 import { BanIcon } from 'lucide-react';
 
-interface MediaPreviewProps {
+interface MultimediaPreviewProps {
   id?: Id<'multimedia'>;
   src: string;
   name?: string;
@@ -14,7 +14,7 @@ interface MediaPreviewProps {
   interact?: boolean;
 }
 
-export function MediaPreview({ id, src, name, type, interact = false }: MediaPreviewProps) {
+export function MultimediaPreview({ id, src, name, type, interact = false }: MultimediaPreviewProps) {
   const isMobile = useIsMobile();
   const router = useRouter();
 

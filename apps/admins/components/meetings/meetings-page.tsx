@@ -10,18 +10,18 @@ import { HeadsetIcon } from 'lucide-react';
 import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
 
-interface MeetingPageProps {
-  preloadedMeeting: Preloaded<typeof api.meetings.get>;
+interface MeetingsPageProps {
+  preloaded: Preloaded<typeof api.meetings.get>;
 }
 
-export function MeetingPage({ preloadedMeeting }: MeetingPageProps) {
+export function MeetingsPage({ preloaded }: MeetingsPageProps) {
   const { isLoaded } = useAuth();
   if (!isLoaded) return <CircleLoader />;
-  return <MeetingPageInner preloadedMeeting={preloadedMeeting} />;
+  return <MeetingsPageInner preloaded={preloaded} />;
 }
 
-function MeetingPageInner({ preloadedMeeting }: MeetingPageProps) {
-  const meeting = usePreloadedQuery(preloadedMeeting);
+function MeetingsPageInner({ preloaded }: MeetingsPageProps) {
+  const meeting = usePreloadedQuery(preloaded);
   const setSubroute = useAppStateStore((state) => state.setSubroute);
 
   useEffect(() => {
