@@ -1,5 +1,6 @@
 'use client';
 
+import { z } from 'zod';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
@@ -14,7 +15,6 @@ import { useSignIn, useAuth } from '@clerk/nextjs';
 import { RefreshCwIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
-import { z } from 'zod';
 
 const disabled = process.env.NEXT_PUBLIC_SIGN_IN_ACTIVE! === 'false';
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;

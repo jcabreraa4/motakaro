@@ -154,6 +154,9 @@ http.route({
     const trigger = event.triggerEvent;
     const payload = event.payload;
 
+    // Log Webhook Data
+    console.log(`Calcom Webhook Data: ${JSON.stringify(event.payload)}`);
+
     // Handle Booking Event
     if (trigger === 'BOOKING_CREATED') {
       await ctx.runMutation(internal.meetings.upsert, {

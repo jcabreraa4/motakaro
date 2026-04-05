@@ -1,5 +1,6 @@
 'use client';
 
+import { z } from 'zod';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
@@ -14,17 +15,22 @@ import { useSignUp, useAuth } from '@clerk/nextjs';
 import { RefreshCwIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
-import { z } from 'zod';
 
 const disabled = process.env.NEXT_PUBLIC_SIGN_UP_ACTIVE! === 'false';
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
 
-const signUpSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
-  surname: z.string().min(1, 'Surname is required'),
-  email: z.email('Invalid email address'),
-  password: z.string().min(1, 'Password is required').min(6, 'Password is too short')
-});
+const signUpSchema = z
+  .object({
+    name: z.string().min(1, 'Name is required'),
+    surname: z.string().min(1, 'Surname is required'),
+    email: z.email('Invalid email address'),
+    password: z.string().min(1, 'Password is required').min(6, 'Password is too short'),
+    confirm: z.string().min(1, 'Password is required')
+  })
+  .refine((data) => data.password === data.confirm, {
+    message: 'Passwords do not match',
+    path: ['confirm']
+  });
 
 type SignUpFormType = z.infer<typeof signUpSchema>;
 
@@ -47,7 +53,8 @@ export default function SignInPage() {
       name: '',
       surname: '',
       email: '',
-      password: ''
+      password: '',
+      confirm: ''
     }
   });
 
@@ -272,23 +279,42 @@ export default function SignInPage() {
               </Field>
             )}
           />
-          <Controller
-            control={signUpForm.control}
-            name="password"
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="password">Password</FieldLabel>
-                <Input
-                  {...field}
-                  id="password"
-                  type="password"
-                  disabled={isLoading}
-                  aria-invalid={fieldState.invalid}
-                />
-                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-              </Field>
-            )}
-          />
+          <div className="flex gap-3">
+            <Controller
+              control={signUpForm.control}
+              name="password"
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="password">Password</FieldLabel>
+                  <Input
+                    {...field}
+                    id="password"
+                    type="password"
+                    disabled={isLoading}
+                    aria-invalid={fieldState.invalid}
+                  />
+                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                </Field>
+              )}
+            />
+            <Controller
+              control={signUpForm.control}
+              name="confirm"
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="confirm">Confirm Password</FieldLabel>
+                  <Input
+                    {...field}
+                    id="confirm"
+                    type="password"
+                    disabled={isLoading}
+                    aria-invalid={fieldState.invalid}
+                  />
+                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                </Field>
+              )}
+            />
+          </div>
           <Button
             type="submit"
             className="w-full cursor-pointer font-semibold"
