@@ -80,10 +80,11 @@ interface VideoRenderProps {
   height?: number;
   interact?: boolean;
   external?: boolean;
+  preview?: boolean;
   className?: string;
 }
 
-export function VideoRender({ src, width, height, interact = false, external = false, className }: VideoRenderProps) {
+export function VideoRender({ src, width, height, interact = false, external = false, preview = false, className }: VideoRenderProps) {
   const [loading, setLoading] = useState(true);
 
   if (external) {
@@ -108,6 +109,22 @@ export function VideoRender({ src, width, height, interact = false, external = f
         {loading && <RenderLoader />}
         <video
           controls
+          src={src}
+          width={width}
+          height={height}
+          preload="metadata"
+          className={cn('object-cover', className)}
+          onLoadedData={() => setLoading(false)}
+        />
+      </>
+    );
+  }
+
+  if (preview) {
+    return (
+      <>
+        {loading && <RenderLoader />}
+        <video
           src={src}
           width={width}
           height={height}

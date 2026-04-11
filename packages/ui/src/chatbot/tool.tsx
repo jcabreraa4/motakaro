@@ -7,7 +7,7 @@ import type { DynamicToolUIPart, ToolUIPart } from 'ai';
 import { CheckCircleIcon, ChevronDownIcon, CircleIcon, ClockIcon, WrenchIcon, XCircleIcon } from 'lucide-react';
 import type { ComponentProps, ReactNode } from 'react';
 import { isValidElement } from 'react';
-import { CodeBlock } from '@workspace/ui/chatbots/code-block';
+import { CodeBlock } from '@workspace/ui/chatbot/code-block';
 
 export type ToolProps = ComponentProps<typeof Collapsible>;
 

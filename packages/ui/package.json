@@ -67,7 +67,7 @@
     "./lib/*": "./src/lib/*.ts",
     "./components/*": "./src/components/*.tsx",
     "./hooks/*": "./src/hooks/*.ts",
-    "./chatbots/*": "./src/chatbots/*.tsx",
+    "./chatbot/*": "./src/chatbot/*.tsx",
     "./custom/*": "./src/custom/*.tsx",
     "./magicui/*": "./src/magicui/*.tsx",
     "./types/*": "./src/types/*.ts"

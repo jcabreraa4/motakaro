@@ -7,7 +7,7 @@ import type { Tool } from 'ai';
 import { BotIcon } from 'lucide-react';
 import type { ComponentProps } from 'react';
 import { memo } from 'react';
-import { CodeBlock } from '@workspace/ui/chatbots/code-block';
+import { CodeBlock } from '@workspace/ui/chatbot/code-block';
 
 export type AgentProps = ComponentProps<'div'>;
 
