@@ -1,6 +1,6 @@
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
-import { EmbeddingsTable } from '@/components/chatbots/embeddings-table';
-import { VectorizeDialog } from '@/components/chatbots/vectorize-dialog';
+import { EmbeddingsTable } from '@/components/chatbot/embeddings-table';
+import { VectorizeDialog } from '@/components/chatbot/vectorize-dialog';
 import { Separator } from '@workspace/ui/components/separator';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { CircleLoader } from '@workspace/ui/custom/loaders';

@@ -1,5 +1,5 @@
 import { SidebarInset, SidebarProvider } from '@workspace/ui/components/sidebar';
-import { AppSideTool } from '@/components/layout/app-sidetool';
+import { AppChatbot } from '@/components/layout/app-chatbot';
 import { AppSidebar } from '@/components/layout/app-sidebar';
 import { AppHeader } from '@/components/layout/app-header';
 import { cookies } from 'next/headers';
@@ -18,7 +18,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
           <div className="flex min-h-0 flex-1 overflow-hidden">
             <Suspense>{children}</Suspense>
           </div>
-          <AppSideTool className="hidden 2xl:flex" />
+          <AppChatbot />
         </div>
       </SidebarInset>
     </SidebarProvider>

@@ -11,7 +11,7 @@ import { BrainIcon, ChevronDownIcon } from 'lucide-react';
 import type { ComponentProps, ReactNode } from 'react';
 import { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Streamdown } from 'streamdown';
-import { Shimmer } from '@workspace/ui/chatbots/shimmer';
+import { Shimmer } from '@workspace/ui/chatbot/shimmer';
 
 interface ReasoningContextValue {
   isStreaming: boolean;

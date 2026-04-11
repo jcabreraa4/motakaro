@@ -12,9 +12,10 @@ interface MultimediaPreviewProps {
   name?: string;
   type: string;
   interact?: boolean;
+  preview?: boolean;
 }
 
-export function MultimediaPreview({ id, src, name, type, interact = false }: MultimediaPreviewProps) {
+export function MultimediaPreview({ id, src, name, type, interact = false, preview = false }: MultimediaPreviewProps) {
   const isMobile = useIsMobile();
   const router = useRouter();
 
@@ -40,6 +41,7 @@ export function MultimediaPreview({ id, src, name, type, interact = false }: Mul
       ) : fileType === 'video' ? (
         <VideoRender
           src={src}
+          preview={preview}
           interact={interact || isMobile}
         />
       ) : fileType === 'audio' ? (

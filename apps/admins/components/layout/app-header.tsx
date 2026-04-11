@@ -8,10 +8,8 @@ import { SidebarTrigger } from '@workspace/ui/components/sidebar';
 import { Separator } from '@workspace/ui/components/separator';
 import { AppPresence } from '@/components/layout/app-presence';
 import { Button } from '@workspace/ui/components/button';
-import { BotIcon, BrainIcon } from 'lucide-react';
+import { BotIcon } from 'lucide-react';
 import Link from 'next/link';
-
-const chatbotPage = 'chatbots';
 
 function capitalize(word: string) {
   return word.charAt(0).toUpperCase() + word.slice(1);
@@ -21,13 +19,8 @@ export function AppHeader() {
   const { segments } = usePathname();
   const section = capitalize(segments[0]!);
 
-  const showChatButton = segments[0] !== chatbotPage;
-
   const showChat = useAppStateStore((state) => state.showChat);
   const toggleChat = useAppStateStore((state) => state.toggleChat);
-
-  const showKnowledge = useAppStateStore((state) => state.showKnowledge);
-  const toggleKnowledge = useAppStateStore((state) => state.toggleKnowledge);
 
   const subroute = useAppStateStore((state) => state.subroute);
   const setSubroute = useAppStateStore((state) => state.setSubroute);
@@ -38,7 +31,7 @@ export function AppHeader() {
 
   useEffect(() => {
     if (!segments[1]) cleanSubroute();
-  });
+  }, [segments[1]]);
 
   return (
     <header className="flex h-12 shrink-0 items-center justify-between gap-2 border-b bg-sidebar px-3 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 lg:px-4 xl:h-16 print:hidden">
@@ -57,8 +50,8 @@ export function AppHeader() {
             </BreadcrumbItem>
             {subroute && (
               <>
-                <BreadcrumbSeparator className="text-black dark:text-white" />
-                <BreadcrumbItem className="pointer-events-none select-none">
+                <BreadcrumbSeparator className="hidden text-black lg:block dark:text-white" />
+                <BreadcrumbItem className="pointer-events-none hidden select-none lg:block">
                   <BreadcrumbPage>{subroute}</BreadcrumbPage>
                 </BreadcrumbItem>
               </>
@@ -68,23 +61,13 @@ export function AppHeader() {
       </div>
       <div className="flex items-center gap-5">
         <AppPresence className="hidden select-none 2xl:flex" />
-        {showChatButton ? (
-          <Button
-            variant={showChat ? 'default' : 'outline'}
-            className="hidden cursor-pointer 2xl:block"
-            onClick={toggleChat}
-          >
-            <BotIcon />
-          </Button>
-        ) : (
-          <Button
-            variant={showKnowledge ? 'default' : 'outline'}
-            className="cursor-pointer"
-            onClick={toggleKnowledge}
-          >
-            <BrainIcon />
-          </Button>
-        )}
+        <Button
+          variant={showChat ? 'default' : 'outline'}
+          className="cursor-pointer"
+          onClick={toggleChat}
+        >
+          <BotIcon />
+        </Button>
       </div>
     </header>
   );

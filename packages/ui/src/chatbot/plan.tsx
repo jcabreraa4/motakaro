@@ -7,7 +7,7 @@ import { cn } from '@workspace/ui/lib/utils';
 import { ChevronsUpDownIcon } from 'lucide-react';
 import type { ComponentProps } from 'react';
 import { createContext, useContext, useMemo } from 'react';
-import { Shimmer } from '@workspace/ui/chatbots/shimmer';
+import { Shimmer } from '@workspace/ui/chatbot/shimmer';
 
 interface PlanContextValue {
   isStreaming: boolean;
