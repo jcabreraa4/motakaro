@@ -19,16 +19,27 @@ export async function POST(request: Request) {
   const userId = await auth();
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
+  // Obtain Date
+  const date = new Date().toLocaleDateString('es-ES', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+
   // Obtain Request
   const { model, system, temperature, messages }: RequestProps = await request.json();
 
-  // Obtain AI Model
+  // Obtain Model
   const selectedModel = models.find((m) => m.id === model);
 
   // Generate Response
   const result = streamText({
     model: selectedModel?.chefSlug === 'openai' ? openai(model) : selectedModel?.chefSlug === 'google' ? google(model) : mistral(model),
-    system: `${system}`,
+    system: `
+    You are the helpful, approachable, personal assistant in Motakaro.
+    You might be used through the Motakaro web app or through API, only by Motakaro employees.
+    The current date is: ${date}.
+    ${system}`,
     temperature: temperature,
     messages: await convertToModelMessages(messages),
     stopWhen: stepCountIs(5),

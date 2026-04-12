@@ -11,9 +11,11 @@ import { ChatbotInput } from '@/components/chatbot/chatbot-input';
 import { ChatMessage } from '@/app/api/chatbot/tools';
 import { DefaultChatTransport } from 'ai';
 import { useUser } from '@clerk/nextjs';
+import { usePathname } from '@/hooks/use-pathname';
 
 export function AppChatbot() {
   const { user } = useUser();
+  const { fullPath } = usePathname();
   const { messages, setMessages, status, sendMessage, regenerate } = useChat<ChatMessage>({
     transport: new DefaultChatTransport({
       api: '/api/chatbot'
@@ -28,6 +30,8 @@ export function AppChatbot() {
   const [lastInput, setLastInput] = useState('');
   const [chatModel, setChatModel] = useState<ModelId>(initialModel);
 
+  const system = `User's name: ${user?.firstName}. Current location within the app: ${fullPath}.`;
+
   function handleSubmit() {
     const dt = new DataTransfer();
     files.forEach((file) => dt.items.add(file));
@@ -36,7 +40,7 @@ export function AppChatbot() {
       {
         body: {
           model: chatModel,
-          system: user?.firstName
+          system: system
         }
       }
     );
@@ -51,7 +55,7 @@ export function AppChatbot() {
       {
         body: {
           model: chatModel,
-          system: user?.firstName
+          system: system
         }
       }
     );
