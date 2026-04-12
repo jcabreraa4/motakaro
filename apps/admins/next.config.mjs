@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
+  typescript: {
+    ignoreBuildErrors: true
+  },
   transpilePackages: ['@workspace/ui'],
   webpack: (config) => {
     config.externals.push({

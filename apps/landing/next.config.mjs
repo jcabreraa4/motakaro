@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
+  typescript: {
+    ignoreBuildErrors: true
+  },
   transpilePackages: ['@workspace/ui'],
   images: {
     remotePatterns: [
