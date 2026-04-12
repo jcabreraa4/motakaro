@@ -30,7 +30,7 @@ export function AppChatbot() {
   const [lastInput, setLastInput] = useState('');
   const [chatModel, setChatModel] = useState<ModelId>(initialModel);
 
-  const system = `User's name: ${user?.firstName}. Current location within the app: ${fullPath}.`;
+  const system = `User's first name: ${user?.firstName}. Current location within the app: ${fullPath}.`;
 
   function handleSubmit() {
     const dt = new DataTransfer();
