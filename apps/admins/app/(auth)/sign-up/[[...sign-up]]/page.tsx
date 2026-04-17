@@ -2,15 +2,15 @@
 
 import { z } from 'zod';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Input } from '@workspace/ui/components/input';
-import { Label } from '@workspace/ui/components/label';
-import { Button } from '@workspace/ui/components/button';
+import { Controller, useForm } from 'react-hook-form';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Field, FieldLabel, FieldError } from '@workspace/ui/components/field';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@workspace/ui/components/input-otp';
+import { Button } from '@workspace/ui/components/button';
+import { Input } from '@workspace/ui/components/input';
+import { Label } from '@workspace/ui/components/label';
 import { useSignUp, useAuth } from '@clerk/nextjs';
 import { RefreshCwIcon } from 'lucide-react';
 import { toast } from 'sonner';
@@ -25,7 +25,6 @@ const signUpSchema = z
   .object({
     name: z.string().min(1, 'Name is required'),
     surname: z.string().min(1, 'Surname is required'),
-    email: z.email('Invalid email address'),
     password: z.string().min(1, 'Password is required').min(6, 'Password is too short'),
     confirm: z.string().min(1, 'Password is required')
   })
@@ -39,6 +38,7 @@ type SignUpFormType = z.infer<typeof signUpSchema>;
 export default function SignInPage() {
   // Page Hooks
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { isSignedIn } = useAuth();
   const { signUp, fetchStatus } = useSignUp();
 
@@ -49,6 +49,9 @@ export default function SignInPage() {
   }, [isSignedIn, router]);
 
   // Page Status
+  const clerkTicket = searchParams.get('__clerk_ticket');
+  const clerkStatus = searchParams.get('__clerk_status');
+
   const isDisabled = pageStatus === 'false';
   const isLoading = fetchStatus === 'fetching';
 
@@ -58,7 +61,6 @@ export default function SignInPage() {
     defaultValues: {
       name: '',
       surname: '',
-      email: '',
       password: '',
       confirm: ''
     }
@@ -66,12 +68,13 @@ export default function SignInPage() {
 
   // Sign Up Submit
   async function handleSubmit(data: SignUpFormType) {
-    const { error } = await signUp.password({
-      emailAddress: data.email,
-      password: data.password,
+    const { error } = await signUp.create({
+      strategy: 'ticket',
+      ticket: clerkTicket!,
       firstName: data.name,
-      lastName: data.surname
-    });
+      lastName: data.surname,
+      password: data.password
+    } as any);
     if (error) {
       toast.error('An internal error has occurred.');
       return;
@@ -136,6 +139,24 @@ export default function SignInPage() {
         <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
           <CardTitle className="text-xl font-bold">Sign Up</CardTitle>
           <CardDescription>Sign ups are currently disabled.</CardDescription>
+        </CardHeader>
+        <CardFooter className="flex flex-col gap-2 px-4 lg:flex-row lg:px-6">
+          <Label>You already have an account?</Label>
+          <Link href="/sign-in">
+            <Label className="cursor-pointer underline">Sign In</Label>
+          </Link>
+        </CardFooter>
+      </Card>
+    );
+  }
+
+  // No Invitation
+  if (!clerkTicket || !clerkStatus) {
+    return (
+      <Card className="w-md py-4 xl:py-6">
+        <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
+          <CardTitle className="text-xl font-bold">Access Restricted</CardTitle>
+          <CardDescription>Sign ups are only available with an invitation.</CardDescription>
         </CardHeader>
         <CardFooter className="flex flex-col gap-2 px-4 lg:flex-row lg:px-6">
           <Label>You already have an account?</Label>
@@ -290,58 +311,42 @@ export default function SignInPage() {
           </div>
           <Controller
             control={signUpForm.control}
-            name="email"
+            name="password"
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
+                <FieldLabel htmlFor="password">Password</FieldLabel>
                 <Input
                   {...field}
-                  id="email"
-                  type="email"
+                  id="password"
+                  type="password"
                   disabled={isLoading}
-                  placeholder="m@example.com"
                   aria-invalid={fieldState.invalid}
                 />
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
               </Field>
             )}
           />
-          <div className="flex gap-3">
-            <Controller
-              control={signUpForm.control}
-              name="password"
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <Input
-                    {...field}
-                    id="password"
-                    type="password"
-                    disabled={isLoading}
-                    aria-invalid={fieldState.invalid}
-                  />
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                </Field>
-              )}
-            />
-            <Controller
-              control={signUpForm.control}
-              name="confirm"
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="confirm">Confirm Password</FieldLabel>
-                  <Input
-                    {...field}
-                    id="confirm"
-                    type="password"
-                    disabled={isLoading}
-                    aria-invalid={fieldState.invalid}
-                  />
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                </Field>
-              )}
-            />
-          </div>
+          <Controller
+            control={signUpForm.control}
+            name="confirm"
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="confirm">Confirm Password</FieldLabel>
+                <Input
+                  {...field}
+                  id="confirm"
+                  type="password"
+                  disabled={isLoading}
+                  aria-invalid={fieldState.invalid}
+                />
+                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              </Field>
+            )}
+          />
+          <div
+            id="clerk-captcha"
+            className="hidden"
+          />
           <Button
             type="submit"
             className="w-full cursor-pointer font-semibold"
