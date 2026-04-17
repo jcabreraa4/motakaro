@@ -2,16 +2,16 @@
 
 import { z } from 'zod';
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Input } from '@workspace/ui/components/input';
-import { Label } from '@workspace/ui/components/label';
-import { Button } from '@workspace/ui/components/button';
+import { Controller, useForm } from 'react-hook-form';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Field, FieldLabel, FieldError } from '@workspace/ui/components/field';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@workspace/ui/components/input-otp';
 import { useSignUp, useAuth, useSession } from '@clerk/nextjs';
+import { Button } from '@workspace/ui/components/button';
+import { Input } from '@workspace/ui/components/input';
+import { Label } from '@workspace/ui/components/label';
 import { RefreshCwIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
@@ -25,7 +25,6 @@ const signUpSchema = z
   .object({
     name: z.string().min(1, 'Name is required'),
     surname: z.string().min(1, 'Surname is required'),
-    email: z.email('Invalid email address'),
     password: z.string().min(1, 'Password is required').min(6, 'Password is too short'),
     confirm: z.string().min(1, 'Password is required')
   })
@@ -64,7 +63,6 @@ export default function SignInPage() {
     defaultValues: {
       name: '',
       surname: '',
-      email: '',
       password: '',
       confirm: ''
     }
@@ -315,58 +313,38 @@ export default function SignInPage() {
           </div>
           <Controller
             control={signUpForm.control}
-            name="email"
+            name="password"
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
+                <FieldLabel htmlFor="password">Password</FieldLabel>
                 <Input
                   {...field}
-                  id="email"
-                  type="email"
+                  id="password"
+                  type="password"
                   disabled={isLoading}
-                  placeholder="m@example.com"
                   aria-invalid={fieldState.invalid}
                 />
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
               </Field>
             )}
           />
-          <div className="flex gap-3">
-            <Controller
-              control={signUpForm.control}
-              name="password"
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <Input
-                    {...field}
-                    id="password"
-                    type="password"
-                    disabled={isLoading}
-                    aria-invalid={fieldState.invalid}
-                  />
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                </Field>
-              )}
-            />
-            <Controller
-              control={signUpForm.control}
-              name="confirm"
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="confirm">Confirm Password</FieldLabel>
-                  <Input
-                    {...field}
-                    id="confirm"
-                    type="password"
-                    disabled={isLoading}
-                    aria-invalid={fieldState.invalid}
-                  />
-                  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-                </Field>
-              )}
-            />
-          </div>
+          <Controller
+            control={signUpForm.control}
+            name="confirm"
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="confirm">Confirm Password</FieldLabel>
+                <Input
+                  {...field}
+                  id="confirm"
+                  type="password"
+                  disabled={isLoading}
+                  aria-invalid={fieldState.invalid}
+                />
+                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              </Field>
+            )}
+          />
           <div
             id="clerk-captcha"
             className="hidden"
