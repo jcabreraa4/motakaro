@@ -16,9 +16,11 @@ import { RefreshCwIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
 
-const disabled = process.env.NEXT_PUBLIC_SIGN_UP_ACTIVE! === 'false';
+// Env Variables
+const pageStatus = process.env.NEXT_PUBLIC_SIGN_UP_ACTIVE!;
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
 
+// Sign Up Schema
 const signUpSchema = z
   .object({
     name: z.string().min(1, 'Name is required'),
@@ -35,9 +37,10 @@ const signUpSchema = z
 type SignUpFormType = z.infer<typeof signUpSchema>;
 
 export default function SignInPage() {
+  // Page Hooks
+  const router = useRouter();
   const { isSignedIn } = useAuth();
   const { signUp, fetchStatus } = useSignUp();
-  const router = useRouter();
 
   const [emailCode, setEmailCode] = useState('');
 
@@ -45,8 +48,11 @@ export default function SignInPage() {
     if (isSignedIn) router.push(redirectPage);
   }, [isSignedIn, router]);
 
+  // Page Status
+  const isDisabled = pageStatus === 'false';
   const isLoading = fetchStatus === 'fetching';
 
+  // Sign Up Form
   const signUpForm = useForm<SignUpFormType>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -58,6 +64,7 @@ export default function SignInPage() {
     }
   });
 
+  // Sign Up Submit
   async function handleSubmit(data: SignUpFormType) {
     const { error } = await signUp.password({
       emailAddress: data.email,
@@ -69,14 +76,34 @@ export default function SignInPage() {
       toast.error('An internal error has occurred.');
       return;
     }
-    const { error: emailError } = await signUp.verifications.sendEmailCode();
-    if (emailError) {
-      toast.error('An internal error has occurred.');
+    if (signUp.status === 'complete') {
+      await signUp.finalize({
+        navigate: ({ session, decorateUrl }) => {
+          if (session?.currentTask) return;
+          const url = decorateUrl(redirectPage);
+          toast.success('You are successfully signed up.');
+          if (url.startsWith('http')) {
+            window.location.href = url;
+          } else {
+            router.push(url);
+          }
+        }
+      });
+    } else if (signUp.status === 'missing_requirements') {
+      if (signUp.unverifiedFields.includes('email_address')) {
+        const { error: emailError } = await signUp.verifications.sendEmailCode();
+        if (emailError) {
+          toast.error('An internal error has occurred.');
+        } else {
+          toast.info('A code has been sent to your email.');
+        }
+      }
     } else {
-      toast.info('A code has been sent to your email.');
+      toast.error('An internal error has occurred.');
     }
   }
 
+  // Verify Email Submit
   async function handleVerify(e: React.SubmitEvent) {
     e.preventDefault();
     const { error } = await signUp.verifications.verifyEmailCode({ code: emailCode });
@@ -87,10 +114,7 @@ export default function SignInPage() {
     if (signUp.status === 'complete') {
       await signUp.finalize({
         navigate: ({ session, decorateUrl }) => {
-          if (session?.currentTask) {
-            console.log(session?.currentTask);
-            return;
-          }
+          if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
           toast.success('You are successfully signed up.');
           if (url.startsWith('http')) {
@@ -105,7 +129,8 @@ export default function SignInPage() {
     }
   }
 
-  if (disabled) {
+  // Disabled Card
+  if (isDisabled) {
     return (
       <Card className="w-md py-4 xl:py-6">
         <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
@@ -122,6 +147,7 @@ export default function SignInPage() {
     );
   }
 
+  // Verify Email Form
   if (signUp.status === 'missing_requirements' && signUp.unverifiedFields.includes('email_address') && signUp.missingFields.length === 0) {
     return (
       <Card className="w-md py-4 xl:py-6">
@@ -212,6 +238,7 @@ export default function SignInPage() {
     );
   }
 
+  // Sign Up Form
   return (
     <Card className="w-md py-4 xl:py-6">
       <CardHeader className="pointer-events-none px-4 select-none lg:px-6">

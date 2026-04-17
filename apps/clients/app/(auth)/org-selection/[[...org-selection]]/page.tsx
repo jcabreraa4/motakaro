@@ -10,9 +10,11 @@ import { BuildingIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
+// Env Variables
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
 
 export default function OrgSelectionPage() {
+  // Page Hooks
   const router = useRouter();
   const { signOut } = useClerk();
   const { session } = useSession();
@@ -35,6 +37,7 @@ export default function OrgSelectionPage() {
     setShowSpinner(false);
   }, [isLoaded, isSelecting, userMemberships.isLoading, userMemberships?.data]);
 
+  // Org Selection Submit
   async function handleSelect(orgId: string) {
     if (!setActive) return;
     setIsSelecting(true);
@@ -42,10 +45,7 @@ export default function OrgSelectionPage() {
       await setActive({
         organization: orgId,
         navigate: ({ session, decorateUrl }) => {
-          if (session?.currentTask) {
-            console.log(session?.currentTask);
-            return;
-          }
+          if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
           toast.success('Organization selected successfully.');
           if (url.startsWith('http')) {
@@ -56,15 +56,17 @@ export default function OrgSelectionPage() {
         }
       });
     } catch {
-      toast.error('An error occurred while selecting organization.');
+      toast.error('An internal error has occurred.');
       setIsSelecting(false);
     }
   }
 
+  // Loading State
   if (!isLoaded || isSelecting || userMemberships.isLoading || (!userMemberships?.data?.length && !showSpinner)) {
     return <CircleLoader className="text-white" />;
   }
 
+  // No Organizations Card
   if (userMemberships?.data?.length === 0 || !userMemberships?.data) {
     return (
       <Card className="w-md py-4 xl:py-6">
@@ -85,6 +87,7 @@ export default function OrgSelectionPage() {
     );
   }
 
+  // Org Selection Form
   return (
     <Card className="w-md py-4 xl:py-6">
       <CardHeader className="pointer-events-none px-4 select-none lg:px-6">

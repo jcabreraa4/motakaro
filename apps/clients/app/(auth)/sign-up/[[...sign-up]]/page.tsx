@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@workspace/ui/components/input';
@@ -16,9 +16,11 @@ import { RefreshCwIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
 
-const disabled = process.env.NEXT_PUBLIC_SIGN_UP_ACTIVE! === 'false';
+// Env Variables
+const pageStatus = process.env.NEXT_PUBLIC_SIGN_UP_ACTIVE!;
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
 
+// Sign Up Schema
 const signUpSchema = z
   .object({
     name: z.string().min(1, 'Name is required'),
@@ -35,10 +37,12 @@ const signUpSchema = z
 type SignUpFormType = z.infer<typeof signUpSchema>;
 
 export default function SignInPage() {
+  // Page Hooks
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { isSignedIn, orgId } = useAuth();
   const { signUp, fetchStatus } = useSignUp();
   const { session } = useSession();
-  const router = useRouter();
 
   const [emailCode, setEmailCode] = useState('');
 
@@ -47,8 +51,14 @@ export default function SignInPage() {
     if (session && !orgId) router.push('/org-selection');
   }, [isSignedIn, session, orgId, router]);
 
+  // Page Status
+  const clerkTicket = searchParams.get('__clerk_ticket');
+  const clerkStatus = searchParams.get('__clerk_status');
+
+  const isDisabled = pageStatus === 'false';
   const isLoading = fetchStatus === 'fetching';
 
+  // Sign Up Form
   const signUpForm = useForm<SignUpFormType>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -60,25 +70,47 @@ export default function SignInPage() {
     }
   });
 
+  // Sign Up Submit
   async function handleSubmit(data: SignUpFormType) {
-    const { error } = await signUp.password({
-      emailAddress: data.email,
-      password: data.password,
+    const { error } = await signUp.create({
+      strategy: 'ticket',
+      ticket: clerkTicket!,
       firstName: data.name,
-      lastName: data.surname
-    });
+      lastName: data.surname,
+      password: data.password
+    } as any);
     if (error) {
       toast.error('An internal error has occurred.');
       return;
     }
-    const { error: emailError } = await signUp.verifications.sendEmailCode();
-    if (emailError) {
-      toast.error('An internal error has occurred.');
+    if (signUp.status === 'complete') {
+      await signUp.finalize({
+        navigate: ({ session, decorateUrl }) => {
+          if (session?.currentTask) return;
+          const url = decorateUrl(redirectPage);
+          toast.success('You are successfully signed up.');
+          if (url.startsWith('http')) {
+            window.location.href = url;
+          } else {
+            router.push(url);
+          }
+        }
+      });
+    } else if (signUp.status === 'missing_requirements') {
+      if (signUp.unverifiedFields.includes('email_address')) {
+        const { error: emailError } = await signUp.verifications.sendEmailCode();
+        if (emailError) {
+          toast.error('An internal error has occurred.');
+        } else {
+          toast.info('A code has been sent to your email.');
+        }
+      }
     } else {
-      toast.info('A code has been sent to your email.');
+      toast.error('An internal error has occurred.');
     }
   }
 
+  // Verify Email Submit
   async function handleVerify(e: React.SubmitEvent) {
     e.preventDefault();
     const { error } = await signUp.verifications.verifyEmailCode({ code: emailCode });
@@ -89,10 +121,7 @@ export default function SignInPage() {
     if (signUp.status === 'complete') {
       await signUp.finalize({
         navigate: ({ session, decorateUrl }) => {
-          if (session?.currentTask) {
-            console.log(session?.currentTask);
-            return;
-          }
+          if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
           toast.success('You are successfully signed up.');
           if (url.startsWith('http')) {
@@ -107,7 +136,8 @@ export default function SignInPage() {
     }
   }
 
-  if (disabled) {
+  // Disabled Card
+  if (isDisabled) {
     return (
       <Card className="w-md py-4 xl:py-6">
         <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
@@ -124,6 +154,25 @@ export default function SignInPage() {
     );
   }
 
+  // No Invitation
+  if (!clerkTicket || !clerkStatus) {
+    return (
+      <Card className="w-md py-4 xl:py-6">
+        <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
+          <CardTitle className="text-xl font-bold">Access Restricted</CardTitle>
+          <CardDescription>Sign ups are only available with an invitation.</CardDescription>
+        </CardHeader>
+        <CardFooter className="flex flex-col gap-2 px-4 lg:flex-row lg:px-6">
+          <Label>You already have an account?</Label>
+          <Link href="/sign-in">
+            <Label className="cursor-pointer underline">Sign In</Label>
+          </Link>
+        </CardFooter>
+      </Card>
+    );
+  }
+
+  // Verify Email Form
   if (signUp.status === 'missing_requirements' && signUp.unverifiedFields.includes('email_address') && signUp.missingFields.length === 0) {
     return (
       <Card className="w-md py-4 xl:py-6">
@@ -214,6 +263,7 @@ export default function SignInPage() {
     );
   }
 
+  // Sign Up Form
   return (
     <Card className="w-md py-4 xl:py-6">
       <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
@@ -317,6 +367,10 @@ export default function SignInPage() {
               )}
             />
           </div>
+          <div
+            id="clerk-captcha"
+            className="hidden"
+          />
           <Button
             type="submit"
             className="w-full cursor-pointer font-semibold"

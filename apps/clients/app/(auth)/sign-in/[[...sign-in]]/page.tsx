@@ -16,9 +16,11 @@ import { RefreshCwIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import Link from 'next/link';
 
-const disabled = process.env.NEXT_PUBLIC_SIGN_IN_ACTIVE! === 'false';
+// Env Variables
+const pageStatus = process.env.NEXT_PUBLIC_SIGN_IN_ACTIVE!;
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
 
+// Sign In Schema
 const signInSchema = z.object({
   email: z.email('Invalid email'),
   password: z.string().min(1, 'Password is required')
@@ -27,10 +29,11 @@ const signInSchema = z.object({
 type SignInFormType = z.infer<typeof signInSchema>;
 
 export default function SignInPage() {
+  // Page Hooks
+  const router = useRouter();
   const { isSignedIn, orgId } = useAuth();
   const { signIn, fetchStatus } = useSignIn();
   const { session } = useSession();
-  const router = useRouter();
 
   const [emailCode, setEmailCode] = useState('');
 
@@ -39,8 +42,11 @@ export default function SignInPage() {
     if (session && !orgId) router.push('/org-selection');
   }, [isSignedIn, session, orgId, router]);
 
+  // Page Status
+  const isDisabled = pageStatus === 'false';
   const isLoading = fetchStatus === 'fetching';
 
+  // Sign In Form
   const signInForm = useForm<SignInFormType>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -49,6 +55,7 @@ export default function SignInPage() {
     }
   });
 
+  // Sign In Submit
   async function handleSubmit(data: SignInFormType) {
     const { error } = await signIn.password({
       emailAddress: data.email,
@@ -61,10 +68,7 @@ export default function SignInPage() {
     if (signIn.status === 'complete') {
       await signIn.finalize({
         navigate: ({ session, decorateUrl }) => {
-          if (session?.currentTask) {
-            console.log(session?.currentTask);
-            return;
-          }
+          if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
           toast.success('You are successfully signed in.');
           if (url.startsWith('http')) {
@@ -79,11 +83,11 @@ export default function SignInPage() {
       if (emailCodeFactor) await signIn.mfa.sendEmailCode();
       toast.info('A code has been sent to your email.');
     } else {
-      console.error(signIn.status);
       toast.error('An internal error has occurred.');
     }
   }
 
+  // Verify Email Submit
   async function handleVerify(e: React.SubmitEvent) {
     e.preventDefault();
     const { error } = await signIn.mfa.verifyEmailCode({ code: emailCode });
@@ -94,10 +98,7 @@ export default function SignInPage() {
     if (signIn.status === 'complete') {
       await signIn.finalize({
         navigate: ({ session, decorateUrl }) => {
-          if (session?.currentTask) {
-            console.log(session?.currentTask);
-            return;
-          }
+          if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
           toast.success('You are successfully signed in.');
           if (url.startsWith('http')) {
@@ -112,7 +113,8 @@ export default function SignInPage() {
     }
   }
 
-  if (disabled) {
+  // Disabled Card
+  if (isDisabled) {
     return (
       <Card className="w-md py-4 xl:py-6">
         <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
@@ -129,6 +131,7 @@ export default function SignInPage() {
     );
   }
 
+  // Verify Email Form
   if (signIn.status === 'needs_client_trust') {
     return (
       <Card className="w-md py-4 xl:py-6">
@@ -219,6 +222,7 @@ export default function SignInPage() {
     );
   }
 
+  // Sign In Form
   return (
     <Card className="w-md py-4 xl:py-6">
       <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
