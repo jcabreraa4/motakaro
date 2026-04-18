@@ -3,12 +3,12 @@ import { Branding } from '@/components/motakaro/branding';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <main className="flex h-screen items-center justify-center gap-6 bg-[#0A0A0A] px-5 lg:px-0">
+    <main className="flex h-screen items-center justify-center gap-6 bg-primary-foreground px-5 lg:px-0 dark:bg-[#0A0A0A]">
       <div className="fixed top-0 left-0 z-50 p-5">
         <Branding />
       </div>
       <div className="fixed top-0 right-0 z-50 p-5">
-        <SquareThemeButton className="hidden lg:flex" />
+        <SquareThemeButton className="hidden sm:flex" />
       </div>
       {children}
     </main>

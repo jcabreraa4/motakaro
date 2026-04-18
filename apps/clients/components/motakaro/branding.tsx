@@ -18,7 +18,7 @@ export function Branding({ href = '/', className }: BrandingProps) {
           height={500}
           className="h-10 w-auto"
         />
-        <p className={cn('text-2xl font-semibold text-white', className)}>Motakaro</p>
+        <p className={cn('text-2xl font-semibold', className)}>Motakaro</p>
       </div>
     </Link>
   );

@@ -71,12 +71,12 @@ export default function OrgSelectionPage() {
   // No Organizations
   if (userMemberships?.data?.length === 0 || !userMemberships?.data) {
     return (
-      <Card className="w-md py-4 xl:py-6">
-        <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
+      <Card className="w-full max-w-lg">
+        <CardHeader className="pointer-events-none select-none">
           <CardTitle className="text-xl font-bold">No Organizations Found</CardTitle>
           <CardDescription>Contact your organization admin for an invitation.</CardDescription>
         </CardHeader>
-        <CardFooter className="flex flex-col items-start gap-2 px-4 lg:px-6">
+        <CardFooter className="flex flex-col items-start gap-2">
           <Label>Signed in as {session?.user.primaryEmailAddress?.emailAddress}</Label>
           <Label
             className="cursor-pointer underline"
@@ -91,12 +91,12 @@ export default function OrgSelectionPage() {
 
   // Selection Form
   return (
-    <Card className="w-md py-4 xl:py-6">
-      <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
+    <Card className="w-full max-w-lg bg-transparent shadow-none ring-0">
+      <CardHeader className="pointer-events-none px-1 select-none">
         <CardTitle className="text-xl font-bold">Select Organization</CardTitle>
         <CardDescription>You&apos;ll be able to switch organizations within the app.</CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col gap-3 px-4 lg:px-6">
+      <CardContent className="flex flex-col gap-3 px-1">
         {userMemberships?.data?.map((mem) => (
           <div
             key={mem.id}
@@ -116,7 +116,7 @@ export default function OrgSelectionPage() {
           </div>
         ))}
       </CardContent>
-      <CardFooter className="flex flex-col items-start gap-2 px-4 lg:px-6">
+      <CardFooter className="flex flex-col items-start gap-2 px-1">
         <Label>Signed in as {session?.user.primaryEmailAddress?.emailAddress}</Label>
         <Label
           className="cursor-pointer underline"

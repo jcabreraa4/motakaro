@@ -78,6 +78,7 @@ export default function SignInPage() {
 
   // Sign Up Submit
   async function handleSubmit(data: SignUpFormType) {
+    // Clerk Legacy Fix, Update in the Future
     const { error } = await signUp.create({
       strategy: 'ticket',
       ticket: clerkTicket!,
@@ -137,13 +138,13 @@ export default function SignInPage() {
   // Disabled Card
   if (isDisabled) {
     return (
-      <Card className="w-md py-4 xl:py-6">
-        <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
+      <Card className="w-full max-w-lg">
+        <CardHeader className="pointer-events-none select-none">
           <CardTitle className="text-xl font-bold">Sign Up</CardTitle>
           <CardDescription>Sign ups are currently disabled.</CardDescription>
         </CardHeader>
-        <CardFooter className="flex flex-col gap-2 px-4 lg:flex-row lg:px-6">
-          <Label>You already have an account?</Label>
+        <CardFooter className="flex flex-row gap-2">
+          <Label>Already have an account?</Label>
           <Link href="/sign-in">
             <Label className="cursor-pointer underline">Sign In</Label>
           </Link>
@@ -155,13 +156,13 @@ export default function SignInPage() {
   // No Invitation
   if (!clerkTicket || !clerkStatus) {
     return (
-      <Card className="w-md py-4 xl:py-6">
-        <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
+      <Card className="w-full max-w-lg">
+        <CardHeader className="pointer-events-none select-none">
           <CardTitle className="text-xl font-bold">Access Restricted</CardTitle>
           <CardDescription>Sign ups are only available with an invitation.</CardDescription>
         </CardHeader>
-        <CardFooter className="flex flex-col gap-2 px-4 lg:flex-row lg:px-6">
-          <Label>You already have an account?</Label>
+        <CardFooter className="flex flex-row gap-2">
+          <Label>Already have an account?</Label>
           <Link href="/sign-in">
             <Label className="cursor-pointer underline">Sign In</Label>
           </Link>
@@ -173,12 +174,12 @@ export default function SignInPage() {
   // Verify Email Form
   if (signUp.status === 'missing_requirements' && signUp.unverifiedFields.includes('email_address') && signUp.missingFields.length === 0) {
     return (
-      <Card className="w-md py-4 xl:py-6">
-        <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
+      <Card className="w-full max-w-lg bg-transparent shadow-none ring-0">
+        <CardHeader className="pointer-events-none px-1 select-none">
           <CardTitle className="text-xl font-bold">Verify your Email</CardTitle>
           <CardDescription>Introduce the code sent to your email address.</CardDescription>
         </CardHeader>
-        <CardContent className="px-4 lg:px-6">
+        <CardContent className="px-1">
           <form
             onSubmit={handleVerify}
             className="flex flex-col gap-5"
@@ -249,12 +250,12 @@ export default function SignInPage() {
             </Button>
           </form>
         </CardContent>
-        <CardFooter className="px-4 lg:px-6">
+        <CardFooter className="px-1">
           <Label
             className="cursor-pointer underline"
             onClick={() => signUp.reset()}
           >
-            I want to start over
+            Want to start over
           </Label>
         </CardFooter>
       </Card>
@@ -263,12 +264,12 @@ export default function SignInPage() {
 
   // Sign Up Form
   return (
-    <Card className="w-md py-4 xl:py-6">
-      <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
+    <Card className="w-full max-w-lg bg-transparent shadow-none ring-0">
+      <CardHeader className="pointer-events-none px-1 select-none">
         <CardTitle className="text-xl font-bold">Create Account</CardTitle>
         <CardDescription>Introduce your credentials.</CardDescription>
       </CardHeader>
-      <CardContent className="px-4 lg:px-6">
+      <CardContent className="px-1">
         <form
           onSubmit={signUpForm.handleSubmit(handleSubmit)}
           className="flex flex-col gap-5"
@@ -358,8 +359,8 @@ export default function SignInPage() {
           </Button>
         </form>
       </CardContent>
-      <CardFooter className="flex flex-col gap-2 px-4 lg:flex-row lg:px-6">
-        <Label>You already have an account?</Label>
+      <CardFooter className="flex flex-row gap-2 px-1">
+        <Label>Already have an account?</Label>
         <Link href="/sign-in">
           <Label className="cursor-pointer underline">Sign In</Label>
         </Link>

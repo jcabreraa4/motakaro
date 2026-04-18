@@ -56,6 +56,7 @@ export default function SignInPage() {
   }, [isSignedIn, session, orgId, router]);
 
   useEffect(() => {
+    // Clerk Legacy Fix, Update in the Future
     async function checkInvitation() {
       if (!clerkTicket || clerkStatus !== 'sign_in' || !signIn || invitationAttempted.current) return;
       invitationAttempted.current = true;
@@ -140,13 +141,13 @@ export default function SignInPage() {
   // Disabled Card
   if (isDisabled) {
     return (
-      <Card className="w-md py-4 xl:py-6">
-        <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
+      <Card className="w-full max-w-lg">
+        <CardHeader className="pointer-events-none select-none">
           <CardTitle className="text-xl font-bold">Sign In</CardTitle>
           <CardDescription>Sign ins are currently disabled.</CardDescription>
         </CardHeader>
-        <CardFooter className="flex flex-col gap-2 px-4 lg:flex-row lg:px-6">
-          <Label>You don&apos;t have an account?</Label>
+        <CardFooter className="flex flex-row gap-26">
+          <Label>Don't have an account?</Label>
           <Link href="/sign-up">
             <Label className="cursor-pointer underline">Sign Up</Label>
           </Link>
@@ -158,12 +159,12 @@ export default function SignInPage() {
   // Verify Email Form
   if (signIn.status === 'needs_client_trust') {
     return (
-      <Card className="w-md py-4 xl:py-6">
-        <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
+      <Card className="w-full max-w-lg bg-transparent shadow-none ring-0">
+        <CardHeader className="pointer-events-none px-1 select-none">
           <CardTitle className="text-xl font-bold">Verify your Email</CardTitle>
           <CardDescription>Introduce the code sent to your email address.</CardDescription>
         </CardHeader>
-        <CardContent className="px-4 lg:px-6">
+        <CardContent className="px-1">
           <form
             onSubmit={handleVerify}
             className="flex flex-col gap-5"
@@ -234,12 +235,12 @@ export default function SignInPage() {
             </Button>
           </form>
         </CardContent>
-        <CardFooter className="px-4 lg:px-6">
+        <CardFooter className="px-1">
           <Label
             className="cursor-pointer underline"
             onClick={() => signIn.reset()}
           >
-            I want to start over
+            Want to start over
           </Label>
         </CardFooter>
       </Card>
@@ -248,12 +249,12 @@ export default function SignInPage() {
 
   // Sign In Form
   return (
-    <Card className="w-md py-4 xl:py-6">
-      <CardHeader className="pointer-events-none px-4 select-none lg:px-6">
+    <Card className="w-full max-w-lg bg-transparent shadow-none ring-0">
+      <CardHeader className="pointer-events-none px-1 select-none">
         <CardTitle className="text-xl font-bold">Welcome Back</CardTitle>
         <CardDescription>Introduce your credentials.</CardDescription>
       </CardHeader>
-      <CardContent className="px-4 lg:px-6">
+      <CardContent className="px-1">
         <form
           onSubmit={signInForm.handleSubmit(handleSubmit)}
           className="flex flex-col gap-5"
@@ -302,8 +303,8 @@ export default function SignInPage() {
           </Button>
         </form>
       </CardContent>
-      <CardFooter className="flex flex-col gap-2 px-4 lg:flex-row lg:px-6">
-        <Label>You don&apos;t have an account?</Label>
+      <CardFooter className="flex flex-row gap-2 px-1">
+        <Label>Don't have an account?</Label>
         <Link href="/sign-up">
           <Label className="cursor-pointer underline">Sign Up</Label>
         </Link>
