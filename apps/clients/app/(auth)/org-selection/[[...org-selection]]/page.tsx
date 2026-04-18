@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useClerk, useOrganizationList, useSession } from '@clerk/nextjs';
-import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { Label } from '@workspace/ui/components/label';
 import { BuildingIcon } from 'lucide-react';
@@ -13,8 +13,12 @@ import { toast } from 'sonner';
 // Env Variables
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
 
+// Toast Messages
+const errorMessage = 'An internal error has occurred.';
+const successMessage = 'Organization selected successfully.';
+
 export default function OrgSelectionPage() {
-  // Page Hooks
+  // Basic Hooks
   const router = useRouter();
   const { signOut } = useClerk();
   const { session } = useSession();
@@ -22,9 +26,11 @@ export default function OrgSelectionPage() {
     userMemberships: { pageSize: 3 }
   });
 
+  // State Hooks
   const [showSpinner, setShowSpinner] = useState(false);
   const [isSelecting, setIsSelecting] = useState(false);
 
+  // Effect Hooks
   useEffect(() => {
     if (!isLoaded || isSelecting || userMemberships.isLoading) {
       setShowSpinner(false);
@@ -37,7 +43,7 @@ export default function OrgSelectionPage() {
     setShowSpinner(false);
   }, [isLoaded, isSelecting, userMemberships.isLoading, userMemberships?.data]);
 
-  // Org Selection Submit
+  // Selection Submit
   async function handleSelect(orgId: string) {
     if (!setActive) return;
     setIsSelecting(true);
@@ -47,16 +53,12 @@ export default function OrgSelectionPage() {
         navigate: ({ session, decorateUrl }) => {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
-          toast.success('Organization selected successfully.');
-          if (url.startsWith('http')) {
-            window.location.href = url;
-          } else {
-            router.push(url);
-          }
+          toast.success(successMessage);
+          router.push(url);
         }
       });
     } catch {
-      toast.error('An internal error has occurred.');
+      toast.error(errorMessage);
       setIsSelecting(false);
     }
   }
@@ -66,7 +68,7 @@ export default function OrgSelectionPage() {
     return <CircleLoader className="text-white" />;
   }
 
-  // No Organizations Card
+  // No Organizations
   if (userMemberships?.data?.length === 0 || !userMemberships?.data) {
     return (
       <Card className="w-md py-4 xl:py-6">
@@ -87,7 +89,7 @@ export default function OrgSelectionPage() {
     );
   }
 
-  // Org Selection Form
+  // Selection Form
   return (
     <Card className="w-md py-4 xl:py-6">
       <CardHeader className="pointer-events-none px-4 select-none lg:px-6">

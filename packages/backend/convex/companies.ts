@@ -61,11 +61,11 @@ export const internalRemove = internalMutation({
   args: {
     clerkId: v.string()
   },
-  handler: async (ctx, { clerkId }) => {
+  handler: async (ctx, args) => {
     // Obtain the Company
     const company = await ctx.db
       .query('companies')
-      .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
+      .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
     if (!company) throw new ConvexError('Company not found');
 

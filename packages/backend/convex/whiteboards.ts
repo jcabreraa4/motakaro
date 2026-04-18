@@ -35,7 +35,7 @@ export const get = query({
 });
 
 export const create = mutation({
-  handler: async (ctx, args) => {
+  handler: async (ctx) => {
     // Check Identity
     await verifyAdminAuth(ctx);
 

@@ -35,23 +35,31 @@ const signUpSchema = z
 
 type SignUpFormType = z.infer<typeof signUpSchema>;
 
+// Toast Messages
+const errorMessage = 'An internal error has occurred.';
+const successMessage = 'You are successfully signed up.';
+const checkMessage = 'Please check your credentials.';
+
 export default function SignInPage() {
-  // Page Hooks
+  // Basic Hooks
   const router = useRouter();
   const searchParams = useSearchParams();
   const { isSignedIn } = useAuth();
   const { signUp, fetchStatus } = useSignUp();
 
+  // State Hooks
   const [emailCode, setEmailCode] = useState('');
 
+  // Clerk Params
+  const clerkTicket = searchParams.get('__clerk_ticket');
+  const clerkStatus = searchParams.get('__clerk_status');
+
+  // Effect Hooks
   useEffect(() => {
     if (isSignedIn) router.push(redirectPage);
   }, [isSignedIn, router]);
 
   // Page Status
-  const clerkTicket = searchParams.get('__clerk_ticket');
-  const clerkStatus = searchParams.get('__clerk_status');
-
   const isDisabled = pageStatus === 'false';
   const isLoading = fetchStatus === 'fetching';
 
@@ -76,7 +84,7 @@ export default function SignInPage() {
       password: data.password
     } as any);
     if (error) {
-      toast.error('An internal error has occurred.');
+      toast.error(errorMessage);
       return;
     }
     if (signUp.status === 'complete') {
@@ -84,25 +92,21 @@ export default function SignInPage() {
         navigate: ({ session, decorateUrl }) => {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
-          toast.success('You are successfully signed up.');
-          if (url.startsWith('http')) {
-            window.location.href = url;
-          } else {
-            router.push(url);
-          }
+          toast.success(successMessage);
+          router.push(url);
         }
       });
     } else if (signUp.status === 'missing_requirements') {
       if (signUp.unverifiedFields.includes('email_address')) {
         const { error: emailError } = await signUp.verifications.sendEmailCode();
         if (emailError) {
-          toast.error('An internal error has occurred.');
+          toast.error(errorMessage);
         } else {
           toast.info('A code has been sent to your email.');
         }
       }
     } else {
-      toast.error('An internal error has occurred.');
+      toast.error(errorMessage);
     }
   }
 
@@ -111,7 +115,7 @@ export default function SignInPage() {
     e.preventDefault();
     const { error } = await signUp.verifications.verifyEmailCode({ code: emailCode });
     if (error) {
-      toast.error('Please check your credentials.');
+      toast.error(checkMessage);
       return;
     }
     if (signUp.status === 'complete') {
@@ -119,16 +123,12 @@ export default function SignInPage() {
         navigate: ({ session, decorateUrl }) => {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
-          toast.success('You are successfully signed up.');
-          if (url.startsWith('http')) {
-            window.location.href = url;
-          } else {
-            router.push(url);
-          }
+          toast.success(successMessage);
+          router.push(url);
         }
       });
     } else {
-      toast.error('An internal error has occurred.');
+      toast.error(errorMessage);
     }
   }
 

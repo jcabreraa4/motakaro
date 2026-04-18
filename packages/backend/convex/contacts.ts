@@ -48,14 +48,14 @@ export const update = mutation({
   args: {
     clerkId: v.string()
   },
-  handler: async (ctx, { clerkId }) => {
+  handler: async (ctx, args) => {
     // Check Identity
     await verifyClientAuth(ctx);
 
     // Obtain the Contact
     const contact = await ctx.db
       .query('contacts')
-      .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
+      .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
     if (!contact) throw new ConvexError('Contact not found');
 
@@ -96,11 +96,11 @@ export const internalRemove = internalMutation({
   args: {
     clerkId: v.string()
   },
-  handler: async (ctx, { clerkId }) => {
+  handler: async (ctx, args) => {
     // Obtain the Contact
     const contact = await ctx.db
       .query('contacts')
-      .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
+      .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
     if (!contact) throw new ConvexError('Contact not found');
 

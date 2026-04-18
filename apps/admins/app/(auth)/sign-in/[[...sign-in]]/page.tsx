@@ -28,14 +28,21 @@ const signInSchema = z.object({
 
 type SignInFormType = z.infer<typeof signInSchema>;
 
+// Toast Messages
+const errorMessage = 'An internal error has occurred.';
+const successMessage = 'You are successfully signed in.';
+const checkMessage = 'Please check your credentials.';
+
 export default function SignInPage() {
-  // Page Hooks
+  // Basic Hooks
   const router = useRouter();
   const { isSignedIn } = useAuth();
   const { signIn, fetchStatus } = useSignIn();
 
+  // State Hooks
   const [emailCode, setEmailCode] = useState('');
 
+  // Effect Hooks
   useEffect(() => {
     if (isSignedIn) router.push(redirectPage);
   }, [isSignedIn, router]);
@@ -60,7 +67,7 @@ export default function SignInPage() {
       password: data.password
     });
     if (error) {
-      toast.error('Please check your credentials.');
+      toast.error(checkMessage);
       return;
     }
     if (signIn.status === 'complete') {
@@ -68,12 +75,8 @@ export default function SignInPage() {
         navigate: ({ session, decorateUrl }) => {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
-          toast.success('You are successfully signed in.');
-          if (url.startsWith('http')) {
-            window.location.href = url;
-          } else {
-            router.push(url);
-          }
+          toast.success(successMessage);
+          router.push(url);
         }
       });
     } else if (signIn.status === 'needs_client_trust') {
@@ -81,7 +84,7 @@ export default function SignInPage() {
       if (emailCodeFactor) await signIn.mfa.sendEmailCode();
       toast.info('A code has been sent to your email.');
     } else {
-      toast.error('An internal error has occurred.');
+      toast.error(errorMessage);
     }
   }
 
@@ -90,7 +93,7 @@ export default function SignInPage() {
     e.preventDefault();
     const { error } = await signIn.mfa.verifyEmailCode({ code: emailCode });
     if (error) {
-      toast.error('Please check your credentials.');
+      toast.error(checkMessage);
       return;
     }
     if (signIn.status === 'complete') {
@@ -98,16 +101,12 @@ export default function SignInPage() {
         navigate: ({ session, decorateUrl }) => {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
-          toast.success('You are successfully signed in.');
-          if (url.startsWith('http')) {
-            window.location.href = url;
-          } else {
-            router.push(url);
-          }
+          toast.success(successMessage);
+          router.push(url);
         }
       });
     } else {
-      toast.error('An internal error has occurred.');
+      toast.error(errorMessage);
     }
   }
 

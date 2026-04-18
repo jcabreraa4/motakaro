@@ -1,10 +1,10 @@
 'use client';
 
 import { z } from 'zod';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Field, FieldLabel, FieldError } from '@workspace/ui/components/field';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@workspace/ui/components/input-otp';
@@ -28,19 +28,51 @@ const signInSchema = z.object({
 
 type SignInFormType = z.infer<typeof signInSchema>;
 
+// Toast Messages
+const errorMessage = 'An internal error has occurred.';
+const successMessage = 'You are successfully signed in.';
+const checkMessage = 'Please check your credentials.';
+
 export default function SignInPage() {
-  // Page Hooks
+  // Basic Hooks
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { isSignedIn, orgId } = useAuth();
   const { signIn, fetchStatus } = useSignIn();
   const { session } = useSession();
 
+  // State Hooks
   const [emailCode, setEmailCode] = useState('');
+  const invitationAttempted = useRef(false);
 
+  // Clerk Params
+  const clerkTicket = searchParams.get('__clerk_ticket');
+  const clerkStatus = searchParams.get('__clerk_status');
+
+  // Effect Hooks
   useEffect(() => {
     if (isSignedIn) router.push(redirectPage);
     if (session && !orgId) router.push('/org-selection');
   }, [isSignedIn, session, orgId, router]);
+
+  useEffect(() => {
+    async function checkInvitation() {
+      if (!clerkTicket || clerkStatus !== 'sign_in' || !signIn || invitationAttempted.current) return;
+      invitationAttempted.current = true;
+      const result = await (signIn as any).create({
+        strategy: 'ticket',
+        ticket: clerkTicket
+      });
+      if (result.status === 'complete') {
+        await (signIn as any).setActive({ session: result.createdSessionId });
+        toast.success(successMessage);
+        router.push(redirectPage);
+      } else {
+        toast.error(errorMessage);
+      }
+    }
+    checkInvitation();
+  }, [clerkTicket, clerkStatus, signIn]);
 
   // Page Status
   const isDisabled = pageStatus === 'false';
@@ -62,7 +94,7 @@ export default function SignInPage() {
       password: data.password
     });
     if (error) {
-      toast.error('Please check your credentials.');
+      toast.error(checkMessage);
       return;
     }
     if (signIn.status === 'complete') {
@@ -70,12 +102,8 @@ export default function SignInPage() {
         navigate: ({ session, decorateUrl }) => {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
-          toast.success('You are successfully signed in.');
-          if (url.startsWith('http')) {
-            window.location.href = url;
-          } else {
-            router.push(url);
-          }
+          toast.success(successMessage);
+          router.push(url);
         }
       });
     } else if (signIn.status === 'needs_client_trust') {
@@ -83,7 +111,7 @@ export default function SignInPage() {
       if (emailCodeFactor) await signIn.mfa.sendEmailCode();
       toast.info('A code has been sent to your email.');
     } else {
-      toast.error('An internal error has occurred.');
+      toast.error(errorMessage);
     }
   }
 
@@ -92,7 +120,7 @@ export default function SignInPage() {
     e.preventDefault();
     const { error } = await signIn.mfa.verifyEmailCode({ code: emailCode });
     if (error) {
-      toast.error('Please check your credentials.');
+      toast.error(checkMessage);
       return;
     }
     if (signIn.status === 'complete') {
@@ -100,16 +128,12 @@ export default function SignInPage() {
         navigate: ({ session, decorateUrl }) => {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
-          toast.success('You are successfully signed in.');
-          if (url.startsWith('http')) {
-            window.location.href = url;
-          } else {
-            router.push(url);
-          }
+          toast.success(successMessage);
+          router.push(url);
         }
       });
     } else {
-      toast.error('An internal error has occurred.');
+      toast.error(errorMessage);
     }
   }
 
