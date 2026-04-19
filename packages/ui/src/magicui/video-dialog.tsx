@@ -34,6 +34,7 @@ const animationVariants = {
 
 export function VideoDialog({ video, thumbnail, animation = 'from-center', className }: VideoDialogProps) {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
+
   const selectedAnimation = animationVariants[animation];
 
   function handleOpenDialog() {
@@ -43,10 +44,8 @@ export function VideoDialog({ video, thumbnail, animation = 'from-center', class
 
   return (
     <div className={cn('relative', className)}>
-      <button
-        type="button"
-        aria-label="Play video"
-        className={cn('group relative aspect-video border-0 bg-transparent p-0', video && 'cursor-pointer')}
+      <div
+        className={cn('group relative aspect-video rounded-lg bg-black select-none', video && 'cursor-pointer')}
         onClick={handleOpenDialog}
       >
         <img
@@ -71,7 +70,7 @@ export function VideoDialog({ video, thumbnail, animation = 'from-center', class
             </div>
           </div>
         )}
-      </button>
+      </div>
       <AnimatePresence>
         {isVideoOpen && (
           <motion.div
