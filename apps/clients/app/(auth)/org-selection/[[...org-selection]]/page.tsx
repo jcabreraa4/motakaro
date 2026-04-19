@@ -65,7 +65,7 @@ export default function OrgSelectionPage() {
 
   // Loading State
   if (!isLoaded || isSelecting || userMemberships.isLoading || (!userMemberships?.data?.length && !showSpinner)) {
-    return <CircleLoader className="text-white" />;
+    return <CircleLoader />;
   }
 
   // No Organizations

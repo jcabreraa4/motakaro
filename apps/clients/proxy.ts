@@ -12,7 +12,7 @@ export default clerkMiddleware(async (auth, req) => {
   }
 
   if (!isPublicRoute(req) && !userId) {
-    return NextResponse.redirect(new URL('/sign-in', req.url));
+    await auth.protect();
   }
 });
 

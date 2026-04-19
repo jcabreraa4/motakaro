@@ -14,8 +14,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </section>
       <section className="pointer-events-none relative hidden h-full w-full border-l bg-motakaro select-none xl:flex">
         <div className="absolute z-10 flex h-full w-full flex-col items-center justify-center gap-4 text-center">
-          <span className="text-xs font-semibold tracking-[0.35em] uppercase">CLIENT ACCESS</span>
-          <h1 className="text-5xl font-bold text-foreground">Motakaro</h1>
+          <span className="text-xs font-semibold tracking-[0.35em] text-black uppercase">CLIENT ACCESS</span>
+          <h1 className="text-5xl font-bold text-black">Motakaro</h1>
         </div>
         <LightRays
           blur={80}
