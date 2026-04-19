@@ -36,7 +36,6 @@ export const internalUpsert = internalMutation({
   args: {
     name: v.string(),
     logo: v.optional(v.string()),
-    plan: v.optional(v.string()),
     clerkId: v.string()
   },
   handler: async (ctx, args) => {
@@ -52,7 +51,7 @@ export const internalUpsert = internalMutation({
       await ctx.db.patch(company._id, args);
     } else {
       // Create the Company
-      await ctx.db.insert('companies', args);
+      await ctx.db.insert('companies', { ...args, plan: 'trial' });
     }
   }
 });
@@ -71,5 +70,23 @@ export const internalRemove = internalMutation({
 
     // Remove the Company
     await ctx.db.delete(company._id);
+  }
+});
+
+export const internalUpdate = internalMutation({
+  args: {
+    clerkId: v.string(),
+    plan: v.optional(v.union(v.literal('trial'), v.literal('rollout'), v.literal('scaling')))
+  },
+  handler: async (ctx, args) => {
+    // Obtain the Company
+    const company = await ctx.db
+      .query('companies')
+      .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
+      .first();
+    if (!company) throw new ConvexError('Company not found');
+
+    // Update the Company
+    await ctx.db.patch(company._id, args);
   }
 });

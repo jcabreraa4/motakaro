@@ -59,6 +59,8 @@ async function validateClerkAdminsRequest(req: Request): Promise<WebhookEvent | 
 
 // Clerk Clients Webhook
 
+type OrgPlans = 'trial' | 'rollout' | 'scaling';
+
 http.route({
   path: '/clerk-clients-webhook',
   method: 'POST',
@@ -109,6 +111,19 @@ http.route({
       await ctx.runMutation(internal.memberships.internalRemove, {
         contactClerkId: event.data.public_user_data.user_id,
         companyClerkId: event.data.organization.id
+      });
+    }
+
+    // Handle Billing Events
+    if (event.type === 'subscriptionItem.active') {
+      const clerkId = event.data.payer?.organization_id;
+      if (!clerkId) return new Response(null, { status: 200 });
+
+      const plan = event.data.plan?.slug as OrgPlans;
+
+      await ctx.runMutation(internal.companies.internalUpdate, {
+        clerkId: clerkId,
+        plan: plan
       });
     }
 

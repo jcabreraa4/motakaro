@@ -35,7 +35,7 @@ export default defineSchema({
     // Webhook Sync
     name: v.string(),
     logo: v.optional(v.string()),
-    plan: v.optional(v.string()),
+    plan: v.optional(v.union(v.literal('trial'), v.literal('rollout'), v.literal('scaling'))),
     clerkId: v.string()
   }).index('by_clerkId', ['clerkId']),
 

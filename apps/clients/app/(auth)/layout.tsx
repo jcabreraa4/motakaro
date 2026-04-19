@@ -12,25 +12,25 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
         {children}
       </section>
-      <section className="pointer-events-none relative hidden h-full w-full border-l select-none xl:flex">
+      <section className="pointer-events-none relative hidden h-full w-full border-l bg-motakaro select-none xl:flex">
         <div className="absolute z-10 flex h-full w-full flex-col items-center justify-center gap-4 text-center">
           <span className="text-xs font-semibold tracking-[0.35em] uppercase">CLIENT ACCESS</span>
           <h1 className="text-5xl font-bold text-foreground">Motakaro</h1>
         </div>
         <LightRays
-          blur={75}
+          blur={80}
           speed={10}
-          count={12}
+          count={3}
           length="160vh"
-          color="#007fd8"
+          color="#ffffff"
         />
         <LightRays
           fromBottom
-          blur={75}
+          blur={80}
           speed={10}
-          count={12}
+          count={3}
           length="160vh"
-          color="#007fd8"
+          color="#ffffff"
         />
       </section>
     </main>
