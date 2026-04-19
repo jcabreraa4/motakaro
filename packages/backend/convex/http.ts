@@ -59,7 +59,7 @@ async function validateClerkAdminsRequest(req: Request): Promise<WebhookEvent | 
 
 // Clerk Clients Webhook
 
-type OrgPlans = 'trial' | 'rollout' | 'scaling';
+type OrgPlan = 'onboarding' | 'rollout' | 'scaling';
 
 http.route({
   path: '/clerk-clients-webhook',
@@ -119,7 +119,7 @@ http.route({
       const clerkId = event.data.payer?.organization_id;
       if (!clerkId) return new Response(null, { status: 200 });
 
-      const plan = event.data.plan?.slug as OrgPlans;
+      const plan = event.data.plan?.slug as OrgPlan;
 
       await ctx.runMutation(internal.companies.internalUpdate, {
         clerkId: clerkId,

@@ -2,8 +2,8 @@
 
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
 import { type LucideIcon, LayoutDashboardIcon, MessageSquareIcon } from 'lucide-react';
-import { cn } from '@workspace/ui/lib/utils';
 import { usePathname } from '@/hooks/use-pathname';
+import { cn } from '@workspace/ui/lib/utils';
 import Link from 'next/link';
 
 type Section = {

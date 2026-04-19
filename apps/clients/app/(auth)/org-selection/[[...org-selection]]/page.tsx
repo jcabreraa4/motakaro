@@ -73,7 +73,7 @@ export default function OrgSelectionPage() {
     return (
       <Card className="w-full max-w-lg">
         <CardHeader className="pointer-events-none select-none">
-          <CardTitle className="text-xl font-bold">No Organizations Found</CardTitle>
+          <CardTitle className="text-xl font-bold">No Organizations</CardTitle>
           <CardDescription>Contact your organization admin for an invitation.</CardDescription>
         </CardHeader>
         <CardFooter className="flex flex-col items-start gap-2">

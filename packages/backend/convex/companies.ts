@@ -51,7 +51,7 @@ export const internalUpsert = internalMutation({
       await ctx.db.patch(company._id, args);
     } else {
       // Create the Company
-      await ctx.db.insert('companies', { ...args, plan: 'trial' });
+      await ctx.db.insert('companies', { ...args, plan: 'onboarding' });
     }
   }
 });
@@ -76,7 +76,7 @@ export const internalRemove = internalMutation({
 export const internalUpdate = internalMutation({
   args: {
     clerkId: v.string(),
-    plan: v.optional(v.union(v.literal('trial'), v.literal('rollout'), v.literal('scaling')))
+    plan: v.optional(v.union(v.literal('onboarding'), v.literal('rollout'), v.literal('scaling')))
   },
   handler: async (ctx, args) => {
     // Obtain the Company

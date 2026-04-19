@@ -53,7 +53,7 @@ function TeamData({ name, plan, logo, className }: TeamDataProps) {
       </Avatar>
       <div className={cn('grid flex-1 text-left text-sm leading-tight', className)}>
         <span className="truncate font-medium">{name}</span>
-        {plan && <span className="truncate text-xs">{plan} Plan</span>}
+        {plan && <span className="truncate text-xs">{plan}</span>}
       </div>
     </>
   );

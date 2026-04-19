@@ -1,7 +1,7 @@
 'use client';
 
-import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
 import { type LucideIcon, FileTextIcon, ImageIcon, LayoutDashboardIcon, Building2Icon, UsersIcon, ListVideoIcon, HeadsetIcon, ChartColumnBigIcon, PencilRulerIcon, WalletIcon } from 'lucide-react';
+import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
 import { useAppStateStore } from '@/store/state-store';
 import { usePathname } from '@/hooks/use-pathname';
 import { cn } from '@workspace/ui/lib/utils';

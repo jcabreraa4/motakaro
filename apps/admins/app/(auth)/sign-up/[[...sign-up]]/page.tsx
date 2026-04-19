@@ -138,7 +138,7 @@ export default function SignInPage() {
     return (
       <Card className="w-full max-w-lg">
         <CardHeader className="pointer-events-none select-none">
-          <CardTitle className="text-xl font-bold">Sign Up</CardTitle>
+          <CardTitle className="text-xl font-bold">Access Disabled</CardTitle>
           <CardDescription>Sign ups are currently disabled.</CardDescription>
         </CardHeader>
         <CardFooter className="flex flex-row gap-2">
