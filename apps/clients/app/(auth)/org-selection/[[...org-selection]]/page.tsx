@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Button } from '@workspace/ui/components/button';
 import { useClerk, useOrganizationList, useSession } from '@clerk/nextjs';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
@@ -98,9 +99,10 @@ export default function OrgSelectionPage() {
       </CardHeader>
       <CardContent className="flex flex-col gap-3 px-1">
         {userMemberships?.data?.map((mem) => (
-          <div
+          <Button
             key={mem.id}
-            className="flex cursor-pointer items-center gap-3 rounded-lg bg-sidebar-accent p-3 hover:bg-accent-foreground hover:text-white dark:border-white/35 dark:hover:text-black"
+            variant="outline"
+            className="flex h-14 cursor-pointer justify-start gap-2"
             onClick={() => handleSelect(mem.organization.id)}
           >
             <Avatar className="h-8 w-8 rounded-lg">
@@ -112,11 +114,11 @@ export default function OrgSelectionPage() {
                 <BuildingIcon />
               </AvatarFallback>
             </Avatar>
-            <span className="truncate text-left text-sm leading-tight font-medium">{mem.organization.name}</span>
-          </div>
+            <span className="truncate text-left leading-tight font-medium">{mem.organization.name}</span>
+          </Button>
         ))}
       </CardContent>
-      <CardFooter className="flex flex-col items-start gap-2 px-1">
+      <CardFooter className="flex flex-col items-start gap-3 px-1">
         <Label>Signed in as {session?.user.primaryEmailAddress?.emailAddress}</Label>
         <Label
           className="cursor-pointer underline"

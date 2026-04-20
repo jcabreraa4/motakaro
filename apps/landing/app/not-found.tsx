@@ -1,12 +1,12 @@
-import { Branding } from '@/components/motakaro/branding';
 import { AnimatedThemeButton } from '@workspace/ui/custom/theme-buttons';
 import { Particles } from '@workspace/ui/magicui/particles';
+import { Branding } from '@/components/motakaro/branding';
 
 export default function NotFound() {
   return (
     <main className="flex h-screen flex-col items-center justify-center gap-5">
       <div className="fixed top-0 left-0 z-50 p-5">
-        <Branding className="text-black dark:text-white" />
+        <Branding />
       </div>
       <div className="fixed top-0 right-0 z-50 p-5">
         <AnimatedThemeButton className="hidden lg:flex" />

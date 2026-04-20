@@ -10,7 +10,7 @@ interface BrandingProps {
 export function Branding({ href = '/', className }: BrandingProps) {
   return (
     <Link href={href}>
-      <div className="pointer-events-none flex items-center gap-2 select-none">
+      <div className={cn('pointer-events-none flex items-center gap-2 select-none', className)}>
         <Image
           src="/motakaro.webp"
           alt="MTKOLogo"
@@ -18,7 +18,7 @@ export function Branding({ href = '/', className }: BrandingProps) {
           height={500}
           className="h-10 w-auto"
         />
-        <p className={cn('text-2xl font-semibold text-white', className)}>Motakaro</p>
+        <p className="text-2xl font-semibold">Motakaro</p>
       </div>
     </Link>
   );

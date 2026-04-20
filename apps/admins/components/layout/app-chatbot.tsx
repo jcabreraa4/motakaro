@@ -3,23 +3,41 @@
 import { useState } from 'react';
 import { useChat } from '@ai-sdk/react';
 import { useAppStateStore } from '@/store/state-store';
+import { lastAssistantMessageIsCompleteWithToolCalls } from 'ai';
 import { type ModelId, initialModel } from '@/lib/chatbot/models';
 import { ChatbotMessages } from '@/components/chatbot/chatbot-messages';
 import { ChatbotAttachments } from '@/components/chatbot/chatbot-attachments';
 import { ChatbotSuggestions } from '@/components/chatbot/chatbot-suggestions';
 import { ChatbotInput } from '@/components/chatbot/chatbot-input';
 import { ChatMessage } from '@/app/api/chatbot/tools';
+import { usePathname } from '@/hooks/use-pathname';
+import { useRouter } from 'next/navigation';
 import { DefaultChatTransport } from 'ai';
 import { useUser } from '@clerk/nextjs';
-import { usePathname } from '@/hooks/use-pathname';
 
 export function AppChatbot() {
+  const router = useRouter();
   const { user } = useUser();
   const { fullPath } = usePathname();
-  const { messages, setMessages, status, sendMessage, regenerate } = useChat<ChatMessage>({
-    transport: new DefaultChatTransport({
-      api: '/api/chatbot'
-    })
+  const { messages, setMessages, status, sendMessage, regenerate, addToolOutput } = useChat<ChatMessage>({
+    transport: new DefaultChatTransport({ api: '/api/chatbot' }),
+    sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
+    async onToolCall({ toolCall }) {
+      if (toolCall.dynamic) return;
+      if (toolCall.toolName === 'redirectUser') {
+        const { section, id } = toolCall.input;
+        const path = id ? `${section}/${id}` : section;
+        router.push(path);
+        addToolOutput({
+          tool: 'redirectUser',
+          toolCallId: toolCall.toolCallId,
+          output: {
+            success: true,
+            redirect: path
+          }
+        });
+      }
+    }
   });
 
   const showChat = useAppStateStore((state) => state.showChat);

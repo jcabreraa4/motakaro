@@ -3,7 +3,17 @@ import { ActionButton } from '@/components/motakaro/action-button';
 import { DotPattern } from '@workspace/ui/magicui/dot-pattern';
 import { BoxReveal } from '@workspace/ui/magicui/box-reveal';
 
-const plans = [
+interface Plan {
+  name: string;
+  icon: string;
+  price: string;
+  features: {
+    name: string;
+    description: string;
+  }[];
+}
+
+const plans: Plan[] = [
   {
     name: 'Rollout Plan',
     icon: '🌱',

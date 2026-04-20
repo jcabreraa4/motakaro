@@ -3,6 +3,7 @@ import { Tool, ToolContent, ToolHeader, ToolInput, ToolOutput } from '@workspace
 import type { ListMultimediaPart, GetMultimediaPart } from '@/app/api/chatbot/tools';
 import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
 import { CodeBlock } from '@workspace/ui/chatbot/code-block';
+import { MultimediaInfo } from '../multimedia/multimedia-info';
 
 export function ListMultimedia({ part }: { part: ListMultimediaPart }) {
   return (
@@ -79,13 +80,20 @@ export function GetMultimedia({ part }: { part: GetMultimediaPart }) {
         </ToolContent>
       </Tool>
       {part.state === 'output-available' && typeof part.output.content === 'object' && (
-        <MultimediaPreview
-          preview
-          id={part.output.content._id}
-          src={part.output.content.url}
-          name={part.output.content.name}
-          type={part.output.content.type}
-        />
+        <div className="flex flex-col gap-5">
+          <MultimediaPreview
+            preview
+            id={part.output.content._id}
+            src={part.output.content.url}
+            name={part.output.content.name}
+            type={part.output.content.type}
+          />
+          <MultimediaInfo
+            name={part.output.content.name}
+            size={part.output.content.size}
+            type={part.output.content.type}
+          />
+        </div>
       )}
     </div>
   );

@@ -4,6 +4,7 @@ import { ConvexHttpClient } from 'convex/browser';
 import { auth } from '@clerk/nextjs/server';
 import { tool } from 'ai';
 import { z } from 'zod';
+import { url } from 'inspector/promises';
 
 const client = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
@@ -43,7 +44,7 @@ export const tools = {
   getMultimedia: tool({
     description: `Get an specific media file.`,
     inputSchema: z.object({
-      id: z.string()
+      id: z.string().describe('The ID of the media file.')
     }),
     async execute({ id }) {
       try {
@@ -73,6 +74,20 @@ export const tools = {
         };
       }
     }
+  }),
+  redirectUser: tool({
+    description: 'Redirects the user to a specified URL inside the app.',
+    inputSchema: z.object({
+      section: z.enum(['/multimedia', '/documents']),
+      id: z.string().optional().describe('ID for dynamic routes like /multimedia/[id]')
+    }),
+    async execute({ section, id }) {
+      const path = id ? `${section}/${id}` : section;
+      return {
+        success: true,
+        redirect: path
+      };
+    }
   })
 };
 
@@ -83,3 +98,4 @@ export type ChatMessage = UIMessage<never, UIDataTypes, ChatTools>;
 // Tools Types
 export type ListMultimediaPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-listMultimedia' }>;
 export type GetMultimediaPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-getMultimedia' }>;
+export type RedirectUserPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-redirectUser' }>;
