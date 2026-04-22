@@ -17,6 +17,7 @@ import { useUser } from '@clerk/nextjs';
 
 export function AppChatbot() {
   const router = useRouter();
+  const showChat = useAppStateStore((state) => state.showChat);
   const { user } = useUser();
   const { fullPath } = usePathname();
   const { messages, setMessages, status, sendMessage, regenerate, addToolOutput } = useChat<ChatMessage>({
@@ -24,12 +25,12 @@ export function AppChatbot() {
     sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
     async onToolCall({ toolCall }) {
       if (toolCall.dynamic) return;
-      if (toolCall.toolName === 'redirectUser') {
+      if (toolCall.toolName === 'usersRedirect') {
         const { section, id } = toolCall.input;
         const path = id ? `${section}/${id}` : section;
         router.push(path);
         addToolOutput({
-          tool: 'redirectUser',
+          tool: 'usersRedirect',
           toolCallId: toolCall.toolCallId,
           output: {
             success: true,
@@ -40,11 +41,8 @@ export function AppChatbot() {
     }
   });
 
-  const showChat = useAppStateStore((state) => state.showChat);
-
   const [input, setInput] = useState('');
   const [files, setFiles] = useState<File[]>([]);
-
   const [lastInput, setLastInput] = useState('');
   const [chatModel, setChatModel] = useState<ModelId>(initialModel);
 
@@ -90,8 +88,8 @@ export function AppChatbot() {
   if (!showChat) return null;
 
   return (
-    <main className="flex w-full flex-col items-center gap-2 border-l py-5 xl:w-120">
-      <section className="flex w-full flex-1 justify-center overflow-y-scroll">
+    <section className="flex w-full flex-col items-center gap-2 border-l py-5 xl:w-120 print:hidden">
+      <div className="flex w-full flex-1 justify-center overflow-y-scroll">
         <div className="w-full">
           <ChatbotMessages
             messages={messages}
@@ -100,9 +98,9 @@ export function AppChatbot() {
             lastInput={lastInput}
           />
         </div>
-      </section>
+      </div>
       {((messages.length === 0 && !input.trim()) || files.length !== 0) && (
-        <section className="h-9 w-full px-5">
+        <div className="h-9 w-full px-5">
           {messages.length === 0 && !input.trim() && files.length === 0 ? (
             <ChatbotSuggestions handleSubmit={handleSuggestion} />
           ) : (
@@ -111,7 +109,7 @@ export function AppChatbot() {
               setFiles={setFiles}
             />
           )}
-        </section>
+        </div>
       )}
       <ChatbotInput
         model={chatModel}
@@ -125,6 +123,6 @@ export function AppChatbot() {
         emptyChat={emptyChat}
         className="w-full px-5"
       />
-    </main>
+    </section>
   );
 }

@@ -10,6 +10,8 @@ export async function verifyIdentity(ctx: AnyCtx) {
   // Check Identity
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new ConvexError('Unauthorized');
+
+  // Return Identity
   return identity;
 }
 
@@ -19,6 +21,8 @@ export async function verifyAdminAuth(ctx: AnyCtx) {
   if (!identity || identity.issuer !== adminsIssuer) {
     throw new ConvexError('Unauthorized');
   }
+
+  // Return Identity
   return identity;
 }
 
@@ -28,5 +32,7 @@ export async function verifyClientAuth(ctx: AnyCtx) {
   if (!identity || identity.issuer !== clientsIssuer) {
     throw new ConvexError('Unauthorized');
   }
+
+  // Return Identity
   return identity;
 }

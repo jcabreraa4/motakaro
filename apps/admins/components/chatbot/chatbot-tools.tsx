@@ -1,52 +1,143 @@
+import type { ToolParts, MeetingsListPart, MeetingsGetPart, DocumentsListPart, DocumentsGetPart, WhiteboardsListPart, WhiteboardsGetPart, MultimediaListPart, MultimediaGetPart, ResourcesListPart, ResourcesGetPart } from '@/app/api/chatbot/tools';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@workspace/ui/components/carousel';
 import { Tool, ToolContent, ToolHeader, ToolInput, ToolOutput } from '@workspace/ui/chatbot/tool';
-import type { ListMultimediaPart, GetMultimediaPart } from '@/app/api/chatbot/tools';
 import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
+import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
 import { CodeBlock } from '@workspace/ui/chatbot/code-block';
-import { MultimediaInfo } from '../multimedia/multimedia-info';
 
-export function ListMultimedia({ part }: { part: ListMultimediaPart }) {
+interface ToolCodeBlockProps {
+  part: ToolParts;
+  title: string;
+  input?: boolean;
+}
+
+function ToolCodeBlock({ part, title, input = false }: ToolCodeBlockProps) {
+  return (
+    <Tool>
+      <ToolHeader
+        title={title}
+        type={part.type}
+        state={part.state}
+        className="cursor-pointer select-none"
+      />
+      <ToolContent>
+        {input && <ToolInput input={part.input} />}
+        {part.state === 'output-available' && (
+          <ToolOutput
+            output={
+              <CodeBlock
+                code={JSON.stringify(part.output, null, 2)}
+                language="json"
+              />
+            }
+            errorText={part.errorText}
+          />
+        )}
+      </ToolContent>
+    </Tool>
+  );
+}
+
+export function MeetingsList({ part }: { part: MeetingsListPart }) {
   return (
     <div>
-      <Tool>
-        <ToolHeader
-          type={part.type}
-          state={part.state}
-          title="List Multimedia"
-          className="cursor-pointer select-none"
-        />
-        <ToolContent>
-          {part.state === 'output-available' && (
-            <ToolOutput
-              output={
-                <CodeBlock
-                  code={JSON.stringify(part.output, null, 2)}
-                  language="json"
-                />
-              }
-              errorText={part.errorText}
-            />
-          )}
-        </ToolContent>
-      </Tool>
+      <ToolCodeBlock
+        part={part}
+        title="List Meetings"
+      />
+    </div>
+  );
+}
+
+export function MeetingsGet({ part }: { part: MeetingsGetPart }) {
+  return (
+    <div>
+      <ToolCodeBlock
+        input
+        part={part}
+        title="Get Meeting"
+      />
+    </div>
+  );
+}
+
+export function DocumentsList({ part }: { part: DocumentsListPart }) {
+  return (
+    <div>
+      <ToolCodeBlock
+        part={part}
+        title="List Documents"
+      />
+    </div>
+  );
+}
+
+export function DocumentsGet({ part }: { part: DocumentsGetPart }) {
+  return (
+    <div>
+      <ToolCodeBlock
+        input
+        part={part}
+        title="Get Document"
+      />
+    </div>
+  );
+}
+
+export function WhiteboardsList({ part }: { part: WhiteboardsListPart }) {
+  return (
+    <div>
+      <ToolCodeBlock
+        part={part}
+        title="List Whiteboards"
+      />
+    </div>
+  );
+}
+
+export function WhiteboardsGet({ part }: { part: WhiteboardsGetPart }) {
+  return (
+    <div>
+      <ToolCodeBlock
+        input
+        part={part}
+        title="Get Whiteboard"
+      />
+    </div>
+  );
+}
+
+export function MultimediaList({ part }: { part: MultimediaListPart }) {
+  return (
+    <div>
+      <ToolCodeBlock
+        part={part}
+        title="List Multimedia"
+      />
       {part.state === 'output-available' && typeof part.output.content === 'object' && (
         <div className="w-full pb-14">
           <Carousel>
             <CarouselContent>
               {part.output.content.map((file, index) => (
                 <CarouselItem key={index}>
-                  <MultimediaPreview
-                    preview
-                    id={file._id}
-                    src={file.url!}
-                    name={file.name}
-                    type={file.type}
-                  />
+                  <div className="flex flex-col gap-5">
+                    <MultimediaPreview
+                      id={file._id}
+                      src={file.url!}
+                      name={file.name}
+                      type={file.type}
+                    />
+                    <MultimediaInfo
+                      name={file.name}
+                      size={file.size}
+                      type={file.type}
+                    />
+                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="mt-37 ml-12 cursor-pointer rounded-md px-12" />
-            <CarouselNext className="mt-37 mr-12 cursor-pointer rounded-md px-12" />
+            <CarouselPrevious className="mt-45 ml-12 cursor-pointer rounded-md px-12" />
+            <CarouselNext className="mt-45 mr-12 cursor-pointer rounded-md px-12" />
           </Carousel>
         </div>
       )}
@@ -54,31 +145,14 @@ export function ListMultimedia({ part }: { part: ListMultimediaPart }) {
   );
 }
 
-export function GetMultimedia({ part }: { part: GetMultimediaPart }) {
+export function MultimediaGet({ part }: { part: MultimediaGetPart }) {
   return (
     <div>
-      <Tool>
-        <ToolHeader
-          type={part.type}
-          state={part.state}
-          title="Get Multimedia"
-          className="cursor-pointer"
-        />
-        <ToolContent>
-          <ToolInput input={part.input} />
-          {part.state === 'output-available' && (
-            <ToolOutput
-              output={
-                <CodeBlock
-                  code={JSON.stringify(part.output, null, 2)}
-                  language="json"
-                />
-              }
-              errorText={part.errorText}
-            />
-          )}
-        </ToolContent>
-      </Tool>
+      <ToolCodeBlock
+        input
+        part={part}
+        title="Get Multimedia"
+      />
       {part.state === 'output-available' && typeof part.output.content === 'object' && (
         <div className="flex flex-col gap-5">
           <MultimediaPreview
@@ -95,6 +169,29 @@ export function GetMultimedia({ part }: { part: GetMultimediaPart }) {
           />
         </div>
       )}
+    </div>
+  );
+}
+
+export function ResourcesList({ part }: { part: ResourcesListPart }) {
+  return (
+    <div>
+      <ToolCodeBlock
+        part={part}
+        title="List Resources"
+      />
+    </div>
+  );
+}
+
+export function ResourcesGet({ part }: { part: ResourcesGetPart }) {
+  return (
+    <div>
+      <ToolCodeBlock
+        input
+        part={part}
+        title="Get Resource"
+      />
     </div>
   );
 }

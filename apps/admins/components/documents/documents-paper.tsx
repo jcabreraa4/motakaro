@@ -1,16 +1,9 @@
-import { BulletList, TaskItem, TaskList } from '@tiptap/extension-list';
 import { useTiptapSync } from '@convex-dev/prosemirror-sync/tiptap';
 import { Id } from '@workspace/backend/_generated/dataModel';
-import { TextStyleKit } from '@tiptap/extension-text-style';
-import { ImageResize } from 'tiptap-extension-resize-image';
+import { tiptapExtensions } from '@/lib/documents/tiptap';
 import { useEditor, EditorContent } from '@tiptap/react';
-import { TextAlign } from '@tiptap/extension-text-align';
-import { Highlight } from '@tiptap/extension-highlight';
 import { api } from '@workspace/backend/_generated/api';
 import { useEditorStore } from '@/store/editor-store';
-import { TableKit } from '@tiptap/extension-table';
-import { StarterKit } from '@tiptap/starter-kit';
-import { Link } from '@tiptap/extension-link';
 import { Loader2 } from 'lucide-react';
 import { useEffect } from 'react';
 
@@ -55,34 +48,7 @@ export function DocumentsPaper({ paperId }: { paperId: Id<'documents'> }) {
           class: 'focus:outline-none bg-white rounded-md xl:border border-[#C7C7C7] min-h-[1054px] xl:px-[56px] xl:pt-10 xl:pb-10'
         }
       },
-      extensions: [
-        StarterKit.configure({
-          link: false
-        }),
-        TextStyleKit,
-        ImageResize,
-        BulletList,
-        TaskList,
-        TaskItem.configure({
-          nested: true
-        }),
-        TableKit.configure({
-          table: { resizable: true }
-        }),
-        Highlight.configure({
-          multicolor: true
-        }),
-        Link.configure({
-          openOnClick: false,
-          autolink: true,
-          defaultProtocol: 'https'
-        }),
-        TextAlign.configure({
-          types: ['heading', 'paragraph'],
-          alignments: ['left', 'center', 'right', 'justify']
-        }),
-        ...(sync.extension ? [sync.extension] : [])
-      ],
+      extensions: [...tiptapExtensions, ...(sync.extension ? [sync.extension] : [])],
       immediatelyRender: false,
       editable: !sync.isLoading && sync.initialContent !== null
     },

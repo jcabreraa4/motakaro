@@ -1,3 +1,4 @@
+import { MeetingsList, MeetingsGet, DocumentsList, DocumentsGet, WhiteboardsList, WhiteboardsGet, MultimediaList, MultimediaGet, ResourcesList, ResourcesGet } from '@/components/chatbot/chatbot-tools';
 import { Conversation, ConversationContent, ConversationEmptyState, ConversationScrollButton } from '@workspace/ui/chatbot/conversation';
 import { type AttachmentData, Attachment, AttachmentPreview, AttachmentRemove, Attachments } from '@workspace/ui/chatbot/attachments';
 import { Message, MessageAction, MessageActions, MessageContent, MessageResponse } from '@workspace/ui/chatbot/message';
@@ -6,7 +7,6 @@ import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@w
 import { Source, Sources, SourcesContent, SourcesTrigger } from '@workspace/ui/chatbot/sources';
 import { Reasoning, ReasoningContent, ReasoningTrigger } from '@workspace/ui/chatbot/reasoning';
 import { CopyIcon, Loader2Icon, MessageSquareIcon, RefreshCcwIcon } from 'lucide-react';
-import { GetMultimedia, ListMultimedia } from '@/components/chatbot/chatbot-tools';
 import type { ChatMessage } from '@/app/api/chatbot/tools';
 import { copyText } from '@/utils/copy-text';
 import { useUser } from '@clerk/nextjs';
@@ -135,16 +135,72 @@ export function ChatbotMessages({ status, messages, lastInput, regenerate }: Cha
                 }
 
                 // Tools Interactions
-                if (part.type === 'tool-listMultimedia') {
+                if (part.type === 'tool-meetingsList') {
                   return (
-                    <ListMultimedia
+                    <MeetingsList
                       key={`${message.id}-${partIndex}`}
                       part={part}
                     />
                   );
-                } else if (part.type === 'tool-getMultimedia') {
+                } else if (part.type === 'tool-meetingsGet') {
                   return (
-                    <GetMultimedia
+                    <MeetingsGet
+                      key={`${message.id}-${partIndex}`}
+                      part={part}
+                    />
+                  );
+                } else if (part.type === 'tool-documentsList') {
+                  return (
+                    <DocumentsList
+                      key={`${message.id}-${partIndex}`}
+                      part={part}
+                    />
+                  );
+                } else if (part.type === 'tool-documentsGet') {
+                  return (
+                    <DocumentsGet
+                      key={`${message.id}-${partIndex}`}
+                      part={part}
+                    />
+                  );
+                } else if (part.type === 'tool-whiteboardsList') {
+                  return (
+                    <WhiteboardsList
+                      key={`${message.id}-${partIndex}`}
+                      part={part}
+                    />
+                  );
+                } else if (part.type === 'tool-whiteboardsGet') {
+                  return (
+                    <WhiteboardsGet
+                      key={`${message.id}-${partIndex}`}
+                      part={part}
+                    />
+                  );
+                } else if (part.type === 'tool-multimediaList') {
+                  return (
+                    <MultimediaList
+                      key={`${message.id}-${partIndex}`}
+                      part={part}
+                    />
+                  );
+                } else if (part.type === 'tool-multimediaGet') {
+                  return (
+                    <MultimediaGet
+                      key={`${message.id}-${partIndex}`}
+                      part={part}
+                    />
+                  );
+                } else if (part.type === 'tool-resourcesList') {
+                  return (
+                    <ResourcesList
+                      key={`${message.id}-${partIndex}`}
+                      part={part}
+                    />
+                  );
+                } else if (part.type === 'tool-resourcesGet') {
+                  return (
+                    <ResourcesGet
                       key={`${message.id}-${partIndex}`}
                       part={part}
                     />

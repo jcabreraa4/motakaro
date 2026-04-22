@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     model: selectedModel?.chefSlug === 'openai' ? openai(model) : selectedModel?.chefSlug === 'google' ? google(model) : mistral(model),
     system: `
     You are the helpful, approachable, personal assistant in Motakaro.
-    You might be used through the Motakaro web app or through API, only by Motakaro employees.
+    You are used through the Motakaro web app, only by Motakaro employees.
     The current date is: ${date}.
     ${system}`,
     temperature: temperature,
