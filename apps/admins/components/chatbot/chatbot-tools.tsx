@@ -38,6 +38,7 @@ function ToolCodeBlock({ part, title, input = false }: ToolCodeBlockProps) {
   );
 }
 
+// Meetings Tools
 export function MeetingsList({ part }: { part: MeetingsListPart }) {
   return (
     <div>
@@ -61,6 +62,7 @@ export function MeetingsGet({ part }: { part: MeetingsGetPart }) {
   );
 }
 
+// Documents Tools
 export function DocumentsList({ part }: { part: DocumentsListPart }) {
   return (
     <div>
@@ -84,6 +86,7 @@ export function DocumentsGet({ part }: { part: DocumentsGetPart }) {
   );
 }
 
+// Whiteboards Tools
 export function WhiteboardsList({ part }: { part: WhiteboardsListPart }) {
   return (
     <div>
@@ -107,6 +110,7 @@ export function WhiteboardsGet({ part }: { part: WhiteboardsGetPart }) {
   );
 }
 
+// Multimedia Tools
 export function MultimediaList({ part }: { part: MultimediaListPart }) {
   return (
     <div>
@@ -136,8 +140,8 @@ export function MultimediaList({ part }: { part: MultimediaListPart }) {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="mt-45 ml-12 cursor-pointer rounded-md px-12" />
-            <CarouselNext className="mt-45 mr-12 cursor-pointer rounded-md px-12" />
+            <CarouselPrevious className="mt-42 ml-12 rounded-md px-12" />
+            <CarouselNext className="mt-42 mr-12 rounded-md px-12" />
           </Carousel>
         </div>
       )}
@@ -156,7 +160,6 @@ export function MultimediaGet({ part }: { part: MultimediaGetPart }) {
       {part.state === 'output-available' && typeof part.output.content === 'object' && (
         <div className="flex flex-col gap-5">
           <MultimediaPreview
-            preview
             id={part.output.content._id}
             src={part.output.content.url}
             name={part.output.content.name}
@@ -173,6 +176,7 @@ export function MultimediaGet({ part }: { part: MultimediaGetPart }) {
   );
 }
 
+// Resources Tools
 export function ResourcesList({ part }: { part: ResourcesListPart }) {
   return (
     <div>

@@ -21,7 +21,7 @@ const fontMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Motakaro',
-  description: 'Motakaro Landing',
+  description: 'GTM Agency',
   icons: {
     icon: '/motakaro.webp'
   }
