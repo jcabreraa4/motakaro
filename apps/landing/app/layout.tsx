@@ -5,6 +5,7 @@ import { ConvexProvider } from '@/components/providers/convex-provider';
 import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Toaster } from '@workspace/ui/components/sonner';
+import { Analytics } from '@vercel/analytics/next';
 import { cn } from '@workspace/ui/lib/utils';
 import '@workspace/ui/globals.css';
 
@@ -48,6 +49,7 @@ export default function RootLayout({
               {children}
               <Toaster />
               <SpeedInsights />
+              <Analytics />
             </TooltipProvider>
           </ConvexProvider>
         </ThemeProvider>
