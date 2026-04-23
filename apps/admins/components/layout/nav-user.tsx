@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronsUpDown, CircleUserIcon, LogOutIcon, UserRoundIcon } from 'lucide-react';
+import { ChevronsUpDown, CircleUserIcon, LogOutIcon, SettingsIcon, UserRoundIcon } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@workspace/ui/components/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
@@ -9,6 +9,7 @@ import { cn } from '@workspace/ui/lib/utils';
 import { useClerk } from '@clerk/nextjs';
 import { useTheme } from 'next-themes';
 import { dark } from '@clerk/themes';
+import Link from 'next/link';
 
 interface UserDataProps {
   name: string;
@@ -96,6 +97,12 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
                 <CircleUserIcon />
                 Account
               </DropdownMenuItem>
+              <Link href="/settings">
+                <DropdownMenuItem className="cursor-pointer">
+                  <SettingsIcon />
+                  Settings
+                </DropdownMenuItem>
+              </Link>
               <DropdownThemeButton />
             </DropdownMenuGroup>
             <DropdownMenuSeparator />

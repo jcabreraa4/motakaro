@@ -26,7 +26,7 @@ export function KnowledgeSidebar({ className }: { className?: string }) {
   const updateEmployee = useMutation(api.employees.update);
 
   useEffect(() => {
-    if (employee?.context) setContext(employee.context);
+    if (employee?.note) setContext(employee.note);
   }, [employee]);
 
   function updateContext() {

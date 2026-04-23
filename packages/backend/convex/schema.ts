@@ -14,7 +14,10 @@ export default defineSchema({
 
     // Additional Columns
     seen: v.optional(v.number()),
-    context: v.optional(v.string())
+    note: v.optional(v.string()),
+    role: v.optional(v.string()),
+    phone: v.optional(v.number()),
+    linkedin: v.optional(v.string())
   }).index('by_clerkId', ['clerkId']),
 
   // Motakaro Clients Users
@@ -27,7 +30,11 @@ export default defineSchema({
     clerkId: v.string(),
 
     // Additional Columns
-    seen: v.optional(v.number())
+    seen: v.optional(v.number()),
+    note: v.optional(v.string()),
+    role: v.optional(v.string()),
+    phone: v.optional(v.number()),
+    linkedin: v.optional(v.string())
   }).index('by_clerkId', ['clerkId']),
 
   // Motakaro Clients Companies
@@ -36,14 +43,20 @@ export default defineSchema({
     name: v.string(),
     logo: v.optional(v.string()),
     plan: v.optional(v.union(v.literal('onboarding'), v.literal('rollout'), v.literal('scaling'))),
-    clerkId: v.string()
+    clerkId: v.string(),
+
+    // Additional Columns
+    note: v.optional(v.string()),
+    website: v.optional(v.string()),
+    language: v.optional(v.string()),
+    linkedin: v.optional(v.string())
   }).index('by_clerkId', ['clerkId']),
 
   // Contacts Companies Relationships
   memberships: defineTable({
     contactId: v.id('contacts'),
     companyId: v.id('companies'),
-    orgRole: v.string()
+    orgRole: v.union(v.literal('org:admin'), v.literal('org:member'))
   })
     .index('by_contactId', ['contactId'])
     .index('by_companyId', ['companyId'])
@@ -95,7 +108,7 @@ export default defineSchema({
     updated: v.number(),
     storageId: v.id('_storage'),
 
-    // Images and Videos Specifics
+    // Images and Videos Specific
     width: v.optional(v.number()),
     height: v.optional(v.number())
   }).index('by_updated', ['updated']),

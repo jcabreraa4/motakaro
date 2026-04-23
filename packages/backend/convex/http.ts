@@ -60,6 +60,7 @@ async function validateClerkAdminsRequest(req: Request): Promise<WebhookEvent | 
 // Clerk Clients Webhook
 
 type OrgPlan = 'onboarding' | 'rollout' | 'scaling';
+type OrgRole = 'org:admin' | 'org:member';
 
 http.route({
   path: '/clerk-clients-webhook',
@@ -105,7 +106,7 @@ http.route({
       await ctx.runMutation(internal.memberships.internalUpsert, {
         contactClerkId: event.data.public_user_data.user_id,
         companyClerkId: event.data.organization.id,
-        orgRole: event.data.role
+        orgRole: event.data.role as OrgRole
       });
     } else if (event.type === 'organizationMembership.deleted') {
       await ctx.runMutation(internal.memberships.internalRemove, {

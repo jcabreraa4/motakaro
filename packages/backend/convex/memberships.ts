@@ -5,7 +5,7 @@ export const internalUpsert = internalMutation({
   args: {
     contactClerkId: v.string(),
     companyClerkId: v.string(),
-    orgRole: v.string()
+    orgRole: v.union(v.literal('org:admin'), v.literal('org:member'))
   },
   handler: async (ctx, args) => {
     // Obtain Convex Contact ID
