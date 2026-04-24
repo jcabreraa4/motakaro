@@ -9,17 +9,21 @@ import { ChatbotMessages } from '@/components/chatbot/chatbot-messages';
 import { ChatbotAttachments } from '@/components/chatbot/chatbot-attachments';
 import { ChatbotSuggestions } from '@/components/chatbot/chatbot-suggestions';
 import { ChatbotInput } from '@/components/chatbot/chatbot-input';
+import { api } from '@workspace/backend/_generated/api';
 import { ChatMessage } from '@/app/api/chatbot/tools';
 import { usePathname } from '@/hooks/use-pathname';
 import { useRouter } from 'next/navigation';
 import { DefaultChatTransport } from 'ai';
-import { useUser } from '@clerk/nextjs';
+import { useQuery } from 'convex/react';
+import { useAuth } from '@clerk/nextjs';
 
 export function AppChatbot() {
   const router = useRouter();
   const showChat = useAppStateStore((state) => state.showChat);
-  const { user } = useUser();
+
+  const { userId, isLoaded } = useAuth();
   const { fullPath } = usePathname();
+
   const { messages, setMessages, status, sendMessage, regenerate, addToolOutput } = useChat<ChatMessage>({
     transport: new DefaultChatTransport({ api: '/api/chatbot' }),
     sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
@@ -46,7 +50,8 @@ export function AppChatbot() {
   const [lastInput, setLastInput] = useState('');
   const [chatModel, setChatModel] = useState<ModelId>(initialModel);
 
-  const system = `User's first name: ${user?.firstName}. Current location within the app: ${fullPath}.`;
+  const employee = useQuery(api.employees.get, isLoaded ? { clerkId: userId! } : 'skip');
+  const system = `User's data: ${JSON.stringify(employee)}. Current location within the app: ${fullPath}.`;
 
   function handleSubmit() {
     const dt = new DataTransfer();

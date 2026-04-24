@@ -5,7 +5,6 @@ import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 import { mistral } from '@ai-sdk/mistral';
 import { openai } from '@ai-sdk/openai';
-import { google } from '@ai-sdk/google';
 
 interface RequestProps {
   model: string;
@@ -34,7 +33,7 @@ export async function POST(request: Request) {
 
   // Generate Response
   const result = streamText({
-    model: selectedModel?.chefSlug === 'openai' ? openai(model) : selectedModel?.chefSlug === 'google' ? google(model) : mistral(model),
+    model: selectedModel?.chefSlug === 'openai' ? openai(model) : mistral(model),
     system: `
     You are the helpful, approachable, personal assistant in Motakaro.
     Motakaro is a LinkedIn Ads / GTM Consultancy / Hybrid Demand Agency.

@@ -1,34 +1,28 @@
-export const chefs = ['OpenAI', 'Google', 'Mistral'];
+export const chefs = ['Mistral', 'OpenAI'];
+export const initialModel = 'gpt-4o-mini';
 
-export const initialModel = 'mistral-large-latest';
+type Model = {
+  id: string;
+  name: string;
+  chef: 'OpenAI' | 'Mistral';
+  chefSlug: 'openai' | 'mistral';
+  providers: string[];
+};
 
-export const models = [
+export const models: Model[] = [
   {
     id: 'gpt-4o-mini',
     name: 'GPT-4o Mini',
     chef: 'OpenAI',
     chefSlug: 'openai',
-    providers: [],
-    useTools: true,
-    webSearch: false
-  },
-  {
-    id: 'gemini-2.5-flash',
-    name: 'Gemini 2.5 Flash',
-    chef: 'Google',
-    chefSlug: 'google',
-    providers: [],
-    useTools: false,
-    webSearch: true
+    providers: []
   },
   {
     id: 'mistral-large-latest',
     name: 'Mistral Large Latest',
     chef: 'Mistral',
     chefSlug: 'mistral',
-    providers: [],
-    useTools: true,
-    webSearch: false
+    providers: []
   }
 ];
 
