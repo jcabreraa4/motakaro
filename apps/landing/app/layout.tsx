@@ -1,12 +1,12 @@
-import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
-import { ThemeProvider } from '@/components/providers/theme-provider';
 import { ConvexProvider } from '@/components/providers/convex-provider';
+import { ThemeProvider } from '@/components/providers/theme-provider';
 import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Toaster } from '@workspace/ui/components/sonner';
+import { Geist, Geist_Mono } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import { cn } from '@workspace/ui/lib/utils';
+import type { Metadata } from 'next';
 import '@workspace/ui/globals.css';
 
 const fontSans = Geist({
