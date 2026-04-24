@@ -28,7 +28,7 @@ export function ChatbotMessages({ status, messages, lastInput, regenerate }: Cha
       <ConversationContent>
         {messages.length === 0 && (
           <ConversationEmptyState className="xl:mt-40">
-            <Empty>
+            <Empty className="pointer-events-none select-none">
               <EmptyHeader>
                 <EmptyMedia variant="icon">
                   <MessageSquareIcon className="size-6" />

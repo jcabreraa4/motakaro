@@ -1,7 +1,7 @@
 import { PromptInput, PromptInputBody, PromptInputButton, PromptInputFooter, PromptInputSubmit, PromptInputTextarea, PromptInputTools } from '@workspace/ui/chatbot/prompt-input';
 import { ChatbotDialog } from '@/components/chatbot/chatbot-dialog';
+import { PaperclipIcon, RotateCcwIcon } from 'lucide-react';
 import { type ModelId } from '@/lib/chatbot/models';
-import { PlusIcon, TrashIcon } from 'lucide-react';
 import { cn } from '@workspace/ui/lib/utils';
 import { ChatStatus } from 'ai';
 
@@ -42,7 +42,7 @@ export function ChatbotInput({ model, setModel, input, setInput, files, setFiles
               className="cursor-pointer"
             >
               <label htmlFor="file-upload">
-                <PlusIcon size={16} />
+                <PaperclipIcon size={16} />
               </label>
             </PromptInputButton>
             <input
@@ -57,7 +57,7 @@ export function ChatbotInput({ model, setModel, input, setInput, files, setFiles
               className="cursor-pointer"
               onClick={emptyChat}
             >
-              <TrashIcon size={16} />
+              <RotateCcwIcon size={16} />
             </PromptInputButton>
           </div>
           <ChatbotDialog

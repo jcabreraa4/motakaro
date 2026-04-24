@@ -19,6 +19,7 @@ export const ModelSelectorContent = ({ className, children, title = 'Model Selec
   <DialogContent
     aria-describedby={undefined}
     className={cn('border-none! p-0 outline! outline-border! outline-solid!', className)}
+    onOpenAutoFocus={(e) => e.preventDefault()}
     {...props}
   >
     <DialogTitle className="sr-only">{title}</DialogTitle>

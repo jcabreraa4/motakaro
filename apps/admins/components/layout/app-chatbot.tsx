@@ -93,7 +93,7 @@ export function AppChatbot() {
   if (!showChat) return null;
 
   return (
-    <section className="flex w-full flex-col items-center gap-2 border-l py-5 xl:w-120 print:hidden">
+    <section className="flex w-full flex-col items-center gap-2 border-l py-2 lg:py-5 xl:w-120 print:hidden">
       <div className="flex w-full flex-1 justify-center overflow-y-scroll">
         <div className="w-full">
           <ChatbotMessages
@@ -105,7 +105,7 @@ export function AppChatbot() {
         </div>
       </div>
       {((messages.length === 0 && !input.trim()) || files.length !== 0) && (
-        <div className="h-9 w-full px-5">
+        <div className="h-9 w-full px-2 lg:px-5">
           {messages.length === 0 && !input.trim() && files.length === 0 ? (
             <ChatbotSuggestions handleSubmit={handleSuggestion} />
           ) : (
@@ -126,7 +126,7 @@ export function AppChatbot() {
         status={status}
         handleSubmit={handleSubmit}
         emptyChat={emptyChat}
-        className="w-full px-5"
+        className="w-full px-2 lg:px-5"
       />
     </section>
   );

@@ -9,6 +9,7 @@ import { z } from 'zod';
 const client = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
 export const tools = {
+  // Meetings Tools
   meetingsList: tool({
     description: 'List all meetings.',
     inputSchema: z.object(),
@@ -75,6 +76,8 @@ export const tools = {
       }
     }
   }),
+
+  // Documents Tools
   documentsList: tool({
     description: 'List all documents.',
     inputSchema: z.object(),
@@ -144,6 +147,8 @@ export const tools = {
       }
     }
   }),
+
+  // Whiteboards Tools
   whiteboardsList: tool({
     description: 'List all whiteboards.',
     inputSchema: z.object(),
@@ -210,6 +215,8 @@ export const tools = {
       }
     }
   }),
+
+  // Multimedia Tools
   multimediaList: tool({
     description: 'List all media files.',
     inputSchema: z.object(),
@@ -276,6 +283,8 @@ export const tools = {
       }
     }
   }),
+
+  // Resources Tools
   resourcesList: tool({
     description: `List all resources.`,
     inputSchema: z.object(),
@@ -342,6 +351,8 @@ export const tools = {
       }
     }
   }),
+
+  // Other Tools
   usersRedirect: tool({
     description: 'Redirects the user to a specified URL inside the app.',
     inputSchema: z.object({
