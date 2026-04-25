@@ -8,6 +8,7 @@ import { SidebarTrigger } from '@workspace/ui/components/sidebar';
 import { Separator } from '@workspace/ui/components/separator';
 import { AppPresence } from '@/components/layout/app-presence';
 import { Button } from '@workspace/ui/components/button';
+import { cn } from '@workspace/ui/lib/utils';
 import { BotIcon } from 'lucide-react';
 import Link from 'next/link';
 
@@ -59,14 +60,15 @@ export function AppHeader() {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-8">
         <AppPresence className="hidden select-none 2xl:flex" />
         <Button
-          variant={showChat ? 'default' : 'outline'}
-          className="cursor-pointer"
+          size="icon-sm"
+          variant="ghost"
+          className="cursor-pointer text-zinc-400 hover:bg-transparent"
           onClick={toggleChat}
         >
-          <BotIcon />
+          <BotIcon className={cn('size-6', showChat && 'text-black')} />
         </Button>
       </div>
     </header>

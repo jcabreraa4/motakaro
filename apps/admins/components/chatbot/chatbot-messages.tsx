@@ -1,4 +1,4 @@
-import { MeetingsList, MeetingsGet, DocumentsList, DocumentsGet, WhiteboardsList, WhiteboardsGet, MultimediaList, MultimediaGet, ResourcesList, ResourcesGet } from '@/components/chatbot/chatbot-tools';
+import { MeetingsList, MeetingsGet, ContactsList, ContactsGet, CompaniesList, CompaniesGet, DocumentsList, DocumentsGet, WhiteboardsList, WhiteboardsGet, MultimediaList, MultimediaGet, ResourcesList, ResourcesGet } from '@/components/chatbot/chatbot-tools';
 import { Conversation, ConversationContent, ConversationEmptyState, ConversationScrollButton } from '@workspace/ui/chatbot/conversation';
 import { type AttachmentData, Attachment, AttachmentPreview, AttachmentRemove, Attachments } from '@workspace/ui/chatbot/attachments';
 import { Message, MessageAction, MessageActions, MessageContent, MessageResponse } from '@workspace/ui/chatbot/message';
@@ -9,6 +9,7 @@ import { Reasoning, ReasoningContent, ReasoningTrigger } from '@workspace/ui/cha
 import { CopyIcon, Loader2Icon, MessageSquareIcon, RefreshCcwIcon } from 'lucide-react';
 import type { ChatMessage } from '@/app/api/chatbot/tools';
 import { copyText } from '@/utils/copy-text';
+import { cn } from '@workspace/ui/lib/utils';
 import { useUser } from '@clerk/nextjs';
 import { Fragment } from 'react';
 import { ChatStatus } from 'ai';
@@ -25,7 +26,7 @@ export function ChatbotMessages({ status, messages, lastInput, regenerate }: Cha
 
   return (
     <Conversation>
-      <ConversationContent>
+      <ConversationContent className={cn(messages.length === 0 ? 'px-0' : 'px-2')}>
         {messages.length === 0 && (
           <ConversationEmptyState className="xl:mt-40">
             <Empty className="pointer-events-none select-none">
@@ -134,7 +135,7 @@ export function ChatbotMessages({ status, messages, lastInput, regenerate }: Cha
                   );
                 }
 
-                // Tools Interactions
+                // Meetings Tools
                 if (part.type === 'tool-meetingsList') {
                   return (
                     <MeetingsList
@@ -149,6 +150,40 @@ export function ChatbotMessages({ status, messages, lastInput, regenerate }: Cha
                       part={part}
                     />
                   );
+
+                  // Contacts Tools
+                } else if (part.type === 'tool-contactsList') {
+                  return (
+                    <ContactsList
+                      key={`${message.id}-${partIndex}`}
+                      part={part}
+                    />
+                  );
+                } else if (part.type === 'tool-contactsGet') {
+                  return (
+                    <ContactsGet
+                      key={`${message.id}-${partIndex}`}
+                      part={part}
+                    />
+                  );
+
+                  // Companies Tools
+                } else if (part.type === 'tool-companiesList') {
+                  return (
+                    <CompaniesList
+                      key={`${message.id}-${partIndex}`}
+                      part={part}
+                    />
+                  );
+                } else if (part.type === 'tool-companiesGet') {
+                  return (
+                    <CompaniesGet
+                      key={`${message.id}-${partIndex}`}
+                      part={part}
+                    />
+                  );
+
+                  // Documents Tools
                 } else if (part.type === 'tool-documentsList') {
                   return (
                     <DocumentsList
@@ -163,6 +198,8 @@ export function ChatbotMessages({ status, messages, lastInput, regenerate }: Cha
                       part={part}
                     />
                   );
+
+                  // Whiteboards Tools
                 } else if (part.type === 'tool-whiteboardsList') {
                   return (
                     <WhiteboardsList
@@ -177,6 +214,8 @@ export function ChatbotMessages({ status, messages, lastInput, regenerate }: Cha
                       part={part}
                     />
                   );
+
+                  // Multimedia Tools
                 } else if (part.type === 'tool-multimediaList') {
                   return (
                     <MultimediaList
@@ -191,6 +230,8 @@ export function ChatbotMessages({ status, messages, lastInput, regenerate }: Cha
                       part={part}
                     />
                   );
+
+                  // Resources Tools
                 } else if (part.type === 'tool-resourcesList') {
                   return (
                     <ResourcesList

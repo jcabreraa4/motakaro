@@ -77,6 +77,142 @@ export const tools = {
     }
   }),
 
+  // Contacts Tools
+  contactsList: tool({
+    description: 'List all contacts.',
+    inputSchema: z.object(),
+    async execute() {
+      try {
+        // Authenticate Convex
+        const { getToken } = await auth();
+        const token = await getToken({ template: 'convex' });
+        client.setAuth(token!);
+
+        // Obtain all Contacts
+        const contacts = await client.query(api.contacts.list, {});
+
+        // Return all Contacts
+        if (!contacts || contacts.length === 0) {
+          return {
+            status: 200,
+            content: 'No contacts found.'
+          };
+        }
+        return {
+          status: 200,
+          content: contacts
+        };
+      } catch (error) {
+        return {
+          status: 500,
+          message: `Error loading contacts: ${error}`
+        };
+      }
+    }
+  }),
+  contactsGet: tool({
+    description: 'Get an specificcontact.',
+    inputSchema: z.object({
+      id: z.string().describe('The ID of the contact.')
+    }),
+    async execute({ id }) {
+      try {
+        // Authenticate Convex
+        const { getToken } = await auth();
+        const token = await getToken({ template: 'convex' });
+        client.setAuth(token!);
+
+        // Obtain the Contact
+        const contact = await client.query(api.contacts.get, { id });
+
+        // Return the Contact
+        if (!contact) {
+          return {
+            status: 200,
+            content: 'No contact found.'
+          };
+        }
+        return {
+          status: 200,
+          content: contact
+        };
+      } catch (error) {
+        return {
+          status: 500,
+          message: `Error loading contact: ${error}`
+        };
+      }
+    }
+  }),
+
+  // Companies Tools
+  companiesList: tool({
+    description: 'List all companies.',
+    inputSchema: z.object(),
+    async execute() {
+      try {
+        // Authenticate Convex
+        const { getToken } = await auth();
+        const token = await getToken({ template: 'convex' });
+        client.setAuth(token!);
+
+        // Obtain all Companies
+        const companies = await client.query(api.companies.list);
+
+        // Return all Companies
+        if (!companies || companies.length === 0) {
+          return {
+            status: 200,
+            content: 'No companies found.'
+          };
+        }
+        return {
+          status: 200,
+          content: companies
+        };
+      } catch (error) {
+        return {
+          status: 500,
+          message: `Error loading companies: ${error}`
+        };
+      }
+    }
+  }),
+  companiesGet: tool({
+    description: 'Get an specific company.',
+    inputSchema: z.object({
+      id: z.string().describe('The ID of the company.')
+    }),
+    async execute({ id }) {
+      try {
+        // Authenticate Convex
+        const { getToken } = await auth();
+        const token = await getToken({ template: 'convex' });
+        client.setAuth(token!);
+
+        // Obtain the Company
+        const company = await client.query(api.companies.get, { id });
+
+        // Return the Company
+        if (!company) {
+          return {
+            status: 200,
+            content: 'No company found.'
+          };
+        }
+        return {
+          status: 200,
+          content: company
+        };
+      } catch (error) {
+        return {
+          status: 500,
+          message: `Error loading company: ${error}`
+        };
+      }
+    }
+  }),
+
   // Documents Tools
   documentsList: tool({
     description: 'List all documents.',
@@ -376,6 +512,10 @@ export type ChatMessage = UIMessage<never, UIDataTypes, ChatTools>;
 // Tools Types
 export type MeetingsListPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-meetingsList' }>;
 export type MeetingsGetPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-meetingsGet' }>;
+export type ContactsListPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-contactsList' }>;
+export type ContactsGetPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-contactsGet' }>;
+export type CompaniesListPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-companiesList' }>;
+export type CompaniesGetPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-companiesGet' }>;
 export type DocumentsListPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-documentsList' }>;
 export type DocumentsGetPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-documentsGet' }>;
 export type WhiteboardsListPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-whiteboardsList' }>;
@@ -386,4 +526,4 @@ export type ResourcesListPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-res
 export type ResourcesGetPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-resourcesGet' }>;
 export type UsersRedirectPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-usersRedirect' }>;
 
-export type ToolParts = MeetingsListPart | MeetingsGetPart | DocumentsListPart | DocumentsGetPart | WhiteboardsListPart | WhiteboardsGetPart | MultimediaListPart | MultimediaGetPart | ResourcesListPart | ResourcesGetPart;
+export type ToolParts = MeetingsListPart | MeetingsGetPart | ContactsListPart | ContactsGetPart | CompaniesListPart | CompaniesGetPart | DocumentsListPart | DocumentsGetPart | WhiteboardsListPart | WhiteboardsGetPart | MultimediaListPart | MultimediaGetPart | ResourcesListPart | ResourcesGetPart;

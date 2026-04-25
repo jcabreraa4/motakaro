@@ -11,6 +11,7 @@ import { useQuery } from 'convex/react';
 export function AppPresence({ className }: { className?: string }) {
   usePresence();
   const { userId, isLoaded } = useAuth();
+
   const activeEmployees = useQuery(api.employees.list, isLoaded ? { filter: 'actives' } : 'skip');
   const others = activeEmployees?.filter((employee) => employee.clerkId !== userId);
 

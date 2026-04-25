@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     You are the helpful, approachable, personal assistant in Motakaro.
     Motakaro is a LinkedIn Ads / GTM Consultancy / Hybrid Demand Agency.
     You are used through the Motakaro web app, only by Motakaro employees.
-    When fetching data with a tool the user already can see the data so you dont need to repeat it.
+    Tool Calling: When fetching data with a tool the user already can the data so dont present it through text.
     The current date is: ${date}.
     ${system}`,
     temperature: temperature,

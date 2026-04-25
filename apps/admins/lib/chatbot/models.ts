@@ -1,5 +1,5 @@
 export const chefs = ['Mistral', 'OpenAI'];
-export const initialModel = 'gpt-4o-mini';
+export const initialModel = 'mistral-large-latest';
 
 type Model = {
   id: string;
@@ -19,7 +19,7 @@ export const models: Model[] = [
   },
   {
     id: 'mistral-large-latest',
-    name: 'Mistral Large Latest',
+    name: 'Mistral Large',
     chef: 'Mistral',
     chefSlug: 'mistral',
     providers: []

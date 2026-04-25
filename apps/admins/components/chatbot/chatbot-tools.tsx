@@ -1,4 +1,4 @@
-import type { ToolParts, MeetingsListPart, MeetingsGetPart, DocumentsListPart, DocumentsGetPart, WhiteboardsListPart, WhiteboardsGetPart, MultimediaListPart, MultimediaGetPart, ResourcesListPart, ResourcesGetPart } from '@/app/api/chatbot/tools';
+import type { ToolParts, MeetingsListPart, MeetingsGetPart, ContactsListPart, ContactsGetPart, CompaniesListPart, CompaniesGetPart, DocumentsListPart, DocumentsGetPart, WhiteboardsListPart, WhiteboardsGetPart, MultimediaListPart, MultimediaGetPart, ResourcesListPart, ResourcesGetPart } from '@/app/api/chatbot/tools';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@workspace/ui/components/carousel';
 import { Tool, ToolContent, ToolHeader, ToolInput, ToolOutput } from '@workspace/ui/chatbot/tool';
 import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
@@ -57,6 +57,54 @@ export function MeetingsGet({ part }: { part: MeetingsGetPart }) {
         input
         part={part}
         title="Get Meeting"
+      />
+    </div>
+  );
+}
+
+// Contacts Tools
+export function ContactsList({ part }: { part: ContactsListPart }) {
+  return (
+    <div>
+      <ToolCodeBlock
+        part={part}
+        title="List Contacts"
+      />
+    </div>
+  );
+}
+
+export function ContactsGet({ part }: { part: ContactsGetPart }) {
+  return (
+    <div>
+      <ToolCodeBlock
+        input
+        part={part}
+        title="Get Contact"
+      />
+    </div>
+  );
+}
+
+// Companies Tools
+export function CompaniesList({ part }: { part: CompaniesListPart }) {
+  return (
+    <div>
+      <ToolCodeBlock
+        part={part}
+        title="List Companies"
+      />
+    </div>
+  );
+}
+
+export function CompaniesGet({ part }: { part: CompaniesGetPart }) {
+  return (
+    <div>
+      <ToolCodeBlock
+        input
+        part={part}
+        title="Get Company"
       />
     </div>
   );
