@@ -133,7 +133,7 @@ export default function Page() {
                   <HeadsetIcon className="size-6" />
                 </EmptyMedia>
                 <EmptyTitle className="text-xl">No Meetings Available</EmptyTitle>
-                <EmptyDescription className="text-md">There are no meetings available yet. Get started by booking your first meeting.</EmptyDescription>
+                <EmptyDescription className="text-md hidden lg:block">There are no meetings available yet. Get started by booking your first meeting.</EmptyDescription>
               </EmptyHeader>
               <EmptyContent>
                 <CreateDialog className="min-w-50" />
@@ -148,7 +148,8 @@ export default function Page() {
                   <HeadsetIcon className="size-6" />
                 </EmptyMedia>
                 <EmptyTitle className="text-xl">No Meetings Found</EmptyTitle>
-                <EmptyDescription className="text-md">No meetings match your search criteria. Try adjusting your filters or search term.</EmptyDescription>
+                <EmptyDescription className="text-md hidden lg:block">No meetings match your search criteria. Try adjusting your filters or search term.</EmptyDescription>
+                <EmptyDescription className="text-md lg:hidden">No meetings match your search criteria.</EmptyDescription>
               </EmptyHeader>
             </Empty>
           </section>

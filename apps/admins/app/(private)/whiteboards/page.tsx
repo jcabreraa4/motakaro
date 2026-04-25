@@ -48,7 +48,7 @@ export default function Page() {
                 <PencilRulerIcon className="size-6" />
               </EmptyMedia>
               <EmptyTitle className="text-xl">No Whiteboards Available</EmptyTitle>
-              <EmptyDescription className="text-md">You haven&apos;t created any whiteboards yet. Get started by creating your first whiteboard.</EmptyDescription>
+              <EmptyDescription className="text-md hidden lg:block">You haven&apos;t created any whiteboards yet. Get started by creating your first whiteboard.</EmptyDescription>
             </EmptyHeader>
             <EmptyContent>
               <CreateButton className="min-w-50" />
@@ -63,7 +63,8 @@ export default function Page() {
                 <PencilRulerIcon className="size-6" />
               </EmptyMedia>
               <EmptyTitle className="text-xl">No Whiteboards Found</EmptyTitle>
-              <EmptyDescription className="text-md">No whiteboards match your search criteria. Try adjusting your filters or search term.</EmptyDescription>
+              <EmptyDescription className="text-md hidden lg:block">No whiteboards match your search criteria. Try adjusting your filters or search term.</EmptyDescription>
+              <EmptyDescription className="text-md lg:hidden">No whiteboards match your search criteria.</EmptyDescription>
             </EmptyHeader>
           </Empty>
         </section>

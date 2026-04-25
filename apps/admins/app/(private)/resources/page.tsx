@@ -69,7 +69,7 @@ export default function Page() {
                 <ListVideoIcon className="size-6" />
               </EmptyMedia>
               <EmptyTitle className="text-xl">No Resources Available</EmptyTitle>
-              <EmptyDescription className="text-md">You haven&apos;t listed any resources yet. Get started by listing your first resource.</EmptyDescription>
+              <EmptyDescription className="text-md hidden lg:block">You haven&apos;t listed any resources yet. Get started by listing your first resource.</EmptyDescription>
             </EmptyHeader>
             <EmptyContent>
               <CreateDialog className="min-w-50" />
@@ -84,7 +84,8 @@ export default function Page() {
                 <ListVideoIcon className="size-6" />
               </EmptyMedia>
               <EmptyTitle className="text-xl">No Resources Found</EmptyTitle>
-              <EmptyDescription className="text-md">No resources match your search criteria. Try adjusting your filters or search term.</EmptyDescription>
+              <EmptyDescription className="text-md hidden lg:block">No resources match your search criteria. Try adjusting your filters or search term.</EmptyDescription>
+              <EmptyDescription className="text-md lg:hidden">No resources match your search criteria.</EmptyDescription>
             </EmptyHeader>
           </Empty>
         </section>

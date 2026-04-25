@@ -48,7 +48,7 @@ export default function Page() {
                 <FileTextIcon className="size-6" />
               </EmptyMedia>
               <EmptyTitle className="text-xl">No Documents Available</EmptyTitle>
-              <EmptyDescription className="text-md">You haven&apos;t created any documents yet. Get started by creating your first document.</EmptyDescription>
+              <EmptyDescription className="text-md hidden lg:block">You haven&apos;t created any documents yet. Get started by creating your first document.</EmptyDescription>
             </EmptyHeader>
             <EmptyContent>
               <CreateButton className="min-w-50" />
@@ -63,7 +63,8 @@ export default function Page() {
                 <FileTextIcon className="size-6" />
               </EmptyMedia>
               <EmptyTitle className="text-xl">No Documents Found</EmptyTitle>
-              <EmptyDescription className="text-md">No documents match your search criteria. Try adjusting your filters or search term.</EmptyDescription>
+              <EmptyDescription className="text-md hidden lg:block">No documents match your search criteria. Try adjusting your filters or search term.</EmptyDescription>
+              <EmptyDescription className="text-md lg:hidden">No documents match your search criteria.</EmptyDescription>
             </EmptyHeader>
           </Empty>
         </section>

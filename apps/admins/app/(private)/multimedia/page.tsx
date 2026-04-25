@@ -71,7 +71,7 @@ export default function Page() {
                 <ImageIcon className="size-6" />
               </EmptyMedia>
               <EmptyTitle className="text-xl">No Multimedia Available</EmptyTitle>
-              <EmptyDescription className="text-md">You haven&apos;t uploaded any files yet. Get started by uploading your first file.</EmptyDescription>
+              <EmptyDescription className="text-md hidden lg:block">You haven&apos;t uploaded any files yet. Get started by uploading your first file.</EmptyDescription>
             </EmptyHeader>
             <EmptyContent>
               <UploadDialog className="min-w-50" />
@@ -86,7 +86,8 @@ export default function Page() {
                 <ImageIcon className="size-6" />
               </EmptyMedia>
               <EmptyTitle className="text-xl">No Multimedia Found</EmptyTitle>
-              <EmptyDescription className="text-md">No multimedia match your search criteria. Try adjusting your filters or search term.</EmptyDescription>
+              <EmptyDescription className="text-md hidden lg:block">No multimedia match your search criteria. Try adjusting your filters or search term.</EmptyDescription>
+              <EmptyDescription className="text-md lg:hidden">No multimedia match your search criteria.</EmptyDescription>
             </EmptyHeader>
           </Empty>
         </section>
