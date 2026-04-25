@@ -509,21 +509,35 @@ export const tools = {
 export type ChatTools = InferUITools<typeof tools>;
 export type ChatMessage = UIMessage<never, UIDataTypes, ChatTools>;
 
-// Tools Types
+// Meetings Tools
 export type MeetingsListPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-meetingsList' }>;
 export type MeetingsGetPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-meetingsGet' }>;
+
+// Contacts Tools
 export type ContactsListPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-contactsList' }>;
 export type ContactsGetPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-contactsGet' }>;
+
+// Companies Tools
 export type CompaniesListPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-companiesList' }>;
 export type CompaniesGetPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-companiesGet' }>;
+
+// Documents Tools
 export type DocumentsListPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-documentsList' }>;
 export type DocumentsGetPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-documentsGet' }>;
+
+// Whiteboards Tools
 export type WhiteboardsListPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-whiteboardsList' }>;
 export type WhiteboardsGetPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-whiteboardsGet' }>;
+
+// Multimedia Tools
 export type MultimediaListPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-multimediaList' }>;
 export type MultimediaGetPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-multimediaGet' }>;
+
+// Resources Tools
 export type ResourcesListPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-resourcesList' }>;
 export type ResourcesGetPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-resourcesGet' }>;
+
+// Other Tools
 export type UsersRedirectPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-usersRedirect' }>;
 
 export type ToolParts = MeetingsListPart | MeetingsGetPart | ContactsListPart | ContactsGetPart | CompaniesListPart | CompaniesGetPart | DocumentsListPart | DocumentsGetPart | WhiteboardsListPart | WhiteboardsGetPart | MultimediaListPart | MultimediaGetPart | ResourcesListPart | ResourcesGetPart;

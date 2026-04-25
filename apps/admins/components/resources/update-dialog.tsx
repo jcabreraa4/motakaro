@@ -53,9 +53,9 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
       <SheetContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <SheetHeader>
           <SheetTitle>Update Resource</SheetTitle>
-          <SheetDescription>Change your resource&apos;s information.</SheetDescription>
+          <SheetDescription className="hidden lg:block">Change your resource&apos;s information.</SheetDescription>
         </SheetHeader>
-        <div className="grid flex-1 auto-rows-min gap-6 px-4">
+        <div className="grid flex-1 auto-rows-min gap-4 px-4 lg:gap-5">
           <div className="flex flex-col gap-2">
             <Label htmlFor="name">Name</Label>
             <Input

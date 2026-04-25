@@ -50,8 +50,10 @@ export function AppChatbot() {
   const [lastInput, setLastInput] = useState('');
   const [chatModel, setChatModel] = useState<ModelId>(initialModel);
 
+  // Request Data
   const employee = useQuery(api.employees.get, isLoaded ? { clerkId: userId! } : 'skip');
   const system = `User's data: ${JSON.stringify(employee)}. Current location within the app: ${fullPath}.`;
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   function handleSubmit() {
     const dt = new DataTransfer();
@@ -61,7 +63,8 @@ export function AppChatbot() {
       {
         body: {
           model: chatModel,
-          system: system
+          system: system,
+          timezone: timezone
         }
       }
     );
@@ -76,7 +79,8 @@ export function AppChatbot() {
       {
         body: {
           model: chatModel,
-          system: system
+          system: system,
+          timezone: timezone
         }
       }
     );

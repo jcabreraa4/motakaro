@@ -36,7 +36,7 @@ export function CreateDialog({ variant = 'default', className }: CreateDialogPro
       <SheetContent>
         <SheetHeader>
           <SheetTitle>Book Meeting</SheetTitle>
-          <SheetDescription>Book a future online meeting.</SheetDescription>
+          <SheetDescription className="hidden lg:block">Book a future online meeting.</SheetDescription>
         </SheetHeader>
         <SheetFooter>
           <Button

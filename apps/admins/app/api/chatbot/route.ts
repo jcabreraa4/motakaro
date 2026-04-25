@@ -11,6 +11,7 @@ interface RequestProps {
   system: string;
   temperature?: number | 1;
   messages: UIMessage[];
+  timezone?: string;
 }
 
 export async function POST(request: Request) {
@@ -18,15 +19,23 @@ export async function POST(request: Request) {
   const userId = await auth();
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  // Obtain Date
-  const date = new Date().toLocaleDateString('es-ES', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
-  });
+  // Process Request
+  const { model, system, temperature, messages, timezone }: RequestProps = await request.json();
 
-  // Obtain Request
-  const { model, system, temperature, messages }: RequestProps = await request.json();
+  // Obtain Date & Time
+  const date = new Intl.DateTimeFormat('en-CA', {
+    timeZone: timezone || 'UTC',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).format(new Date());
+
+  const time = new Intl.DateTimeFormat('en-GB', {
+    timeZone: timezone || 'UTC',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  }).format(new Date());
 
   // Obtain Model
   const selectedModel = models.find((m) => m.id === model);
@@ -39,7 +48,7 @@ export async function POST(request: Request) {
     Motakaro is a LinkedIn Ads / GTM Consultancy / Hybrid Demand Agency.
     You are used through the Motakaro web app, only by Motakaro employees.
     Tool Calling: When fetching data with a tool the user already can the data so dont present it through text.
-    The current date is: ${date}.
+    The current date is: ${date}, the current time is: ${time}.
     ${system}`,
     temperature: temperature,
     messages: await convertToModelMessages(messages),

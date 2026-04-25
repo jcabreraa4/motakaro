@@ -63,9 +63,9 @@ export function CreateDialog({ variant = 'default', className }: CreateDialogPro
       <SheetContent>
         <SheetHeader>
           <SheetTitle>List Resource</SheetTitle>
-          <SheetDescription>List a video resource on the website.</SheetDescription>
+          <SheetDescription className="hidden lg:block">List a video resource on the website.</SheetDescription>
         </SheetHeader>
-        <div className="grid flex-1 auto-rows-min gap-6 px-4">
+        <div className="grid flex-1 auto-rows-min gap-4 px-4 lg:gap-5">
           <div className="flex flex-col gap-2">
             <Label htmlFor="name">Name</Label>
             <Input
