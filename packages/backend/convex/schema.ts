@@ -52,6 +52,16 @@ export default defineSchema({
     linkedin: v.optional(v.string())
   }).index('by_clerkId', ['clerkId']),
 
+  // Motakaro Clients Payments
+  payments: defineTable({
+    name: v.string(),
+    note: v.string(),
+    amount: v.number(),
+    starred: v.boolean(),
+    updated: v.number(),
+    companyId: v.id('companies')
+  }),
+
   // Contacts Companies Relationships
   memberships: defineTable({
     contactId: v.id('contacts'),
@@ -85,6 +95,8 @@ export default defineSchema({
     cancellation: v.optional(v.string()),
     rejection: v.optional(v.string())
   }).index('by_calcomId', ['calcomId']),
+
+  // Company Documents
   documents: defineTable({
     name: v.string(),
     note: v.string(),
@@ -92,6 +104,8 @@ export default defineSchema({
     starred: v.boolean(),
     updated: v.number()
   }).index('by_updated', ['updated']),
+
+  // Company Whiteboards
   whiteboards: defineTable({
     name: v.string(),
     note: v.string(),
@@ -99,6 +113,8 @@ export default defineSchema({
     starred: v.boolean(),
     updated: v.number()
   }).index('by_updated', ['updated']),
+
+  // Company Multimedia
   multimedia: defineTable({
     name: v.string(),
     note: v.string(),
@@ -112,6 +128,8 @@ export default defineSchema({
     width: v.optional(v.number()),
     height: v.optional(v.number())
   }).index('by_updated', ['updated']),
+
+  // Website Resources
   resources: defineTable({
     name: v.string(),
     note: v.string(),
@@ -122,6 +140,8 @@ export default defineSchema({
     thumbnail: v.string(),
     published: v.boolean()
   }).index('by_updated', ['updated']),
+
+  // Chatbot Knowledge
   embeddings: defineTable({
     source: v.string(),
     content: v.string(),
@@ -135,6 +155,7 @@ export default defineSchema({
 export type Employee = Doc<'employees'>;
 export type Contact = Doc<'contacts'>;
 export type Company = Doc<'companies'>;
+export type Payment = Doc<'payments'>;
 export type Membership = Doc<'memberships'>;
 export type Meeting = Doc<'meetings'>;
 export type Document = Doc<'documents'>;
