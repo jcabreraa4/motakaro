@@ -17,6 +17,9 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
+    "build:admins": "turbo run build --filter=admins --concurrency=1",
+    "build:clients": "turbo run build --filter=clients --concurrency=1",
+    "build:landing": "turbo run build --filter=landing --concurrency=1",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "turbo format",
