@@ -20,16 +20,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <LightRays
           blur={80}
           speed={10}
-          count={3}
-          length="160vh"
+          count={2}
+          length="100vh"
           color="#ffffff"
         />
         <LightRays
           fromBottom
           blur={80}
           speed={10}
-          count={3}
-          length="160vh"
+          count={2}
+          length="100vh"
           color="#ffffff"
         />
       </section>

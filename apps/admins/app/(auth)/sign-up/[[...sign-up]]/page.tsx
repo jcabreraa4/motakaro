@@ -321,6 +321,7 @@ export default function SignInPage() {
                   id="password"
                   type="password"
                   disabled={isLoading}
+                  placeholder="••••••••••"
                   aria-invalid={fieldState.invalid}
                 />
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -338,6 +339,7 @@ export default function SignInPage() {
                   id="confirm"
                   type="password"
                   disabled={isLoading}
+                  placeholder="••••••••••"
                   aria-invalid={fieldState.invalid}
                 />
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

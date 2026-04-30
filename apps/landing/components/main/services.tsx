@@ -37,7 +37,7 @@ const sections: Section[] = [
 export function Services() {
   return (
     <section className="container mx-auto flex flex-col gap-10 px-3 pt-15 xl:px-5 xl:pt-20 xl:pb-20">
-      <h2 className="flex items-center gap-2 text-4xl font-black text-black xl:text-5xl dark:text-white">
+      <h2 className="flex items-center gap-2 text-4xl font-black text-black select-none xl:text-5xl dark:text-white">
         Our{' '}
         <span className="inline-flex">
           <WordRotate words={['Service', 'Process', 'Manual']} />

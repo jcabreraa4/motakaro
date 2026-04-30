@@ -65,7 +65,7 @@ const plans: Plan[] = [
 export function Pricing() {
   return (
     <section className="container mx-auto flex flex-col gap-10 px-3 py-15 xl:px-5 xl:py-20">
-      <h2 className="text-4xl font-black xl:text-5xl">Pricing Plans</h2>
+      <h2 className="text-4xl font-black select-none xl:text-5xl">Pricing Plans</h2>
       <div className="flex flex-col gap-5 xl:flex-row">
         {plans.map((plan, index) => (
           <Card

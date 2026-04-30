@@ -147,7 +147,7 @@ export default function SignInPage() {
           <CardDescription>Sign ins are currently disabled.</CardDescription>
         </CardHeader>
         <CardFooter className="flex flex-row gap-26">
-          <Label>Don't have an account?</Label>
+          <Label>Don&apos;t have an account?</Label>
           <Link href="/sign-up">
             <Label className="cursor-pointer underline">Sign Up</Label>
           </Link>
@@ -288,6 +288,7 @@ export default function SignInPage() {
                   id="password"
                   type="password"
                   disabled={isLoading}
+                  placeholder="••••••••••"
                   aria-invalid={fieldState.invalid}
                 />
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -304,7 +305,7 @@ export default function SignInPage() {
         </form>
       </CardContent>
       <CardFooter className="flex flex-row gap-2 px-1">
-        <Label>Don't have an account?</Label>
+        <Label>Don&apos;t have an account?</Label>
         <Link href="/sign-up">
           <Label className="cursor-pointer underline">Sign Up</Label>
         </Link>

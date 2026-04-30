@@ -18,7 +18,7 @@ export default function Page() {
   return (
     <main className="container mx-auto flex flex-1 flex-col px-3 py-25 xl:px-5">
       <div className="flex flex-col gap-10">
-        <h1 className="text-4xl font-black xl:text-5xl">Video Resources</h1>
+        <h1 className="text-4xl font-black select-none xl:text-5xl">Video Resources</h1>
         {resources ? (
           <div className="grid grid-flow-row grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
             {filteredResources?.map((resource) => (

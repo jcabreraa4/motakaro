@@ -24,10 +24,10 @@ const sections: Section[] = [
 
 export function Differentiation() {
   return (
-    <div className="relative flex w-full items-center justify-center overflow-hidden bg-black">
-      <section className="container mx-auto px-3 py-15 xl:px-5 xl:py-20">
+    <section className="relative flex w-full items-center justify-center overflow-hidden bg-black">
+      <div className="container mx-auto px-3 py-15 xl:px-5 xl:py-20">
         <div className="flex flex-col gap-15">
-          <SparklesText className="text-center text-white">Like Magic</SparklesText>
+          <SparklesText className="text-center text-white select-none">Like Magic</SparklesText>
           <div className="flex w-full flex-col items-center gap-5 text-white xl:flex-row xl:justify-evenly">
             {sections.map((section, index) => (
               <Card
@@ -91,7 +91,7 @@ export function Differentiation() {
             ))}
           </div>
         </div>
-      </section>
+      </div>
       <GridPattern
         numSquares={30}
         maxOpacity={0.1}
@@ -99,6 +99,6 @@ export function Differentiation() {
         repeatDelay={1}
         className={cn('mask-[radial-gradient(500px_circle_at_center,white,transparent)]', 'inset-x-0 inset-y-[-30%] h-[200%] w-full skew-y-12')}
       />
-    </div>
+    </section>
   );
 }

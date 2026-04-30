@@ -6,13 +6,13 @@ import Link from 'next/link';
 
 export function AppFooter() {
   return (
-    <footer className="relative flex h-55 min-h-55 w-full flex-col items-center justify-center overflow-hidden bg-black text-white">
+    <footer className="relative flex h-55 min-h-55 w-full flex-col items-center justify-center overflow-hidden bg-black text-white select-none">
       <section className="container mx-auto h-full px-3 py-8 xl:px-5">
         <div className="flex h-full w-full flex-col justify-between">
           <Branding />
           <div className="flex justify-between">
             <div className="flex flex-col gap-2 text-lg font-semibold md:flex-row md:items-center">
-              <p>All Rights Reserved © 2026 Motakaro</p>
+              <p>All Rights Reserved © {new Date().getFullYear()} Motakaro</p>
               <span className="hidden md:inline">|</span>
               <Button
                 variant="link"
