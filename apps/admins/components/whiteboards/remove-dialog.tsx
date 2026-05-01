@@ -19,10 +19,10 @@ export function RemoveDialog({ id, redirect = false, children }: RemoveDialogPro
 
   const [open, setOpen] = useState(false);
 
-  const deleteWhiteboard = useMutation(api.whiteboards.remove);
+  const removeWhiteboard = useMutation(api.whiteboards.remove);
 
-  function removeWhiteboard() {
-    deleteWhiteboard({ id }).finally(() => {
+  function handleDelete() {
+    removeWhiteboard({ id }).finally(() => {
       toast.success('Whiteboard removed successfully.');
       setOpen(false);
       if (redirect) router.push('/whiteboards');
@@ -37,18 +37,18 @@ export function RemoveDialog({ id, redirect = false, children }: RemoveDialogPro
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Remove Whiteboard</DialogTitle>
-          <DialogDescription>Remove whiteboard from your account.</DialogDescription>
+          <DialogTitle>Delete Whiteboard</DialogTitle>
+          <DialogDescription>Are you sure? This action cannot be undone.</DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <DialogClose asChild>
             <Button
               variant="destructive"
               className="w-full cursor-pointer"
-              onClick={removeWhiteboard}
+              onClick={handleDelete}
             >
               <TrashIcon />
-              Remove Whiteboard
+              Delete Whiteboard
             </Button>
           </DialogClose>
         </DialogFooter>

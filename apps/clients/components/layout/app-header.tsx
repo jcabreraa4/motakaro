@@ -1,8 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import { BellIcon } from 'lucide-react';
 import { Button } from '@workspace/ui/components/button';
-import { Popover, PopoverContent, PopoverTrigger } from '@workspace/ui/components/popover';
+import { Popover, PopoverContent, PopoverHeader, PopoverTitle, PopoverTrigger } from '@workspace/ui/components/popover';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from '@workspace/ui/components/breadcrumb';
 import { SidebarTrigger } from '@workspace/ui/components/sidebar';
 import { Separator } from '@workspace/ui/components/separator';
@@ -15,6 +16,9 @@ function capitalize(word: string) {
 
 export function AppHeader() {
   const { segments } = usePathname();
+
+  const [open, setOpen] = useState(false);
+
   const section = capitalize(segments[0]!);
 
   return (
@@ -36,7 +40,10 @@ export function AppHeader() {
         </Breadcrumb>
       </div>
       <div className="flex gap-2">
-        <Popover>
+        <Popover
+          open={open}
+          onOpenChange={setOpen}
+        >
           <PopoverTrigger asChild>
             <Button
               size="icon-sm"
@@ -48,9 +55,26 @@ export function AppHeader() {
           </PopoverTrigger>
           <PopoverContent
             align="end"
-            className="w-80"
+            className="w-80 gap-0 p-0"
           >
-            <p className="leading-none font-medium select-none">There are no notifications!</p>
+            <PopoverHeader className="px-4 py-3">
+              <PopoverTitle className="flex items-center justify-between select-none">
+                Notifications
+                <Link href="/notifications">
+                  <Button
+                    variant="link"
+                    className="h-fit cursor-pointer"
+                    onClick={() => setOpen(false)}
+                  >
+                    View all
+                  </Button>
+                </Link>
+              </PopoverTitle>
+            </PopoverHeader>
+            <Separator />
+            <div className="max-h-90 px-4 py-5">
+              <p className="leading-none font-medium">There are no new notifications!</p>
+            </div>
           </PopoverContent>
         </Popover>
       </div>

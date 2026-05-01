@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
 import { Id } from '@workspace/backend/_generated/dataModel';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
@@ -15,10 +15,10 @@ interface RemoveDialogProps {
 export function RemoveDialog({ id, children }: RemoveDialogProps) {
   const [open, setOpen] = useState(false);
 
-  const deleteFile = useMutation(api.multimedia.remove);
+  const removeFile = useMutation(api.multimedia.remove);
 
   function handleDelete() {
-    deleteFile({ id }).finally(() => {
+    removeFile({ id }).finally(() => {
       toast.success('File deleted successfully.');
       setOpen(false);
     });
@@ -35,6 +35,7 @@ export function RemoveDialog({ id, children }: RemoveDialogProps) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Delete File</DialogTitle>
+          <DialogDescription>Are you sure? This action cannot be undone.</DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button

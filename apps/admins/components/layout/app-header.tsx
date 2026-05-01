@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { usePathname } from '@/hooks/use-pathname';
 import { useAppStateStore } from '@/store/state-store';
 import { Separator } from '@workspace/ui/components/separator';
-import { Popover, PopoverContent, PopoverTrigger } from '@workspace/ui/components/popover';
+import { Popover, PopoverContent, PopoverHeader, PopoverTitle, PopoverTrigger } from '@workspace/ui/components/popover';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
 import { SidebarTrigger } from '@workspace/ui/components/sidebar';
 import { AppPresence } from '@/components/layout/app-presence';
@@ -20,6 +20,8 @@ function capitalize(word: string) {
 export function AppHeader() {
   const { segments } = usePathname();
   const section = capitalize(segments[0]!);
+
+  const [open, setOpen] = useState(false);
 
   const showChat = useAppStateStore((state) => state.showChat);
   const toggleChat = useAppStateStore((state) => state.toggleChat);
@@ -72,7 +74,10 @@ export function AppHeader() {
           >
             <BotIcon className={cn('size-6', showChat && 'text-black')} />
           </Button>
-          <Popover>
+          <Popover
+            open={open}
+            onOpenChange={setOpen}
+          >
             <PopoverTrigger asChild>
               <Button
                 size="icon-sm"
@@ -84,9 +89,26 @@ export function AppHeader() {
             </PopoverTrigger>
             <PopoverContent
               align="end"
-              className="w-80"
+              className="w-80 gap-0 p-0"
             >
-              <p className="leading-none font-medium select-none">There are no notifications!</p>
+              <PopoverHeader className="px-4 py-3">
+                <PopoverTitle className="flex items-center justify-between select-none">
+                  Notifications
+                  <Link href="/notifications">
+                    <Button
+                      variant="link"
+                      className="h-fit cursor-pointer"
+                      onClick={() => setOpen(false)}
+                    >
+                      View all
+                    </Button>
+                  </Link>
+                </PopoverTitle>
+              </PopoverHeader>
+              <Separator />
+              <div className="max-h-90 px-4 py-5">
+                <p className="leading-none font-medium">There are no new notifications!</p>
+              </div>
             </PopoverContent>
           </Popover>
         </div>

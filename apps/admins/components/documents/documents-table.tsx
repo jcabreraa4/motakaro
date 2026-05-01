@@ -99,7 +99,7 @@ function DocumentRow({ document }: { document: Document }) {
                 onSelect={(e) => e.preventDefault()}
               >
                 <TrashIcon />
-                Remove Document
+                Delete Document
               </DropdownMenuItem>
             </RemoveDialog>
           </DropdownMenuContent>

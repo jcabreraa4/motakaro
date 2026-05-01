@@ -1,5 +1,5 @@
 import { internalMutation, mutation, query } from './_generated/server';
-import { verifyAdminAuth, verifyClientAuth } from './auth';
+import { verifyAdminAuth, verifyIdentity } from './auth';
 import { ConvexError, v } from 'convex/values';
 import { Id } from './_generated/dataModel';
 
@@ -50,7 +50,7 @@ export const update = mutation({
   },
   handler: async (ctx, args) => {
     // Check Identity
-    await verifyClientAuth(ctx);
+    await verifyIdentity(ctx);
 
     // Obtain the Contact
     const contact = await ctx.db

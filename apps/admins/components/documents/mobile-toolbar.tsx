@@ -103,7 +103,7 @@ export function MobileToolbar({ document, className }: MobileToolbarProps) {
           >
             <MenubarItem onSelect={(e) => e.preventDefault()}>
               <TrashIcon className="mr-2 size-4" />
-              Remove
+              Delete
             </MenubarItem>
           </RemoveDialog>
           <MenubarSeparator />

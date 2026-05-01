@@ -99,7 +99,7 @@ function WhiteboardRow({ whiteboard }: { whiteboard: Whiteboard }) {
                 onSelect={(e) => e.preventDefault()}
               >
                 <TrashIcon />
-                Remove Whiteboard
+                Delete Whiteboard
               </DropdownMenuItem>
             </RemoveDialog>
           </DropdownMenuContent>

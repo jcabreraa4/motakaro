@@ -19,10 +19,10 @@ export function RemoveDialog({ id, redirect = false, children }: DeleteDialogPro
 
   const [open, setOpen] = useState(false);
 
-  const deleteDocument = useMutation(api.documents.remove);
+  const removeDocument = useMutation(api.documents.remove);
 
-  function removeDocument() {
-    deleteDocument({ id }).finally(() => {
+  function handleDelete() {
+    removeDocument({ id }).finally(() => {
       toast.success('Document removed successfully.');
       setOpen(false);
       if (redirect) router.push('/documents');
@@ -37,18 +37,18 @@ export function RemoveDialog({ id, redirect = false, children }: DeleteDialogPro
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Remove Document</DialogTitle>
-          <DialogDescription>Remove document from your account.</DialogDescription>
+          <DialogTitle>Delete Document</DialogTitle>
+          <DialogDescription>Are you sure? This action cannot be undone.</DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <DialogClose asChild>
             <Button
               variant="destructive"
               className="w-full cursor-pointer"
-              onClick={removeDocument}
+              onClick={handleDelete}
             >
               <TrashIcon />
-              Remove Document
+              Delete Document
             </Button>
           </DialogClose>
         </DialogFooter>
