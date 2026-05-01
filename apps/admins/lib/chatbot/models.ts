@@ -1,5 +1,5 @@
 export const chefs = ['Mistral', 'OpenAI'];
-export const initialModel = 'mistral-large-latest';
+export const defaultModel = 'gpt-4o-mini';
 
 type Model = {
   id: string;

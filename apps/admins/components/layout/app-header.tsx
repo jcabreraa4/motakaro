@@ -3,13 +3,14 @@
 import { useEffect } from 'react';
 import { usePathname } from '@/hooks/use-pathname';
 import { useAppStateStore } from '@/store/state-store';
+import { Separator } from '@workspace/ui/components/separator';
+import { Popover, PopoverContent, PopoverTrigger } from '@workspace/ui/components/popover';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
 import { SidebarTrigger } from '@workspace/ui/components/sidebar';
-import { Separator } from '@workspace/ui/components/separator';
 import { AppPresence } from '@/components/layout/app-presence';
 import { Button } from '@workspace/ui/components/button';
+import { BellIcon, BotIcon } from 'lucide-react';
 import { cn } from '@workspace/ui/lib/utils';
-import { BotIcon } from 'lucide-react';
 import Link from 'next/link';
 
 function capitalize(word: string) {
@@ -62,14 +63,33 @@ export function AppHeader() {
       </div>
       <div className="flex items-center gap-8">
         <AppPresence className="hidden select-none 2xl:flex" />
-        <Button
-          size="icon-sm"
-          variant="ghost"
-          className="cursor-pointer text-zinc-400 hover:bg-transparent"
-          onClick={toggleChat}
-        >
-          <BotIcon className={cn('size-6', showChat && 'text-black')} />
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            size="icon-sm"
+            variant="ghost"
+            className="cursor-pointer text-zinc-400 hover:bg-transparent"
+            onClick={toggleChat}
+          >
+            <BotIcon className={cn('size-6', showChat && 'text-black')} />
+          </Button>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                size="icon-sm"
+                variant="ghost"
+                className="cursor-pointer bg-transparent! text-zinc-500 hover:bg-transparent"
+              >
+                <BellIcon className="size-5" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent
+              align="end"
+              className="w-80"
+            >
+              <p className="leading-none font-medium select-none">There are no notifications!</p>
+            </PopoverContent>
+          </Popover>
+        </div>
       </div>
     </header>
   );

@@ -60,11 +60,12 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
             <Label htmlFor="name">Name</Label>
             <Input
               id="name"
+              placeholder="Untitled Resource"
               value={info.name}
               onChange={(e) => setInfo({ ...info, name: e.target.value })}
             />
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="hidden flex-col gap-2 lg:flex">
             <Label htmlFor="note">Note</Label>
             <Textarea
               id="note"

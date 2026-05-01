@@ -1,5 +1,8 @@
 'use client';
 
+import { BellIcon } from 'lucide-react';
+import { Button } from '@workspace/ui/components/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@workspace/ui/components/popover';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from '@workspace/ui/components/breadcrumb';
 import { SidebarTrigger } from '@workspace/ui/components/sidebar';
 import { Separator } from '@workspace/ui/components/separator';
@@ -31,6 +34,25 @@ export function AppHeader() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
+      </div>
+      <div className="flex gap-2">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              size="icon-sm"
+              variant="ghost"
+              className="cursor-pointer bg-transparent! text-zinc-500 hover:bg-transparent"
+            >
+              <BellIcon className="size-5" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent
+            align="end"
+            className="w-80"
+          >
+            <p className="leading-none font-medium select-none">There are no notifications!</p>
+          </PopoverContent>
+        </Popover>
       </div>
     </header>
   );

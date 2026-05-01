@@ -102,8 +102,13 @@ export default defineSchema({
     note: v.string(),
     content: v.string(),
     starred: v.boolean(),
-    updated: v.number()
-  }).index('by_updated', ['updated']),
+    updated: v.number(),
+
+    // Relationships
+    companyId: v.optional(v.id('companies'))
+  })
+    .index('by_updated', ['updated'])
+    .index('by_updated_companyId', ['updated', 'companyId']),
 
   // Company Whiteboards
   whiteboards: defineTable({
@@ -111,8 +116,13 @@ export default defineSchema({
     note: v.string(),
     content: v.string(),
     starred: v.boolean(),
-    updated: v.number()
-  }).index('by_updated', ['updated']),
+    updated: v.number(),
+
+    // Relationships
+    companyId: v.optional(v.id('companies'))
+  })
+    .index('by_updated', ['updated'])
+    .index('by_updated_companyId', ['updated', 'companyId']),
 
   // Company Multimedia
   multimedia: defineTable({
@@ -126,8 +136,13 @@ export default defineSchema({
 
     // Images and Videos Specific
     width: v.optional(v.number()),
-    height: v.optional(v.number())
-  }).index('by_updated', ['updated']),
+    height: v.optional(v.number()),
+
+    // Relationships
+    companyId: v.optional(v.id('companies'))
+  })
+    .index('by_updated', ['updated'])
+    .index('by_updated_companyId', ['updated', 'companyId']),
 
   // Website Resources
   resources: defineTable({

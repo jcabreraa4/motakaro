@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useChat } from '@ai-sdk/react';
 import { useAppStateStore } from '@/store/state-store';
 import { lastAssistantMessageIsCompleteWithToolCalls } from 'ai';
-import { type ModelId, initialModel } from '@/lib/chatbot/models';
+import { type ModelId, defaultModel } from '@/lib/chatbot/models';
 import { ChatbotMessages } from '@/components/chatbot/chatbot-messages';
 import { ChatbotAttachments } from '@/components/chatbot/chatbot-attachments';
 import { ChatbotSuggestions } from '@/components/chatbot/chatbot-suggestions';
@@ -48,7 +48,7 @@ export function AppChatbot() {
   const [input, setInput] = useState('');
   const [files, setFiles] = useState<File[]>([]);
   const [lastInput, setLastInput] = useState('');
-  const [chatModel, setChatModel] = useState<ModelId>(initialModel);
+  const [chatModel, setChatModel] = useState<ModelId>(defaultModel);
 
   // Request Data
   const employee = useQuery(api.employees.get, isLoaded ? { clerkId: userId! } : 'skip');
