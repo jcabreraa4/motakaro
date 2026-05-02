@@ -69,10 +69,10 @@ export function AppHeader() {
           <Button
             size="icon-sm"
             variant="ghost"
-            className="cursor-pointer text-zinc-400 hover:bg-transparent"
+            className={cn('cursor-pointer text-zinc-400 hover:bg-transparent! dark:text-zinc-500 dark:hover:text-white', showChat && 'text-black dark:text-white')}
             onClick={toggleChat}
           >
-            <BotIcon className={cn('size-6', showChat && 'text-black')} />
+            <BotIcon className="size-6" />
           </Button>
           <Popover
             open={open}
@@ -82,7 +82,7 @@ export function AppHeader() {
               <Button
                 size="icon-sm"
                 variant="ghost"
-                className="cursor-pointer bg-transparent! text-zinc-500 hover:bg-transparent"
+                className={cn('cursor-pointer bg-transparent! text-zinc-500 hover:bg-transparent! dark:text-zinc-400 dark:hover:text-white', open && 'dark:text-white')}
               >
                 <BellIcon className="size-5" />
               </Button>

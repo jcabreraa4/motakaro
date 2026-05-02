@@ -45,7 +45,7 @@ export function DocumentsPaper({ paperId }: { paperId: Id<'documents'> }) {
       },
       editorProps: {
         attributes: {
-          class: 'focus:outline-none bg-white rounded-md xl:border border-[#C7C7C7] min-h-[1054px] xl:px-[56px] xl:pt-10 xl:pb-10'
+          class: 'focus:outline-none bg-white dark:bg-primary rounded-md xl:border border-[#C7C7C7] min-h-[1054px] xl:px-[56px] xl:pt-10 xl:pb-10 print:bg-white print:dark:bg-white'
         }
       },
       extensions: [...tiptapExtensions, ...(sync.extension ? [sync.extension] : [])],
@@ -67,7 +67,7 @@ export function DocumentsPaper({ paperId }: { paperId: Id<'documents'> }) {
 
   return (
     <div className="w-full flex-1 overflow-y-scroll">
-      <div className="mx-auto w-full max-w-204 rounded-lg bg-white px-2 py-2 lg:my-4 lg:px-0 lg:py-0">
+      <div className="mx-auto w-full max-w-204 rounded-lg bg-white px-2 py-2 lg:my-4 lg:px-0 lg:py-0 dark:bg-primary">
         <EditorContent
           editor={editor}
           className="w-full dark:text-black"

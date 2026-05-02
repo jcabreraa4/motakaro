@@ -8,6 +8,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from '@wor
 import { SidebarTrigger } from '@workspace/ui/components/sidebar';
 import { Separator } from '@workspace/ui/components/separator';
 import { usePathname } from '@/hooks/use-pathname';
+import { cn } from '@workspace/ui/lib/utils';
 import Link from 'next/link';
 
 function capitalize(word: string) {
@@ -48,7 +49,7 @@ export function AppHeader() {
             <Button
               size="icon-sm"
               variant="ghost"
-              className="cursor-pointer bg-transparent! text-zinc-500 hover:bg-transparent"
+              className={cn('cursor-pointer bg-transparent! text-zinc-500 hover:bg-transparent! dark:text-zinc-400 dark:hover:text-white', open && 'dark:text-white')}
             >
               <BellIcon className="size-5" />
             </Button>
