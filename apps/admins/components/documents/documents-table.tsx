@@ -44,6 +44,12 @@ function DocumentRow({ document }: { document: Document }) {
       >
         {format(new Date(document._creationTime), 'MMM dd, yyyy')}
       </TableCell>
+      <TableCell
+        className="hidden text-muted-foreground lg:table-cell"
+        onClick={openDocument}
+      >
+        {format(new Date(document.updated), 'MMM dd, yyyy')}
+      </TableCell>
       <TableCell className="text-right">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -121,6 +127,7 @@ export function DocumentsTable({ documents }: { documents: Document[] }) {
             <TableHead>Name</TableHead>
             <TableHead>&nbsp;</TableHead>
             <TableHead className="hidden md:table-cell">Created</TableHead>
+            <TableHead className="hidden lg:table-cell">Updated</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>

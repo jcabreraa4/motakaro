@@ -44,6 +44,12 @@ function WhiteboardRow({ whiteboard }: { whiteboard: Whiteboard }) {
       >
         {format(new Date(whiteboard._creationTime), 'MMM dd, yyyy')}
       </TableCell>
+      <TableCell
+        className="hidden text-muted-foreground lg:table-cell"
+        onClick={openWhiteboard}
+      >
+        {format(new Date(whiteboard.updated), 'MMM dd, yyyy')}
+      </TableCell>
       <TableCell className="text-right">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -121,6 +127,7 @@ export function WhiteboardsTable({ whiteboards }: { whiteboards: Whiteboard[] })
             <TableHead>Name</TableHead>
             <TableHead>&nbsp;</TableHead>
             <TableHead className="hidden md:table-cell">Created</TableHead>
+            <TableHead className="hidden lg:table-cell">Updated</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
