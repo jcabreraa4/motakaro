@@ -3,11 +3,11 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { CopyIcon, LinkIcon, SaveIcon } from 'lucide-react';
+import type { Resource } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
-import { Resource } from '@workspace/backend/schema';
 import { copyText } from '@/utils/copy-text';
 import { useMutation } from 'convex/react';
 import { useState } from 'react';
@@ -53,7 +53,7 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
       <SheetContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <SheetHeader>
           <SheetTitle>Update Resource</SheetTitle>
-          <SheetDescription className="hidden lg:block">Change your resource&apos;s information.</SheetDescription>
+          <SheetDescription className="hidden lg:block">Update selected resource&apos;s information.</SheetDescription>
         </SheetHeader>
         <div className="grid flex-1 auto-rows-min gap-4 px-4 lg:gap-5">
           <div className="flex flex-col gap-2">
@@ -127,7 +127,10 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
           </div>
           <div className="flex flex-col gap-2">
             <Label>Published</Label>
-            <Select value={info.published}>
+            <Select
+              value={info.published}
+              onValueChange={(value) => setInfo({ ...info, published: value })}
+            >
               <SelectTrigger className="w-full cursor-pointer">
                 <SelectValue />
               </SelectTrigger>
@@ -142,7 +145,6 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
         </div>
         <SheetFooter>
           <Button
-            type="submit"
             className="cursor-pointer"
             onClick={handleUpdate}
           >

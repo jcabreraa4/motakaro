@@ -1,17 +1,31 @@
 import { mutation, query } from './_generated/server';
 import { ConvexError, v } from 'convex/values';
-import { Id } from './_generated/dataModel';
 import { verifyAdminAuth } from './auth';
 
+// Admins Functions
+
 export const list = query({
-  handler: async (ctx) => {
+  args: {
+    companyId: v.optional(v.id('companies'))
+  },
+  handler: async (ctx, args) => {
     // Check Identity
     await verifyAdminAuth(ctx);
+
+    // Check for Filter
+    if (args.companyId) {
+      // Return the Documents
+      return await ctx.db
+        .query('documents')
+        .withIndex('by_companyId_updated', (q) => q.eq('companyId', args.companyId))
+        .order('desc')
+        .collect();
+    }
 
     // Return all Documents
     return await ctx.db
       .query('documents')
-      .withIndex('by_updated', (q) => q)
+      .withIndex('by_companyId_updated', (q) => q.eq('companyId', undefined))
       .order('desc')
       .collect();
   }
@@ -19,7 +33,7 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.string()
+    id: v.id('documents')
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -27,7 +41,7 @@ export const get = query({
 
     try {
       // Return the Document
-      return await ctx.db.get(args.id as Id<'documents'>);
+      return await ctx.db.get(args.id);
     } catch {
       return null;
     }

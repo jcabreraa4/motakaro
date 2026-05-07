@@ -1,14 +1,15 @@
 'use client';
 
-import { useState } from 'react';
-import { BellIcon } from 'lucide-react';
-import { Button } from '@workspace/ui/components/button';
-import { Popover, PopoverContent, PopoverHeader, PopoverTitle, PopoverTrigger } from '@workspace/ui/components/popover';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from '@workspace/ui/components/breadcrumb';
-import { SidebarTrigger } from '@workspace/ui/components/sidebar';
-import { Separator } from '@workspace/ui/components/separator';
+import { useEffect, useState } from 'react';
 import { usePathname } from '@/hooks/use-pathname';
+import { useAppStateStore } from '@/store/state-store';
+import { Separator } from '@workspace/ui/components/separator';
+import { Popover, PopoverContent, PopoverHeader, PopoverTitle, PopoverTrigger } from '@workspace/ui/components/popover';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
+import { SidebarTrigger } from '@workspace/ui/components/sidebar';
+import { Button } from '@workspace/ui/components/button';
 import { cn } from '@workspace/ui/lib/utils';
+import { BellIcon } from 'lucide-react';
 import Link from 'next/link';
 
 function capitalize(word: string) {
@@ -17,10 +18,20 @@ function capitalize(word: string) {
 
 export function AppHeader() {
   const { segments } = usePathname();
+  const section = capitalize(segments[0]!);
 
   const [open, setOpen] = useState(false);
 
-  const section = capitalize(segments[0]!);
+  const subroute = useAppStateStore((state) => state.subroute);
+  const setSubroute = useAppStateStore((state) => state.setSubroute);
+
+  function cleanSubroute() {
+    setSubroute(null);
+  }
+
+  useEffect(() => {
+    if (!segments[1]) cleanSubroute();
+  }, [segments[1]]);
 
   return (
     <header className="flex h-12 shrink-0 items-center justify-between gap-2 border-b bg-sidebar px-3 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 lg:px-4 xl:h-16 print:hidden">
@@ -32,15 +43,23 @@ export function AppHeader() {
         />
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>
+            <BreadcrumbItem onClick={cleanSubroute}>
               <Link href={`/${segments[0]}`}>
                 <BreadcrumbPage className="font-medium select-none">{section}</BreadcrumbPage>
               </Link>
             </BreadcrumbItem>
+            {subroute && (
+              <>
+                <BreadcrumbSeparator className="hidden text-black lg:block dark:text-white" />
+                <BreadcrumbItem className="pointer-events-none hidden select-none lg:block">
+                  <BreadcrumbPage>{subroute}</BreadcrumbPage>
+                </BreadcrumbItem>
+              </>
+            )}
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <div className="flex gap-2">
+      <div className="flex items-center gap-8">
         <Popover
           open={open}
           onOpenChange={setOpen}

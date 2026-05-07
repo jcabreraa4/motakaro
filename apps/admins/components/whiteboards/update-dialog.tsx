@@ -1,6 +1,6 @@
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
+import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
 import { Textarea } from '@workspace/ui/components/textarea';
-import { Id } from '@workspace/backend/_generated/dataModel';
+import type { Whiteboard } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
 import { Label } from '@workspace/ui/components/label';
@@ -11,65 +11,64 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 interface UpdateDialogProps {
-  id: Id<'whiteboards'>;
-  name: string;
-  note: string;
+  whiteboard: Whiteboard;
   children: React.ReactNode;
 }
 
-export function UpdateDialog({ id, name, note, children }: UpdateDialogProps) {
+export function UpdateDialog({ whiteboard, children }: UpdateDialogProps) {
   const [open, setOpen] = useState(false);
-  const [info, setInfo] = useState({ name, note });
+  const [info, setInfo] = useState({ name: whiteboard.name, note: whiteboard.note });
 
   const updateWhiteboard = useMutation(api.whiteboards.update);
 
   function updateInfo() {
-    updateWhiteboard({ id, name: info.name, note: info.note }).finally(() => {
+    updateWhiteboard({ id: whiteboard._id, name: info.name, note: info.note }).finally(() => {
       toast.success('Whiteboard updated successfully.');
       setOpen(false);
     });
   }
 
   return (
-    <Dialog
+    <Sheet
       open={open}
       onOpenChange={setOpen}
     >
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Update Whiteboard</DialogTitle>
-          <DialogDescription>Update the selected whiteboard&apos;s information.</DialogDescription>
-        </DialogHeader>
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="name">Name</Label>
-          <Input
-            id="name"
-            value={info.name}
-            onChange={(e) => setInfo({ ...info, name: e.target.value })}
-          />
+      <SheetTrigger asChild>{children}</SheetTrigger>
+      <SheetContent onOpenAutoFocus={(e) => e.preventDefault()}>
+        <SheetHeader>
+          <SheetTitle>Update Whiteboard</SheetTitle>
+          <SheetDescription className="hidden lg:block">Update selected whiteboard&apos;s information.</SheetDescription>
+        </SheetHeader>
+        <div className="grid flex-1 auto-rows-min gap-4 px-4 lg:gap-5">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="name">Name</Label>
+            <Input
+              id="name"
+              placeholder="Untitled Whiteboard"
+              value={info.name}
+              onChange={(e) => setInfo({ ...info, name: e.target.value })}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="note">Note</Label>
+            <Textarea
+              id="note"
+              className="h-20"
+              value={info.note}
+              onChange={(e) => setInfo({ ...info, note: e.target.value })}
+            />
+          </div>
         </div>
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="note">Note</Label>
-          <Textarea
-            id="note"
-            className="h-20"
-            value={info.note}
-            onChange={(e) => setInfo({ ...info, note: e.target.value })}
-          />
-        </div>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button
-              className="w-full cursor-pointer"
-              onClick={updateInfo}
-            >
-              <SaveIcon />
-              Update Whiteboard
-            </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        <SheetFooter>
+          <Button
+            className="cursor-pointer"
+            onClick={updateInfo}
+          >
+            <SaveIcon />
+            Update Whiteboard
+          </Button>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
 }

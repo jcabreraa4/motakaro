@@ -2,6 +2,8 @@ import { internalMutation, mutation, query } from './_generated/server';
 import { ConvexError, v } from 'convex/values';
 import { verifyAdminAuth } from './auth';
 
+// Admins Functions
+
 export const list = query({
   args: {
     filter: v.optional(v.union(v.literal('actives')))

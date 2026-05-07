@@ -57,13 +57,13 @@ export function CreateDialog({ variant = 'default', className }: CreateDialogPro
           className={cn('cursor-pointer', className)}
         >
           <PlusIcon />
-          List Resource
+          Create Resource
         </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <SheetHeader>
-          <SheetTitle>List Resource</SheetTitle>
-          <SheetDescription className="hidden lg:block">List a video resource on the website.</SheetDescription>
+          <SheetTitle>Create Resource</SheetTitle>
+          <SheetDescription className="hidden lg:block">Create a new resource on the website.</SheetDescription>
         </SheetHeader>
         <div className="grid flex-1 auto-rows-min gap-4 px-4 lg:gap-5">
           <div className="flex flex-col gap-2">
@@ -137,7 +137,10 @@ export function CreateDialog({ variant = 'default', className }: CreateDialogPro
           </div>
           <div className="flex flex-col gap-2">
             <Label>Published</Label>
-            <Select value={info.published}>
+            <Select
+              value={info.published}
+              onValueChange={(value) => setInfo({ ...info, published: value })}
+            >
               <SelectTrigger className="w-full cursor-pointer">
                 <SelectValue />
               </SelectTrigger>
@@ -157,7 +160,7 @@ export function CreateDialog({ variant = 'default', className }: CreateDialogPro
             onClick={handleCreate}
           >
             <PlusIcon />
-            List Resource
+            Create Resource
           </Button>
         </SheetFooter>
       </SheetContent>

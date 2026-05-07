@@ -48,13 +48,13 @@ function SectionButton({ onClick, icon: Icon, isActive }: SectionButtonProps) {
 
 export function MultimediaToolbar({ file }: { file: UrlMediaFile }) {
   const router = useRouter();
-  const updateFile = useMutation(api.multimedia.update);
+  const updateFile = useMutation(api.multimedia.clientsUpdate);
 
   const sectionButtons = [
     {
       icon: StarIcon,
-      onClick: () => updateFile({ id: file._id, starred: !file.starred }).finally(() => toast.success(file.starred ? 'File removed from starred successfully.' : 'File added to starred successfully.')),
-      isActive: file.starred
+      onClick: () => updateFile({ id: file._id, clientsStarred: !file.clientsStarred }).finally(() => toast.success(file.clientsStarred ? 'File removed from starred successfully.' : 'File added to starred successfully.')),
+      isActive: file.clientsStarred
     },
     {
       icon: CopyIcon,

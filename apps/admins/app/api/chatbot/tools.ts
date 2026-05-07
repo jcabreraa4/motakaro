@@ -1,5 +1,6 @@
 import type { ToolUIPart, InferUITools, UIDataTypes, UIMessage } from 'ai';
 import { tiptapToMarkdown } from '@/lib/documents/tiptap-to-markdown';
+import { Id } from '@workspace/backend/_generated/dataModel';
 import { api } from '@workspace/backend/_generated/api';
 import { ConvexHttpClient } from 'convex/browser';
 import { auth } from '@clerk/nextjs/server';
@@ -55,7 +56,7 @@ export const tools = {
         client.setAuth(token!);
 
         // Obtain the Meeting
-        const meeting = await client.query(api.meetings.get, { id });
+        const meeting = await client.query(api.meetings.get, { id: id as Id<'meetings'> });
 
         // Return the Meeting
         if (!meeting) {
@@ -123,7 +124,7 @@ export const tools = {
         client.setAuth(token!);
 
         // Obtain the Contact
-        const contact = await client.query(api.contacts.get, { id });
+        const contact = await client.query(api.contacts.get, { id: id as Id<'contacts'> });
 
         // Return the Contact
         if (!contact) {
@@ -191,7 +192,7 @@ export const tools = {
         client.setAuth(token!);
 
         // Obtain the Company
-        const company = await client.query(api.companies.get, { id });
+        const company = await client.query(api.companies.get, { id: id as Id<'companies'> });
 
         // Return the Company
         if (!company) {
@@ -225,7 +226,7 @@ export const tools = {
         client.setAuth(token!);
 
         // Obtain all Documents
-        const documents = await client.query(api.documents.list);
+        const documents = await client.query(api.documents.list, {});
 
         // Return all Documents
         if (!documents || documents.length === 0) {
@@ -259,7 +260,7 @@ export const tools = {
         client.setAuth(token!);
 
         // Obtain the Document
-        const document = await client.query(api.documents.get, { id });
+        const document = await client.query(api.documents.get, { id: id as Id<'documents'> });
 
         // Return the Document
         if (!document) {
@@ -296,7 +297,7 @@ export const tools = {
         client.setAuth(token!);
 
         // Obtain all Whiteboards
-        const whiteboards = await client.query(api.whiteboards.list);
+        const whiteboards = await client.query(api.whiteboards.list, {});
 
         // Return all Whiteboards
         if (!whiteboards || whiteboards.length === 0) {
@@ -330,7 +331,7 @@ export const tools = {
         client.setAuth(token!);
 
         // Obtain the Whiteboard
-        const whiteboard = await client.query(api.whiteboards.get, { id });
+        const whiteboard = await client.query(api.whiteboards.get, { id: id as Id<'whiteboards'> });
 
         // Return the Whiteboard
         if (!whiteboard) {
@@ -364,7 +365,7 @@ export const tools = {
         client.setAuth(token!);
 
         // Obtain all Multimedia
-        const multimedia = await client.query(api.multimedia.list);
+        const multimedia = await client.query(api.multimedia.list, {});
 
         // Return all Multimedia
         if (!multimedia || multimedia.length === 0) {
@@ -398,7 +399,7 @@ export const tools = {
         client.setAuth(token!);
 
         // Obtain the Media File
-        const multimedia = await client.query(api.multimedia.get, { id });
+        const multimedia = await client.query(api.multimedia.get, { id: id as Id<'multimedia'> });
 
         // Return the Media File
         if (!multimedia) {
@@ -466,7 +467,7 @@ export const tools = {
         client.setAuth(token!);
 
         // Obtain the Resource
-        const resource = await client.query(api.resources.get, { id });
+        const resource = await client.query(api.resources.get, { id: id as Id<'resources'> });
 
         // Return the Resource
         if (!resource) {

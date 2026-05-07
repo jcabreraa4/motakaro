@@ -1,7 +1,8 @@
 import { internalMutation, mutation, query } from './_generated/server';
-import { verifyAdminAuth, verifyIdentity } from './auth';
+import { verifyAdminAuth, verifyClientAuth } from './auth';
 import { ConvexError, v } from 'convex/values';
-import { Id } from './_generated/dataModel';
+
+// Admins Functions
 
 export const list = query({
   args: {
@@ -13,7 +14,7 @@ export const list = query({
 
     // Check for Filter
     if (args.filter === 'actives') {
-      // Return active Contacts
+      // Return the Contacts
       const threshold = Date.now() - 30000;
       return await ctx.db
         .query('contacts')
@@ -29,7 +30,7 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.string()
+    id: v.id('contacts')
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -37,25 +38,24 @@ export const get = query({
 
     try {
       // Return the Contact
-      return await ctx.db.get(args.id as Id<'contacts'>);
+      return await ctx.db.get(args.id);
     } catch {
       return null;
     }
   }
 });
 
-export const update = mutation({
-  args: {
-    clerkId: v.string()
-  },
-  handler: async (ctx, args) => {
+// Clients Functions
+
+export const clientsUpdate = mutation({
+  handler: async (ctx) => {
     // Check Identity
-    await verifyIdentity(ctx);
+    const identity = await verifyClientAuth(ctx);
 
     // Obtain the Contact
     const contact = await ctx.db
       .query('contacts')
-      .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
+      .withIndex('by_clerkId', (q) => q.eq('clerkId', identity.subject))
       .first();
     if (!contact) throw new ConvexError('Contact not found');
 

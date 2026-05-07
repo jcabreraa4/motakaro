@@ -54,11 +54,14 @@ export default defineSchema({
 
   // Motakaro Clients Payments
   payments: defineTable({
+    // Basic Information
     name: v.string(),
     note: v.string(),
     amount: v.number(),
     starred: v.boolean(),
     updated: v.number(),
+
+    // Table Relationships
     companyId: v.id('companies')
   }),
 
@@ -98,34 +101,33 @@ export default defineSchema({
 
   // Company Documents
   documents: defineTable({
+    // Basic Information
     name: v.string(),
     note: v.string(),
     content: v.string(),
     starred: v.boolean(),
     updated: v.number(),
 
-    // Relationships
+    // Table Relationships
     companyId: v.optional(v.id('companies'))
-  })
-    .index('by_updated', ['updated'])
-    .index('by_updated_companyId', ['updated', 'companyId']),
+  }).index('by_companyId_updated', ['companyId', 'updated']),
 
   // Company Whiteboards
   whiteboards: defineTable({
+    // Basic Information
     name: v.string(),
     note: v.string(),
     content: v.string(),
     starred: v.boolean(),
     updated: v.number(),
 
-    // Relationships
+    // Table Relationships
     companyId: v.optional(v.id('companies'))
-  })
-    .index('by_updated', ['updated'])
-    .index('by_updated_companyId', ['updated', 'companyId']),
+  }).index('by_companyId_updated', ['companyId', 'updated']),
 
   // Company Multimedia
   multimedia: defineTable({
+    // Basic Information
     name: v.string(),
     note: v.string(),
     type: v.string(),
@@ -138,14 +140,19 @@ export default defineSchema({
     width: v.optional(v.number()),
     height: v.optional(v.number()),
 
-    // Relationships
+    // Clients Specific
+    clientsVisible: v.boolean(),
+    clientsStarred: v.boolean(),
+
+    // Table Relationships
     companyId: v.optional(v.id('companies'))
   })
-    .index('by_updated', ['updated'])
-    .index('by_updated_companyId', ['updated', 'companyId']),
+    .index('by_companyId_updated', ['companyId', 'updated'])
+    .index('by_companyId_clientsVisible_updated', ['companyId', 'clientsVisible', 'updated']),
 
   // Website Resources
   resources: defineTable({
+    // Basic Information
     name: v.string(),
     note: v.string(),
     link: v.string(),

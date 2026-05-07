@@ -1,6 +1,6 @@
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
+import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
 import { Textarea } from '@workspace/ui/components/textarea';
-import { Id } from '@workspace/backend/_generated/dataModel';
+import type { Document } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
 import { Input } from '@workspace/ui/components/input';
@@ -11,65 +11,64 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 interface UpdateDialogProps {
-  id: Id<'documents'>;
-  name: string;
-  note: string;
+  document: Document;
   children: React.ReactNode;
 }
 
-export function UpdateDialog({ id, name, note, children }: UpdateDialogProps) {
+export function UpdateDialog({ document, children }: UpdateDialogProps) {
   const [open, setOpen] = useState(false);
-  const [info, setInfo] = useState({ name, note });
+  const [info, setInfo] = useState({ name: document.name, note: document.note });
 
   const updateDocument = useMutation(api.documents.update);
 
   function updateInfo() {
-    updateDocument({ id, name: info.name, note: info.note }).finally(() => {
+    updateDocument({ id: document._id, name: info.name, note: info.note }).finally(() => {
       toast.success('Document updated successfully.');
       setOpen(false);
     });
   }
 
   return (
-    <Dialog
+    <Sheet
       open={open}
       onOpenChange={setOpen}
     >
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Update Document</DialogTitle>
-          <DialogDescription>Update the selected document&apos;s information.</DialogDescription>
-        </DialogHeader>
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="name">Name</Label>
-          <Input
-            id="name"
-            value={info.name}
-            onChange={(e) => setInfo({ ...info, name: e.target.value })}
-          />
+      <SheetTrigger asChild>{children}</SheetTrigger>
+      <SheetContent onOpenAutoFocus={(e) => e.preventDefault()}>
+        <SheetHeader>
+          <SheetTitle>Update Document</SheetTitle>
+          <SheetDescription className="hidden lg:block">Update selected document&apos;s information.</SheetDescription>
+        </SheetHeader>
+        <div className="grid flex-1 auto-rows-min gap-4 px-4 lg:gap-5">
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="name">Name</Label>
+            <Input
+              id="name"
+              placeholder="Untitled Document"
+              value={info.name}
+              onChange={(e) => setInfo({ ...info, name: e.target.value })}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="note">Note</Label>
+            <Textarea
+              id="note"
+              className="h-20"
+              value={info.note}
+              onChange={(e) => setInfo({ ...info, note: e.target.value })}
+            />
+          </div>
         </div>
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="note">Note</Label>
-          <Textarea
-            id="note"
-            className="h-20"
-            value={info.note}
-            onChange={(e) => setInfo({ ...info, note: e.target.value })}
-          />
-        </div>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button
-              className="w-full cursor-pointer"
-              onClick={updateInfo}
-            >
-              <SaveIcon />
-              Update Document
-            </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        <SheetFooter>
+          <Button
+            className="cursor-pointer"
+            onClick={updateInfo}
+          >
+            <SaveIcon />
+            Update Document
+          </Button>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
 }

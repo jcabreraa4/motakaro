@@ -36,7 +36,7 @@ function WhiteboardRow({ whiteboard }: { whiteboard: Whiteboard }) {
         className="font-medium"
         onClick={openWhiteboard}
       >
-        <div className="w-35 max-w-120 truncate md:w-fit">{whiteboard.name}</div>
+        <div className="w-35 max-w-120 truncate md:w-fit">{whiteboard.name || 'Untitled Whiteboard'}</div>
       </TableCell>
       <TableCell
         className="hidden text-muted-foreground md:table-cell"
@@ -66,11 +66,7 @@ function WhiteboardRow({ whiteboard }: { whiteboard: Whiteboard }) {
             align="end"
             className="w-fit"
           >
-            <UpdateDialog
-              id={whiteboard._id}
-              name={whiteboard.name}
-              note={whiteboard.note}
-            >
+            <UpdateDialog whiteboard={whiteboard}>
               <DropdownMenuItem
                 className="cursor-pointer"
                 onSelect={(e) => e.preventDefault()}

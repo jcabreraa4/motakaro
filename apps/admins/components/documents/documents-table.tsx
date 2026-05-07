@@ -36,7 +36,7 @@ function DocumentRow({ document }: { document: Document }) {
         className="font-medium"
         onClick={openDocument}
       >
-        <div className="w-35 max-w-120 truncate md:w-fit">{document.name}</div>
+        <div className="w-35 max-w-120 truncate md:w-fit">{document.name || 'Untitled Document'}</div>
       </TableCell>
       <TableCell
         className="hidden text-muted-foreground md:table-cell"
@@ -66,11 +66,7 @@ function DocumentRow({ document }: { document: Document }) {
             align="end"
             className="w-fit"
           >
-            <UpdateDialog
-              id={document._id}
-              name={document.name}
-              note={document.note}
-            >
+            <UpdateDialog document={document}>
               <DropdownMenuItem
                 className="cursor-pointer"
                 onSelect={(e) => e.preventDefault()}

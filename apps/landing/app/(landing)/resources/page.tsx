@@ -8,7 +8,7 @@ import { cn } from '@workspace/ui/lib/utils';
 
 export default function Page() {
   const resources = useQuery(api.resources.list, { filter: 'published' });
-  const filteredResources = resources?.filter((resource) => resource.embed && resource.name);
+  const filteredResources = resources?.filter((resource) => resource.embed);
 
   function openLink(link: string) {
     if (!link) return;

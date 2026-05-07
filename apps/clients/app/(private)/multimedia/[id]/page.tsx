@@ -1,10 +1,10 @@
-import { DocumentsPage } from '@/components/documents/documents-page';
+import { MultimediaPage } from '@/components/multimedia/multimedia-page';
 import { Id } from '@workspace/backend/_generated/dataModel';
 import { api } from '@workspace/backend/_generated/api';
 import { preloadQuery } from 'convex/nextjs';
 import { auth } from '@clerk/nextjs/server';
 
-export default async function Page({ params }: { params: Promise<{ id: Id<'documents'> }> }) {
+export default async function Page({ params }: { params: Promise<{ id: Id<'multimedia'> }> }) {
   // Obtain Id
   const { id } = await params;
 
@@ -14,8 +14,8 @@ export default async function Page({ params }: { params: Promise<{ id: Id<'docum
   if (!token) throw new Error('Unauthorized');
 
   // Obtain Preloaded
-  const preloaded = await preloadQuery(api.documents.get, { id }, { token });
+  const preloaded = await preloadQuery(api.multimedia.clientsGet, { id }, { token });
 
   // Return Page
-  return <DocumentsPage preloaded={preloaded} />;
+  return <MultimediaPage preloaded={preloaded} />;
 }

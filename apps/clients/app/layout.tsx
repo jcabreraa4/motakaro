@@ -3,6 +3,7 @@ import { ThemeProvider } from '@/components/providers/theme-provider';
 import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import { Toaster } from '@workspace/ui/components/sonner';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { ClerkProvider } from '@clerk/nextjs';
 import { cn } from '@workspace/ui/lib/utils';
 import type { Metadata } from 'next';
@@ -43,19 +44,21 @@ export default function RootLayout({
             'choose-organization': '/org-selection'
           }}
         >
-          <ThemeProvider
-            enableSystem
-            attribute="class"
-            defaultTheme="light"
-            disableTransitionOnChange
-          >
-            <ConvexProvider>
-              <TooltipProvider>
-                {children}
-                <Toaster />
-              </TooltipProvider>
-            </ConvexProvider>
-          </ThemeProvider>
+          <NuqsAdapter>
+            <ThemeProvider
+              enableSystem
+              attribute="class"
+              defaultTheme="light"
+              disableTransitionOnChange
+            >
+              <ConvexProvider>
+                <TooltipProvider>
+                  {children}
+                  <Toaster />
+                </TooltipProvider>
+              </ConvexProvider>
+            </ThemeProvider>
+          </NuqsAdapter>
         </ClerkProvider>
       </body>
     </html>

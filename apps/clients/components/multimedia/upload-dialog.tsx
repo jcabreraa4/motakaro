@@ -25,7 +25,7 @@ export function UploadDialog({ variant = 'default', className }: UploadDialogPro
   const [loading, setLoading] = useState(false);
 
   const uploadFile = useMutation(api.multimedia.sharedUpload);
-  const createFile = useMutation(api.multimedia.create);
+  const createFile = useMutation(api.multimedia.clientsCreate);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     maxFiles: 1,

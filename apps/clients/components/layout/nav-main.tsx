@@ -1,7 +1,7 @@
 'use client';
 
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
-import { type LucideIcon, LayoutDashboardIcon, MessageSquareIcon } from 'lucide-react';
+import { type LucideIcon, LayoutDashboardIcon, MessageSquareIcon, ImageIcon } from 'lucide-react';
 import { usePathname } from '@/hooks/use-pathname';
 import { cn } from '@workspace/ui/lib/utils';
 import Link from 'next/link';
@@ -28,6 +28,11 @@ const sections: Section[] = [
         title: 'Messages',
         url: '/messages',
         icon: MessageSquareIcon
+      },
+      {
+        title: 'Multimedia',
+        url: '/multimedia',
+        icon: ImageIcon
       }
     ]
   }

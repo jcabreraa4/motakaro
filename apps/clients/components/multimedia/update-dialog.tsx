@@ -1,11 +1,10 @@
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { Textarea } from '@workspace/ui/components/textarea';
-import type { MediaFile } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
+import { MediaFile } from '@workspace/backend/schema';
 import { useMutation } from 'convex/react';
 import { SaveIcon } from 'lucide-react';
 import { useState } from 'react';
@@ -18,12 +17,12 @@ interface UpdateDialogProps {
 
 export function UpdateDialog({ file, children }: UpdateDialogProps) {
   const [open, setOpen] = useState(false);
-  const [info, setInfo] = useState({ name: file.name, note: file.note, visible: file.clientsVisible.toString() });
+  const [info, setInfo] = useState({ name: file.name, note: file.note });
 
-  const updateFile = useMutation(api.multimedia.update);
+  const updateFile = useMutation(api.multimedia.clientsUpdate);
 
   function handleUpdate() {
-    updateFile({ id: file._id, name: info.name, note: info.note, clientsVisible: info.visible === 'true' }).finally(() => {
+    updateFile({ id: file._id, name: info.name, note: info.note }).finally(() => {
       toast.success('File updated successfully.');
       setOpen(false);
     });
@@ -59,25 +58,6 @@ export function UpdateDialog({ file, children }: UpdateDialogProps) {
               onChange={(e) => setInfo({ ...info, note: e.target.value })}
             />
           </div>
-          {file.companyId && (
-            <div className="flex flex-col gap-2">
-              <Label>Visible</Label>
-              <Select
-                value={info.visible}
-                onValueChange={(value) => setInfo({ ...info, visible: value })}
-              >
-                <SelectTrigger className="w-full cursor-pointer">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="true">True</SelectItem>
-                    <SelectItem value="false">False</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-          )}
         </div>
         <SheetFooter>
           <Button

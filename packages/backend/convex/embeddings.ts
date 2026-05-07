@@ -2,6 +2,8 @@ import { action, mutation, query } from './_generated/server';
 import { ConvexError, v } from 'convex/values';
 import { verifyAdminAuth } from './auth';
 
+// Admins Functions
+
 export const list = query({
   handler: async (ctx) => {
     // Check Identity

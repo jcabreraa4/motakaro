@@ -1,7 +1,8 @@
 import { mutation, query } from './_generated/server';
 import { ConvexError, v } from 'convex/values';
-import { Id } from './_generated/dataModel';
 import { verifyAdminAuth } from './auth';
+
+// Admins Functions
 
 export const list = query({
   args: {
@@ -30,7 +31,7 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.string()
+    id: v.id('resources')
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -38,7 +39,7 @@ export const get = query({
 
     try {
       // Return the Resource
-      return await ctx.db.get(args.id as Id<'resources'>);
+      return await ctx.db.get(args.id);
     } catch {
       return null;
     }
@@ -60,7 +61,7 @@ export const create = mutation({
 
     // Create one Resource
     return await ctx.db.insert('resources', {
-      name: args.name,
+      name: args.name ?? 'Untitled Resource',
       note: args.note,
       link: args.link,
       embed: args.embed,

@@ -5,12 +5,12 @@ import { useEffect } from 'react';
 
 export function usePresence() {
   const { user } = useUser();
-  const update = useMutation(api.contacts.update);
+  const update = useMutation(api.contacts.clientsUpdate);
 
   useEffect(() => {
     if (!user) return;
-    update({ clerkId: user.id });
-    const interval = setInterval(() => update({ clerkId: user.id }), 60000);
+    update();
+    const interval = setInterval(() => update(), 60000);
     return () => clearInterval(interval);
   }, [user?.id, update, user]);
 }
