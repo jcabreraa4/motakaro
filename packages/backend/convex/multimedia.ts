@@ -1,23 +1,32 @@
 import { verifyAdminAuth, verifyClientAuth, verifyIdentity } from './auth';
 import { mutation, query } from './_generated/server';
+import type { Id } from './_generated/dataModel';
 import { ConvexError, v } from 'convex/values';
 
 // Admins Functions
 
 export const list = query({
   args: {
-    companyId: v.optional(v.id('companies'))
+    filter: v.optional(v.union(v.literal('own'), v.id('companies')))
   },
   handler: async (ctx, args) => {
     // Check Identity
     await verifyAdminAuth(ctx);
 
     // Check for Filter
-    if (args.companyId) {
+    if (args.filter === 'own') {
       // Return the Multimedia
       const multimedia = await ctx.db
         .query('multimedia')
-        .withIndex('by_companyId_updated', (q) => q.eq('companyId', args.companyId))
+        .withIndex('by_companyId_updated', (q) => q.eq('companyId', undefined))
+        .order('desc')
+        .collect();
+      return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await ctx.storage.getUrl(file.storageId) })));
+    } else if (args.filter) {
+      // Return the Multimedia
+      const multimedia = await ctx.db
+        .query('multimedia')
+        .withIndex('by_companyId_updated', (q) => q.eq('companyId', args.filter as Id<'companies'>))
         .order('desc')
         .collect();
       return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await ctx.storage.getUrl(file.storageId) })));
@@ -26,7 +35,7 @@ export const list = query({
     // Return all Multimedia
     const multimedia = await ctx.db
       .query('multimedia')
-      .withIndex('by_companyId_updated', (q) => q.eq('companyId', undefined))
+      .withIndex('by_updated', (q) => q)
       .order('desc')
       .collect();
     return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await ctx.storage.getUrl(file.storageId) })));

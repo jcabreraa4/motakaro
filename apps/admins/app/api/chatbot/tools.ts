@@ -1,6 +1,6 @@
 import type { ToolUIPart, InferUITools, UIDataTypes, UIMessage } from 'ai';
 import { tiptapToMarkdown } from '@/lib/documents/tiptap-to-markdown';
-import { Id } from '@workspace/backend/_generated/dataModel';
+import type { Id } from '@workspace/backend/_generated/dataModel';
 import { api } from '@workspace/backend/_generated/api';
 import { ConvexHttpClient } from 'convex/browser';
 import { auth } from '@clerk/nextjs/server';
@@ -217,8 +217,10 @@ export const tools = {
   // Documents Tools
   documentsList: tool({
     description: 'List all documents.',
-    inputSchema: z.object(),
-    async execute() {
+    inputSchema: z.object({
+      filter: z.union([z.literal('own'), z.literal('all'), z.string().min(1)]).describe('Filter: "own" = Motakaro documents, "all" = All documents, companyId = Company Id documents')
+    }),
+    async execute({ filter }) {
       try {
         // Authenticate Convex
         const { getToken } = await auth();
@@ -226,7 +228,7 @@ export const tools = {
         client.setAuth(token!);
 
         // Obtain all Documents
-        const documents = await client.query(api.documents.list, {});
+        const documents = await client.query(api.documents.list, { filter: filter === 'all' ? undefined : (filter as Id<'companies'> | 'own') });
 
         // Return all Documents
         if (!documents || documents.length === 0) {
@@ -288,8 +290,10 @@ export const tools = {
   // Whiteboards Tools
   whiteboardsList: tool({
     description: 'List all whiteboards.',
-    inputSchema: z.object(),
-    async execute() {
+    inputSchema: z.object({
+      filter: z.union([z.literal('own'), z.literal('all'), z.string().min(1)]).describe('Filter: "own" = Motakaro whiteboards, "all" = All whiteboards, companyId = Company Id whiteboards')
+    }),
+    async execute({ filter }) {
       try {
         // Authenticate Convex
         const { getToken } = await auth();
@@ -297,7 +301,7 @@ export const tools = {
         client.setAuth(token!);
 
         // Obtain all Whiteboards
-        const whiteboards = await client.query(api.whiteboards.list, {});
+        const whiteboards = await client.query(api.whiteboards.list, { filter: filter === 'all' ? undefined : (filter as Id<'companies'> | 'own') });
 
         // Return all Whiteboards
         if (!whiteboards || whiteboards.length === 0) {
@@ -356,8 +360,10 @@ export const tools = {
   // Multimedia Tools
   multimediaList: tool({
     description: 'List all media files.',
-    inputSchema: z.object(),
-    async execute() {
+    inputSchema: z.object({
+      filter: z.union([z.literal('own'), z.literal('all'), z.string().min(1)]).describe('Filter: "own" = Motakaro files, "all" = All files, companyId = Company Id files')
+    }),
+    async execute({ filter }) {
       try {
         // Authenticate Convex
         const { getToken } = await auth();
@@ -365,7 +371,7 @@ export const tools = {
         client.setAuth(token!);
 
         // Obtain all Multimedia
-        const multimedia = await client.query(api.multimedia.list, {});
+        const multimedia = await client.query(api.multimedia.list, { filter: filter === 'all' ? undefined : (filter as Id<'companies'> | 'own') });
 
         // Return all Multimedia
         if (!multimedia || multimedia.length === 0) {

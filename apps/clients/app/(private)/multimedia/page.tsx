@@ -1,6 +1,5 @@
 'use client';
 
-import { useAuth } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 import { ImageIcon, SearchIcon } from 'lucide-react';
 import { MediaTable } from '@/components/multimedia/multimedia-table';
@@ -11,6 +10,7 @@ import { UploadDialog } from '@/components/multimedia/upload-dialog';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { api } from '@workspace/backend/_generated/api';
 import { useParams } from '@/hooks/use-params';
+import { useAuth } from '@clerk/nextjs';
 
 export default function Page() {
   const { isLoaded } = useAuth();

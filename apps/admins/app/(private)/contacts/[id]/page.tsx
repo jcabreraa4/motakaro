@@ -1,4 +1,4 @@
-import { Id } from '@workspace/backend/_generated/dataModel';
+import type { Id } from '@workspace/backend/_generated/dataModel';
 
 export default async function Page({ params }: { params: Promise<{ id: Id<'contacts'> }> }) {
   const { id } = await params;

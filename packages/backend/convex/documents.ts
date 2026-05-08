@@ -1,4 +1,5 @@
 import { mutation, query } from './_generated/server';
+import type { Id } from './_generated/dataModel';
 import { ConvexError, v } from 'convex/values';
 import { verifyAdminAuth } from './auth';
 
@@ -6,18 +7,25 @@ import { verifyAdminAuth } from './auth';
 
 export const list = query({
   args: {
-    companyId: v.optional(v.id('companies'))
+    filter: v.optional(v.union(v.literal('own'), v.id('companies')))
   },
   handler: async (ctx, args) => {
     // Check Identity
     await verifyAdminAuth(ctx);
 
     // Check for Filter
-    if (args.companyId) {
+    if (args.filter === 'own') {
       // Return the Documents
       return await ctx.db
         .query('documents')
-        .withIndex('by_companyId_updated', (q) => q.eq('companyId', args.companyId))
+        .withIndex('by_companyId_updated', (q) => q.eq('companyId', undefined))
+        .order('desc')
+        .collect();
+    } else if (args.filter) {
+      // Return the Documents
+      return await ctx.db
+        .query('documents')
+        .withIndex('by_companyId_updated', (q) => q.eq('companyId', args.filter as Id<'companies'>))
         .order('desc')
         .collect();
     }
@@ -25,7 +33,7 @@ export const list = query({
     // Return all Documents
     return await ctx.db
       .query('documents')
-      .withIndex('by_companyId_updated', (q) => q.eq('companyId', undefined))
+      .withIndex('by_updated', (q) => q)
       .order('desc')
       .collect();
   }

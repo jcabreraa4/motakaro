@@ -123,7 +123,9 @@ export default defineSchema({
 
     // Table Relationships
     companyId: v.optional(v.id('companies'))
-  }).index('by_companyId_updated', ['companyId', 'updated']),
+  })
+    .index('by_updated', ['updated'])
+    .index('by_companyId_updated', ['companyId', 'updated']),
 
   // Company Whiteboards
   whiteboards: defineTable({
@@ -136,7 +138,9 @@ export default defineSchema({
 
     // Table Relationships
     companyId: v.optional(v.id('companies'))
-  }).index('by_companyId_updated', ['companyId', 'updated']),
+  })
+    .index('by_updated', ['updated'])
+    .index('by_companyId_updated', ['companyId', 'updated']),
 
   // Company Multimedia
   multimedia: defineTable({
@@ -160,6 +164,7 @@ export default defineSchema({
     // Table Relationships
     companyId: v.optional(v.id('companies'))
   })
+    .index('by_updated', ['updated'])
     .index('by_companyId_updated', ['companyId', 'updated'])
     .index('by_companyId_clientsVisible_updated', ['companyId', 'clientsVisible', 'updated']),
 

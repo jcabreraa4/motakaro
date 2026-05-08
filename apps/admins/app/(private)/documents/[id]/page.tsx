@@ -1,5 +1,5 @@
 import { DocumentsPage } from '@/components/documents/documents-page';
-import { Id } from '@workspace/backend/_generated/dataModel';
+import type { Id } from '@workspace/backend/_generated/dataModel';
 import { api } from '@workspace/backend/_generated/api';
 import { preloadQuery } from 'convex/nextjs';
 import { auth } from '@clerk/nextjs/server';

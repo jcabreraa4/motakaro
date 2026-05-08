@@ -1,6 +1,5 @@
 'use client';
 
-import { useAuth } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 import { PencilRulerIcon, SearchIcon } from 'lucide-react';
 import { WhiteboardsTable } from '@/components/whiteboards/whiteboards-table';
@@ -10,13 +9,14 @@ import { CreateButton } from '@/components/whiteboards/create-button';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { api } from '@workspace/backend/_generated/api';
 import { useParams } from '@/hooks/use-params';
+import { useAuth } from '@clerk/nextjs';
 
 export default function Page() {
   const { isLoaded } = useAuth();
 
   const [searchFilter, setSearchFilter] = useParams('search');
 
-  const whiteboards = useQuery(api.whiteboards.list, isLoaded ? {} : 'skip');
+  const whiteboards = useQuery(api.whiteboards.list, isLoaded ? { filter: 'own' } : 'skip');
   const filteredBoards = whiteboards?.filter((whiteboard) => searchFilter === '' || whiteboard.name.toLowerCase().includes(searchFilter.toLowerCase()) || whiteboard.note.toLowerCase().includes(searchFilter.toLowerCase()) || whiteboard._id.toLowerCase().includes(searchFilter.toLowerCase()));
 
   return (

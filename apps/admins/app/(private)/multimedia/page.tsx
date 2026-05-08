@@ -1,6 +1,5 @@
 'use client';
 
-import { useAuth } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 import { ImageIcon, SearchIcon } from 'lucide-react';
 import { MediaTable } from '@/components/multimedia/multimedia-table';
@@ -11,6 +10,7 @@ import { UploadDialog } from '@/components/multimedia/upload-dialog';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { api } from '@workspace/backend/_generated/api';
 import { useParams } from '@/hooks/use-params';
+import { useAuth } from '@clerk/nextjs';
 
 export default function Page() {
   const { isLoaded } = useAuth();
@@ -19,7 +19,7 @@ export default function Page() {
   const [typeFilter, setTypeFilter] = useParams('type');
   const effectiveTypeFilter = typeFilter || 'all';
 
-  const multimedia = useQuery(api.multimedia.list, isLoaded ? {} : 'skip');
+  const multimedia = useQuery(api.multimedia.list, isLoaded ? { filter: 'own' } : 'skip');
   const filteredFiles = multimedia?.filter((file) => searchFilter === '' || file.name.toLowerCase().includes(searchFilter.toLowerCase()) || file.note.toLowerCase().includes(searchFilter.toLowerCase()) || file._id.toLowerCase().includes(searchFilter.toLowerCase())).filter((file) => (effectiveTypeFilter === 'all' ? true : file.type.includes(effectiveTypeFilter)));
 
   return (

@@ -16,7 +16,7 @@ export default function Page() {
 
   const [searchFilter, setSearchFilter] = useParams('search');
 
-  const documents = useQuery(api.documents.list, isLoaded ? {} : 'skip');
+  const documents = useQuery(api.documents.list, isLoaded ? { filter: 'own' } : 'skip');
   const filteredDocuments = documents?.filter((document) => searchFilter === '' || document.name.toLowerCase().includes(searchFilter.toLowerCase()) || document.note.toLowerCase().includes(searchFilter.toLowerCase()) || document._id.toLowerCase().includes(searchFilter.toLowerCase()));
 
   return (

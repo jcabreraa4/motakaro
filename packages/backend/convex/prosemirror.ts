@@ -1,6 +1,6 @@
 import { ProsemirrorSync } from '@convex-dev/prosemirror-sync';
 import { MutationCtx, QueryCtx } from './_generated/server';
-import { Id, DataModel } from './_generated/dataModel';
+import { type Id, DataModel } from './_generated/dataModel';
 import { components } from './_generated/api';
 import { ConvexError } from 'convex/values';
 import { verifyAdminAuth } from './auth';
