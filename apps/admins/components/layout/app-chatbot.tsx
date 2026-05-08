@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useChat } from '@ai-sdk/react';
+import { cn } from '@workspace/ui/lib/utils';
 import { useMainStore } from '@/store/main-store';
 import { lastAssistantMessageIsCompleteWithToolCalls } from 'ai';
 import { type ModelId, defaultModel } from '@/lib/chatbot/models';
@@ -98,7 +99,7 @@ export function AppChatbot() {
 
   return (
     <section className="flex w-full flex-col items-center gap-2 py-2 lg:py-5 xl:w-120 xl:border-l xl:shadow-md print:hidden">
-      <div className="flex w-full flex-1 justify-center overflow-y-scroll">
+      <div className={cn('flex w-full flex-1 justify-center', messages.length !== 0 && 'overflow-y-scroll')}>
         <div className="w-full">
           <ChatbotMessages
             messages={messages}
@@ -108,7 +109,7 @@ export function AppChatbot() {
           />
         </div>
       </div>
-      {((messages.length === 0 && !input.trim()) || files.length !== 0) && (
+      {(messages.length === 0 || files.length !== 0) && (
         <div className="h-9 w-full px-2 lg:px-5">
           {messages.length === 0 && !input.trim() && files.length === 0 ? (
             <ChatbotSuggestions handleSubmit={handleSuggestion} />

@@ -54,6 +54,7 @@ export function ChatbotInput({ model, setModel, input, setInput, files, setFiles
             />
             <PromptInputButton
               variant="outline"
+              disabled={status === 'streaming' || status === 'submitted'}
               className="cursor-pointer"
               onClick={emptyChat}
             >

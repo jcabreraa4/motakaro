@@ -64,7 +64,7 @@ export default function Page() {
       {!multimedia ? (
         <CircleLoader />
       ) : multimedia.length === 0 ? (
-        <section className="flex min-h-0 flex-1 items-center justify-center">
+        <section className="flex min-h-0 flex-1 items-center justify-center select-none">
           <Empty>
             <EmptyHeader>
               <EmptyMedia variant="icon">
@@ -79,7 +79,7 @@ export default function Page() {
           </Empty>
         </section>
       ) : filteredFiles?.length === 0 ? (
-        <section className="flex min-h-0 flex-1 items-center justify-center">
+        <section className="flex min-h-0 flex-1 items-center justify-center select-none">
           <Empty>
             <EmptyHeader>
               <EmptyMedia variant="icon">

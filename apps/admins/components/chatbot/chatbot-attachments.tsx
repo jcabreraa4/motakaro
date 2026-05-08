@@ -17,7 +17,7 @@ function Attachment({ file }: { file: File }) {
       <HoverCardTrigger asChild>
         <Button
           variant="outline"
-          className="cursor-pointer"
+          className="cursor-pointer rounded-l-none border-l-0"
           onClick={() => setOpen(true)}
         >
           {file.name}
@@ -26,7 +26,7 @@ function Attachment({ file }: { file: File }) {
       <HoverCardContent
         side="top"
         align="end"
-        className="p-1"
+        className="p-0.5"
       >
         <MultimediaPreview
           preview
@@ -51,11 +51,11 @@ export function ChatbotAttachments({ files, setFiles, className }: ChatbotAttach
       {files.map((file, index) => (
         <div
           key={index}
-          className="flex gap-1"
+          className="flex"
         >
           <Button
-            variant="secondary"
-            className="cursor-pointer"
+            variant="outline"
+            className="cursor-pointer rounded-r-none"
             onClick={() => setFiles(files.filter((_, i) => i !== index))}
           >
             <TrashIcon />

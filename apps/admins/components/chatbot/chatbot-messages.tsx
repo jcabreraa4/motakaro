@@ -25,11 +25,11 @@ export function ChatbotMessages({ status, messages, lastInput, regenerate }: Cha
   const { user, isLoaded } = useUser();
 
   return (
-    <Conversation>
-      <ConversationContent className={cn(messages.length === 0 ? 'px-0' : 'px-2')}>
+    <Conversation className={cn(messages.length === 0 && 'h-full')}>
+      <ConversationContent className={cn(messages.length === 0 ? 'h-full px-0' : 'px-2')}>
         {messages.length === 0 && (
-          <ConversationEmptyState className="xl:mt-40">
-            <Empty className="pointer-events-none select-none">
+          <ConversationEmptyState className="h-full select-none">
+            <Empty>
               <EmptyHeader>
                 <EmptyMedia variant="icon">
                   <MessageSquareIcon className="size-6" />
