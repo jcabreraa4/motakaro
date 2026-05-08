@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useMainStore } from '@/store/main-store';
 import { usePathname } from '@/hooks/use-pathname';
-import { useAppStateStore } from '@/store/state-store';
 import { Separator } from '@workspace/ui/components/separator';
 import { Popover, PopoverContent, PopoverHeader, PopoverTitle, PopoverTrigger } from '@workspace/ui/components/popover';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
@@ -23,11 +23,11 @@ export function AppHeader() {
 
   const [open, setOpen] = useState(false);
 
-  const showChat = useAppStateStore((state) => state.showChat);
-  const toggleChat = useAppStateStore((state) => state.toggleChat);
+  const subroute = useMainStore((state) => state.subroute);
+  const setSubroute = useMainStore((state) => state.setSubroute);
 
-  const subroute = useAppStateStore((state) => state.subroute);
-  const setSubroute = useAppStateStore((state) => state.setSubroute);
+  const showChatbot = useMainStore((state) => state.showChatbot);
+  const toggleChatbot = useMainStore((state) => state.toggleChatbot);
 
   function cleanSubroute() {
     setSubroute(null);
@@ -69,8 +69,8 @@ export function AppHeader() {
           <Button
             size="icon-sm"
             variant="ghost"
-            className={cn('cursor-pointer text-zinc-400 hover:bg-transparent! dark:text-zinc-500 dark:hover:text-white', showChat && 'text-black dark:text-white')}
-            onClick={toggleChat}
+            className={cn('cursor-pointer text-zinc-400 hover:bg-transparent! dark:text-zinc-500 dark:hover:text-white', showChatbot && 'text-black dark:text-white')}
+            onClick={toggleChatbot}
           >
             <BotIcon className="size-6" />
           </Button>

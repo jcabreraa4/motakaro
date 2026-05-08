@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useMainStore } from '@/store/main-store';
 import { usePathname } from '@/hooks/use-pathname';
-import { useAppStateStore } from '@/store/state-store';
 import { Separator } from '@workspace/ui/components/separator';
 import { Popover, PopoverContent, PopoverHeader, PopoverTitle, PopoverTrigger } from '@workspace/ui/components/popover';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
@@ -22,8 +22,8 @@ export function AppHeader() {
 
   const [open, setOpen] = useState(false);
 
-  const subroute = useAppStateStore((state) => state.subroute);
-  const setSubroute = useAppStateStore((state) => state.setSubroute);
+  const subroute = useMainStore((state) => state.subroute);
+  const setSubroute = useMainStore((state) => state.setSubroute);
 
   function cleanSubroute() {
     setSubroute(null);

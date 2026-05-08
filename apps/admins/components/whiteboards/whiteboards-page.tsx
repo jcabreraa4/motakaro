@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useAppStateStore } from '@/store/state-store';
+import { useMainStore } from '@/store/main-store';
 import { api } from '@workspace/backend/_generated/api';
 import { Preloaded, usePreloadedQuery } from 'convex/react';
 import { WhiteboardsToolbar } from '@/components/whiteboards/whiteboards-toolbar';
@@ -25,7 +25,7 @@ export function WhiteboardsPage({ preloaded }: WhiteboardsPageProps) {
 
 function CanvasMainInner({ preloaded }: WhiteboardsPageProps) {
   const whiteboard = usePreloadedQuery(preloaded);
-  const setSubroute = useAppStateStore((state) => state.setSubroute);
+  const setSubroute = useMainStore((state) => state.setSubroute);
 
   useEffect(() => {
     if (whiteboard) setSubroute(whiteboard.name);

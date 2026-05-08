@@ -6,7 +6,7 @@ import { AudioRender, ImageRender, OtherRender, VideoRender } from '@/components
 import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
-import { useAppStateStore } from '@/store/state-store';
+import { useMainStore } from '@/store/main-store';
 import { mediaType } from '@/utils/media-type';
 import { FileTextIcon } from 'lucide-react';
 import { useAuth } from '@clerk/nextjs';
@@ -24,7 +24,7 @@ export function MultimediaPage({ preloaded }: MultimediaPageProps) {
 
 function MediaPageInner({ preloaded }: MultimediaPageProps) {
   const file = usePreloadedQuery(preloaded);
-  const setSubroute = useAppStateStore((state) => state.setSubroute);
+  const setSubroute = useMainStore((state) => state.setSubroute);
 
   useEffect(() => {
     if (file) setSubroute(file.name);

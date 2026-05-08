@@ -5,7 +5,7 @@ import { api } from '@workspace/backend/_generated/api';
 import { Preloaded, usePreloadedQuery } from 'convex/react';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { Button } from '@workspace/ui/components/button';
-import { useAppStateStore } from '@/store/state-store';
+import { useMainStore } from '@/store/main-store';
 import { HeadsetIcon } from 'lucide-react';
 import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
@@ -22,7 +22,7 @@ export function MeetingsPage({ preloaded }: MeetingsPageProps) {
 
 function MeetingsPageInner({ preloaded }: MeetingsPageProps) {
   const meeting = usePreloadedQuery(preloaded);
-  const setSubroute = useAppStateStore((state) => state.setSubroute);
+  const setSubroute = useMainStore((state) => state.setSubroute);
 
   useEffect(() => {
     if (meeting) setSubroute(meeting.name);

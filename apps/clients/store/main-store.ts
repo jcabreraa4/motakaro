@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 
-interface AppStateStore {
+interface MainStore {
   subroute: string | null;
   setSubroute: (name: string | null) => void;
 }
 
-export const useAppStateStore = create<AppStateStore>((set) => ({
+export const useMainStore = create<MainStore>((set) => ({
   subroute: null,
   setSubroute: (subroute: string | null) => set({ subroute })
 }));

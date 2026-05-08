@@ -4,8 +4,8 @@ import { useCallback, useEffect, useRef } from 'react';
 import { Canvas as FabricCanvas, Ellipse, IText, PencilBrush, Rect } from 'fabric';
 import type { Whiteboard } from '@workspace/backend/schema';
 import { api } from '@workspace/backend/_generated/api';
-import { useAppStateStore } from '@/store/state-store';
 import { useCanvasStore } from '@/store/canvas-store';
+import { useMainStore } from '@/store/main-store';
 import { useMutation } from 'convex/react';
 
 const SAVE_DELAY_MS = 1500;
@@ -13,7 +13,7 @@ const MAX_HISTORY = 50;
 
 export function useCanvas(whiteboard: Whiteboard | null) {
   const updateWhiteboard = useMutation(api.whiteboards.update);
-  const showChat = useAppStateStore((state) => state.showChat);
+  const showChatbot = useMainStore((state) => state.showChatbot);
   const activeTool = useCanvasStore((state) => state.activeTool);
 
   const mainRef = useRef<HTMLElement>(null);
@@ -274,7 +274,7 @@ export function useCanvas(whiteboard: Whiteboard | null) {
   // Re-sync size when chatbot sidebar toggles
   useEffect(() => {
     requestAnimationFrame(syncCanvasSize);
-  }, [showChat, syncCanvasSize]);
+  }, [showChatbot, syncCanvasSize]);
 
   return { mainRef, canvasElRef };
 }

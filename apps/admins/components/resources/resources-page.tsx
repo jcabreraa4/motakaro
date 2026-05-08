@@ -7,7 +7,7 @@ import { CircleAlertIcon, ListVideoIcon } from 'lucide-react';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
-import { useAppStateStore } from '@/store/state-store';
+import { useMainStore } from '@/store/main-store';
 import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
 
@@ -23,7 +23,7 @@ export function ResourcePage({ preloaded }: ResourcePageProps) {
 
 function ResourcePageInner({ preloaded }: ResourcePageProps) {
   const resource = usePreloadedQuery(preloaded);
-  const setSubroute = useAppStateStore((state) => state.setSubroute);
+  const setSubroute = useMainStore((state) => state.setSubroute);
 
   useEffect(() => {
     if (resource) setSubroute(resource.name);

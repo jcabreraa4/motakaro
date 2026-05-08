@@ -7,7 +7,7 @@ import { DesktopToolbar } from '@/components/documents/desktop-toolbar';
 import { MobileToolbar } from '@/components/documents/mobile-toolbar';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { Button } from '@workspace/ui/components/button';
-import { useAppStateStore } from '@/store/state-store';
+import { useMainStore } from '@/store/main-store';
 import { useEditor } from '@/hooks/use-editor';
 import { Preloaded } from 'convex/react';
 import { useAuth } from '@clerk/nextjs';
@@ -28,7 +28,7 @@ export function DocumentsPage({ preloaded }: DocumentsPageProps) {
 
 function DocumentsPageInner({ preloaded }: DocumentsPageProps) {
   const { document } = useEditor(preloaded);
-  const setSubroute = useAppStateStore((state) => state.setSubroute);
+  const setSubroute = useMainStore((state) => state.setSubroute);
 
   useEffect(() => {
     if (document) setSubroute(document.name);

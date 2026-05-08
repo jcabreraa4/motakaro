@@ -2,8 +2,8 @@
 
 import { type LucideIcon, FileTextIcon, ImageIcon, LayoutDashboardIcon, Building2Icon, UsersIcon, ListVideoIcon, HeadsetIcon, ChartColumnBigIcon, PencilRulerIcon, WalletIcon } from 'lucide-react';
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
-import { useAppStateStore } from '@/store/state-store';
 import { usePathname } from '@/hooks/use-pathname';
+import { useMainStore } from '@/store/main-store';
 import { cn } from '@workspace/ui/lib/utils';
 import Link from 'next/link';
 
@@ -86,7 +86,7 @@ const sections: Section[] = [
 
 export function NavMain() {
   const { segments } = usePathname();
-  const setSubroute = useAppStateStore((state) => state.setSubroute);
+  const setSubroute = useMainStore((state) => state.setSubroute);
 
   function isActive(url: string) {
     if (`/${segments[0]}` === url) return true;

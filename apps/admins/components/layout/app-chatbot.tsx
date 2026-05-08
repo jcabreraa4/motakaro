@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useChat } from '@ai-sdk/react';
-import { useAppStateStore } from '@/store/state-store';
+import { useMainStore } from '@/store/main-store';
 import { lastAssistantMessageIsCompleteWithToolCalls } from 'ai';
 import { type ModelId, defaultModel } from '@/lib/chatbot/models';
 import { ChatbotMessages } from '@/components/chatbot/chatbot-messages';
@@ -19,7 +19,7 @@ import { useAuth } from '@clerk/nextjs';
 
 export function AppChatbot() {
   const router = useRouter();
-  const showChat = useAppStateStore((state) => state.showChat);
+  const showChat = useMainStore((state) => state.showChatbot);
 
   const { userId, isLoaded } = useAuth();
   const { fullPath } = usePathname();

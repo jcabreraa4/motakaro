@@ -37,6 +37,19 @@ export default defineSchema({
     linkedin: v.optional(v.string())
   }).index('by_clerkId', ['clerkId']),
 
+  // Users Notifications
+  notifications: defineTable({
+    // Basic Information
+    name: v.string(),
+    note: v.string(),
+    content: v.string(),
+    starred: v.boolean(),
+    updated: v.number(),
+
+    // Table Relationships
+    userId: v.union(v.id('employees'), v.id('contacts'))
+  }),
+
   // Motakaro Clients Companies
   companies: defineTable({
     // Webhook Sync
