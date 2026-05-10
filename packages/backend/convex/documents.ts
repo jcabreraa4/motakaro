@@ -41,7 +41,7 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.id('documents')
+    id: v.string()
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -49,7 +49,7 @@ export const get = query({
 
     try {
       // Return the Document
-      return await ctx.db.get(args.id);
+      return await ctx.db.get(args.id as Id<'documents'>);
     } catch {
       return null;
     }

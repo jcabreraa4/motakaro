@@ -1,5 +1,6 @@
 import { internalMutation, mutation, query } from './_generated/server';
 import { verifyAdminAuth, verifyClientAuth } from './auth';
+import type { Id } from './_generated/dataModel';
 import { ConvexError, v } from 'convex/values';
 
 // Admins Functions
@@ -30,7 +31,7 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.id('contacts')
+    id: v.string()
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -38,7 +39,7 @@ export const get = query({
 
     try {
       // Return the Contact
-      return await ctx.db.get(args.id);
+      return await ctx.db.get(args.id as Id<'contacts'>);
     } catch {
       return null;
     }

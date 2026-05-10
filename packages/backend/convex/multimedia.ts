@@ -44,7 +44,7 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.id('multimedia')
+    id: v.string()
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -52,7 +52,7 @@ export const get = query({
 
     try {
       // Obtain the Media File
-      const mediaFile = await ctx.db.get(args.id);
+      const mediaFile = await ctx.db.get(args.id as Id<'multimedia'>);
       if (!mediaFile) return null;
 
       // Obtain the Storage Url
@@ -185,7 +185,7 @@ export const clientsList = query({
 
 export const clientsGet = query({
   args: {
-    id: v.id('multimedia')
+    id: v.string()
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -203,7 +203,7 @@ export const clientsGet = query({
 
     try {
       // Obtain the Media File
-      const mediaFile = await ctx.db.get(args.id);
+      const mediaFile = await ctx.db.get(args.id as Id<'multimedia'>);
       if (!mediaFile) return null;
 
       // Check Ownership

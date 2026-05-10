@@ -41,7 +41,7 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.id('whiteboards')
+    id: v.string()
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -49,7 +49,7 @@ export const get = query({
 
     try {
       // Return the Whiteboard
-      return await ctx.db.get(args.id);
+      return await ctx.db.get(args.id as Id<'whiteboards'>);
     } catch {
       return null;
     }

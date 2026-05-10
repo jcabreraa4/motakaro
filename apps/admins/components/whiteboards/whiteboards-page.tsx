@@ -33,7 +33,7 @@ function CanvasMainInner({ preloaded }: WhiteboardsPageProps) {
 
   if (!whiteboard) {
     return (
-      <section className="flex w-full flex-col items-center justify-center gap-5">
+      <section className="flex w-full flex-col items-center justify-center gap-5 select-none">
         <div className="flex flex-col items-center gap-3">
           <p className="text-xl font-semibold">404 Not Found</p>
           <p>The whiteboard you are looking for could not be found.</p>

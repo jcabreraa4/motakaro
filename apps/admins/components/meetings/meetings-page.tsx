@@ -30,7 +30,7 @@ function MeetingsPageInner({ preloaded }: MeetingsPageProps) {
 
   if (!meeting) {
     return (
-      <main className="flex w-full flex-col items-center justify-center gap-5">
+      <main className="flex w-full flex-col items-center justify-center gap-5 select-none">
         <div className="flex flex-col items-center gap-3">
           <p className="text-xl font-semibold">404 Not Found</p>
           <p>The meeting you are looking for could not be found.</p>

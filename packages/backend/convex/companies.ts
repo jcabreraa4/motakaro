@@ -1,4 +1,5 @@
 import { internalMutation, query } from './_generated/server';
+import type { Id } from './_generated/dataModel';
 import { ConvexError, v } from 'convex/values';
 import { verifyAdminAuth } from './auth';
 
@@ -16,7 +17,7 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.id('companies')
+    id: v.string()
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -24,7 +25,7 @@ export const get = query({
 
     try {
       // Return the Company
-      return await ctx.db.get(args.id);
+      return await ctx.db.get(args.id as Id<'companies'>);
     } catch {
       return null;
     }
