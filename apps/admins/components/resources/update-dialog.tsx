@@ -1,8 +1,8 @@
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
+import { CopyIcon, LinkIcon, RotateCcwIcon, SaveIcon } from 'lucide-react';
 import { Textarea } from '@workspace/ui/components/textarea';
-import { CopyIcon, LinkIcon, SaveIcon } from 'lucide-react';
 import type { Resource } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
@@ -43,6 +43,10 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
       toast.success('Resource updated successfully.');
       setOpen(false);
     });
+  }
+
+  function handleReset() {
+    setInfo({ name: resource.name, note: resource.note, link: resource.link, embed: resource.embed, thumbnail: resource.thumbnail, published: resource.published.toString() });
   }
 
   return (
@@ -146,6 +150,14 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
           </div>
         </div>
         <SheetFooter>
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            onClick={handleReset}
+          >
+            <RotateCcwIcon />
+            Reset Changes
+          </Button>
           <Button
             className="cursor-pointer"
             onClick={handleUpdate}

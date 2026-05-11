@@ -5,9 +5,9 @@ import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
+import { RotateCcwIcon, SaveIcon } from 'lucide-react';
 import { cn } from '@workspace/ui/lib/utils';
 import { useMutation } from 'convex/react';
-import { SaveIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -27,6 +27,10 @@ export function UpdateDialog({ document, children }: UpdateDialogProps) {
       toast.success('Document updated successfully.');
       setOpen(false);
     });
+  }
+
+  function handleReset() {
+    setInfo({ name: document.name, note: document.note });
   }
 
   return (
@@ -62,6 +66,14 @@ export function UpdateDialog({ document, children }: UpdateDialogProps) {
           </div>
         </div>
         <SheetFooter>
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            onClick={handleReset}
+          >
+            <RotateCcwIcon />
+            Reset Changes
+          </Button>
           <Button
             className="cursor-pointer"
             onClick={updateInfo}

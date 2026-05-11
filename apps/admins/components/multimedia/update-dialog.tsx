@@ -4,11 +4,11 @@ import { Textarea } from '@workspace/ui/components/textarea';
 import type { MediaFile } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
+import { RotateCcwIcon, SaveIcon } from 'lucide-react';
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
 import { cn } from '@workspace/ui/lib/utils';
 import { useMutation } from 'convex/react';
-import { SaveIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -28,6 +28,10 @@ export function UpdateDialog({ file, children }: UpdateDialogProps) {
       toast.success('File updated successfully.');
       setOpen(false);
     });
+  }
+
+  function handleReset() {
+    setInfo({ name: file.name, note: file.note, visible: file.clientsVisible.toString() });
   }
 
   return (
@@ -82,6 +86,14 @@ export function UpdateDialog({ file, children }: UpdateDialogProps) {
           )}
         </div>
         <SheetFooter>
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            onClick={handleReset}
+          >
+            <RotateCcwIcon />
+            Reset Changes
+          </Button>
           <Button
             className="cursor-pointer"
             onClick={handleUpdate}

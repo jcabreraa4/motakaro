@@ -2,11 +2,12 @@ import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetT
 import { Textarea } from '@workspace/ui/components/textarea';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
+import { SaveIcon, RotateCcwIcon } from 'lucide-react';
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
 import { MediaFile } from '@workspace/backend/schema';
+import { cn } from '@workspace/ui/lib/utils';
 import { useMutation } from 'convex/react';
-import { SaveIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -28,6 +29,10 @@ export function UpdateDialog({ file, children }: UpdateDialogProps) {
     });
   }
 
+  function handleReset() {
+    setInfo({ name: file.name, note: file.note });
+  }
+
   return (
     <Sheet
       open={open}
@@ -47,19 +52,28 @@ export function UpdateDialog({ file, children }: UpdateDialogProps) {
               placeholder="Untitled File"
               value={info.name}
               onChange={(e) => setInfo({ ...info, name: e.target.value })}
+              className={cn(info.name !== file.name && 'border-red-500')}
             />
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="note">Note</Label>
             <Textarea
               id="note"
-              className="h-20"
               value={info.note}
               onChange={(e) => setInfo({ ...info, note: e.target.value })}
+              className={cn('h-20', info.note !== file.note && 'border-red-500')}
             />
           </div>
         </div>
-        <SheetFooter>
+        <SheetFooter className="gap-3">
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            onClick={handleReset}
+          >
+            <RotateCcwIcon />
+            Reset Changes
+          </Button>
           <Button
             className="cursor-pointer"
             onClick={handleUpdate}

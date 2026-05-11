@@ -3,11 +3,11 @@ import { Textarea } from '@workspace/ui/components/textarea';
 import type { Whiteboard } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
+import { RotateCcwIcon, SaveIcon } from 'lucide-react';
 import { Label } from '@workspace/ui/components/label';
 import { Input } from '@workspace/ui/components/input';
 import { cn } from '@workspace/ui/lib/utils';
 import { useMutation } from 'convex/react';
-import { SaveIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -27,6 +27,10 @@ export function UpdateDialog({ whiteboard, children }: UpdateDialogProps) {
       toast.success('Whiteboard updated successfully.');
       setOpen(false);
     });
+  }
+
+  function handleReset() {
+    setInfo({ name: whiteboard.name, note: whiteboard.note });
   }
 
   return (
@@ -62,6 +66,14 @@ export function UpdateDialog({ whiteboard, children }: UpdateDialogProps) {
           </div>
         </div>
         <SheetFooter>
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            onClick={handleReset}
+          >
+            <RotateCcwIcon />
+            Reset Changes
+          </Button>
           <Button
             className="cursor-pointer"
             onClick={updateInfo}
