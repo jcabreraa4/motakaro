@@ -38,7 +38,7 @@ export default function Page() {
           <SelectContent>
             <SelectGroup>
               <SelectItem value="all">All Resources</SelectItem>
-              <SelectItem value="true">Already Published</SelectItem>
+              <SelectItem value="true">It&apos;s Published</SelectItem>
               <SelectItem value="false">Not Published</SelectItem>
             </SelectGroup>
           </SelectContent>

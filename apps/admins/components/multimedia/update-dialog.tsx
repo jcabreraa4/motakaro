@@ -6,6 +6,7 @@ import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
+import { cn } from '@workspace/ui/lib/utils';
 import { useMutation } from 'convex/react';
 import { SaveIcon } from 'lucide-react';
 import { useState } from 'react';
@@ -48,15 +49,16 @@ export function UpdateDialog({ file, children }: UpdateDialogProps) {
               placeholder="Untitled File"
               value={info.name}
               onChange={(e) => setInfo({ ...info, name: e.target.value })}
+              className={cn(info.name !== file.name && 'border-red-500')}
             />
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="note">Note</Label>
             <Textarea
               id="note"
-              className="h-20"
               value={info.note}
               onChange={(e) => setInfo({ ...info, note: e.target.value })}
+              className={cn('h-20', info.note !== file.note && 'border-red-500')}
             />
           </div>
           {file.companyId && (

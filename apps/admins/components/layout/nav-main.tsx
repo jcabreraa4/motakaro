@@ -1,6 +1,6 @@
 'use client';
 
-import { type LucideIcon, FileTextIcon, ImageIcon, LayoutDashboardIcon, Building2Icon, UsersIcon, ListVideoIcon, HeadsetIcon, ChartColumnBigIcon, PencilRulerIcon, WalletIcon } from 'lucide-react';
+import { type LucideIcon, FileTextIcon, ImageIcon, LayoutDashboardIcon, Building2Icon, UsersIcon, ListVideoIcon, HeadsetIcon, ChartColumnBigIcon, PencilRulerIcon, WalletIcon, MessageSquareIcon } from 'lucide-react';
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
 import { usePathname } from '@/hooks/use-pathname';
 import { useMainStore } from '@/store/main-store';
@@ -33,13 +33,23 @@ const sections: Section[] = [
     ]
   },
   {
-    title: 'Database',
+    title: 'Contact',
     items: [
       {
         title: 'Meetings',
         url: '/meetings',
         icon: HeadsetIcon
       },
+      {
+        title: 'Messages',
+        url: '/messages',
+        icon: MessageSquareIcon
+      }
+    ]
+  },
+  {
+    title: 'Database',
+    items: [
       {
         title: 'Contacts',
         url: '/contacts',

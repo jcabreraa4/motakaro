@@ -9,6 +9,7 @@ import { api } from '@workspace/backend/_generated/api';
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
 import { copyText } from '@/utils/copy-text';
+import { cn } from '@workspace/ui/lib/utils';
 import { useMutation } from 'convex/react';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -63,21 +64,22 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
               placeholder="Untitled Resource"
               value={info.name}
               onChange={(e) => setInfo({ ...info, name: e.target.value })}
+              className={cn(info.name !== resource.name && 'border-red-500')}
             />
           </div>
           <div className="hidden flex-col gap-2 lg:flex">
             <Label htmlFor="note">Note</Label>
             <Textarea
               id="note"
-              className="h-20"
               value={info.note}
               onChange={(e) => setInfo({ ...info, note: e.target.value })}
+              className={cn('h-20', info.note !== resource.note && 'border-red-500')}
             />
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="link">Video</Label>
             <div className="flex gap-3">
-              <InputGroup className="flex-1">
+              <InputGroup className={cn('flex-1', info.link !== resource.link && 'border-red-500')}>
                 <InputGroupInput
                   id="link"
                   placeholder="https://www.video.com"
@@ -94,7 +96,7 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
           <div className="flex flex-col gap-2">
             <Label htmlFor="embed">Embed</Label>
             <div className="flex gap-3">
-              <InputGroup className="flex-1">
+              <InputGroup className={cn('flex-1', info.embed !== resource.embed && 'border-red-500')}>
                 <InputGroupInput
                   id="embed"
                   placeholder="https://www.embed.com"
@@ -111,7 +113,7 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
           <div className="flex flex-col gap-2">
             <Label htmlFor="thumbnail">Thumbnail</Label>
             <div className="flex gap-3">
-              <InputGroup className="flex-1">
+              <InputGroup className={cn('flex-1', info.thumbnail !== resource.thumbnail && 'border-red-500')}>
                 <InputGroupInput
                   id="thumbnail"
                   placeholder="https://www.thumbnail.com"
@@ -131,7 +133,7 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
               value={info.published}
               onValueChange={(value) => setInfo({ ...info, published: value })}
             >
-              <SelectTrigger className="w-full cursor-pointer">
+              <SelectTrigger className={cn('w-full cursor-pointer', info.published != resource.published.toString() && 'border-red-500')}>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
