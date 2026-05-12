@@ -162,7 +162,8 @@ export default defineSchema({
     clientsStarred: v.boolean(),
 
     // Table Relationships
-    companyId: v.optional(v.id('companies'))
+    companyId: v.optional(v.id('companies')),
+    documentId: v.optional(v.id('documents'))
   })
     .index('by_updated', ['updated'])
     .index('by_companyId_updated', ['companyId', 'updated'])

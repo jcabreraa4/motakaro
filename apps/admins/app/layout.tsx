@@ -8,6 +8,7 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { cn } from '@workspace/ui/lib/utils';
 import type { Metadata } from 'next';
 import '@workspace/ui/globals.css';
+import '@workspace/ui/tiptap.css';
 
 const fontSans = Geist({
   subsets: ['latin'],

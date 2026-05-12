@@ -63,9 +63,9 @@ function LineHeightButton() {
         <Button
           variant="ghost"
           size="icon"
-          className="dark:hover:bg-secondary"
+          className="cursor-pointer dark:hover:bg-secondary"
         >
-          <ListCollapseIcon className="size-4" />
+          <ListCollapseIcon />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="flex flex-col gap-1 p-1">
@@ -139,7 +139,7 @@ function FontSizeButton() {
         onClick={decrement}
         className="cursor-pointer dark:hover:bg-secondary"
       >
-        <MinusIcon className="size-4" />
+        <MinusIcon />
       </Button>
       {isEditing ? (
         <input
@@ -168,7 +168,7 @@ function FontSizeButton() {
         onClick={increment}
         className="cursor-pointer dark:hover:bg-secondary"
       >
-        <PlusIcon className="size-4" />
+        <PlusIcon />
       </Button>
     </div>
   );
@@ -198,9 +198,9 @@ function ListButton() {
         <Button
           variant="ghost"
           size="icon"
-          className="dark:hover:bg-secondary"
+          className="cursor-pointer dark:hover:bg-secondary"
         >
-          <ListIcon className="size-4" />
+          <ListIcon />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="flex flex-col gap-1 p-1">
@@ -210,7 +210,7 @@ function ListButton() {
             variant={isActive ? 'secondary' : 'ghost'}
             onClick={onClick}
           >
-            <Icon className="size-4" />
+            <Icon />
             <span className="text-sm">{label}</span>
           </Button>
         ))}
@@ -255,9 +255,9 @@ function AlignButton() {
         <Button
           variant="ghost"
           size="icon"
-          className="dark:hover:bg-secondary"
+          className="cursor-pointer dark:hover:bg-secondary"
         >
-          <AlignLeftIcon className="size-4" />
+          <AlignLeftIcon />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="flex flex-col gap-1 p-1">
@@ -267,7 +267,7 @@ function AlignButton() {
             variant={isActive ? 'secondary' : 'ghost'}
             onClick={() => editor?.chain().focus().setTextAlign(value).run()}
           >
-            <Icon className="size-4" />
+            <Icon />
             <span className="text-sm">{label}</span>
           </Button>
         ))}
@@ -291,7 +291,7 @@ function TableButton() {
             variant="ghost"
             className="cursor-pointer dark:hover:bg-secondary"
           >
-            <TableIcon className="size-4" />
+            <TableIcon />
           </Button>
         </MenubarTrigger>
         <MenubarContent>
@@ -344,19 +344,19 @@ function ImageButton() {
           <Button
             variant="ghost"
             size="icon"
-            className="dark:hover:bg-secondary"
+            className="cursor-pointer dark:hover:bg-secondary"
           >
-            <ImageIcon className="size-4" />
+            <ImageIcon />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-fit">
           <DropdownMenuItem onClick={onUpload}>
-            <UploadIcon className="mr-2 size-4" />
-            Upload image
+            <UploadIcon />
+            Upload Image
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setIsSearchDialogOpen(true)}>
-            <SearchIcon className="mr-2 size-4" />
-            Insert image URL
+            <SearchIcon />
+            Insert Image
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -369,7 +369,7 @@ function ImageButton() {
             <DialogTitle>Insert Image</DialogTitle>
           </DialogHeader>
           <Input
-            placeholder="Insert image URL"
+            placeholder="https://image.png"
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleImageUrlSubmit()}
@@ -379,6 +379,7 @@ function ImageButton() {
               onClick={handleImageUrlSubmit}
               className="w-full cursor-pointer"
             >
+              <PlusIcon />
               Insert Image
             </Button>
           </DialogFooter>
@@ -403,12 +404,12 @@ function LinkButton() {
         <Button
           variant="ghost"
           size="icon"
-          className="dark:hover:bg-secondary"
+          className="cursor-pointer dark:hover:bg-secondary"
         >
-          <Link2Icon className="size-4" />
+          <Link2Icon />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="flex gap-1">
+      <DropdownMenuContent className="flex w-60 gap-1">
         <Input
           placeholder="https://example.com"
           value={value}
@@ -442,12 +443,12 @@ function HighlightColorButton() {
         <Button
           variant="ghost"
           size="icon"
-          className="dark:hover:bg-secondary"
+          className="cursor-pointer dark:hover:bg-secondary"
         >
-          <HighlighterIcon className="size-4" />
+          <HighlighterIcon />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent className="w-fit p-2">
         <CirclePicker
           colors={colors}
           color={value}
@@ -475,7 +476,7 @@ function TextColorButton() {
         <Button
           variant="ghost"
           size="icon"
-          className="flex flex-col gap-1 dark:hover:bg-secondary"
+          className="flex cursor-pointer flex-col gap-1 dark:hover:bg-secondary"
         >
           <span
             className="border-b-2 px-1"
@@ -485,7 +486,7 @@ function TextColorButton() {
           </span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="p-2.5">
+      <DropdownMenuContent className="w-fit p-2">
         <CirclePicker
           colors={colors}
           color={value}
@@ -525,7 +526,7 @@ function FontFamilyButton() {
           className="flex w-35 cursor-pointer justify-between dark:hover:bg-secondary"
         >
           <span className="truncate">{editor?.getAttributes('textStyle').fontFamily || 'Arial'}</span>
-          <ChevronDownIcon className="ml-2 size-4 shrink-0" />
+          <ChevronDownIcon className="ml-2 shrink-0" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="flex flex-col gap-1 p-1">
@@ -585,24 +586,24 @@ function DownloadButton({ title }: { title: string }) {
             variant="ghost"
             className="cursor-pointer dark:hover:bg-secondary"
           >
-            <DownloadIcon className="size-4" />
+            <DownloadIcon />
           </Button>
         </MenubarTrigger>
         <MenubarContent className="print:hidden">
           <MenubarItem onClick={() => window.print()}>
-            <GlobeIcon className="mr-2 size-4" />
+            <GlobeIcon className="mr-1" />
             PDF
           </MenubarItem>
           <MenubarItem onClick={onSaveJSON}>
-            <FileBracesCorner className="mr-2 size-4" />
+            <FileBracesCorner className="mr-1" />
             JSON
           </MenubarItem>
           <MenubarItem onClick={onSaveHTML}>
-            <FileCodeCorner className="mr-2 size-4" />
+            <FileCodeCorner className="mr-1" />
             HTML
           </MenubarItem>
           <MenubarItem onClick={onSaveText}>
-            <FileTextIcon className="mr-2 size-4" />
+            <FileTextIcon className="mr-1" />
             TXT
           </MenubarItem>
         </MenubarContent>
@@ -619,7 +620,7 @@ function ToolbarButton({ onClick, isActive, icon: Icon }: ToolbarButtonProps) {
       variant={isActive ? 'secondary' : 'ghost'}
       className="dark:hover:bg-secondary"
     >
-      <Icon className="size-4" />
+      <Icon />
     </Button>
   );
 }
