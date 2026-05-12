@@ -1,5 +1,5 @@
 import { ImageRender, Thumbnail } from '@/components/multimedia/multimedia-render';
-import { Id } from '@workspace/backend/_generated/dataModel';
+import type { Id } from '@workspace/backend/_generated/dataModel';
 import { CircleAlertIcon } from 'lucide-react';
 import { cn } from '@workspace/ui/lib/utils';
 import { useRouter } from 'next/navigation';

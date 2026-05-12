@@ -1,5 +1,5 @@
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
-import { ButtonVariant } from '@workspace/ui/types/button';
+import type { ButtonVariant } from '@workspace/ui/types/button';
 import { Button } from '@workspace/ui/components/button';
 import { CalendarPlusIcon } from 'lucide-react';
 import { cn } from '@workspace/ui/lib/utils';

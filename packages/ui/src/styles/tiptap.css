@@ -3,6 +3,7 @@
   a {
     color: #115599;
     cursor: pointer;
+    text-decoration: underline;
 
     &:hover {
       color: #113377;

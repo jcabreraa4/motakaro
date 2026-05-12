@@ -689,7 +689,7 @@ export function DesktopToolbar({ document, className }: DesktopToolbarProps) {
   ];
 
   return (
-    <section className={cn('flex w-full items-center overflow-x-auto print:hidden', className)}>
+    <section className={cn('flex w-full items-center overflow-x-auto overflow-y-hidden print:hidden', className)}>
       <div className="flex items-center gap-2">
         {sections[0]!.map((item) => (
           <ToolbarButton

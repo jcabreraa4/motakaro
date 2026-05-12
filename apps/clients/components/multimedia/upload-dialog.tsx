@@ -3,7 +3,7 @@ import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
 import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
 import { FileDropzone } from '@workspace/ui/custom/file-dropzone';
 import { Loader2Icon, PlusIcon, TrashIcon } from 'lucide-react';
-import { ButtonVariant } from '@workspace/ui/types/button';
+import type { ButtonVariant } from '@workspace/ui/types/button';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
 import { useDropzone } from 'react-dropzone';

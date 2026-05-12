@@ -1,11 +1,11 @@
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
 import { Textarea } from '@workspace/ui/components/textarea';
+import type { MediaFile } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
 import { SaveIcon, RotateCcwIcon } from 'lucide-react';
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
-import { MediaFile } from '@workspace/backend/schema';
 import { cn } from '@workspace/ui/lib/utils';
 import { useMutation } from 'convex/react';
 import { useState } from 'react';

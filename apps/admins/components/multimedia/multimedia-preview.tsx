@@ -1,6 +1,6 @@
 import { Thumbnail, ImageRender, VideoRender, AudioRender, OtherRender } from '@/components/multimedia/multimedia-render';
+import type { Id } from '@workspace/backend/_generated/dataModel';
 import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
-import { Id } from '@workspace/backend/_generated/dataModel';
 import { mediaType } from '@/utils/media-type';
 import { cn } from '@workspace/ui/lib/utils';
 import { useRouter } from 'next/navigation';

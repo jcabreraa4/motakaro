@@ -72,7 +72,7 @@ export function UpdateDialog({ file, children }: UpdateDialogProps) {
                 value={info.visible}
                 onValueChange={(value) => setInfo({ ...info, visible: value })}
               >
-                <SelectTrigger className="w-full cursor-pointer">
+                <SelectTrigger className={cn('w-full cursor-pointer', info.visible !== file.clientsVisible.toString() && 'border-red-500')}>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>

@@ -1,5 +1,5 @@
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
-import { Id } from '@workspace/backend/_generated/dataModel';
+import type { Id } from '@workspace/backend/_generated/dataModel';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
 import { useMutation } from 'convex/react';

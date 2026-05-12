@@ -1,7 +1,7 @@
 import { ResourcesPreview } from '@/components/resources/resources-preview';
 import { ResourcesToolbar } from '@/components/resources/resources-toolbar';
 import { ResourcesInfo } from '@/components/resources/resources-info';
-import { Resource } from '@workspace/backend/schema';
+import type { Resource } from '@workspace/backend/schema';
 import { useMainStore } from '@/store/main-store';
 import { cn } from '@workspace/ui/lib/utils';
 

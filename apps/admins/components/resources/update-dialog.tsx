@@ -137,7 +137,7 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
               value={info.published}
               onValueChange={(value) => setInfo({ ...info, published: value })}
             >
-              <SelectTrigger className={cn('w-full cursor-pointer', info.published != resource.published.toString() && 'border-red-500')}>
+              <SelectTrigger className={cn('w-full cursor-pointer', info.published !== resource.published.toString() && 'border-red-500')}>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

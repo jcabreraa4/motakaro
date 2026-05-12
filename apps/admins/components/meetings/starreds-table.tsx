@@ -1,7 +1,7 @@
 import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { Card, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import type { Meeting } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
-import { Meeting } from '@workspace/backend/schema';
 import { cn } from '@workspace/ui/lib/utils';
 import { StarIcon } from 'lucide-react';
 

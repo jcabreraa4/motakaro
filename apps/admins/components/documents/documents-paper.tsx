@@ -1,5 +1,5 @@
 import { useTiptapSync } from '@convex-dev/prosemirror-sync/tiptap';
-import { Id } from '@workspace/backend/_generated/dataModel';
+import type { Id } from '@workspace/backend/_generated/dataModel';
 import { tiptapExtensions } from '@/lib/documents/tiptap';
 import { useEditor, EditorContent } from '@tiptap/react';
 import { api } from '@workspace/backend/_generated/api';

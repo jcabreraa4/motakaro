@@ -1,9 +1,9 @@
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
+import type { ButtonVariant } from '@workspace/ui/types/button';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { CopyIcon, LinkIcon, PlusIcon } from 'lucide-react';
-import { ButtonVariant } from '@workspace/ui/types/button';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
 import { Label } from '@workspace/ui/components/label';

@@ -2,9 +2,9 @@ import { type LucideIcon, CopyIcon, ExpandIcon, PenIcon, StarIcon, TrashIcon } f
 import { RemoveDialog } from '@/components/resources/remove-dialog';
 import { UpdateDialog } from '@/components/resources/update-dialog';
 import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
+import type { Resource } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
-import { Resource } from '@workspace/backend/schema';
 import { copyText } from '@/utils/copy-text';
 import { useRouter } from 'next/navigation';
 import { useMutation } from 'convex/react';

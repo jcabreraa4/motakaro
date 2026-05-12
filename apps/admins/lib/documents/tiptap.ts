@@ -7,4 +7,4 @@ import { TableKit } from '@tiptap/extension-table';
 import { StarterKit } from '@tiptap/starter-kit';
 import { Link } from '@tiptap/extension-link';
 
-export const tiptapExtensions = [StarterKit.configure({ link: false }), TextStyleKit, ImageResize, TaskList, TaskItem.configure({ nested: true }), TableKit.configure({ table: { resizable: true } }), Highlight.configure({ multicolor: true }), Link.configure({ openOnClick: false, autolink: true, defaultProtocol: 'https' }), TextAlign.configure({ types: ['heading', 'paragraph'], alignments: ['left', 'center', 'right', 'justify'] })];
+export const tiptapExtensions = [StarterKit.configure({ link: false }), TextStyleKit, ImageResize, TaskList, TaskItem.configure({ nested: true }), TableKit.configure({ table: { resizable: true } }), Highlight.configure({ multicolor: true }), Link.configure({ openOnClick: true, autolink: true, defaultProtocol: 'https' }), TextAlign.configure({ types: ['heading', 'paragraph'], alignments: ['left', 'center', 'right', 'justify'] })];

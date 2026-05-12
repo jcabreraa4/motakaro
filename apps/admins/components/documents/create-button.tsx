@@ -1,4 +1,4 @@
-import { ButtonVariant } from '@workspace/ui/types/button';
+import type { ButtonVariant } from '@workspace/ui/types/button';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
 import { cn } from '@workspace/ui/lib/utils';

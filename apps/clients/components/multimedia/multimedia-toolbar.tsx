@@ -1,9 +1,9 @@
 import { type LucideIcon, CopyIcon, DownloadIcon, ExpandIcon, PenIcon, StarIcon, TrashIcon } from 'lucide-react';
 import { UpdateDialog } from '@/components/multimedia/update-dialog';
 import { RemoveDialog } from '@/components/multimedia/remove-dialog';
+import type { MediaFile } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
-import { MediaFile } from '@workspace/backend/schema';
 import { copyText } from '@/utils/copy-text';
 import { useRouter } from 'next/navigation';
 import { useMutation } from 'convex/react';
