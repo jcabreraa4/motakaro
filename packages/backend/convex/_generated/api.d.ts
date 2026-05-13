@@ -18,6 +18,7 @@ import type * as http from "../http.js";
 import type * as meetings from "../meetings.js";
 import type * as memberships from "../memberships.js";
 import type * as multimedia from "../multimedia.js";
+import type * as notifications from "../notifications.js";
 import type * as prosemirror from "../prosemirror.js";
 import type * as resources from "../resources.js";
 import type * as whiteboards from "../whiteboards.js";
@@ -39,6 +40,7 @@ declare const fullApi: ApiFromModules<{
   meetings: typeof meetings;
   memberships: typeof memberships;
   multimedia: typeof multimedia;
+  notifications: typeof notifications;
   prosemirror: typeof prosemirror;
   resources: typeof resources;
   whiteboards: typeof whiteboards;

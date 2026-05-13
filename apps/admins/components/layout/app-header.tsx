@@ -1,16 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useMainStore } from '@/store/main-store';
 import { usePathname } from '@/hooks/use-pathname';
 import { Separator } from '@workspace/ui/components/separator';
-import { Popover, PopoverContent, PopoverHeader, PopoverTitle, PopoverTrigger } from '@workspace/ui/components/popover';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
+import { NotificationsPopover } from '@/components/notifications/notifications-popover';
 import { SidebarTrigger } from '@workspace/ui/components/sidebar';
 import { AppPresence } from '@/components/layout/app-presence';
 import { Button } from '@workspace/ui/components/button';
-import { BellIcon, BotIcon } from 'lucide-react';
 import { cn } from '@workspace/ui/lib/utils';
+import { BotIcon } from 'lucide-react';
 import Link from 'next/link';
 
 function capitalize(word: string) {
@@ -20,8 +20,6 @@ function capitalize(word: string) {
 export function AppHeader() {
   const { segments } = usePathname();
   const section = capitalize(segments[0]!);
-
-  const [open, setOpen] = useState(false);
 
   const subroute = useMainStore((state) => state.subroute);
   const setSubroute = useMainStore((state) => state.setSubroute);
@@ -74,43 +72,7 @@ export function AppHeader() {
           >
             <BotIcon className="size-6" />
           </Button>
-          <Popover
-            open={open}
-            onOpenChange={setOpen}
-          >
-            <PopoverTrigger asChild>
-              <Button
-                size="icon-sm"
-                variant="ghost"
-                className={cn('cursor-pointer bg-transparent! text-zinc-500 hover:bg-transparent! dark:text-zinc-400 dark:hover:text-white', open && 'dark:text-white')}
-              >
-                <BellIcon className="size-5" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent
-              align="end"
-              className="w-80 gap-0 p-0"
-            >
-              <PopoverHeader className="px-4 py-3">
-                <PopoverTitle className="flex items-center justify-between select-none">
-                  Notifications
-                  <Link href="/notifications">
-                    <Button
-                      variant="link"
-                      className="h-fit cursor-pointer"
-                      onClick={() => setOpen(false)}
-                    >
-                      View all
-                    </Button>
-                  </Link>
-                </PopoverTitle>
-              </PopoverHeader>
-              <Separator />
-              <div className="max-h-90 px-4 py-5">
-                <p className="leading-none font-medium">There are no new notifications!</p>
-              </div>
-            </PopoverContent>
-          </Popover>
+          <NotificationsPopover />
         </div>
       </div>
     </header>

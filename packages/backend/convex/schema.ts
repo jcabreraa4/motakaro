@@ -42,13 +42,17 @@ export default defineSchema({
     // Basic Information
     name: v.string(),
     note: v.string(),
+    type: v.union(v.literal('event'), v.literal('reminder'), v.literal('warning')),
     content: v.string(),
     starred: v.boolean(),
     updated: v.number(),
 
     // Table Relationships
-    userId: v.union(v.id('employees'), v.id('contacts'))
-  }),
+    contactId: v.optional(v.id('contacts')),
+    employeeId: v.optional(v.id('employees'))
+  })
+    .index('by_contactId_updated', ['contactId', 'updated'])
+    .index('by_employeeId_updated', ['employeeId', 'updated']),
 
   // Motakaro Clients Companies
   companies: defineTable({
@@ -195,6 +199,7 @@ export default defineSchema({
 
 export type Employee = Doc<'employees'>;
 export type Contact = Doc<'contacts'>;
+export type Notification = Doc<'notifications'>;
 export type Company = Doc<'companies'>;
 export type Payment = Doc<'payments'>;
 export type Membership = Doc<'memberships'>;
