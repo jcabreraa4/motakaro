@@ -218,19 +218,19 @@ export const tools = {
   documentsList: tool({
     description: 'List all documents.',
     inputSchema: z.object({
-      filter: z.union([z.literal('own'), z.literal('all'), z.string().min(1)]).describe('Filter: "own" = Motakaro documents, "all" = All documents, companyId = Company Id documents')
+      company: z.union([z.literal('motakaro'), z.string().min(1)]).describe('Enter "motakaro" for Motakaro documents, or a company ID to filter by company.')
     }),
-    async execute({ filter }) {
+    async execute({ company }) {
       try {
         // Authenticate Convex
         const { getToken } = await auth();
         const token = await getToken({ template: 'convex' });
         client.setAuth(token!);
 
-        // Obtain all Documents
-        const documents = await client.query(api.documents.list, { filter: filter === 'all' ? undefined : (filter as Id<'companies'> | 'own') });
+        // Obtain the Documents
+        const documents = await client.query(api.documents.list, { companyId: company === 'motakaro' ? undefined : (company as Id<'companies'>) });
 
-        // Return all Documents
+        // Return the Documents
         if (!documents || documents.length === 0) {
           return {
             status: 200,
@@ -291,19 +291,19 @@ export const tools = {
   whiteboardsList: tool({
     description: 'List all whiteboards.',
     inputSchema: z.object({
-      filter: z.union([z.literal('own'), z.literal('all'), z.string().min(1)]).describe('Filter: "own" = Motakaro whiteboards, "all" = All whiteboards, companyId = Company Id whiteboards')
+      company: z.union([z.literal('motakaro'), z.string().min(1)]).describe('Enter "motakaro" for Motakaro whiteboards, or a company ID to filter by company.')
     }),
-    async execute({ filter }) {
+    async execute({ company }) {
       try {
         // Authenticate Convex
         const { getToken } = await auth();
         const token = await getToken({ template: 'convex' });
         client.setAuth(token!);
 
-        // Obtain all Whiteboards
-        const whiteboards = await client.query(api.whiteboards.list, { filter: filter === 'all' ? undefined : (filter as Id<'companies'> | 'own') });
+        // Obtain the Whiteboards
+        const whiteboards = await client.query(api.whiteboards.list, { companyId: company === 'motakaro' ? undefined : (company as Id<'companies'>) });
 
-        // Return all Whiteboards
+        // Return the Whiteboards
         if (!whiteboards || whiteboards.length === 0) {
           return {
             status: 200,
@@ -361,19 +361,19 @@ export const tools = {
   multimediaList: tool({
     description: 'List all media files.',
     inputSchema: z.object({
-      filter: z.union([z.literal('own'), z.literal('all'), z.string().min(1)]).describe('Filter: "own" = Motakaro files, "all" = All files, companyId = Company Id files')
+      company: z.union([z.literal('motakaro'), z.string().min(1)]).describe('Enter "motakaro" for Motakaro media files, or a company ID to filter by company.')
     }),
-    async execute({ filter }) {
+    async execute({ company }) {
       try {
         // Authenticate Convex
         const { getToken } = await auth();
         const token = await getToken({ template: 'convex' });
         client.setAuth(token!);
 
-        // Obtain all Multimedia
-        const multimedia = await client.query(api.multimedia.list, { filter: filter === 'all' ? undefined : (filter as Id<'companies'> | 'own') });
+        // Obtain the Multimedia
+        const multimedia = await client.query(api.multimedia.list, { companyId: company === 'motakaro' ? undefined : (company as Id<'companies'>) });
 
-        // Return all Multimedia
+        // Return the Multimedia
         if (!multimedia || multimedia.length === 0) {
           return {
             status: 200,
@@ -499,11 +499,13 @@ export const tools = {
   usersRedirect: tool({
     description: 'Redirects the user to a specified URL inside the app.',
     inputSchema: z.object({
-      section: z.enum(['/overview', '/analytics', '/meetings', '/contacts', '/companies', '/payments', '/documents', '/whiteboards', '/multimedia', '/resources']),
-      id: z.string().optional().describe('ID for dynamic routes like /multimedia/[id]')
+      section: z.enum(['/overview', '/analytics', '/meetings', '/messages', '/contacts', '/companies', '/payments', '/documents', '/whiteboards', '/multimedia', '/resources', '/notifications', '/settings']),
+      id: z.string().optional().describe('ID for dynamic routes like /multimedia/[id] (Only avaliable for /meetings, /documents, /whiteboards, /multimedia and /resources)')
     }),
     async execute({ section, id }) {
-      const path = id ? `${section}/${id}` : section;
+      const dynamicRoutes = ['/meetings', '/documents', '/whiteboards', '/multimedia', '/resources'];
+      const isDynamic = dynamicRoutes.includes(section);
+      const path = isDynamic && id ? `${section}/${id}` : section;
       return {
         success: true,
         redirect: path

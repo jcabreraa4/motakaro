@@ -2,11 +2,11 @@
 
 import { useQuery } from 'convex/react';
 import { useParams } from '@/hooks/use-params';
-import { HeadsetIcon, SearchIcon, TrashIcon } from 'lucide-react';
+import { HeadsetIcon, SearchIcon, TrashIcon, XIcon } from 'lucide-react';
 import { MeetingsTable } from '@/components/meetings/meetings-table';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Card, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { StarredsTable } from '@/components/meetings/starreds-table';
 import { CreateDialog } from '@/components/meetings/create-dialog';
@@ -121,6 +121,17 @@ export default function Page() {
             <InputGroupAddon>
               <SearchIcon />
             </InputGroupAddon>
+            {searchFilter && (
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton
+                  size="icon-sm"
+                  className="cursor-pointer"
+                  onClick={() => setSearchFilter('')}
+                >
+                  <XIcon />
+                </InputGroupButton>
+              </InputGroupAddon>
+            )}
           </InputGroup>
         </section>
         {!meetings ? (

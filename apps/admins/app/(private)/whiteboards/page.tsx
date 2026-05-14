@@ -1,10 +1,10 @@
 'use client';
 
 import { useQuery } from 'convex/react';
-import { PencilRulerIcon, SearchIcon } from 'lucide-react';
+import { PencilRulerIcon, SearchIcon, XIcon } from 'lucide-react';
 import { WhiteboardsTable } from '@/components/whiteboards/whiteboards-table';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { CreateButton } from '@/components/whiteboards/create-button';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { api } from '@workspace/backend/_generated/api';
@@ -16,7 +16,7 @@ export default function Page() {
 
   const [searchFilter, setSearchFilter] = useParams('search');
 
-  const whiteboards = useQuery(api.whiteboards.list, isLoaded ? { filter: 'own' } : 'skip');
+  const whiteboards = useQuery(api.whiteboards.list, isLoaded ? {} : 'skip');
   const filteredBoards = whiteboards?.filter((whiteboard) => searchFilter === '' || whiteboard.name.toLowerCase().includes(searchFilter.toLowerCase()) || whiteboard.note.toLowerCase().includes(searchFilter.toLowerCase()) || whiteboard._id.toLowerCase().includes(searchFilter.toLowerCase()));
 
   return (
@@ -32,6 +32,17 @@ export default function Page() {
           <InputGroupAddon>
             <SearchIcon />
           </InputGroupAddon>
+          {searchFilter && (
+            <InputGroupAddon align="inline-end">
+              <InputGroupButton
+                size="icon-sm"
+                className="cursor-pointer"
+                onClick={() => setSearchFilter('')}
+              >
+                <XIcon />
+              </InputGroupButton>
+            </InputGroupAddon>
+          )}
         </InputGroup>
         <CreateButton
           variant="outline"

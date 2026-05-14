@@ -1,11 +1,11 @@
 'use client';
 
 import { useQuery } from 'convex/react';
-import { ImageIcon, SearchIcon } from 'lucide-react';
+import { ImageIcon, SearchIcon, XIcon } from 'lucide-react';
 import { MediaTable } from '@/components/multimedia/multimedia-table';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { UploadDialog } from '@/components/multimedia/upload-dialog';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { api } from '@workspace/backend/_generated/api';
@@ -19,7 +19,7 @@ export default function Page() {
   const [typeFilter, setTypeFilter] = useParams('type');
   const effectiveTypeFilter = typeFilter || 'all';
 
-  const multimedia = useQuery(api.multimedia.list, isLoaded ? { filter: 'own' } : 'skip');
+  const multimedia = useQuery(api.multimedia.list, isLoaded ? {} : 'skip');
   const filteredFiles = multimedia?.filter((file) => searchFilter === '' || file.name.toLowerCase().includes(searchFilter.toLowerCase()) || file.note.toLowerCase().includes(searchFilter.toLowerCase()) || file._id.toLowerCase().includes(searchFilter.toLowerCase())).filter((file) => (effectiveTypeFilter === 'all' ? true : file.type.includes(effectiveTypeFilter)));
 
   return (
@@ -55,6 +55,17 @@ export default function Page() {
           <InputGroupAddon>
             <SearchIcon />
           </InputGroupAddon>
+          {searchFilter && (
+            <InputGroupAddon align="inline-end">
+              <InputGroupButton
+                size="icon-sm"
+                className="cursor-pointer"
+                onClick={() => setSearchFilter('')}
+              >
+                <XIcon />
+              </InputGroupButton>
+            </InputGroupAddon>
+          )}
         </InputGroup>
         <UploadDialog
           variant="outline"

@@ -7,35 +7,27 @@ import { ConvexError, v } from 'convex/values';
 
 export const list = query({
   args: {
-    filter: v.optional(v.union(v.literal('own'), v.id('companies')))
+    companyId: v.optional(v.id('companies'))
   },
   handler: async (ctx, args) => {
     // Check Identity
     await verifyAdminAuth(ctx);
 
     // Check for Filter
-    if (args.filter === 'own') {
+    if (args.companyId) {
       // Return the Multimedia
       const multimedia = await ctx.db
         .query('multimedia')
-        .withIndex('by_companyId_updated', (q) => q.eq('companyId', undefined))
-        .order('desc')
-        .collect();
-      return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await ctx.storage.getUrl(file.storageId) })));
-    } else if (args.filter) {
-      // Return the Multimedia
-      const multimedia = await ctx.db
-        .query('multimedia')
-        .withIndex('by_companyId_updated', (q) => q.eq('companyId', args.filter as Id<'companies'>))
+        .withIndex('by_companyId_updated', (q) => q.eq('companyId', args.companyId))
         .order('desc')
         .collect();
       return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await ctx.storage.getUrl(file.storageId) })));
     }
 
-    // Return all Multimedia
+    // Return the Multimedia
     const multimedia = await ctx.db
       .query('multimedia')
-      .withIndex('by_updated', (q) => q)
+      .withIndex('by_companyId_updated', (q) => q.eq('companyId', undefined))
       .order('desc')
       .collect();
     return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await ctx.storage.getUrl(file.storageId) })));
@@ -144,18 +136,6 @@ export const update = mutation({
   }
 });
 
-// Shared Functions
-
-export const sharedUpload = mutation({
-  handler: async (ctx) => {
-    // Check Identity
-    await verifyIdentity(ctx);
-
-    // Return Storage Url
-    return await ctx.storage.generateUploadUrl();
-  }
-});
-
 // Clients Functions
 
 export const clientsList = query({
@@ -173,7 +153,7 @@ export const clientsList = query({
       .first();
     if (!company) throw new ConvexError('Company not found');
 
-    // Return all Multimedia
+    // Return the Multimedia
     const multimedia = await ctx.db
       .query('multimedia')
       .withIndex('by_companyId_clientsVisible_updated', (q) => q.eq('companyId', company._id).eq('clientsVisible', true))
@@ -332,5 +312,17 @@ export const clientsUpdate = mutation({
       ...(args.clientsStarred !== undefined ? { clientsStarred: args.clientsStarred } : {}),
       updated: Date.now()
     });
+  }
+});
+
+// Shared Functions
+
+export const sharedUpload = mutation({
+  handler: async (ctx) => {
+    // Check Identity
+    await verifyIdentity(ctx);
+
+    // Return Storage Url
+    return await ctx.storage.generateUploadUrl();
   }
 });

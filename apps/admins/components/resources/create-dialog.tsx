@@ -1,6 +1,6 @@
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import type { ButtonVariant } from '@workspace/ui/types/button';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { CopyIcon, LinkIcon, PlusIcon } from 'lucide-react';
@@ -14,22 +14,21 @@ import { useMutation } from 'convex/react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-interface CreateDialogProps {
-  variant?: ButtonVariant;
-  className?: string;
-}
-
 function CopyLinkButton({ link }: { link: string }) {
   return (
-    <Button
-      size="icon"
-      variant="secondary"
+    <InputGroupButton
+      size="icon-sm"
       className="cursor-pointer"
       onClick={() => copyText({ text: link, type: 'link' })}
     >
       <CopyIcon />
-    </Button>
+    </InputGroupButton>
   );
+}
+
+interface CreateDialogProps {
+  variant?: ButtonVariant;
+  className?: string;
 }
 
 export function CreateDialog({ variant = 'default', className }: CreateDialogProps) {
@@ -97,8 +96,12 @@ export function CreateDialog({ variant = 'default', className }: CreateDialogPro
                 <InputGroupAddon>
                   <LinkIcon />
                 </InputGroupAddon>
+                {info.link && (
+                  <InputGroupAddon align="inline-end">
+                    <CopyLinkButton link={info.link} />
+                  </InputGroupAddon>
+                )}
               </InputGroup>
-              {info.link && <CopyLinkButton link={info.link} />}
             </div>
           </div>
           <div className="flex flex-col gap-2">
@@ -114,8 +117,12 @@ export function CreateDialog({ variant = 'default', className }: CreateDialogPro
                 <InputGroupAddon>
                   <LinkIcon />
                 </InputGroupAddon>
+                {info.embed && (
+                  <InputGroupAddon align="inline-end">
+                    <CopyLinkButton link={info.embed} />
+                  </InputGroupAddon>
+                )}
               </InputGroup>
-              {info.embed && <CopyLinkButton link={info.embed} />}
             </div>
           </div>
           <div className="flex flex-col gap-2">
@@ -131,8 +138,12 @@ export function CreateDialog({ variant = 'default', className }: CreateDialogPro
                 <InputGroupAddon>
                   <LinkIcon />
                 </InputGroupAddon>
+                {info.thumbnail && (
+                  <InputGroupAddon align="inline-end">
+                    <CopyLinkButton link={info.thumbnail} />
+                  </InputGroupAddon>
+                )}
               </InputGroup>
-              {info.thumbnail && <CopyLinkButton link={info.thumbnail} />}
             </div>
           </div>
           <div className="flex flex-col gap-2">

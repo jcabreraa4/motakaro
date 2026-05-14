@@ -12,7 +12,7 @@ export const list = query({
   handler: async (ctx, args) => {
     // Check for Filter
     if (args.filter === 'published') {
-      // Return Published Resources
+      // Return the Resources
       return await ctx.db
         .query('resources')
         .withIndex('by_updated', (q) => q)
@@ -20,6 +20,9 @@ export const list = query({
         .order('desc')
         .collect();
     }
+
+    // Check Identity
+    await verifyAdminAuth(ctx);
 
     // Return all Resources
     return await ctx.db

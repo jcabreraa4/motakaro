@@ -1,11 +1,10 @@
 import { Popover, PopoverContent, PopoverHeader, PopoverTitle, PopoverTrigger } from '@workspace/ui/components/popover';
-import { NotificationIcon } from '@/components/notifications/notifications-table';
 import { Separator } from '@workspace/ui/components/separator';
+import { BellIcon, TriangleAlertIcon } from 'lucide-react';
 import { Spinner } from '@workspace/ui/components/spinner';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
 import { cn } from '@workspace/ui/lib/utils';
-import { BellIcon } from 'lucide-react';
 import { useQuery } from 'convex/react';
 import { useAuth } from '@clerk/nextjs';
 import { useState } from 'react';
@@ -72,10 +71,7 @@ export function NotificationsPopover() {
                   className={cn('flex flex-col gap-1 border-t p-4', notification.starred ? 'bg-primary text-white hover:bg-primary/90 dark:text-black' : 'hover:bg-secondary')}
                 >
                   <div className="flex items-center gap-2">
-                    <NotificationIcon
-                      type={notification.type}
-                      className={cn('size-5', notification.starred && 'text-yellow-500')}
-                    />
+                    {notification.starred && <TriangleAlertIcon className="size-5 text-yellow-500" />}
                     <p className="truncate font-semibold">{notification.name}</p>
                   </div>
                   <p className="truncate">{notification.content}</p>

@@ -1,23 +1,21 @@
 'use client';
 
 import { useAuth } from '@clerk/nextjs';
-import { useParams } from '@/hooks/use-params';
-import { api } from '@workspace/backend/_generated/api';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
+import { XIcon, SearchIcon } from 'lucide-react';
+import { NotificationsLoader } from '@/components/notifications/notifications-loader';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { NotificationsTable } from '@/components/notifications/notifications-table';
-import { SearchIcon } from 'lucide-react';
+import { api } from '@workspace/backend/_generated/api';
+import { useParams } from '@/hooks/use-params';
 import { useQuery } from 'convex/react';
 
 export default function Page() {
   const { isLoaded } = useAuth();
 
   const [searchFilter, setSearchFilter] = useParams('search');
-  const [typeFilter, setTypeFilter] = useParams('type');
-  const effectiveTypeFilter = typeFilter || 'all';
 
   const notifications = useQuery(api.notifications.list, isLoaded ? {} : 'skip');
-  const filteredNotifications = notifications?.filter((file) => searchFilter === '' || file.name.toLowerCase().includes(searchFilter.toLowerCase()) || file.note.toLowerCase().includes(searchFilter.toLowerCase()) || file.content.toLowerCase().includes(searchFilter.toLowerCase()) || file._id.toLowerCase().includes(searchFilter.toLowerCase())).filter((file) => (effectiveTypeFilter === 'all' ? true : file.type.includes(effectiveTypeFilter)));
+  const filteredNotifications = notifications?.filter((file) => searchFilter === '' || file.name.toLowerCase().includes(searchFilter.toLowerCase()) || file.note.toLowerCase().includes(searchFilter.toLowerCase()) || file.content.toLowerCase().includes(searchFilter.toLowerCase()) || file._id.toLowerCase().includes(searchFilter.toLowerCase()));
 
   return (
     <main className="flex w-full flex-col items-center gap-2 overflow-hidden p-3 lg:p-5">
@@ -34,28 +32,32 @@ export default function Page() {
             <InputGroupAddon>
               <SearchIcon />
             </InputGroupAddon>
+            {searchFilter && (
+              <InputGroupAddon align="inline-end">
+                <InputGroupButton
+                  size="icon-sm"
+                  className="cursor-pointer"
+                  onClick={() => setSearchFilter('')}
+                >
+                  <XIcon />
+                </InputGroupButton>
+              </InputGroupAddon>
+            )}
           </InputGroup>
-          <Select
-            value={effectiveTypeFilter}
-            onValueChange={(value) => setTypeFilter(value === 'all' ? '' : value)}
-          >
-            <SelectTrigger
-              disabled={!notifications || notifications.length === 0}
-              className="w-full min-w-50 cursor-pointer lg:max-w-50"
-            >
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="all">All Notifications</SelectItem>
-                <SelectItem value="event">Events</SelectItem>
-                <SelectItem value="reminder">Reminders</SelectItem>
-                <SelectItem value="warning">Warnings</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
         </section>
-        <NotificationsTable notifications={filteredNotifications || []} />
+        {!notifications ? (
+          <NotificationsLoader />
+        ) : notifications.length === 0 ? (
+          <div className="rounded-md border bg-sidebar p-5 select-none">
+            <p className="font-medium">There are no notifications!</p>
+          </div>
+        ) : filteredNotifications?.length === 0 ? (
+          <div className="rounded-md border bg-sidebar p-5 select-none">
+            <p className="font-medium">No notifications match your search criteria.</p>
+          </div>
+        ) : (
+          <NotificationsTable notifications={filteredNotifications || []} />
+        )}
       </div>
     </main>
   );

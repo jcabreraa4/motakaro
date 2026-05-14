@@ -7,33 +7,26 @@ import { verifyAdminAuth } from './auth';
 
 export const list = query({
   args: {
-    filter: v.optional(v.union(v.literal('own'), v.id('companies')))
+    companyId: v.optional(v.id('companies'))
   },
   handler: async (ctx, args) => {
     // Check Identity
     await verifyAdminAuth(ctx);
 
     // Check for Filter
-    if (args.filter === 'own') {
+    if (args.companyId) {
       // Return the Whiteboards
       return await ctx.db
         .query('whiteboards')
-        .withIndex('by_companyId_updated', (q) => q.eq('companyId', undefined))
-        .order('desc')
-        .collect();
-    } else if (args.filter) {
-      // Return the Whiteboards
-      return await ctx.db
-        .query('whiteboards')
-        .withIndex('by_companyId_updated', (q) => q.eq('companyId', args.filter as Id<'companies'>))
+        .withIndex('by_companyId_updated', (q) => q.eq('companyId', args.companyId))
         .order('desc')
         .collect();
     }
 
-    // Return all Whiteboards
+    // Return the Whiteboards
     return await ctx.db
       .query('whiteboards')
-      .withIndex('by_updated', (q) => q)
+      .withIndex('by_companyId_updated', (q) => q.eq('companyId', undefined))
       .order('desc')
       .collect();
   }

@@ -42,17 +42,13 @@ export default defineSchema({
     // Basic Information
     name: v.string(),
     note: v.string(),
-    type: v.union(v.literal('event'), v.literal('reminder'), v.literal('warning')),
     content: v.string(),
     starred: v.boolean(),
     updated: v.number(),
 
     // Table Relationships
-    contactId: v.optional(v.id('contacts')),
-    employeeId: v.optional(v.id('employees'))
-  })
-    .index('by_contactId_updated', ['contactId', 'updated'])
-    .index('by_employeeId_updated', ['employeeId', 'updated']),
+    companyId: v.optional(v.id('companies'))
+  }).index('by_companyId_updated', ['companyId', 'updated']),
 
   // Motakaro Clients Companies
   companies: defineTable({
@@ -127,9 +123,7 @@ export default defineSchema({
 
     // Table Relationships
     companyId: v.optional(v.id('companies'))
-  })
-    .index('by_updated', ['updated'])
-    .index('by_companyId_updated', ['companyId', 'updated']),
+  }).index('by_companyId_updated', ['companyId', 'updated']),
 
   // Company Whiteboards
   whiteboards: defineTable({
@@ -142,9 +136,7 @@ export default defineSchema({
 
     // Table Relationships
     companyId: v.optional(v.id('companies'))
-  })
-    .index('by_updated', ['updated'])
-    .index('by_companyId_updated', ['companyId', 'updated']),
+  }).index('by_companyId_updated', ['companyId', 'updated']),
 
   // Company Multimedia
   multimedia: defineTable({
@@ -169,7 +161,6 @@ export default defineSchema({
     companyId: v.optional(v.id('companies')),
     documentId: v.optional(v.id('documents'))
   })
-    .index('by_updated', ['updated'])
     .index('by_companyId_updated', ['companyId', 'updated'])
     .index('by_companyId_clientsVisible_updated', ['companyId', 'clientsVisible', 'updated']),
 

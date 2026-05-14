@@ -2,11 +2,11 @@
 
 import { useQuery } from 'convex/react';
 import { useParams } from '@/hooks/use-params';
-import { FileTextIcon, SearchIcon } from 'lucide-react';
+import { FileTextIcon, SearchIcon, XIcon } from 'lucide-react';
 import { CreateButton } from '@/components/documents/create-button';
 import { DocumentsTable } from '@/components/documents/documents-table';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { api } from '@workspace/backend/_generated/api';
 import { useAuth } from '@clerk/nextjs';
@@ -16,7 +16,7 @@ export default function Page() {
 
   const [searchFilter, setSearchFilter] = useParams('search');
 
-  const documents = useQuery(api.documents.list, isLoaded ? { filter: 'own' } : 'skip');
+  const documents = useQuery(api.documents.list, isLoaded ? {} : 'skip');
   const filteredDocuments = documents?.filter((document) => searchFilter === '' || document.name.toLowerCase().includes(searchFilter.toLowerCase()) || document.note.toLowerCase().includes(searchFilter.toLowerCase()) || document._id.toLowerCase().includes(searchFilter.toLowerCase()));
 
   return (
@@ -32,6 +32,17 @@ export default function Page() {
           <InputGroupAddon>
             <SearchIcon />
           </InputGroupAddon>
+          {searchFilter && (
+            <InputGroupAddon align="inline-end">
+              <InputGroupButton
+                size="icon-sm"
+                className="cursor-pointer"
+                onClick={() => setSearchFilter('')}
+              >
+                <XIcon />
+              </InputGroupButton>
+            </InputGroupAddon>
+          )}
         </InputGroup>
         <CreateButton
           variant="outline"

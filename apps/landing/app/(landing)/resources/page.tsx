@@ -41,9 +41,9 @@ export default function Page() {
           </div>
         ) : (
           <div className="grid grid-flow-row grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-            {[1, 2, 3]?.map((resource) => (
+            {Array.from({ length: 3 }).map((_, i) => (
               <div
-                key={resource}
+                key={i}
                 className="flex flex-col gap-2"
               >
                 <Skeleton className="aspect-video w-full border dark:border-none" />
