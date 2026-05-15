@@ -7,25 +7,27 @@ import { verifyAdminAuth } from './auth';
 
 export const list = query({
   args: {
-    filter: v.optional(v.union(v.literal('actives')))
+    limit: v.optional(v.number()),
+    filter: v.optional(v.literal('actives'))
   },
   handler: async (ctx, args) => {
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Check for Filter
-    if (args.filter === 'actives') {
-      // Return active Employees
+    // Check Filter
+    if (args.filter) {
+      // Return Employees
       const threshold = Date.now() - 30000;
-      return await ctx.db
+      const query = ctx.db
         .query('employees')
         .filter((q) => q.gte(q.field('seen'), threshold))
-        .order('desc')
-        .collect();
+        .order('desc');
+      return args.limit ? await query.take(args.limit) : await query.collect();
     }
 
-    // Return all Employees
-    return await ctx.db.query('employees').order('desc').collect();
+    // Return Employees
+    const query = ctx.db.query('employees').order('desc');
+    return args.limit ? await query.take(args.limit) : await query.collect();
   }
 });
 
@@ -40,7 +42,7 @@ export const get = query({
 
     try {
       if (args.id) {
-        // Return the Employee
+        // Return Employee
         return await ctx.db.get(args.id as Id<'employees'>);
       } else if (args.clerkId) {
         return await ctx.db
@@ -65,7 +67,7 @@ export const update = mutation({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Obtain the Employee
+    // Obtain Employee
     let employee = null;
     if (args.id) {
       employee = await ctx.db.get(args.id);
@@ -77,7 +79,7 @@ export const update = mutation({
     }
     if (!employee) throw new ConvexError('Employee not found');
 
-    // Update the Employee
+    // Update Employee
     await ctx.db.patch(employee._id, {
       ...(args.seen !== undefined ? { seen: Date.now() } : {}),
       ...(args.context !== undefined ? { context: args.context } : {})
@@ -96,18 +98,17 @@ export const internalUpsert = internalMutation({
     clerkId: v.string()
   },
   handler: async (ctx, args) => {
-    // Obtain the Employee
+    // Obtain Employee
     const employee = await ctx.db
       .query('employees')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
 
-    // Check for Employee
     if (employee) {
-      // Update the Employee
+      // Update Employee
       await ctx.db.patch(employee._id, args);
     } else {
-      // Create the Employee
+      // Create Employee
       await ctx.db.insert('employees', args);
     }
   }
@@ -118,14 +119,14 @@ export const internalRemove = internalMutation({
     clerkId: v.string()
   },
   handler: async (ctx, args) => {
-    // Obtain the Employee
+    // Obtain Employee
     const employee = await ctx.db
       .query('employees')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
     if (!employee) throw new ConvexError('Employee not found');
 
-    // Remove the Employee
+    // Remove Employee
     await ctx.db.delete(employee._id);
   }
 });

@@ -7,25 +7,27 @@ import { ConvexError, v } from 'convex/values';
 
 export const list = query({
   args: {
-    filter: v.optional(v.union(v.literal('actives')))
+    limit: v.optional(v.number()),
+    filter: v.optional(v.literal('actives'))
   },
   handler: async (ctx, args) => {
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Check for Filter
-    if (args.filter === 'actives') {
-      // Return the Contacts
+    // Check Filter
+    if (args.filter) {
+      // Return Contacts
       const threshold = Date.now() - 30000;
-      return await ctx.db
+      const query = ctx.db
         .query('contacts')
         .filter((q) => q.gte(q.field('seen'), threshold))
-        .order('desc')
-        .collect();
+        .order('desc');
+      return args.limit ? await query.take(args.limit) : await query.collect();
     }
 
-    // Return all Contacts
-    return await ctx.db.query('contacts').collect();
+    // Return Contacts
+    const query = ctx.db.query('contacts').order('desc');
+    return args.limit ? await query.take(args.limit) : await query.collect();
   }
 });
 
@@ -38,7 +40,7 @@ export const get = query({
     await verifyAdminAuth(ctx);
 
     try {
-      // Return the Contact
+      // Return Contact
       return await ctx.db.get(args.id as Id<'contacts'>);
     } catch {
       return null;
@@ -53,14 +55,14 @@ export const clientsUpdate = mutation({
     // Check Identity
     const identity = await verifyClientAuth(ctx);
 
-    // Obtain the Contact
+    // Obtain Contact
     const contact = await ctx.db
       .query('contacts')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', identity.subject))
       .first();
     if (!contact) throw new ConvexError('Contact not found');
 
-    // Update the Contact
+    // Update Contact
     if (contact) await ctx.db.patch(contact._id, { seen: Date.now() });
   }
 });
@@ -76,18 +78,17 @@ export const internalUpsert = internalMutation({
     clerkId: v.string()
   },
   handler: async (ctx, args) => {
-    // Obtain the Contact
+    // Obtain Contact
     const contact = await ctx.db
       .query('contacts')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
 
-    // Check for Contact
     if (contact) {
-      // Update the Contact
+      // Update Contact
       await ctx.db.patch(contact._id, args);
     } else {
-      // Create the Contact
+      // Create Contact
       await ctx.db.insert('contacts', args);
     }
   }
@@ -98,14 +99,14 @@ export const internalRemove = internalMutation({
     clerkId: v.string()
   },
   handler: async (ctx, args) => {
-    // Obtain the Contact
+    // Obtain Contact
     const contact = await ctx.db
       .query('contacts')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
     if (!contact) throw new ConvexError('Contact not found');
 
-    // Remove the Contact
+    // Remove Contact
     await ctx.db.delete(contact._id);
   }
 });

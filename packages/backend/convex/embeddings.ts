@@ -9,7 +9,7 @@ export const list = query({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Return all Embeddings
+    // Return Embeddings
     return await ctx.db.query('embeddings').order('desc').collect();
   }
 });
@@ -22,7 +22,7 @@ export const get = query({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Return the Embeddings
+    // Return Embeddings
     return await Promise.all(args.ids.map((id) => ctx.db.get(id)));
   }
 });
@@ -37,7 +37,7 @@ export const create = mutation({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Create one Embedding
+    // Create Embedding
     return await ctx.db.insert('embeddings', {
       source: args.source ?? 'Untitled File',
       content: args.content,
@@ -54,11 +54,11 @@ export const remove = mutation({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Obtain the Embedding
+    // Obtain Embedding
     const embedding = await ctx.db.get(args.id);
     if (!embedding) throw new ConvexError('Embedding not found');
 
-    // Remove the Embedding
+    // Remove Embedding
     await ctx.db.delete(args.id);
   }
 });
@@ -68,10 +68,10 @@ export const empty = mutation({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Obtain all Embeddings
+    // Obtain Embeddings
     const embeddings = await ctx.db.query('embeddings').order('desc').collect();
 
-    // Remove all Embeddings
+    // Remove Embeddings
     await Promise.all(embeddings.map((embedding) => ctx.db.delete(embedding._id)));
   }
 });
@@ -85,7 +85,7 @@ export const search = action({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Return the Embeddings
+    // Return Embeddings
     return await ctx.vectorSearch('embeddings', 'by_vector', {
       vector: args.vector,
       limit: args.limit ?? 8

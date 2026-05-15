@@ -7,28 +7,19 @@ import { verifyAdminAuth } from './auth';
 
 export const list = query({
   args: {
+    limit: v.optional(v.number()),
     companyId: v.optional(v.id('companies'))
   },
   handler: async (ctx, args) => {
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Check for Filter
-    if (args.companyId) {
-      // Return the Documents
-      return await ctx.db
-        .query('documents')
-        .withIndex('by_companyId_updated', (q) => q.eq('companyId', args.companyId))
-        .order('desc')
-        .collect();
-    }
-
-    // Return the Documents
-    return await ctx.db
+    // Return Documents
+    const query = ctx.db
       .query('documents')
-      .withIndex('by_companyId_updated', (q) => q.eq('companyId', undefined))
-      .order('desc')
-      .collect();
+      .withIndex('by_companyId_updated', (q) => q.eq('companyId', args.companyId))
+      .order('desc');
+    return args.limit ? await query.take(args.limit) : await query.collect();
   }
 });
 
@@ -41,7 +32,7 @@ export const get = query({
     await verifyAdminAuth(ctx);
 
     try {
-      // Return the Document
+      // Return Document
       return await ctx.db.get(args.id as Id<'documents'>);
     } catch {
       return null;
@@ -54,7 +45,7 @@ export const create = mutation({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Create the Document
+    // Create Document
     return await ctx.db.insert('documents', {
       name: 'Untitled Document',
       note: '',
@@ -73,11 +64,11 @@ export const remove = mutation({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Obtain the Document
+    // Obtain Document
     const document = await ctx.db.get(args.id);
     if (!document) throw new ConvexError('Document not found');
 
-    // Remove the Document
+    // Remove Document
     await ctx.db.delete(args.id);
   }
 });
@@ -94,11 +85,11 @@ export const update = mutation({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Obtain the Document
+    // Obtain Document
     const document = await ctx.db.get(args.id);
     if (!document) throw new ConvexError('Document not found');
 
-    // Update the Document
+    // Update Document
     await ctx.db.patch(args.id, {
       ...(args.name !== undefined ? { name: args.name } : {}),
       ...(args.note !== undefined ? { note: args.note } : {}),

@@ -10,7 +10,7 @@ export const list = query({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Return all Companies
+    // Return Companies
     return await ctx.db.query('companies').order('desc').collect();
   }
 });
@@ -24,7 +24,7 @@ export const get = query({
     await verifyAdminAuth(ctx);
 
     try {
-      // Return the Company
+      // Return Company
       return await ctx.db.get(args.id as Id<'companies'>);
     } catch {
       return null;
@@ -41,18 +41,17 @@ export const internalUpsert = internalMutation({
     clerkId: v.string()
   },
   handler: async (ctx, args) => {
-    // Obtain the Company
+    // Obtain Company
     const company = await ctx.db
       .query('companies')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
 
-    // Check for Company
     if (company) {
-      // Update the Company
+      // Update Company
       await ctx.db.patch(company._id, args);
     } else {
-      // Create the Company
+      // Create Company
       await ctx.db.insert('companies', { ...args, plan: 'onboarding' });
     }
   }
@@ -63,14 +62,14 @@ export const internalRemove = internalMutation({
     clerkId: v.string()
   },
   handler: async (ctx, args) => {
-    // Obtain the Company
+    // Obtain Company
     const company = await ctx.db
       .query('companies')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
     if (!company) throw new ConvexError('Company not found');
 
-    // Remove the Company
+    // Remove Company
     await ctx.db.delete(company._id);
   }
 });
@@ -81,14 +80,14 @@ export const internalUpdate = internalMutation({
     plan: v.optional(v.union(v.literal('onboarding'), v.literal('rollout'), v.literal('scaling')))
   },
   handler: async (ctx, args) => {
-    // Obtain the Company
+    // Obtain Company
     const company = await ctx.db
       .query('companies')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
     if (!company) throw new ConvexError('Company not found');
 
-    // Update the Company
+    // Update Company
     await ctx.db.patch(company._id, args);
   }
 });

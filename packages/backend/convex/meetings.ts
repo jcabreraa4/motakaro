@@ -10,7 +10,7 @@ export const list = query({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Return all Meetings
+    // Return Meetings
     return ctx.db.query('meetings').order('desc').collect();
   }
 });
@@ -24,7 +24,7 @@ export const get = query({
     await verifyAdminAuth(ctx);
 
     try {
-      // Return the Meeting
+      // Return Meeting
       return await ctx.db.get(args.id as Id<'meetings'>);
     } catch {
       return null;
@@ -41,11 +41,11 @@ export const update = mutation({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Obtain the Meeting
+    // Obtain Meeting
     const meeting = await ctx.db.get(args.id);
     if (!meeting) throw new ConvexError('Meeting not found');
 
-    // Update the Meeting
+    // Update Meeting
     await ctx.db.patch(args.id, {
       ...(args.starred !== undefined ? { starred: args.starred } : {})
     });
@@ -73,18 +73,17 @@ export const upsert = internalMutation({
     calcomId: v.string()
   },
   handler: async (ctx, args) => {
-    // Obtain the Meeting
+    // Obtain Meeting
     const meeting = await ctx.db
       .query('meetings')
       .withIndex('by_calcomId', (q) => q.eq('calcomId', args.calcomId))
       .first();
 
-    // Check for Meeting
     if (meeting) {
-      // Update the Meeting
+      // Update Meeting
       await ctx.db.patch(meeting._id, args);
     } else {
-      // Create the Meeting
+      // Create Meeting
       return await ctx.db.insert('meetings', {
         name: args.name ?? 'Untitled Booking',
         note: args.note ?? '',

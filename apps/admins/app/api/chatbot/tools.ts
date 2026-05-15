@@ -21,10 +21,10 @@ export const tools = {
         const token = await getToken({ template: 'convex' });
         client.setAuth(token!);
 
-        // Obtain all Meetings
+        // Obtain Meetings
         const meetings = await client.query(api.meetings.list);
 
-        // Return all Meetings
+        // Return Meetings
         if (!meetings || meetings.length === 0) {
           return {
             status: 200,
@@ -55,10 +55,10 @@ export const tools = {
         const token = await getToken({ template: 'convex' });
         client.setAuth(token!);
 
-        // Obtain the Meeting
+        // Obtain Meeting
         const meeting = await client.query(api.meetings.get, { id: id as Id<'meetings'> });
 
-        // Return the Meeting
+        // Return Meeting
         if (!meeting) {
           return {
             status: 200,
@@ -89,10 +89,10 @@ export const tools = {
         const token = await getToken({ template: 'convex' });
         client.setAuth(token!);
 
-        // Obtain all Contacts
+        // Obtain Contacts
         const contacts = await client.query(api.contacts.list, {});
 
-        // Return all Contacts
+        // Return Contacts
         if (!contacts || contacts.length === 0) {
           return {
             status: 200,
@@ -123,10 +123,10 @@ export const tools = {
         const token = await getToken({ template: 'convex' });
         client.setAuth(token!);
 
-        // Obtain the Contact
+        // Obtain Contact
         const contact = await client.query(api.contacts.get, { id: id as Id<'contacts'> });
 
-        // Return the Contact
+        // Return Contact
         if (!contact) {
           return {
             status: 200,
@@ -157,10 +157,10 @@ export const tools = {
         const token = await getToken({ template: 'convex' });
         client.setAuth(token!);
 
-        // Obtain all Companies
+        // Obtain Companies
         const companies = await client.query(api.companies.list);
 
-        // Return all Companies
+        // Return Companies
         if (!companies || companies.length === 0) {
           return {
             status: 200,
@@ -191,10 +191,10 @@ export const tools = {
         const token = await getToken({ template: 'convex' });
         client.setAuth(token!);
 
-        // Obtain the Company
+        // Obtain Company
         const company = await client.query(api.companies.get, { id: id as Id<'companies'> });
 
-        // Return the Company
+        // Return Company
         if (!company) {
           return {
             status: 200,
@@ -227,10 +227,10 @@ export const tools = {
         const token = await getToken({ template: 'convex' });
         client.setAuth(token!);
 
-        // Obtain the Documents
+        // Obtain Documents
         const documents = await client.query(api.documents.list, { companyId: company === 'motakaro' ? undefined : (company as Id<'companies'>) });
 
-        // Return the Documents
+        // Return Documents
         if (!documents || documents.length === 0) {
           return {
             status: 200,
@@ -261,10 +261,10 @@ export const tools = {
         const token = await getToken({ template: 'convex' });
         client.setAuth(token!);
 
-        // Obtain the Document
+        // Obtain Document
         const document = await client.query(api.documents.get, { id: id as Id<'documents'> });
 
-        // Return the Document
+        // Return Document
         if (!document) {
           return {
             status: 200,
@@ -300,10 +300,10 @@ export const tools = {
         const token = await getToken({ template: 'convex' });
         client.setAuth(token!);
 
-        // Obtain the Whiteboards
+        // Obtain Whiteboards
         const whiteboards = await client.query(api.whiteboards.list, { companyId: company === 'motakaro' ? undefined : (company as Id<'companies'>) });
 
-        // Return the Whiteboards
+        // Return Whiteboards
         if (!whiteboards || whiteboards.length === 0) {
           return {
             status: 200,
@@ -334,10 +334,10 @@ export const tools = {
         const token = await getToken({ template: 'convex' });
         client.setAuth(token!);
 
-        // Obtain the Whiteboard
+        // Obtain Whiteboard
         const whiteboard = await client.query(api.whiteboards.get, { id: id as Id<'whiteboards'> });
 
-        // Return the Whiteboard
+        // Return Whiteboard
         if (!whiteboard) {
           return {
             status: 200,
@@ -370,10 +370,10 @@ export const tools = {
         const token = await getToken({ template: 'convex' });
         client.setAuth(token!);
 
-        // Obtain the Multimedia
+        // Obtain Multimedia
         const multimedia = await client.query(api.multimedia.list, { companyId: company === 'motakaro' ? undefined : (company as Id<'companies'>) });
 
-        // Return the Multimedia
+        // Return Multimedia
         if (!multimedia || multimedia.length === 0) {
           return {
             status: 200,
@@ -404,10 +404,10 @@ export const tools = {
         const token = await getToken({ template: 'convex' });
         client.setAuth(token!);
 
-        // Obtain the Media File
+        // Obtain Media File
         const multimedia = await client.query(api.multimedia.get, { id: id as Id<'multimedia'> });
 
-        // Return the Media File
+        // Return Media File
         if (!multimedia) {
           return {
             status: 200,
@@ -438,10 +438,10 @@ export const tools = {
         const token = await getToken({ template: 'convex' });
         client.setAuth(token!);
 
-        // Obtain all Resources
+        // Obtain Resources
         const resources = await client.query(api.resources.list, {});
 
-        // Return all Resources
+        // Return Resources
         if (!resources || resources.length === 0) {
           return {
             status: 200,
@@ -472,10 +472,10 @@ export const tools = {
         const token = await getToken({ template: 'convex' });
         client.setAuth(token!);
 
-        // Obtain the Resource
+        // Obtain Resource
         const resource = await client.query(api.resources.get, { id: id as Id<'resources'> });
 
-        // Return the Resource
+        // Return Resource
         if (!resource) {
           return {
             status: 200,

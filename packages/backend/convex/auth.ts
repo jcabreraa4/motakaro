@@ -19,6 +19,17 @@ export async function verifyAdminAuth(ctx: AnyCtx) {
   return identity;
 }
 
+export async function getAdminAuth(ctx: AnyCtx) {
+  // Check Identity
+  const identity = await ctx.auth.getUserIdentity();
+  if (!identity || identity.issuer !== adminsIssuer) {
+    return null;
+  }
+
+  // Return Identity
+  return identity;
+}
+
 // Clients Functions
 
 export async function verifyClientAuth(ctx: AnyCtx) {
@@ -32,10 +43,12 @@ export async function verifyClientAuth(ctx: AnyCtx) {
   return identity;
 }
 
-export async function tryClientAuth(ctx: AnyCtx) {
+export async function getClientAuth(ctx: AnyCtx) {
   // Check Identity
   const identity = await ctx.auth.getUserIdentity();
-  if (!identity || identity.issuer !== clientsIssuer) return null;
+  if (!identity || identity.issuer !== clientsIssuer) {
+    return null;
+  }
 
   // Return Identity
   return identity;

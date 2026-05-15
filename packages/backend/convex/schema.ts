@@ -175,7 +175,9 @@ export default defineSchema({
     updated: v.number(),
     thumbnail: v.string(),
     published: v.boolean()
-  }).index('by_updated', ['updated']),
+  })
+    .index('by_updated', ['updated'])
+    .index('by_published_updated', ['published', 'updated']),
 
   // Chatbot Knowledge
   embeddings: defineTable({

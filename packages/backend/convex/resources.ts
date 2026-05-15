@@ -7,29 +7,29 @@ import { verifyAdminAuth } from './auth';
 
 export const list = query({
   args: {
-    filter: v.optional(v.union(v.literal('published')))
+    limit: v.optional(v.number()),
+    filter: v.optional(v.literal('published'))
   },
   handler: async (ctx, args) => {
-    // Check for Filter
-    if (args.filter === 'published') {
-      // Return the Resources
-      return await ctx.db
+    // Check Filter
+    if (args.filter) {
+      // Return Resources
+      const query = ctx.db
         .query('resources')
-        .withIndex('by_updated', (q) => q)
-        .filter((q) => q.gte(q.field('published'), true))
-        .order('desc')
-        .collect();
+        .withIndex('by_published_updated', (q) => q.eq('published', true))
+        .order('desc');
+      return args.limit ? await query.take(args.limit) : await query.collect();
     }
 
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Return all Resources
-    return await ctx.db
+    // Return Resources
+    const query = ctx.db
       .query('resources')
       .withIndex('by_updated', (q) => q)
-      .order('desc')
-      .collect();
+      .order('desc');
+    return args.limit ? await query.take(args.limit) : await query.collect();
   }
 });
 
@@ -42,7 +42,7 @@ export const get = query({
     await verifyAdminAuth(ctx);
 
     try {
-      // Return the Resource
+      // Return Resource
       return await ctx.db.get(args.id as Id<'resources'>);
     } catch {
       return null;
@@ -63,7 +63,7 @@ export const create = mutation({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Create one Resource
+    // Create Resource
     return await ctx.db.insert('resources', {
       name: args.name ?? 'Untitled Resource',
       note: args.note,
@@ -85,11 +85,11 @@ export const remove = mutation({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Obtain the Resource
+    // Obtain Resource
     const resource = await ctx.db.get(args.id);
     if (!resource) throw new ConvexError('Resource not found');
 
-    // Remove the Resource
+    // Remove Resource
     await ctx.db.delete(args.id);
   }
 });
@@ -109,11 +109,11 @@ export const update = mutation({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Obtain the Resource
+    // Obtain Resource
     const resource = await ctx.db.get(args.id);
     if (!resource) throw new ConvexError('Resource not found');
 
-    // Update the Resource
+    // Update Resource
     await ctx.db.patch(args.id, {
       ...(args.name !== undefined ? { name: args.name } : {}),
       ...(args.note !== undefined ? { note: args.note } : {}),

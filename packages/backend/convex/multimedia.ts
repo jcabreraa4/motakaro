@@ -1,4 +1,4 @@
-import { verifyAdminAuth, verifyClientAuth, verifyIdentity } from './auth';
+import { getClientAuth, verifyAdminAuth, verifyClientAuth, verifyIdentity } from './auth';
 import { mutation, query } from './_generated/server';
 import type { Id } from './_generated/dataModel';
 import { ConvexError, v } from 'convex/values';
@@ -7,29 +7,19 @@ import { ConvexError, v } from 'convex/values';
 
 export const list = query({
   args: {
+    limit: v.optional(v.number()),
     companyId: v.optional(v.id('companies'))
   },
   handler: async (ctx, args) => {
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Check for Filter
-    if (args.companyId) {
-      // Return the Multimedia
-      const multimedia = await ctx.db
-        .query('multimedia')
-        .withIndex('by_companyId_updated', (q) => q.eq('companyId', args.companyId))
-        .order('desc')
-        .collect();
-      return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await ctx.storage.getUrl(file.storageId) })));
-    }
-
-    // Return the Multimedia
-    const multimedia = await ctx.db
+    // Return Multimedia
+    const query = ctx.db
       .query('multimedia')
-      .withIndex('by_companyId_updated', (q) => q.eq('companyId', undefined))
-      .order('desc')
-      .collect();
+      .withIndex('by_companyId_updated', (q) => q.eq('companyId', args.companyId))
+      .order('desc');
+    const multimedia = args.limit ? await query.take(args.limit) : await query.collect();
     return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await ctx.storage.getUrl(file.storageId) })));
   }
 });
@@ -43,15 +33,15 @@ export const get = query({
     await verifyAdminAuth(ctx);
 
     try {
-      // Obtain the Media File
+      // Obtain Media File
       const mediaFile = await ctx.db.get(args.id as Id<'multimedia'>);
       if (!mediaFile) return null;
 
-      // Obtain the Storage Url
+      // Obtain Storage Url
       const url = await ctx.storage.getUrl(mediaFile.storageId);
       if (!url) return null;
 
-      // Return the Media File
+      // Return Media File
       return { ...mediaFile, url };
     } catch {
       return null;
@@ -73,7 +63,7 @@ export const create = mutation({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Create the Media File
+    // Create Media File
     return await ctx.db.insert('multimedia', {
       name: args.name ?? 'Untitled File',
       note: '',
@@ -99,11 +89,11 @@ export const remove = mutation({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Obtain the Media File
+    // Obtain Media File
     const mediaFile = await ctx.db.get(args.id);
     if (!mediaFile) throw new ConvexError('Media file not found');
 
-    // Remove the Media File
+    // Remove Media File
     await ctx.storage.delete(mediaFile.storageId);
     await ctx.db.delete(args.id);
   }
@@ -121,11 +111,11 @@ export const update = mutation({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Obtain the Media File
+    // Obtain Media File
     const mediaFile = await ctx.db.get(args.id);
     if (!mediaFile) throw new ConvexError('Media file not found');
 
-    // Update the Media File
+    // Update Media File
     await ctx.db.patch(args.id, {
       ...(args.name !== undefined ? { name: args.name } : {}),
       ...(args.note !== undefined ? { note: args.note } : {}),
@@ -139,9 +129,13 @@ export const update = mutation({
 // Clients Functions
 
 export const clientsList = query({
-  handler: async (ctx) => {
+  args: {
+    limit: v.optional(v.number())
+  },
+  handler: async (ctx, args) => {
     // Check Identity
-    const identity = await verifyClientAuth(ctx);
+    const identity = await getClientAuth(ctx);
+    if (!identity) return null;
 
     // Obtain Company
     const clerkId = identity.org_id as string;
@@ -153,12 +147,12 @@ export const clientsList = query({
       .first();
     if (!company) throw new ConvexError('Company not found');
 
-    // Return the Multimedia
-    const multimedia = await ctx.db
+    // Return Multimedia
+    const query = ctx.db
       .query('multimedia')
       .withIndex('by_companyId_clientsVisible_updated', (q) => q.eq('companyId', company._id).eq('clientsVisible', true))
-      .order('desc')
-      .collect();
+      .order('desc');
+    const multimedia = args.limit ? await query.take(args.limit) : await query.collect();
     return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await ctx.storage.getUrl(file.storageId) })));
   }
 });
@@ -169,7 +163,8 @@ export const clientsGet = query({
   },
   handler: async (ctx, args) => {
     // Check Identity
-    const identity = await verifyClientAuth(ctx);
+    const identity = await getClientAuth(ctx);
+    if (!identity) return null;
 
     // Obtain Company
     const clerkId = identity.org_id as string;
@@ -182,18 +177,18 @@ export const clientsGet = query({
     if (!company) throw new ConvexError('Company not found');
 
     try {
-      // Obtain the Media File
+      // Obtain Media File
       const mediaFile = await ctx.db.get(args.id as Id<'multimedia'>);
       if (!mediaFile) return null;
 
       // Check Ownership
       if (mediaFile.companyId !== company._id) return null;
 
-      // Obtain the Storage Url
+      // Obtain Storage Url
       const url = await ctx.storage.getUrl(mediaFile.storageId);
       if (!url) return null;
 
-      // Return the Media File
+      // Return Media File
       return { ...mediaFile, url };
     } catch {
       return null;
@@ -224,7 +219,7 @@ export const clientsCreate = mutation({
       .first();
     if (!company) throw new ConvexError('Company not found');
 
-    // Create the Media File
+    // Create Media File
     return await ctx.db.insert('multimedia', {
       name: args.name ?? 'Untitled File',
       note: '',
@@ -260,7 +255,7 @@ export const clientsRemove = mutation({
       .first();
     if (!company) throw new ConvexError('Company not found');
 
-    // Obtain the Media File
+    // Obtain Media File
     const mediaFile = await ctx.db.get(args.id);
     if (!mediaFile) throw new ConvexError('Media file not found');
 
@@ -269,7 +264,7 @@ export const clientsRemove = mutation({
       throw new ConvexError('Unauthorized');
     }
 
-    // Remove the Media File
+    // Remove Media File
     await ctx.storage.delete(mediaFile.storageId);
     await ctx.db.delete(args.id);
   }
@@ -296,7 +291,7 @@ export const clientsUpdate = mutation({
       .first();
     if (!company) throw new ConvexError('Company not found');
 
-    // Obtain the Media File
+    // Obtain Media File
     const mediaFile = await ctx.db.get(args.id);
     if (!mediaFile) throw new ConvexError('Media file not found');
 
@@ -305,7 +300,7 @@ export const clientsUpdate = mutation({
       throw new ConvexError('Unauthorized');
     }
 
-    // Update the Media File
+    // Update Media File
     await ctx.db.patch(args.id, {
       ...(args.name !== undefined ? { name: args.name } : {}),
       ...(args.note !== undefined ? { note: args.note } : {}),
