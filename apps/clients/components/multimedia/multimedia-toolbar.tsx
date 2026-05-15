@@ -9,8 +9,6 @@ import { useRouter } from 'next/navigation';
 import { useMutation } from 'convex/react';
 import { toast } from 'sonner';
 
-type UrlMediaFile = MediaFile & { url: string | null };
-
 async function mediaDownload(url: string, name: string) {
   const toastId = toast.loading('Preparing the download of the file...');
   try {
@@ -46,7 +44,7 @@ function SectionButton({ onClick, icon: Icon, isActive }: SectionButtonProps) {
   );
 }
 
-export function MultimediaToolbar({ file }: { file: UrlMediaFile }) {
+export function MultimediaToolbar({ file }: { file: MediaFile }) {
   const router = useRouter();
   const updateFile = useMutation(api.multimedia.clientsUpdate);
 

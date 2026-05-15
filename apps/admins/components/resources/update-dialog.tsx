@@ -81,66 +81,60 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="link">Video</Label>
-            <div className="flex gap-3">
-              <InputGroup className={cn('flex-1', info.link !== resource.link && 'border-red-500')}>
-                <InputGroupInput
-                  id="link"
-                  placeholder="https://www.video.com"
-                  value={info.link}
-                  onChange={(e) => setInfo({ ...info, link: e.target.value })}
-                />
-                <InputGroupAddon>
-                  <LinkIcon />
+            <InputGroup className={cn(info.link !== resource.link && 'border-red-500')}>
+              <InputGroupInput
+                id="link"
+                placeholder="https://www.video.com"
+                value={info.link}
+                onChange={(e) => setInfo({ ...info, link: e.target.value })}
+              />
+              <InputGroupAddon>
+                <LinkIcon />
+              </InputGroupAddon>
+              {info.link && (
+                <InputGroupAddon align="inline-end">
+                  <CopyLinkButton link={info.link} />
                 </InputGroupAddon>
-                {info.link && (
-                  <InputGroupAddon align="inline-end">
-                    <CopyLinkButton link={info.link} />
-                  </InputGroupAddon>
-                )}
-              </InputGroup>
-            </div>
+              )}
+            </InputGroup>
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="embed">Embed</Label>
-            <div className="flex gap-3">
-              <InputGroup className={cn('flex-1', info.embed !== resource.embed && 'border-red-500')}>
-                <InputGroupInput
-                  id="embed"
-                  placeholder="https://www.embed.com"
-                  value={info.embed}
-                  onChange={(e) => setInfo({ ...info, embed: e.target.value })}
-                />
-                <InputGroupAddon>
-                  <LinkIcon />
+            <InputGroup className={cn(info.embed !== resource.embed && 'border-red-500')}>
+              <InputGroupInput
+                id="embed"
+                placeholder="https://www.embed.com"
+                value={info.embed}
+                onChange={(e) => setInfo({ ...info, embed: e.target.value })}
+              />
+              <InputGroupAddon>
+                <LinkIcon />
+              </InputGroupAddon>
+              {info.embed && (
+                <InputGroupAddon align="inline-end">
+                  <CopyLinkButton link={info.embed} />
                 </InputGroupAddon>
-                {info.embed && (
-                  <InputGroupAddon align="inline-end">
-                    <CopyLinkButton link={info.embed} />
-                  </InputGroupAddon>
-                )}
-              </InputGroup>
-            </div>
+              )}
+            </InputGroup>
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="thumbnail">Thumbnail</Label>
-            <div className="flex gap-3">
-              <InputGroup className={cn('flex-1', info.thumbnail !== resource.thumbnail && 'border-red-500')}>
-                <InputGroupInput
-                  id="thumbnail"
-                  placeholder="https://www.thumbnail.com"
-                  value={info.thumbnail}
-                  onChange={(e) => setInfo({ ...info, thumbnail: e.target.value })}
-                />
-                <InputGroupAddon>
-                  <LinkIcon />
+            <InputGroup className={cn(info.thumbnail !== resource.thumbnail && 'border-red-500')}>
+              <InputGroupInput
+                id="thumbnail"
+                placeholder="https://www.thumbnail.com"
+                value={info.thumbnail}
+                onChange={(e) => setInfo({ ...info, thumbnail: e.target.value })}
+              />
+              <InputGroupAddon>
+                <LinkIcon />
+              </InputGroupAddon>
+              {info.thumbnail && (
+                <InputGroupAddon align="inline-end">
+                  <CopyLinkButton link={info.thumbnail} />
                 </InputGroupAddon>
-                {info.thumbnail && (
-                  <InputGroupAddon align="inline-end">
-                    <CopyLinkButton link={info.thumbnail} />
-                  </InputGroupAddon>
-                )}
-              </InputGroup>
-            </div>
+              )}
+            </InputGroup>
           </div>
           <div className="flex flex-col gap-2">
             <Label>Published</Label>

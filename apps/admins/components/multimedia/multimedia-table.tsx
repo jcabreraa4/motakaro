@@ -5,9 +5,7 @@ import type { MediaFile } from '@workspace/backend/schema';
 import { useMainStore } from '@/store/main-store';
 import { cn } from '@workspace/ui/lib/utils';
 
-type UrlMediaFile = MediaFile & { url: string | null };
-
-export function MediaTable({ multimedia }: { multimedia: UrlMediaFile[] }) {
+export function MediaTable({ multimedia }: { multimedia: MediaFile[] }) {
   const showChatbot = useMainStore((state) => state.showChatbot);
 
   const starredFiles = multimedia.filter((file) => file.starred);

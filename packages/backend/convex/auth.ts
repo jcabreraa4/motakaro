@@ -8,17 +8,6 @@ export const clientsIssuer = process.env.CLERK_JWT_CLIENTS_DOMAIN;
 
 // Admins Functions
 
-export async function verifyAdminAuth(ctx: AnyCtx) {
-  // Check Identity
-  const identity = await ctx.auth.getUserIdentity();
-  if (!identity || identity.issuer !== adminsIssuer) {
-    throw new ConvexError('Unauthorized');
-  }
-
-  // Return Identity
-  return identity;
-}
-
 export async function getAdminAuth(ctx: AnyCtx) {
   // Check Identity
   const identity = await ctx.auth.getUserIdentity();
@@ -30,12 +19,10 @@ export async function getAdminAuth(ctx: AnyCtx) {
   return identity;
 }
 
-// Clients Functions
-
-export async function verifyClientAuth(ctx: AnyCtx) {
+export async function verifyAdminAuth(ctx: AnyCtx) {
   // Check Identity
   const identity = await ctx.auth.getUserIdentity();
-  if (!identity || identity.issuer !== clientsIssuer) {
+  if (!identity || identity.issuer !== adminsIssuer) {
     throw new ConvexError('Unauthorized');
   }
 
@@ -43,11 +30,24 @@ export async function verifyClientAuth(ctx: AnyCtx) {
   return identity;
 }
 
+// Clients Functions
+
 export async function getClientAuth(ctx: AnyCtx) {
   // Check Identity
   const identity = await ctx.auth.getUserIdentity();
   if (!identity || identity.issuer !== clientsIssuer) {
     return null;
+  }
+
+  // Return Identity
+  return identity;
+}
+
+export async function verifyClientAuth(ctx: AnyCtx) {
+  // Check Identity
+  const identity = await ctx.auth.getUserIdentity();
+  if (!identity || identity.issuer !== clientsIssuer) {
+    throw new ConvexError('Unauthorized');
   }
 
   // Return Identity

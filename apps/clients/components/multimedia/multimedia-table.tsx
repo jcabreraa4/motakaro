@@ -3,9 +3,7 @@ import { MultimediaToolbar } from '@/components/multimedia/multimedia-toolbar';
 import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
 import type { MediaFile } from '@workspace/backend/schema';
 
-type UrlMediaFile = MediaFile & { url: string | null };
-
-export function MediaTable({ multimedia }: { multimedia: UrlMediaFile[] }) {
+export function MediaTable({ multimedia }: { multimedia: MediaFile[] }) {
   const starredFiles = multimedia.filter((file) => file.clientsStarred);
   const nonStarredFiles = multimedia!.filter((file) => !file.clientsStarred);
 
