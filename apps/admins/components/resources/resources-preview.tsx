@@ -1,6 +1,6 @@
 import { ImageRender, Thumbnail } from '@/components/multimedia/multimedia-render';
 import type { Id } from '@workspace/backend/_generated/dataModel';
-import { CircleAlertIcon } from 'lucide-react';
+import { ImageOffIcon, TriangleAlertIcon } from 'lucide-react';
 import { cn } from '@workspace/ui/lib/utils';
 import { useRouter } from 'next/navigation';
 
@@ -18,22 +18,29 @@ export function ResourcesPreview({ id, src, name }: ResourcePreviewProps) {
     router.push(`/resources/${id}`);
   }
 
+  const invalidSrc = src && !src.startsWith('http') && !src.startsWith('/');
+
   return (
     <div
-      className={cn('relative aspect-video overflow-hidden rounded-md border border-black bg-black select-none dark:border-white', id && 'cursor-pointer')}
       onClick={handleClick}
+      className={cn('relative aspect-video overflow-hidden rounded-md border border-black bg-black select-none dark:border-white', id && 'cursor-pointer')}
     >
-      {src ? (
+      {!src ? (
+        <Thumbnail
+          icon={ImageOffIcon}
+          text="No Thumbnail"
+        />
+      ) : invalidSrc ? (
+        <Thumbnail
+          icon={TriangleAlertIcon}
+          text="Invalid Thumbnail"
+        />
+      ) : (
         <ImageRender
           fill
           src={src}
           alt={name || 'Image'}
           className="object-cover"
-        />
-      ) : (
-        <Thumbnail
-          icon={CircleAlertIcon}
-          text="No Thumbnail"
         />
       )}
     </div>

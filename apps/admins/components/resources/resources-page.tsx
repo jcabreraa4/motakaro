@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { Preloaded, usePreloadedQuery } from 'convex/react';
 import { Thumbnail, VideoRender } from '@/components/multimedia/multimedia-render';
-import { CircleAlertIcon, ListVideoIcon } from 'lucide-react';
+import { ListVideoIcon, TriangleAlertIcon, VideoOffIcon } from 'lucide-react';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
 import { Button } from '@workspace/ui/components/button';
 import { api } from '@workspace/backend/_generated/api';
@@ -46,10 +46,24 @@ function ResourcePageInner({ preloaded }: ResourcePageProps) {
     );
   }
 
+  const invalidEmbed = resource.embed && !resource.embed.startsWith('http');
+
   return (
     <main className="flex w-full flex-1 justify-center p-3 lg:p-5">
       <section className="flex w-full max-w-5xl flex-col justify-center gap-6 md:px-5">
-        {resource.embed ? (
+        {!resource.embed ? (
+          <Thumbnail
+            icon={VideoOffIcon}
+            text="No Video Attached"
+            className="aspect-video border border-black dark:border-white"
+          />
+        ) : invalidEmbed ? (
+          <Thumbnail
+            icon={TriangleAlertIcon}
+            text="Invalid Video Embed"
+            className="aspect-video border border-black dark:border-white"
+          />
+        ) : (
           <div className="relative">
             <VideoRender
               external
@@ -57,12 +71,6 @@ function ResourcePageInner({ preloaded }: ResourcePageProps) {
               className="aspect-video max-h-[80vh] w-full rounded-lg border border-black bg-black dark:border-white"
             />
           </div>
-        ) : (
-          <Thumbnail
-            icon={CircleAlertIcon}
-            text="No Video Attached"
-            className="aspect-video border border-black dark:border-white"
-          />
         )}
       </section>
     </main>

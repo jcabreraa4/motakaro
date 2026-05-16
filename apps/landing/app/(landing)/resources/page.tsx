@@ -8,7 +8,7 @@ import { cn } from '@workspace/ui/lib/utils';
 
 export default function Page() {
   const resources = useQuery(api.resources.list, { filter: 'published' });
-  const filteredResources = resources?.filter((resource) => resource.embed);
+  const filteredResources = resources?.filter((resource) => resource.embed.startsWith('http'));
 
   function openLink(link: string) {
     if (!link) return;
@@ -21,23 +21,26 @@ export default function Page() {
         <h1 className="text-4xl font-black select-none xl:text-5xl">Video Resources</h1>
         {resources ? (
           <div className="grid grid-flow-row grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-            {filteredResources?.map((resource) => (
-              <div
-                key={resource._id}
-                className="flex flex-col gap-2"
-              >
-                <VideoDialog
-                  video={resource.embed}
-                  thumbnail={resource.thumbnail || '/header.webp'}
-                />
-                <p
-                  className={cn(`truncate text-xl font-bold transition select-none xl:text-xl`, resource.link && 'cursor-pointer hover:underline')}
-                  onClick={() => openLink(resource.link)}
+            {filteredResources?.map((resource) => {
+              const thumbnail = resource.thumbnail?.startsWith('http') || resource.thumbnail?.startsWith('/') ? resource.thumbnail : '/header.webp';
+              return (
+                <div
+                  key={resource._id}
+                  className="flex flex-col gap-2"
                 >
-                  {resource.name}
-                </p>
-              </div>
-            ))}
+                  <VideoDialog
+                    video={resource.embed}
+                    thumbnail={thumbnail}
+                  />
+                  <p
+                    className={cn(`truncate text-xl font-bold transition select-none xl:text-xl`, resource.link && 'cursor-pointer hover:underline')}
+                    onClick={() => openLink(resource.link)}
+                  >
+                    {resource.name}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         ) : (
           <div className="grid grid-flow-row grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">

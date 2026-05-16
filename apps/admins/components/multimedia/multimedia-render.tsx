@@ -22,7 +22,7 @@ interface ThumbnailProps {
 
 export function Thumbnail({ icon: Icon, text, className }: ThumbnailProps) {
   return (
-    <div className={cn('flex aspect-video items-center justify-center gap-2 rounded-md bg-sidebar', className)}>
+    <div className={cn('flex aspect-video items-center justify-center gap-2 rounded-md bg-sidebar select-none', className)}>
       <Icon className="size-6 lg:size-8" />
       <p className="text-lg font-semibold lg:text-2xl">{text}</p>
     </div>

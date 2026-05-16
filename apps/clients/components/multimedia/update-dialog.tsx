@@ -1,6 +1,6 @@
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
-import { SaveIcon, RotateCcwIcon, LinkIcon, CopyIcon } from 'lucide-react';
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
+import { SaveIcon, RotateCcwIcon, LinkIcon } from 'lucide-react';
 import { Textarea } from '@workspace/ui/components/textarea';
 import type { MediaFile } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
@@ -47,27 +47,14 @@ export function UpdateDialog({ file, children }: UpdateDialogProps) {
           <SheetDescription className="hidden lg:block">Update selected file&apos;s information.</SheetDescription>
         </SheetHeader>
         <div className="grid flex-1 auto-rows-min gap-4 px-4 lg:gap-5">
-          <InputGroup>
+          <InputGroup onClick={() => copyText({ text: file.url!, type: 'link' })}>
             <InputGroupInput
               readOnly
               value={file.url!}
               className="cursor-pointer"
-              onClick={() => copyText({ text: file.url!, type: 'link' })}
             />
-            <InputGroupAddon
-              className="cursor-pointer"
-              onClick={() => copyText({ text: file.url!, type: 'link' })}
-            >
+            <InputGroupAddon className="cursor-pointer">
               <LinkIcon />
-            </InputGroupAddon>
-            <InputGroupAddon align="inline-end">
-              <InputGroupButton
-                size="icon-sm"
-                className="cursor-pointer"
-                onClick={() => copyText({ text: file.url!, type: 'link' })}
-              >
-                <CopyIcon />
-              </InputGroupButton>
             </InputGroupAddon>
           </InputGroup>
           <div className="flex flex-col gap-2">
