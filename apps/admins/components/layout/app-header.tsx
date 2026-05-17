@@ -6,6 +6,7 @@ import { usePathname } from '@/hooks/use-pathname';
 import { Separator } from '@workspace/ui/components/separator';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
 import { NotificationsPopover } from '@/components/notifications/notifications-popover';
+import { HeaderThemeButton } from '@workspace/ui/custom/theme-buttons';
 import { SidebarTrigger } from '@workspace/ui/components/sidebar';
 import { AppPresence } from '@/components/layout/app-presence';
 import { Button } from '@workspace/ui/components/button';
@@ -61,18 +62,19 @@ export function AppHeader() {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <div className="flex items-center gap-8">
+      <div className="flex gap-8">
         <AppPresence className="hidden select-none 2xl:flex" />
         <div className="flex gap-2">
           <Button
             size="icon-sm"
             variant="ghost"
-            className={cn('cursor-pointer text-zinc-400 hover:bg-transparent! dark:text-zinc-500 dark:hover:text-white', showChatbot && 'text-black dark:text-white')}
+            className={cn('cursor-pointer text-zinc-500 hover:bg-transparent! dark:text-zinc-400 dark:hover:text-white', showChatbot && 'text-black dark:text-white')}
             onClick={toggleChatbot}
           >
             <BotIcon className="size-6" />
           </Button>
           <NotificationsPopover />
+          <HeaderThemeButton className="hidden lg:flex" />
         </div>
       </div>
     </header>

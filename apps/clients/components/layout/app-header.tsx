@@ -5,6 +5,7 @@ import { useMainStore } from '@/store/main-store';
 import { Separator } from '@workspace/ui/components/separator';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
 import { NotificationsPopover } from '@/components/notifications/notifications-popover';
+import { HeaderThemeButton } from '@workspace/ui/custom/theme-buttons';
 import { SidebarTrigger } from '@workspace/ui/components/sidebar';
 import { usePathname } from '@/hooks/use-pathname';
 import Link from 'next/link';
@@ -54,8 +55,9 @@ export function AppHeader() {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <div className="flex items-center gap-8">
+      <div className="flex gap-2">
         <NotificationsPopover />
+        <HeaderThemeButton className="hidden lg:flex" />
       </div>
     </header>
   );

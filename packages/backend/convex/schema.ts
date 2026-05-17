@@ -17,7 +17,8 @@ export default defineSchema({
     note: v.optional(v.string()),
     role: v.optional(v.string()),
     phone: v.optional(v.number()),
-    linkedin: v.optional(v.string())
+    linkedin: v.optional(v.string()),
+    onboarded: v.optional(v.boolean())
   }).index('by_clerkId', ['clerkId']),
 
   // Motakaro Clients Users
@@ -34,21 +35,9 @@ export default defineSchema({
     note: v.optional(v.string()),
     role: v.optional(v.string()),
     phone: v.optional(v.number()),
-    linkedin: v.optional(v.string())
+    linkedin: v.optional(v.string()),
+    onboarded: v.optional(v.boolean())
   }).index('by_clerkId', ['clerkId']),
-
-  // Users Notifications
-  notifications: defineTable({
-    // Basic Information
-    name: v.string(),
-    note: v.string(),
-    content: v.string(),
-    starred: v.boolean(),
-    updated: v.number(),
-
-    // Table Relationships
-    companyId: v.optional(v.id('companies'))
-  }).index('by_companyId_updated', ['companyId', 'updated']),
 
   // Motakaro Clients Companies
   companies: defineTable({
@@ -87,6 +76,19 @@ export default defineSchema({
     .index('by_contactId', ['contactId'])
     .index('by_companyId', ['companyId'])
     .index('by_contactId_companyId', ['contactId', 'companyId']),
+
+  // Users Notifications
+  notifications: defineTable({
+    // Basic Information
+    name: v.string(),
+    note: v.string(),
+    content: v.string(),
+    starred: v.boolean(),
+    updated: v.number(),
+
+    // Table Relationships
+    companyId: v.optional(v.id('companies'))
+  }).index('by_companyId_updated', ['companyId', 'updated']),
 
   // Calcom Meetings
   meetings: defineTable({
@@ -158,8 +160,7 @@ export default defineSchema({
     clientsStarred: v.boolean(),
 
     // Table Relationships
-    companyId: v.optional(v.id('companies')),
-    documentId: v.optional(v.id('documents'))
+    companyId: v.optional(v.id('companies'))
   })
     .index('by_companyId_updated', ['companyId', 'updated'])
     .index('by_companyId_clientsVisible_updated', ['companyId', 'clientsVisible', 'updated']),
@@ -192,10 +193,10 @@ export default defineSchema({
 
 export type Employee = Doc<'employees'>;
 export type Contact = Doc<'contacts'>;
-export type Notification = Doc<'notifications'>;
 export type Company = Doc<'companies'>;
 export type Payment = Doc<'payments'>;
 export type Membership = Doc<'memberships'>;
+export type Notification = Doc<'notifications'>;
 export type Meeting = Doc<'meetings'>;
 export type Document = Doc<'documents'>;
 export type MediaFile = Doc<'multimedia'> & { url: string | null };

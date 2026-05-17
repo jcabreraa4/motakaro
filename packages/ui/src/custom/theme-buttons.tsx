@@ -1,57 +1,72 @@
 'use client';
 
+import { flushSync } from 'react-dom';
 import { MoonIcon, SunIcon } from 'lucide-react';
-import { ButtonSize } from '@workspace/ui/types/button';
+import { ButtonSize, ButtonVariant } from '@workspace/ui/types/button';
 import { DropdownMenuItem } from '@workspace/ui/components/dropdown-menu';
 import { Button } from '@workspace/ui/components/button';
-import { useEffect, useRef, useState } from 'react';
 import { cn } from '@workspace/ui/lib/utils';
 import { useTheme } from 'next-themes';
-import { flushSync } from 'react-dom';
+import { useRef } from 'react';
 
 interface SquareThemeButtonProps {
   size?: ButtonSize;
+  variant?: ButtonVariant;
   className?: string;
 }
 
-export function SquareThemeButton({ size = 'icon-lg', className }: SquareThemeButtonProps) {
+export function SquareThemeButton({ size = 'icon-lg', variant = 'outline', className }: SquareThemeButtonProps) {
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
 
   return (
     <Button
       size={size}
-      variant="outline"
+      variant={variant}
       className={cn('cursor-pointer text-black dark:text-white', className)}
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
     >
-      {mounted ? theme === 'dark' ? <SunIcon /> : <MoonIcon /> : <span className="size-5" />}
+      <SunIcon className="hidden dark:block" />
+      <MoonIcon className="dark:hidden" />
     </Button>
   );
 }
 
-export function RectangleThemeButton({ className }: { className?: string }) {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+interface HeaderThemeButtonProps extends SquareThemeButtonProps {}
 
-  useEffect(() => setMounted(true), []);
+export function HeaderThemeButton({ size = 'icon-sm', variant = 'ghost', className }: HeaderThemeButtonProps) {
+  const { theme, setTheme } = useTheme();
 
   return (
     <Button
-      variant="outline"
+      size={size}
+      variant={variant}
+      className={cn('cursor-pointer bg-transparent! text-zinc-500 hover:bg-transparent! dark:text-zinc-400 dark:hover:text-white', className)}
+      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+    >
+      <SunIcon className="hidden size-5 dark:block" />
+      <MoonIcon className="size-5 dark:hidden" />
+    </Button>
+  );
+}
+
+interface RectangleThemeButtonProps {
+  variant?: ButtonVariant;
+  className?: string;
+}
+
+export function RectangleThemeButton({ variant = 'outline', className }: RectangleThemeButtonProps) {
+  const { theme, setTheme } = useTheme();
+
+  return (
+    <Button
+      variant={variant}
       className={cn('min-w-40 cursor-pointer', className)}
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
     >
-      {mounted ? (
-        <>
-          {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
-          {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-        </>
-      ) : (
-        <span className="size-5" />
-      )}
+      <SunIcon className="hidden dark:block" />
+      <MoonIcon className="dark:hidden" />
+      <span className="hidden dark:block">Light Mode</span>
+      <span className="dark:hidden">Dark Mode</span>
     </Button>
   );
 }
@@ -64,25 +79,26 @@ export function DropdownThemeButton({ className }: { className?: string }) {
       className={cn('cursor-pointer', className)}
       onClick={() => setTheme(theme == 'light' ? 'dark' : 'light')}
     >
-      {theme == 'dark' ? <SunIcon /> : <MoonIcon />}
-      {theme == 'dark' ? 'Light Mode' : 'Dark Mode'}
+      <SunIcon className="hidden dark:block" />
+      <MoonIcon className="dark:hidden" />
+      <span className="hidden dark:block">Light Mode</span>
+      <span className="dark:hidden">Dark Mode</span>
     </DropdownMenuItem>
   );
 }
 
 interface AnimatedThemeButtonProps {
   size?: ButtonSize;
+  variant?: ButtonVariant;
   className?: string;
   duration?: number;
 }
 
-export function AnimatedThemeButton({ size = 'icon-lg', className, duration = 500 }: AnimatedThemeButtonProps) {
+export function AnimatedThemeButton({ size = 'icon-lg', variant = 'outline', className, duration = 500 }: AnimatedThemeButtonProps) {
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+
   const buttonRef = useRef<HTMLButtonElement>(null);
   const isDark = theme === 'dark';
-
-  useEffect(() => setMounted(true), []);
 
   async function toggleTheme() {
     const newTheme = isDark ? 'light' : 'dark';
@@ -100,11 +116,12 @@ export function AnimatedThemeButton({ size = 'icon-lg', className, duration = 50
     <Button
       size={size}
       ref={buttonRef}
-      variant="outline"
+      variant={variant}
       className={cn('cursor-pointer', isDark ? 'text-white' : 'text-black', className)}
       onClick={toggleTheme}
     >
-      {mounted ? isDark ? <SunIcon /> : <MoonIcon /> : <span className="size-5" />}
+      <SunIcon className="hidden dark:block" />
+      <MoonIcon className="dark:hidden" />
     </Button>
   );
 }
