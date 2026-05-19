@@ -98,7 +98,7 @@ export function AppChatbot() {
   if (!showChat) return null;
 
   return (
-    <section className="flex w-full flex-col items-center gap-2 py-2 lg:py-5 xl:w-120 xl:border-l xl:shadow-md print:hidden">
+    <section className="flex w-full flex-col items-center gap-2 py-2 lg:py-5 xl:w-120 xl:border-l print:hidden">
       <div className={cn('flex w-full flex-1 justify-center', messages.length !== 0 && 'overflow-y-scroll')}>
         <div className="w-full">
           <ChatbotMessages
