@@ -1,9 +1,8 @@
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { useAuth } from '@clerk/nextjs';
-import { useMutation, useQuery } from 'convex/react';
+import { useQuery } from 'convex/react';
 import { BellIcon, TriangleAlertIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
@@ -15,30 +14,17 @@ import { Spinner } from '@workspace/ui/components/spinner';
 import { cn } from '@workspace/ui/lib/utils';
 
 function Notification({ notification }: { notification: Notification }) {
-  const router = useRouter();
-
-  const updateNotification = useMutation(api.notifications.update);
-
-  function handleUpdate() {
-    if (notification.read) {
-      router.push(`/notifications?search=${notification._id}`);
-    } else {
-      updateNotification({ id: notification._id, read: true });
-    }
-  }
-
   return (
-    <div
-      onClick={handleUpdate}
-      className={cn('relative flex cursor-pointer flex-col gap-1 border-t p-4', notification.starred && 'bg-primary text-white dark:text-black', !notification.read && (notification.starred ? 'hover:bg-primary/90' : 'hover:bg-secondary'))}
-    >
-      {!notification.read && <span className="absolute top-2 right-2 size-2 rounded-full bg-red-600" />}
-      <div className="flex items-center gap-2">
-        {notification.starred && <TriangleAlertIcon className="size-5 min-w-5 text-yellow-500" />}
-        <p className="truncate font-semibold">{notification.name}</p>
+    <Link href={`/notifications?search=${notification._id}`}>
+      <div className={cn('relative flex cursor-pointer flex-col gap-1 border-t p-4 hover:bg-secondary', notification.starred && 'bg-primary text-white hover:bg-primary/85 dark:text-black')}>
+        {!notification.read && <span className="absolute top-2 right-2 size-2 rounded-full bg-red-600" />}
+        <div className="flex items-center gap-2">
+          {notification.starred && <TriangleAlertIcon className="size-5 min-w-5 text-yellow-500" />}
+          <p className="truncate font-semibold">{notification.name}</p>
+        </div>
+        {notification.content && <p className="truncate">{notification.content}</p>}
       </div>
-      <p className="truncate">{notification.content}</p>
-    </div>
+    </Link>
   );
 }
 
