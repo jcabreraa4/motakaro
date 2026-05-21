@@ -10,6 +10,7 @@ import { Button } from '@workspace/ui/components/button';
 import { Separator } from '@workspace/ui/components/separator';
 import { SidebarTrigger } from '@workspace/ui/components/sidebar';
 import { HeaderThemeButton } from '@workspace/ui/custom/theme-buttons';
+import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { AppPresence } from '@/components/layout/app-presence';
@@ -25,18 +26,24 @@ export function AppHeader() {
   const { segments } = usePathname();
   const section = capitalize(segments[0]!);
 
+  const isMobile = useIsMobile();
+
   const subroute = useMainStore((state) => state.subroute);
   const setSubroute = useMainStore((state) => state.setSubroute);
 
   const showChatbot = useMainStore((state) => state.showChatbot);
   const toggleChatbot = useMainStore((state) => state.toggleChatbot);
 
-  function cleanSubroute() {
-    setSubroute(null);
+  function handleChatbot() {
+    if (isMobile && showChatbot) toggleChatbot();
   }
 
   useEffect(() => {
-    if (!segments[1]) cleanSubroute();
+    handleChatbot();
+  }, [segments[0]]);
+
+  useEffect(() => {
+    if (!segments[1]) setSubroute(null);
   }, [segments[1]]);
 
   return (
@@ -49,7 +56,7 @@ export function AppHeader() {
         />
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem onClick={cleanSubroute}>
+            <BreadcrumbItem onClick={handleChatbot}>
               <Link href={`/${segments[0]}`}>
                 <BreadcrumbPage className="font-medium select-none">{section}</BreadcrumbPage>
               </Link>

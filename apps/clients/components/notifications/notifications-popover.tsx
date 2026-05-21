@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useState } from 'react';
 
 import { useAuth } from '@clerk/nextjs';
@@ -13,24 +13,9 @@ import { Separator } from '@workspace/ui/components/separator';
 import { Spinner } from '@workspace/ui/components/spinner';
 import { cn } from '@workspace/ui/lib/utils';
 
-interface NotificationProps {
-  notification: Notification;
-  setOpen: (open: boolean) => void;
-}
-
-function Notification({ notification, setOpen }: NotificationProps) {
-  const router = useRouter();
-
-  function handleClick() {
-    router.push(`/notifications?search=${notification._id}`);
-    setOpen(false);
-  }
-
+function Notification({ notification }: { notification: Notification }) {
   return (
-    <div
-      onClick={handleClick}
-      className={cn('relative flex cursor-pointer flex-col gap-1 border-t p-4 hover:bg-secondary', notification.starred && 'bg-primary text-white hover:bg-primary/85 dark:text-black')}
-    >
+    <div className={cn('relative flex cursor-pointer flex-col gap-1 border-t p-4 hover:bg-secondary', notification.starred && 'bg-primary text-white hover:bg-primary/85 dark:text-black')}>
       {!notification.read && <span className="absolute top-2 right-2 size-2 rounded-full bg-red-600" />}
       <div className="flex items-center gap-2">
         {notification.starred && <TriangleAlertIcon className="size-5 min-w-5 text-yellow-500" />}
@@ -43,17 +28,11 @@ function Notification({ notification, setOpen }: NotificationProps) {
 
 export function NotificationsPopover() {
   const { isLoaded } = useAuth();
-  const router = useRouter();
 
   const [open, setOpen] = useState(false);
 
   const notifications = useQuery(api.notifications.clientsList, isLoaded ? { limit: 8 } : 'skip');
   const hasUnread = notifications?.some((notification) => notification.read === false);
-
-  function handleClick() {
-    router.push('/notifications');
-    setOpen(false);
-  }
 
   return (
     <Popover
@@ -77,13 +56,15 @@ export function NotificationsPopover() {
         <PopoverHeader className="px-4 py-3">
           <PopoverTitle className="flex items-center justify-between select-none">
             Notifications
-            <Button
-              variant="link"
-              className="h-fit cursor-pointer"
-              onClick={handleClick}
-            >
-              View all
-            </Button>
+            <Link href="/notifications">
+              <Button
+                variant="link"
+                className="h-fit cursor-pointer"
+                onClick={() => setOpen(false)}
+              >
+                View all
+              </Button>
+            </Link>
           </PopoverTitle>
         </PopoverHeader>
         <Separator />
@@ -99,11 +80,13 @@ export function NotificationsPopover() {
         ) : (
           <div className="flex max-h-77 min-h-0 flex-1 flex-col overflow-y-auto rounded-b-lg select-none">
             {notifications?.map((notification) => (
-              <Notification
+              <Link
                 key={notification._id}
-                notification={notification}
-                setOpen={setOpen}
-              />
+                onClick={() => setOpen(false)}
+                href={`/notifications?search=${notification._id}`}
+              >
+                <Notification notification={notification} />
+              </Link>
             ))}
           </div>
         )}

@@ -9,7 +9,7 @@ import { Separator } from '@workspace/ui/components/separator';
 import { cn } from '@workspace/ui/lib/utils';
 
 export function NotificationsTable({ notifications }: { notifications: Notification[] }) {
-  const updateNotification = useMutation(api.notifications.update);
+  const updateNotification = useMutation(api.notifications.clientsUpdate);
 
   return (
     <section className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto">

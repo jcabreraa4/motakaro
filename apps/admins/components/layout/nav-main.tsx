@@ -8,7 +8,6 @@ import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, Side
 import { cn } from '@workspace/ui/lib/utils';
 
 import { usePathname } from '@/hooks/use-pathname';
-import { useMainStore } from '@/store/main-store';
 
 type Section = {
   title: string;
@@ -99,7 +98,6 @@ const sections: Section[] = [
 
 export function NavMain() {
   const { segments } = usePathname();
-  const setSubroute = useMainStore((state) => state.setSubroute);
 
   function isActive(url: string) {
     if (`/${segments[0]}` === url) return true;
@@ -119,7 +117,6 @@ export function NavMain() {
                     asChild
                     tooltip={item.title}
                     className={cn(isActive(item.url) && 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground active:bg-primary active:text-primary-foreground')}
-                    onClick={() => setSubroute(null)}
                   >
                     <Link href={item.url}>
                       <item.icon className="size-4" />

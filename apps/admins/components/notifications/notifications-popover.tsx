@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useState } from 'react';
 
 import { useAuth } from '@clerk/nextjs';
@@ -16,29 +16,9 @@ import { cn } from '@workspace/ui/lib/utils';
 
 import { useMainStore } from '@/store/main-store';
 
-interface NotificationProps {
-  notification: Notification;
-  setOpen: (open: boolean) => void;
-}
-
-function Notification({ notification, setOpen }: NotificationProps) {
-  const router = useRouter();
-  const isMobile = useIsMobile();
-
-  const showChatbot = useMainStore((state) => state.showChatbot);
-  const toggleChatbot = useMainStore((state) => state.toggleChatbot);
-
-  function handleClick() {
-    router.push(`/notifications?search=${notification._id}`);
-    if (isMobile && showChatbot) toggleChatbot();
-    setOpen(false);
-  }
-
+function Notification({ notification }: { notification: Notification }) {
   return (
-    <div
-      onClick={handleClick}
-      className={cn('relative flex cursor-pointer flex-col gap-1 border-t p-4 hover:bg-secondary', notification.starred && 'bg-primary text-white hover:bg-primary/85 dark:text-black')}
-    >
+    <div className={cn('relative flex cursor-pointer flex-col gap-1 border-t p-4 hover:bg-secondary', notification.starred && 'bg-primary text-white hover:bg-primary/85 dark:text-black')}>
       {!notification.read && <span className="absolute top-2 right-2 size-2 rounded-full bg-red-600" />}
       <div className="flex items-center gap-2">
         {notification.starred && <TriangleAlertIcon className="size-5 min-w-5 text-yellow-500" />}
@@ -50,20 +30,18 @@ function Notification({ notification, setOpen }: NotificationProps) {
 }
 
 export function NotificationsPopover() {
-  const router = useRouter();
-  const isMobile = useIsMobile();
   const { isLoaded } = useAuth();
+  const isMobile = useIsMobile();
 
   const [open, setOpen] = useState(false);
-
-  const showChatbot = useMainStore((state) => state.showChatbot);
-  const toggleChatbot = useMainStore((state) => state.toggleChatbot);
 
   const notifications = useQuery(api.notifications.list, isLoaded ? { limit: 8 } : 'skip');
   const hasUnread = notifications?.some((notification) => notification.read === false);
 
+  const showChatbot = useMainStore((state) => state.showChatbot);
+  const toggleChatbot = useMainStore((state) => state.toggleChatbot);
+
   function handleClick() {
-    router.push('/notifications');
     if (isMobile && showChatbot) toggleChatbot();
     setOpen(false);
   }
@@ -90,13 +68,15 @@ export function NotificationsPopover() {
         <PopoverHeader className="px-4 py-3">
           <PopoverTitle className="flex items-center justify-between select-none">
             Notifications
-            <Button
-              variant="link"
-              className="h-fit cursor-pointer"
-              onClick={handleClick}
-            >
-              View all
-            </Button>
+            <Link href="/notifications">
+              <Button
+                variant="link"
+                className="h-fit cursor-pointer"
+                onClick={handleClick}
+              >
+                View all
+              </Button>
+            </Link>
           </PopoverTitle>
         </PopoverHeader>
         <Separator />
@@ -112,11 +92,13 @@ export function NotificationsPopover() {
         ) : (
           <div className="flex max-h-77 min-h-0 flex-1 flex-col overflow-y-auto rounded-b-lg select-none">
             {notifications?.map((notification) => (
-              <Notification
+              <Link
                 key={notification._id}
-                notification={notification}
-                setOpen={setOpen}
-              />
+                onClick={handleClick}
+                href={`/notifications?search=${notification._id}`}
+              >
+                <Notification notification={notification} />
+              </Link>
             ))}
           </div>
         )}

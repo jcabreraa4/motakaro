@@ -23,12 +23,8 @@ export function AppHeader() {
   const subroute = useMainStore((state) => state.subroute);
   const setSubroute = useMainStore((state) => state.setSubroute);
 
-  function cleanSubroute() {
-    setSubroute(null);
-  }
-
   useEffect(() => {
-    if (!segments[1]) cleanSubroute();
+    if (!segments[1]) setSubroute(null);
   }, [segments[1]]);
 
   return (
@@ -41,7 +37,7 @@ export function AppHeader() {
         />
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem onClick={cleanSubroute}>
+            <BreadcrumbItem>
               <Link href={`/${segments[0]}`}>
                 <BreadcrumbPage className="font-medium select-none">{section}</BreadcrumbPage>
               </Link>
