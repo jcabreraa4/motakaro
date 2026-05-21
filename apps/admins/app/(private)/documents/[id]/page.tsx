@@ -1,7 +1,9 @@
-import { DocumentsPage } from '@/components/documents/documents-page';
-import { api } from '@workspace/backend/_generated/api';
-import { preloadQuery } from 'convex/nextjs';
 import { auth } from '@clerk/nextjs/server';
+import { preloadQuery } from 'convex/nextjs';
+
+import { api } from '@workspace/backend/_generated/api';
+
+import { DocumentsPage } from '@/components/documents/documents-page';
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   // Obtain Id

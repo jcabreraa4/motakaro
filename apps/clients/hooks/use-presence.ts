@@ -1,7 +1,9 @@
-import { api } from '@workspace/backend/_generated/api';
-import { useMutation } from 'convex/react';
-import { useUser } from '@clerk/nextjs';
 import { useEffect } from 'react';
+
+import { useUser } from '@clerk/nextjs';
+import { useMutation } from 'convex/react';
+
+import { api } from '@workspace/backend/_generated/api';
 
 export function usePresence() {
   const { user } = useUser();

@@ -1,6 +1,7 @@
 import { defineSchema, defineTable } from 'convex/server';
-import { Doc } from './_generated/dataModel';
 import { v } from 'convex/values';
+
+import { Doc } from './_generated/dataModel';
 
 export default defineSchema({
   // Motakaro Admins Users
@@ -13,12 +14,12 @@ export default defineSchema({
     clerkId: v.string(),
 
     // Additional Columns
+    onboarded: v.boolean(),
     seen: v.optional(v.number()),
     note: v.optional(v.string()),
     role: v.optional(v.string()),
     phone: v.optional(v.number()),
-    linkedin: v.optional(v.string()),
-    onboarded: v.optional(v.boolean())
+    linkedin: v.optional(v.string())
   }).index('by_clerkId', ['clerkId']),
 
   // Motakaro Clients Users
@@ -31,12 +32,12 @@ export default defineSchema({
     clerkId: v.string(),
 
     // Additional Columns
+    onboarded: v.boolean(),
     seen: v.optional(v.number()),
     note: v.optional(v.string()),
     role: v.optional(v.string()),
     phone: v.optional(v.number()),
-    linkedin: v.optional(v.string()),
-    onboarded: v.optional(v.boolean())
+    linkedin: v.optional(v.string())
   }).index('by_clerkId', ['clerkId']),
 
   // Motakaro Clients Companies
@@ -82,13 +83,14 @@ export default defineSchema({
     // Basic Information
     name: v.string(),
     note: v.string(),
+    read: v.boolean(),
     content: v.string(),
     starred: v.boolean(),
     updated: v.number(),
 
     // Table Relationships
     companyId: v.optional(v.id('companies'))
-  }).index('by_companyId_updated', ['companyId', 'updated']),
+  }).index('by_companyId', ['companyId']),
 
   // Calcom Meetings
   meetings: defineTable({

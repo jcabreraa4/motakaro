@@ -1,13 +1,15 @@
 'use client';
 
+import type { CSSProperties, ComponentProps, HTMLAttributes } from 'react';
+import { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+
+import { CheckIcon, CopyIcon } from 'lucide-react';
+import type { BundledLanguage, BundledTheme, HighlighterGeneric, ThemedToken } from 'shiki';
+import { createHighlighter } from 'shiki';
+
 import { Button } from '@workspace/ui/components/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { cn } from '@workspace/ui/lib/utils';
-import { CheckIcon, CopyIcon } from 'lucide-react';
-import type { ComponentProps, CSSProperties, HTMLAttributes } from 'react';
-import { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import type { BundledLanguage, BundledTheme, HighlighterGeneric, ThemedToken } from 'shiki';
-import { createHighlighter } from 'shiki';
 
 // Shiki uses bitflags for font styles: 1=italic, 2=bold, 4=underline
 // oxlint-disable-next-line eslint(no-bitwise)

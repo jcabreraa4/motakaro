@@ -1,14 +1,17 @@
-import { CalendarX2Icon, CheckCircleIcon, CircleSlash, ClockIcon, ExternalLinkIcon, RadioIcon, SettingsIcon, StarIcon } from 'lucide-react';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
-import type { Meeting } from '@workspace/backend/schema';
-import { Button } from '@workspace/ui/components/button';
-import { api } from '@workspace/backend/_generated/api';
-import { useMainStore } from '@/store/main-store';
-import { cn } from '@workspace/ui/lib/utils';
 import { useRouter } from 'next/navigation';
+
 import { useMutation } from 'convex/react';
 import { format } from 'date-fns';
+import { CalendarX2Icon, CheckCircleIcon, CircleSlash, ClockIcon, ExternalLinkIcon, RadioIcon, SettingsIcon, StarIcon } from 'lucide-react';
 import { toast } from 'sonner';
+
+import { api } from '@workspace/backend/_generated/api';
+import type { Meeting } from '@workspace/backend/schema';
+import { Button } from '@workspace/ui/components/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import { cn } from '@workspace/ui/lib/utils';
+
+import { useMainStore } from '@/store/main-store';
 
 export function MeetingsTable({ meetings }: { meetings: Meeting[] }) {
   const router = useRouter();

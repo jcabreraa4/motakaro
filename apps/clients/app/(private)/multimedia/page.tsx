@@ -1,16 +1,18 @@
 'use client';
 
+import { useAuth } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 import { ImageIcon, SearchIcon, XIcon } from 'lucide-react';
-import { MediaTable } from '@/components/multimedia/multimedia-table';
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
-import { UploadDialog } from '@/components/multimedia/upload-dialog';
-import { CircleLoader } from '@workspace/ui/custom/loaders';
+
 import { api } from '@workspace/backend/_generated/api';
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
+import { CircleLoader } from '@workspace/ui/custom/loaders';
+
+import { MediaTable } from '@/components/multimedia/multimedia-table';
+import { UploadDialog } from '@/components/multimedia/upload-dialog';
 import { useParams } from '@/hooks/use-params';
-import { useAuth } from '@clerk/nextjs';
 
 export default function Page() {
   const { isLoaded } = useAuth();
@@ -20,7 +22,11 @@ export default function Page() {
   const effectiveTypeFilter = typeFilter || 'all';
 
   const multimedia = useQuery(api.multimedia.clientsList, isLoaded ? {} : 'skip');
-  const filteredFiles = multimedia?.filter((file) => searchFilter === '' || file.name.toLowerCase().includes(searchFilter.toLowerCase()) || file.note.toLowerCase().includes(searchFilter.toLowerCase()) || file._id.toLowerCase().includes(searchFilter.toLowerCase())).filter((file) => (effectiveTypeFilter === 'all' ? true : file.type.includes(effectiveTypeFilter)));
+  const filteredMultimedia = multimedia?.filter((file) => {
+    const matchesSearch = searchFilter === '' || file.name.toLowerCase().includes(searchFilter.toLowerCase()) || file.note.toLowerCase().includes(searchFilter.toLowerCase()) || file._id.toLowerCase().includes(searchFilter.toLowerCase());
+    const matchesType = effectiveTypeFilter === 'all' || file.type.includes(effectiveTypeFilter);
+    return matchesSearch && matchesType;
+  });
 
   return (
     <main className="flex w-full flex-col gap-3 overflow-hidden p-3 lg:gap-5 lg:p-5">
@@ -37,7 +43,7 @@ export default function Page() {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value="all">All Files</SelectItem>
+              <SelectItem value="all">Unfiltered</SelectItem>
               <SelectItem value="image">Images</SelectItem>
               <SelectItem value="video">Videos</SelectItem>
               <SelectItem value="audio">Audios</SelectItem>
@@ -89,7 +95,7 @@ export default function Page() {
             </EmptyContent>
           </Empty>
         </section>
-      ) : filteredFiles?.length === 0 ? (
+      ) : filteredMultimedia?.length === 0 ? (
         <section className="flex min-h-0 flex-1 items-center justify-center select-none">
           <Empty>
             <EmptyHeader>
@@ -103,7 +109,7 @@ export default function Page() {
           </Empty>
         </section>
       ) : (
-        <MediaTable multimedia={filteredFiles || []} />
+        <MediaTable multimedia={filteredMultimedia || []} />
       )}
     </main>
   );

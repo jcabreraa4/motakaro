@@ -1,14 +1,17 @@
-import { type LucideIcon, CopyIcon, ExpandIcon, PenIcon, StarIcon, TrashIcon } from 'lucide-react';
-import { RemoveDialog } from '@/components/resources/remove-dialog';
-import { UpdateDialog } from '@/components/resources/update-dialog';
-import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
+import { useRouter } from 'next/navigation';
+
+import { useMutation } from 'convex/react';
+import { CopyIcon, ExpandIcon, type LucideIcon, PenIcon, StarIcon, TrashIcon } from 'lucide-react';
+import { toast } from 'sonner';
+
+import { api } from '@workspace/backend/_generated/api';
 import type { Resource } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
-import { api } from '@workspace/backend/_generated/api';
+import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
+
+import { RemoveDialog } from '@/components/resources/remove-dialog';
+import { UpdateDialog } from '@/components/resources/update-dialog';
 import { copyText } from '@/utils/copy-text';
-import { useRouter } from 'next/navigation';
-import { useMutation } from 'convex/react';
-import { toast } from 'sonner';
 
 interface SectionButtonProps {
   onClick?: () => void;

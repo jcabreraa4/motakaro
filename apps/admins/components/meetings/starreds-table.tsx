@@ -1,9 +1,10 @@
-import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
-import { Card, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import { StarIcon } from 'lucide-react';
+
 import type { Meeting } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
+import { Card, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { cn } from '@workspace/ui/lib/utils';
-import { StarIcon } from 'lucide-react';
 
 interface StarredsTableProps {
   meetings: Meeting[];

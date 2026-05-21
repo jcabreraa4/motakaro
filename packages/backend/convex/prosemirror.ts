@@ -1,8 +1,9 @@
 import { ProsemirrorSync } from '@convex-dev/prosemirror-sync';
-import { MutationCtx, QueryCtx } from './_generated/server';
-import { type Id, DataModel } from './_generated/dataModel';
-import { components } from './_generated/api';
 import { ConvexError } from 'convex/values';
+
+import { components } from './_generated/api';
+import { DataModel, type Id } from './_generated/dataModel';
+import { MutationCtx, QueryCtx } from './_generated/server';
 import { verifyAdminAuth } from './auth';
 
 export const prosemirrorSync = new ProsemirrorSync((components as any).prosemirrorSync);

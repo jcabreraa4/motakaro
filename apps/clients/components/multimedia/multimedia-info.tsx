@@ -1,7 +1,9 @@
 import { FileTextIcon, HeadphonesIcon, ImageIcon, VideoIcon } from 'lucide-react';
-import { sizeToText } from '@/utils/size-to-text';
-import { mediaType } from '@/utils/media-type';
+
 import { cn } from '@workspace/ui/lib/utils';
+
+import { mediaType } from '@/utils/media-type';
+import { sizeToText } from '@/utils/size-to-text';
 
 interface MultimediaInfoProps {
   name: string;

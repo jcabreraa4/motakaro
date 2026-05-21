@@ -1,9 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { RenderLoader } from '@/components/multimedia/multimedia-render';
 import { Document, Page, pdfjs } from 'react-pdf';
+
 import { cn } from '@workspace/ui/lib/utils';
+
+import { RenderLoader } from '@/components/multimedia/multimedia-render';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 

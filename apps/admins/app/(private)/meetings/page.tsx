@@ -1,22 +1,24 @@
 'use client';
 
-import { useQuery } from 'convex/react';
-import { useParams } from '@/hooks/use-params';
-import { HeadsetIcon, SearchIcon, TrashIcon, XIcon } from 'lucide-react';
-import { MeetingsTable } from '@/components/meetings/meetings-table';
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
-import { Card, CardHeader, CardTitle } from '@workspace/ui/components/card';
-import { StarredsTable } from '@/components/meetings/starreds-table';
-import { CreateDialog } from '@/components/meetings/create-dialog';
-import { Skeleton } from '@workspace/ui/components/skeleton';
-import { Calendar } from '@workspace/ui/components/calendar';
-import { CircleLoader } from '@workspace/ui/custom/loaders';
-import { Button } from '@workspace/ui/components/button';
-import { api } from '@workspace/backend/_generated/api';
 import { useAuth } from '@clerk/nextjs';
+import { useQuery } from 'convex/react';
 import { format } from 'date-fns';
+import { HeadsetIcon, SearchIcon, TrashIcon, XIcon } from 'lucide-react';
+
+import { api } from '@workspace/backend/_generated/api';
+import { Button } from '@workspace/ui/components/button';
+import { Calendar } from '@workspace/ui/components/calendar';
+import { Card, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
+import { Skeleton } from '@workspace/ui/components/skeleton';
+import { CircleLoader } from '@workspace/ui/custom/loaders';
+
+import { CreateDialog } from '@/components/meetings/create-dialog';
+import { MeetingsTable } from '@/components/meetings/meetings-table';
+import { StarredsTable } from '@/components/meetings/starreds-table';
+import { useParams } from '@/hooks/use-params';
 
 export default function Page() {
   const { isLoaded } = useAuth();
@@ -35,11 +37,12 @@ export default function Page() {
   }
 
   const starredMeetings = meetings?.filter((meeting) => meeting.starred);
-
-  const filteredMeetings = meetings
-    ?.filter((meeting) => searchFilter === '' || meeting.name.toLowerCase().includes(searchFilter.toLowerCase()) || meeting.note.toLowerCase().includes(searchFilter.toLowerCase()) || meeting._id.toLowerCase().includes(searchFilter.toLowerCase()) || meeting.organizer.toLowerCase().includes(searchFilter.toLowerCase()))
-    .filter((meeting) => (effectiveStatusFilter === 'all' ? true : meeting.status.includes(effectiveStatusFilter)))
-    .filter((meeting) => !dateFilter || format(new Date(meeting.start), 'yyyy-MM-dd') === dateFilter);
+  const filteredMeetings = meetings?.filter((meeting) => {
+    const matchesSearch = searchFilter === '' || meeting.name.toLowerCase().includes(searchFilter.toLowerCase()) || meeting.note.toLowerCase().includes(searchFilter.toLowerCase()) || meeting._id.toLowerCase().includes(searchFilter.toLowerCase()) || meeting.organizer.toLowerCase().includes(searchFilter.toLowerCase());
+    const matchesStatus = effectiveStatusFilter === 'all' || meeting.status.includes(effectiveStatusFilter);
+    const matchesDate = !dateFilter || format(new Date(meeting.start), 'yyyy-MM-dd') === dateFilter;
+    return matchesSearch && matchesStatus && matchesDate;
+  });
 
   return (
     <main className="flex w-full overflow-hidden">
@@ -102,7 +105,7 @@ export default function Page() {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="all">All Meetings</SelectItem>
+                <SelectItem value="all">Unfiltered</SelectItem>
                 <SelectItem value="scheduled">Scheduled</SelectItem>
                 <SelectItem value="ongoing">Ongoing</SelectItem>
                 <SelectItem value="finished">Finished</SelectItem>

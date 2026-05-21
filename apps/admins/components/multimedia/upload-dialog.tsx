@@ -1,16 +1,19 @@
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
-import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
-import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
-import { FileDropzone } from '@workspace/ui/custom/file-dropzone';
-import { Loader2Icon, PlusIcon, TrashIcon } from 'lucide-react';
-import type { ButtonVariant } from '@workspace/ui/types/button';
-import { Button } from '@workspace/ui/components/button';
-import { api } from '@workspace/backend/_generated/api';
-import { useDropzone } from 'react-dropzone';
-import { cn } from '@workspace/ui/lib/utils';
-import { useMutation } from 'convex/react';
 import { useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+
+import { useMutation } from 'convex/react';
+import { Loader2Icon, PlusIcon, TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
+
+import { api } from '@workspace/backend/_generated/api';
+import { Button } from '@workspace/ui/components/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
+import { FileDropzone } from '@workspace/ui/custom/file-dropzone';
+import { cn } from '@workspace/ui/lib/utils';
+import type { ButtonVariant } from '@workspace/ui/types/button';
+
+import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
+import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
 
 const validTypes = ['image', 'video', 'pdf', 'audio'];
 

@@ -1,9 +1,11 @@
 'use client';
 
+import type { ComponentProps } from 'react';
+
+import { BookIcon, ChevronDownIcon } from 'lucide-react';
+
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@workspace/ui/components/collapsible';
 import { cn } from '@workspace/ui/lib/utils';
-import { BookIcon, ChevronDownIcon } from 'lucide-react';
-import type { ComponentProps } from 'react';
 
 export type SourcesProps = ComponentProps<'div'>;
 

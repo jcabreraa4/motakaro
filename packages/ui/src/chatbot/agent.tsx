@@ -1,13 +1,15 @@
 'use client';
 
+import type { ComponentProps } from 'react';
+import { memo } from 'react';
+
+import type { Tool } from 'ai';
+import { BotIcon } from 'lucide-react';
+
+import { CodeBlock } from '@workspace/ui/chatbot/code-block';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@workspace/ui/components/accordion';
 import { Badge } from '@workspace/ui/components/badge';
 import { cn } from '@workspace/ui/lib/utils';
-import type { Tool } from 'ai';
-import { BotIcon } from 'lucide-react';
-import type { ComponentProps } from 'react';
-import { memo } from 'react';
-import { CodeBlock } from '@workspace/ui/chatbot/code-block';
 
 export type AgentProps = ComponentProps<'div'>;
 

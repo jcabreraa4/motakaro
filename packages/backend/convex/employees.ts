@@ -1,6 +1,7 @@
-import { internalMutation, mutation, query } from './_generated/server';
-import type { Id } from './_generated/dataModel';
 import { ConvexError, v } from 'convex/values';
+
+import type { Id } from './_generated/dataModel';
+import { internalMutation, mutation, query } from './_generated/server';
 import { verifyAdminAuth } from './auth';
 
 // Admins Functions
@@ -109,7 +110,7 @@ export const internalUpsert = internalMutation({
       await ctx.db.patch(employee._id, args);
     } else {
       // Create Employee
-      await ctx.db.insert('employees', args);
+      await ctx.db.insert('employees', { ...args, onboarded: false });
     }
   }
 });

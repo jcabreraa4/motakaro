@@ -1,13 +1,16 @@
-import { type LucideIcon, CopyIcon, DownloadIcon, ExpandIcon, PenIcon, StarIcon, TrashIcon } from 'lucide-react';
-import { UpdateDialog } from '@/components/multimedia/update-dialog';
-import { RemoveDialog } from '@/components/multimedia/remove-dialog';
+import { useRouter } from 'next/navigation';
+
+import { useMutation } from 'convex/react';
+import { CopyIcon, DownloadIcon, ExpandIcon, type LucideIcon, PenIcon, StarIcon, TrashIcon } from 'lucide-react';
+import { toast } from 'sonner';
+
+import { api } from '@workspace/backend/_generated/api';
 import type { MediaFile } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
-import { api } from '@workspace/backend/_generated/api';
+
+import { RemoveDialog } from '@/components/multimedia/remove-dialog';
+import { UpdateDialog } from '@/components/multimedia/update-dialog';
 import { copyText } from '@/utils/copy-text';
-import { useRouter } from 'next/navigation';
-import { useMutation } from 'convex/react';
-import { toast } from 'sonner';
 
 async function mediaDownload(url: string, name: string) {
   const toastId = toast.loading('Preparing the download of the file...');

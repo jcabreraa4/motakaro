@@ -2,6 +2,7 @@
   "name": "motakaro",
   "version": "0.0.1",
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
     "convex": "^1.35.1",

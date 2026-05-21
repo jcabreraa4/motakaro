@@ -1,7 +1,9 @@
-import { ResourcePage } from '@/components/resources/resources-page';
-import { api } from '@workspace/backend/_generated/api';
-import { preloadQuery } from 'convex/nextjs';
 import { auth } from '@clerk/nextjs/server';
+import { preloadQuery } from 'convex/nextjs';
+
+import { api } from '@workspace/backend/_generated/api';
+
+import { ResourcePage } from '@/components/resources/resources-page';
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   // Obtain Id

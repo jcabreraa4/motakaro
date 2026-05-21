@@ -1,9 +1,10 @@
-import type { ToolParts, MeetingsListPart, MeetingsGetPart, ContactsListPart, ContactsGetPart, CompaniesListPart, CompaniesGetPart, DocumentsListPart, DocumentsGetPart, WhiteboardsListPart, WhiteboardsGetPart, MultimediaListPart, MultimediaGetPart, ResourcesListPart, ResourcesGetPart } from '@/app/api/chatbot/tools';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@workspace/ui/components/carousel';
-import { Tool, ToolContent, ToolHeader, ToolInput, ToolOutput } from '@workspace/ui/chatbot/tool';
-import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
-import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
 import { CodeBlock } from '@workspace/ui/chatbot/code-block';
+import { Tool, ToolContent, ToolHeader, ToolInput, ToolOutput } from '@workspace/ui/chatbot/tool';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@workspace/ui/components/carousel';
+
+import type { CompaniesGetPart, CompaniesListPart, ContactsGetPart, ContactsListPart, DocumentsGetPart, DocumentsListPart, MeetingsGetPart, MeetingsListPart, MultimediaGetPart, MultimediaListPart, ResourcesGetPart, ResourcesListPart, ToolParts, WhiteboardsGetPart, WhiteboardsListPart } from '@/app/api/chatbot/tools';
+import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
+import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
 
 interface ToolCodeBlockProps {
   part: ToolParts;

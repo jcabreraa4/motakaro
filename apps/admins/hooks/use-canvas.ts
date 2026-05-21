@@ -1,12 +1,15 @@
 'use client';
 
 import { useCallback, useEffect, useRef } from 'react';
-import { Canvas as FabricCanvas, Ellipse, IText, PencilBrush, Rect } from 'fabric';
-import type { Whiteboard } from '@workspace/backend/schema';
+
+import { useMutation } from 'convex/react';
+import { Ellipse, Canvas as FabricCanvas, IText, PencilBrush, Rect } from 'fabric';
+
 import { api } from '@workspace/backend/_generated/api';
+import type { Whiteboard } from '@workspace/backend/schema';
+
 import { useCanvasStore } from '@/store/canvas-store';
 import { useMainStore } from '@/store/main-store';
-import { useMutation } from 'convex/react';
 
 const SAVE_DELAY_MS = 1500;
 const MAX_HISTORY = 50;

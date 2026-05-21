@@ -1,7 +1,9 @@
 'use client';
-import { cn } from '@workspace/ui/lib/utils';
-import { useEffect, useState, type CSSProperties } from 'react';
+import { type CSSProperties, useEffect, useState } from 'react';
+
 import { motion } from 'motion/react';
+
+import { cn } from '@workspace/ui/lib/utils';
 
 interface LightRaysProps extends React.HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;

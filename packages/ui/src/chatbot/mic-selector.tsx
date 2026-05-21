@@ -1,13 +1,15 @@
 'use client';
 
+import type { ComponentProps, ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { ChevronsUpDownIcon } from 'lucide-react';
+
 import { Button } from '@workspace/ui/components/button';
 import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from '@workspace/ui/components/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@workspace/ui/components/popover';
 import { cn } from '@workspace/ui/lib/utils';
-import { ChevronsUpDownIcon } from 'lucide-react';
-import type { ComponentProps, ReactNode } from 'react';
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 const deviceIdRegex = /\(([\da-fA-F]{4}:[\da-fA-F]{4})\)$/;
 

@@ -1,11 +1,13 @@
 'use client';
 
+import type { ComponentProps, HTMLAttributes } from 'react';
+import { createContext, useContext, useMemo } from 'react';
+
+import { CheckCircle2Icon, ChevronRightIcon, CircleDotIcon, CircleIcon, XCircleIcon } from 'lucide-react';
+
 import { Badge } from '@workspace/ui/components/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@workspace/ui/components/collapsible';
 import { cn } from '@workspace/ui/lib/utils';
-import { CheckCircle2Icon, ChevronRightIcon, CircleDotIcon, CircleIcon, XCircleIcon } from 'lucide-react';
-import type { ComponentProps, HTMLAttributes } from 'react';
-import { createContext, useContext, useMemo } from 'react';
 
 type TestStatus = 'passed' | 'failed' | 'skipped' | 'running';
 

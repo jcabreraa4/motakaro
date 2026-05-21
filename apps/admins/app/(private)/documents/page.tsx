@@ -1,15 +1,17 @@
 'use client';
 
+import { useAuth } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
-import { useParams } from '@/hooks/use-params';
 import { FileTextIcon, SearchIcon, XIcon } from 'lucide-react';
-import { CreateButton } from '@/components/documents/create-button';
-import { DocumentsTable } from '@/components/documents/documents-table';
+
+import { api } from '@workspace/backend/_generated/api';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
-import { api } from '@workspace/backend/_generated/api';
-import { useAuth } from '@clerk/nextjs';
+
+import { CreateButton } from '@/components/documents/create-button';
+import { DocumentsTable } from '@/components/documents/documents-table';
+import { useParams } from '@/hooks/use-params';
 
 export default function Page() {
   const { isLoaded } = useAuth();

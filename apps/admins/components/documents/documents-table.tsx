@@ -1,15 +1,18 @@
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
-import { ExternalLinkIcon, FilePenIcon, FileTextIcon, MoreHorizontalIcon, StarIcon, StarOffIcon, TrashIcon } from 'lucide-react';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table';
-import { UpdateDialog } from '@/components/documents/update-dialog';
-import { RemoveDialog } from '@/components/documents/remove-dialog';
-import type { Document } from '@workspace/backend/schema';
-import { Button } from '@workspace/ui/components/button';
-import { api } from '@workspace/backend/_generated/api';
 import { useRouter } from 'next/navigation';
+
 import { useMutation } from 'convex/react';
 import { format } from 'date-fns';
+import { ExternalLinkIcon, FilePenIcon, FileTextIcon, MoreHorizontalIcon, StarIcon, StarOffIcon, TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
+
+import { api } from '@workspace/backend/_generated/api';
+import type { Document } from '@workspace/backend/schema';
+import { Button } from '@workspace/ui/components/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table';
+
+import { RemoveDialog } from '@/components/documents/remove-dialog';
+import { UpdateDialog } from '@/components/documents/update-dialog';
 
 function DocumentRow({ document }: { document: Document }) {
   const router = useRouter();

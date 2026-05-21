@@ -1,12 +1,14 @@
-import { BoldIcon, ItalicIcon, PrinterIcon, Redo2Icon, RemoveFormattingIcon, UnderlineIcon, Undo2Icon, DownloadIcon, FileBracesCorner, FileCodeCorner, FilePenIcon, FileTextIcon, GlobeIcon, StrikethroughIcon, TextIcon, TrashIcon } from 'lucide-react';
-import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger } from '@workspace/ui/components/menubar';
-import { UpdateDialog } from '@/components/documents/update-dialog';
-import { RemoveDialog } from '@/components/documents/remove-dialog';
+import { BoldIcon, DownloadIcon, FileBracesCorner, FileCodeCorner, FilePenIcon, FileTextIcon, GlobeIcon, ItalicIcon, PrinterIcon, Redo2Icon, RemoveFormattingIcon, StrikethroughIcon, TextIcon, TrashIcon, UnderlineIcon, Undo2Icon } from 'lucide-react';
+import { toast } from 'sonner';
+
 import type { Document } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
-import { useEditorStore } from '@/store/editor-store';
+import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger } from '@workspace/ui/components/menubar';
 import { cn } from '@workspace/ui/lib/utils';
-import { toast } from 'sonner';
+
+import { RemoveDialog } from '@/components/documents/remove-dialog';
+import { UpdateDialog } from '@/components/documents/update-dialog';
+import { useEditorStore } from '@/store/editor-store';
 
 interface MobileToolbarProps {
   document: Document;

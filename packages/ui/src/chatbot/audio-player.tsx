@@ -1,11 +1,13 @@
 'use client';
 
+import type { CSSProperties, ComponentProps } from 'react';
+
+import type { Experimental_SpeechResult as SpeechResult } from 'ai';
+import { MediaControlBar, MediaController, MediaDurationDisplay, MediaMuteButton, MediaPlayButton, MediaSeekBackwardButton, MediaSeekForwardButton, MediaTimeDisplay, MediaTimeRange, MediaVolumeRange } from 'media-chrome/react';
+
 import { Button } from '@workspace/ui/components/button';
 import { ButtonGroup, ButtonGroupText } from '@workspace/ui/components/button-group';
 import { cn } from '@workspace/ui/lib/utils';
-import type { Experimental_SpeechResult as SpeechResult } from 'ai';
-import { MediaControlBar, MediaController, MediaDurationDisplay, MediaMuteButton, MediaPlayButton, MediaSeekBackwardButton, MediaSeekForwardButton, MediaTimeDisplay, MediaTimeRange, MediaVolumeRange } from 'media-chrome/react';
-import type { ComponentProps, CSSProperties } from 'react';
 
 export type AudioPlayerProps = Omit<ComponentProps<typeof MediaController>, 'audio'>;
 

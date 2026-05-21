@@ -1,11 +1,13 @@
 'use client';
 
+import type { ComponentProps } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+
+import { MicIcon, SquareIcon } from 'lucide-react';
+
 import { Button } from '@workspace/ui/components/button';
 import { Spinner } from '@workspace/ui/components/spinner';
 import { cn } from '@workspace/ui/lib/utils';
-import { MicIcon, SquareIcon } from 'lucide-react';
-import type { ComponentProps } from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface SpeechRecognition extends EventTarget {
   continuous: boolean;

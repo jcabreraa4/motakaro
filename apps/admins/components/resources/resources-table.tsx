@@ -1,9 +1,10 @@
+import type { Resource } from '@workspace/backend/schema';
+import { cn } from '@workspace/ui/lib/utils';
+
+import { ResourcesInfo } from '@/components/resources/resources-info';
 import { ResourcesPreview } from '@/components/resources/resources-preview';
 import { ResourcesToolbar } from '@/components/resources/resources-toolbar';
-import { ResourcesInfo } from '@/components/resources/resources-info';
-import type { Resource } from '@workspace/backend/schema';
 import { useMainStore } from '@/store/main-store';
-import { cn } from '@workspace/ui/lib/utils';
 
 export function ResourcesTable({ resources }: { resources: Resource[] }) {
   const showChatbot = useMainStore((state) => state.showChatbot);

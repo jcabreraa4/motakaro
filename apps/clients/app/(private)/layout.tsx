@@ -1,8 +1,10 @@
-import { SidebarInset, SidebarProvider } from '@workspace/ui/components/sidebar';
-import { AppSidebar } from '@/components/layout/app-sidebar';
-import { AppHeader } from '@/components/layout/app-header';
 import { cookies } from 'next/headers';
 import { Suspense } from 'react';
+
+import { SidebarInset, SidebarProvider } from '@workspace/ui/components/sidebar';
+
+import { AppHeader } from '@/components/layout/app-header';
+import { AppSidebar } from '@/components/layout/app-sidebar';
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();

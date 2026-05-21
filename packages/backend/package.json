@@ -3,7 +3,8 @@
   "type": "module",
   "scripts": {
     "dev": "convex dev",
-    "setup": "convex dev --until-success"
+    "setup": "convex dev --until-success",
+    "format": "prettier --write \"**/*.{ts,tsx}\""
   },
   "exports": {
     "./convex": "./convex/*.ts"

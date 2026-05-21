@@ -1,14 +1,17 @@
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
-import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
-import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
-import { FileDropzone } from '@workspace/ui/custom/file-dropzone';
-import { Loader2Icon, PlusIcon, TrashIcon } from 'lucide-react';
-import { ButtonVariant } from '@workspace/ui/types/button';
-import { Button } from '@workspace/ui/components/button';
-import { useDropzone } from 'react-dropzone';
-import { cn } from '@workspace/ui/lib/utils';
 import { useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+
+import { Loader2Icon, PlusIcon, TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
+
+import { Button } from '@workspace/ui/components/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
+import { FileDropzone } from '@workspace/ui/custom/file-dropzone';
+import { cn } from '@workspace/ui/lib/utils';
+import { ButtonVariant } from '@workspace/ui/types/button';
+
+import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
+import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
 
 interface VectorizeDialogProps {
   variant?: ButtonVariant;

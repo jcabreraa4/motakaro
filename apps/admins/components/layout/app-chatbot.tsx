@@ -1,22 +1,25 @@
 'use client';
 
-import { useState } from 'react';
-import { useChat } from '@ai-sdk/react';
-import { cn } from '@workspace/ui/lib/utils';
-import { useMainStore } from '@/store/main-store';
-import { lastAssistantMessageIsCompleteWithToolCalls } from 'ai';
-import { type ModelId, defaultModel } from '@/lib/chatbot/models';
-import { ChatbotMessages } from '@/components/chatbot/chatbot-messages';
-import { ChatbotAttachments } from '@/components/chatbot/chatbot-attachments';
-import { ChatbotSuggestions } from '@/components/chatbot/chatbot-suggestions';
-import { ChatbotInput } from '@/components/chatbot/chatbot-input';
-import { api } from '@workspace/backend/_generated/api';
-import { ChatMessage } from '@/app/api/chatbot/tools';
-import { usePathname } from '@/hooks/use-pathname';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+import { useChat } from '@ai-sdk/react';
+import { useAuth } from '@clerk/nextjs';
+import { lastAssistantMessageIsCompleteWithToolCalls } from 'ai';
 import { DefaultChatTransport } from 'ai';
 import { useQuery } from 'convex/react';
-import { useAuth } from '@clerk/nextjs';
+
+import { api } from '@workspace/backend/_generated/api';
+import { cn } from '@workspace/ui/lib/utils';
+
+import { ChatMessage } from '@/app/api/chatbot/tools';
+import { ChatbotAttachments } from '@/components/chatbot/chatbot-attachments';
+import { ChatbotInput } from '@/components/chatbot/chatbot-input';
+import { ChatbotMessages } from '@/components/chatbot/chatbot-messages';
+import { ChatbotSuggestions } from '@/components/chatbot/chatbot-suggestions';
+import { usePathname } from '@/hooks/use-pathname';
+import { type ModelId, defaultModel } from '@/lib/chatbot/models';
+import { useMainStore } from '@/store/main-store';
 
 export function AppChatbot() {
   const router = useRouter();

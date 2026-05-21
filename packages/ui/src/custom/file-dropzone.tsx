@@ -1,6 +1,8 @@
 import { DropzoneInputProps, DropzoneRootProps } from 'react-dropzone';
-import { cn } from '@workspace/ui/lib/utils';
+
 import { UploadCloud } from 'lucide-react';
+
+import { cn } from '@workspace/ui/lib/utils';
 
 interface FileDropzoneProps {
   getRootProps: (props?: DropzoneRootProps) => DropzoneRootProps;

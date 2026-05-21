@@ -1,10 +1,12 @@
 'use client';
 
-import { cn } from '@workspace/ui/lib/utils';
-import type { MotionProps } from 'motion/react';
-import { motion } from 'motion/react';
 import type { CSSProperties, ElementType, JSX } from 'react';
 import { memo, useMemo } from 'react';
+
+import type { MotionProps } from 'motion/react';
+import { motion } from 'motion/react';
+
+import { cn } from '@workspace/ui/lib/utils';
 
 type MotionHTMLProps = MotionProps & Record<string, unknown>;
 

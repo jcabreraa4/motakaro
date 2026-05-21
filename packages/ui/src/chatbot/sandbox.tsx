@@ -1,12 +1,14 @@
 'use client';
 
+import type { ComponentProps } from 'react';
+
+import type { ToolUIPart } from 'ai';
+import { ChevronDownIcon, Code } from 'lucide-react';
+
+import { getStatusBadge } from '@workspace/ui/chatbot/tool';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@workspace/ui/components/collapsible';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@workspace/ui/components/tabs';
 import { cn } from '@workspace/ui/lib/utils';
-import type { ToolUIPart } from 'ai';
-import { ChevronDownIcon, Code } from 'lucide-react';
-import type { ComponentProps } from 'react';
-import { getStatusBadge } from '@workspace/ui/chatbot/tool';
 
 export type SandboxRootProps = ComponentProps<typeof Collapsible>;
 

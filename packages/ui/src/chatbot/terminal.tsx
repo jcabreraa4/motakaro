@@ -1,11 +1,13 @@
 'use client';
 
-import { Button } from '@workspace/ui/components/button';
-import { cn } from '@workspace/ui/lib/utils';
-import Ansi from 'ansi-to-react';
-import { CheckIcon, CopyIcon, TerminalIcon, Trash2Icon } from 'lucide-react';
 import type { ComponentProps, HTMLAttributes } from 'react';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+
+import Ansi from 'ansi-to-react';
+import { CheckIcon, CopyIcon, TerminalIcon, Trash2Icon } from 'lucide-react';
+
+import { Button } from '@workspace/ui/components/button';
+import { cn } from '@workspace/ui/lib/utils';
 
 interface TerminalContextType {
   output: string;

@@ -1,13 +1,15 @@
 'use client';
 
-import { flushSync } from 'react-dom';
-import { MoonIcon, SunIcon } from 'lucide-react';
-import { ButtonSize, ButtonVariant } from '@workspace/ui/types/button';
-import { DropdownMenuItem } from '@workspace/ui/components/dropdown-menu';
-import { Button } from '@workspace/ui/components/button';
-import { cn } from '@workspace/ui/lib/utils';
 import { useTheme } from 'next-themes';
 import { useRef } from 'react';
+import { flushSync } from 'react-dom';
+
+import { MoonIcon, SunIcon } from 'lucide-react';
+
+import { Button } from '@workspace/ui/components/button';
+import { DropdownMenuItem } from '@workspace/ui/components/dropdown-menu';
+import { cn } from '@workspace/ui/lib/utils';
+import { ButtonSize, ButtonVariant } from '@workspace/ui/types/button';
 
 interface SquareThemeButtonProps {
   size?: ButtonSize;

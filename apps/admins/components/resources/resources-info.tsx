@@ -1,4 +1,5 @@
 import { GlobeIcon, GlobeOffIcon } from 'lucide-react';
+
 import { cn } from '@workspace/ui/lib/utils';
 
 interface ResourceInfoProps {
@@ -14,7 +15,7 @@ export function ResourcesInfo({ name, published, className }: ResourceInfoProps)
         <div className="min-w-8">{published ? <GlobeIcon /> : <GlobeOffIcon />}</div>
         <p className="truncate text-lg font-semibold">{name || 'Untitled Resource'}</p>
       </div>
-      <p className="truncate text-sm text-gray-500">{published ? "It's Published" : 'Not Published'}</p>
+      <p className="truncate text-sm text-gray-500">{!published && 'Not'} Published</p>
     </div>
   );
 }

@@ -1,15 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Button } from '@workspace/ui/components/button';
-import { useClerk, useOrganizationList, useSession } from '@clerk/nextjs';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
-import { CircleLoader } from '@workspace/ui/custom/loaders';
-import { Label } from '@workspace/ui/components/label';
-import { BuildingIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+import { useClerk, useOrganizationList, useSession } from '@clerk/nextjs';
+import { BuildingIcon } from 'lucide-react';
 import { toast } from 'sonner';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
+import { Button } from '@workspace/ui/components/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import { Label } from '@workspace/ui/components/label';
+import { CircleLoader } from '@workspace/ui/custom/loaders';
 
 // Env Variables
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;

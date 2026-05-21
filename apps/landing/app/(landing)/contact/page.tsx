@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+
 import Cal, { getCalApi } from '@calcom/embed-react';
 
 export default function Page() {

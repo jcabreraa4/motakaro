@@ -1,15 +1,18 @@
 'use client';
 
+import { useTheme } from 'next-themes';
+
+import { useClerk } from '@clerk/nextjs';
+import { dark } from '@clerk/themes';
 import { BuildingIcon, ChevronsUpDown, CircleUserIcon, LogOutIcon, UserRoundIcon } from 'lucide-react';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@workspace/ui/components/sidebar';
-import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { DropdownThemeButton } from '@workspace/ui/custom/theme-buttons';
-import { usePresence } from '@/hooks/use-presence';
 import { cn } from '@workspace/ui/lib/utils';
-import { useClerk } from '@clerk/nextjs';
-import { useTheme } from 'next-themes';
-import { dark } from '@clerk/themes';
+
+import { usePresence } from '@/hooks/use-presence';
 
 interface UserDataProps {
   name: string;

@@ -1,11 +1,13 @@
 'use client';
 
-import { cn } from '@workspace/ui/lib/utils';
-import { AlertCircle } from 'lucide-react';
 import type { ComponentProps, ReactNode } from 'react';
 import { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { TProps as JsxParserProps } from 'react-jsx-parser';
 import JsxParser from 'react-jsx-parser';
+
+import { AlertCircle } from 'lucide-react';
+
+import { cn } from '@workspace/ui/lib/utils';
 
 interface JSXPreviewContextValue {
   jsx: string;

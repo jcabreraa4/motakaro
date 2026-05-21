@@ -1,10 +1,12 @@
-import { type UIMessage, streamText, convertToModelMessages, stepCountIs } from 'ai';
-import { tools } from '@/app/api/chatbot/tools';
-import { models } from '@/lib/chatbot/models';
-import { auth } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
+
 import { mistral } from '@ai-sdk/mistral';
 import { openai } from '@ai-sdk/openai';
+import { auth } from '@clerk/nextjs/server';
+import { type UIMessage, convertToModelMessages, stepCountIs, streamText } from 'ai';
+
+import { tools } from '@/app/api/chatbot/tools';
+import { models } from '@/lib/chatbot/models';
 
 interface RequestProps {
   model: string;

@@ -1,11 +1,13 @@
 'use client';
 
+import type { ComponentProps, HTMLAttributes } from 'react';
+import { createContext, useContext, useMemo } from 'react';
+
+import { ChevronRightIcon } from 'lucide-react';
+
 import { Badge } from '@workspace/ui/components/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@workspace/ui/components/collapsible';
 import { cn } from '@workspace/ui/lib/utils';
-import { ChevronRightIcon } from 'lucide-react';
-import type { ComponentProps, HTMLAttributes } from 'react';
-import { createContext, useContext, useMemo } from 'react';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 

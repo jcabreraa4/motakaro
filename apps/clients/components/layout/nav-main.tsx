@@ -1,10 +1,13 @@
 'use client';
 
-import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
-import { type LucideIcon, LayoutDashboardIcon, MessageSquareIcon, ImageIcon, HeadsetIcon } from 'lucide-react';
-import { usePathname } from '@/hooks/use-pathname';
-import { cn } from '@workspace/ui/lib/utils';
 import Link from 'next/link';
+
+import { HeadsetIcon, ImageIcon, LayoutDashboardIcon, type LucideIcon, MessageSquareIcon } from 'lucide-react';
+
+import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
+import { cn } from '@workspace/ui/lib/utils';
+
+import { usePathname } from '@/hooks/use-pathname';
 
 type Section = {
   title: string;

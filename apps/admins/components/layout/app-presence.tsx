@@ -1,12 +1,14 @@
 'use client';
 
 import { useAuth } from '@clerk/nextjs';
-import { usePresence } from '@/hooks/use-presence';
+import { useQuery } from 'convex/react';
+
 import { api } from '@workspace/backend/_generated/api';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip';
 import { cn } from '@workspace/ui/lib/utils';
-import { useQuery } from 'convex/react';
+
+import { usePresence } from '@/hooks/use-presence';
 
 export function AppPresence({ className }: { className?: string }) {
   usePresence();

@@ -1,7 +1,9 @@
 'use client';
 
-import { motion } from 'motion/react';
 import { ComponentPropsWithoutRef, useCallback, useEffect, useId, useRef, useState } from 'react';
+
+import { motion } from 'motion/react';
+
 import { cn } from '@workspace/ui/lib/utils';
 
 export interface GridPatternProps extends ComponentPropsWithoutRef<'svg'> {

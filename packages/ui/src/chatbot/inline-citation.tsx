@@ -1,13 +1,15 @@
 'use client';
 
+import type { ComponentProps } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+
+import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
+
 import { Badge } from '@workspace/ui/components/badge';
 import type { CarouselApi } from '@workspace/ui/components/carousel';
 import { Carousel, CarouselContent, CarouselItem } from '@workspace/ui/components/carousel';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@workspace/ui/components/hover-card';
 import { cn } from '@workspace/ui/lib/utils';
-import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
-import type { ComponentProps } from 'react';
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 export type InlineCitationProps = ComponentProps<'span'>;
 

@@ -1,16 +1,18 @@
 'use client';
 
+import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
-import { BuildingIcon, ChevronsUpDown } from 'lucide-react';
+
 import { useClerk, useOrganization, useOrganizationList } from '@clerk/nextjs';
+import { dark } from '@clerk/themes';
+import { BuildingIcon, ChevronsUpDown } from 'lucide-react';
+import { toast } from 'sonner';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@workspace/ui/components/sidebar';
-import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Skeleton } from '@workspace/ui/components/skeleton';
 import { cn } from '@workspace/ui/lib/utils';
-import { useTheme } from 'next-themes';
-import { dark } from '@clerk/themes';
-import { toast } from 'sonner';
 
 function TeamSkeleton() {
   return (

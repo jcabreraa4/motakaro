@@ -1,18 +1,21 @@
 'use client';
 
-import { useEffect } from 'react';
-import { FileTextIcon } from 'lucide-react';
-import { api } from '@workspace/backend/_generated/api';
-import { DesktopToolbar } from '@/components/documents/desktop-toolbar';
-import { MobileToolbar } from '@/components/documents/mobile-toolbar';
-import { CircleLoader } from '@workspace/ui/custom/loaders';
-import { Button } from '@workspace/ui/components/button';
-import { useMainStore } from '@/store/main-store';
-import { useEditor } from '@/hooks/use-editor';
-import { Preloaded } from 'convex/react';
-import { useAuth } from '@clerk/nextjs';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { useEffect } from 'react';
+
+import { useAuth } from '@clerk/nextjs';
+import { Preloaded } from 'convex/react';
+import { FileTextIcon } from 'lucide-react';
+
+import { api } from '@workspace/backend/_generated/api';
+import { Button } from '@workspace/ui/components/button';
+import { CircleLoader } from '@workspace/ui/custom/loaders';
+
+import { DesktopToolbar } from '@/components/documents/desktop-toolbar';
+import { MobileToolbar } from '@/components/documents/mobile-toolbar';
+import { useEditor } from '@/hooks/use-editor';
+import { useMainStore } from '@/store/main-store';
 
 const DocumentsPaper = dynamic(() => import('@/components/documents/documents-paper').then((m) => ({ default: m.DocumentsPaper })), { ssr: false });
 

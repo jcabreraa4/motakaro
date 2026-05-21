@@ -1,15 +1,18 @@
-import { type LucideIcon, AlignCenterIcon, AlignJustifyIcon, AlignLeftIcon, AlignRightIcon, BoldIcon, ChevronDownIcon, HighlighterIcon, ImageIcon, ItalicIcon, Link2Icon, ListCollapseIcon, ListIcon, ListOrderedIcon, ListTodoIcon, MinusIcon, PlusIcon, Redo2Icon, RemoveFormattingIcon, SearchIcon, SpellCheckIcon, UnderlineIcon, Undo2Icon, UploadIcon, DownloadIcon, FileBracesCorner, FileCodeCorner, FileTextIcon, GlobeIcon, TableIcon } from 'lucide-react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
-import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from '@workspace/ui/components/menubar';
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@workspace/ui/components/dialog';
-import { type ColorResult, CirclePicker } from 'react-color';
+import { useState } from 'react';
+import { CirclePicker, type ColorResult } from 'react-color';
+
+import { AlignCenterIcon, AlignJustifyIcon, AlignLeftIcon, AlignRightIcon, BoldIcon, ChevronDownIcon, DownloadIcon, FileBracesCorner, FileCodeCorner, FileTextIcon, GlobeIcon, HighlighterIcon, ImageIcon, ItalicIcon, Link2Icon, ListCollapseIcon, ListIcon, ListOrderedIcon, ListTodoIcon, type LucideIcon, MinusIcon, PlusIcon, Redo2Icon, RemoveFormattingIcon, SearchIcon, SpellCheckIcon, TableIcon, UnderlineIcon, Undo2Icon, UploadIcon } from 'lucide-react';
+import { toast } from 'sonner';
+
 import type { Document } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@workspace/ui/components/dialog';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 import { Input } from '@workspace/ui/components/input';
-import { useEditorStore } from '@/store/editor-store';
+import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from '@workspace/ui/components/menubar';
 import { cn } from '@workspace/ui/lib/utils';
-import { useState } from 'react';
-import { toast } from 'sonner';
+
+import { useEditorStore } from '@/store/editor-store';
 
 interface ToolbarButtonProps {
   onClick?: () => void;

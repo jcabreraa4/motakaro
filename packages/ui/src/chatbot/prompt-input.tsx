@@ -1,5 +1,12 @@
 'use client';
 
+import type { ChangeEvent, ChangeEventHandler, ClipboardEventHandler, ComponentProps, FormEvent, FormEventHandler, HTMLAttributes, KeyboardEventHandler, PropsWithChildren, ReactNode, RefObject } from 'react';
+import { Children, createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+
+import type { ChatStatus, FileUIPart, SourceDocumentUIPart } from 'ai';
+import { CornerDownLeftIcon, ImageIcon, Monitor, PlusIcon, SquareIcon, XIcon } from 'lucide-react';
+import { nanoid } from 'nanoid';
+
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from '@workspace/ui/components/command';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@workspace/ui/components/hover-card';
@@ -8,11 +15,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Spinner } from '@workspace/ui/components/spinner';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip';
 import { cn } from '@workspace/ui/lib/utils';
-import type { ChatStatus, FileUIPart, SourceDocumentUIPart } from 'ai';
-import { CornerDownLeftIcon, ImageIcon, Monitor, PlusIcon, SquareIcon, XIcon } from 'lucide-react';
-import { nanoid } from 'nanoid';
-import type { ChangeEvent, ChangeEventHandler, ClipboardEventHandler, ComponentProps, FormEvent, FormEventHandler, HTMLAttributes, KeyboardEventHandler, PropsWithChildren, ReactNode, RefObject } from 'react';
-import { Children, createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 // ============================================================================
 // Helpers

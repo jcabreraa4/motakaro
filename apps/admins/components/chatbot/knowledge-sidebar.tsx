@@ -1,18 +1,21 @@
+import { useEffect, useState } from 'react';
+
+import { useAuth, useUser } from '@clerk/nextjs';
+import { useMutation, useQuery } from 'convex/react';
+import { FileAxis3DIcon, SaveIcon } from 'lucide-react';
+import { toast } from 'sonner';
+
+import { api } from '@workspace/backend/_generated/api';
+import { Button } from '@workspace/ui/components/button';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
-import { EmbeddingsTable } from '@/components/chatbot/embeddings-table';
-import { VectorizeDialog } from '@/components/chatbot/vectorize-dialog';
+import { Label } from '@workspace/ui/components/label';
 import { Separator } from '@workspace/ui/components/separator';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
-import { Button } from '@workspace/ui/components/button';
-import { FileAxis3DIcon, SaveIcon } from 'lucide-react';
-import { api } from '@workspace/backend/_generated/api';
-import { Label } from '@workspace/ui/components/label';
-import { useMutation, useQuery } from 'convex/react';
-import { useAuth, useUser } from '@clerk/nextjs';
 import { cn } from '@workspace/ui/lib/utils';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+
+import { EmbeddingsTable } from '@/components/chatbot/embeddings-table';
+import { VectorizeDialog } from '@/components/chatbot/vectorize-dialog';
 
 export function KnowledgeSidebar({ className }: { className?: string }) {
   const { user } = useUser();

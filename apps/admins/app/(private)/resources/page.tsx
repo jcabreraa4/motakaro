@@ -1,16 +1,18 @@
 'use client';
 
+import { useAuth } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
-import { useParams } from '@/hooks/use-params';
 import { ListVideoIcon, SearchIcon, XIcon } from 'lucide-react';
-import { CreateDialog } from '@/components/resources/create-dialog';
-import { ResourcesTable } from '@/components/resources/resources-table';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
+
+import { api } from '@workspace/backend/_generated/api';
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
-import { api } from '@workspace/backend/_generated/api';
-import { useAuth } from '@clerk/nextjs';
+
+import { CreateDialog } from '@/components/resources/create-dialog';
+import { ResourcesTable } from '@/components/resources/resources-table';
+import { useParams } from '@/hooks/use-params';
 
 export default function Page() {
   const { isLoaded } = useAuth();
@@ -20,7 +22,11 @@ export default function Page() {
   const effectiveStatusFilter = statusFilter || 'all';
 
   const resources = useQuery(api.resources.list, isLoaded ? {} : 'skip');
-  const filteredResources = resources?.filter((resource) => searchFilter === '' || resource.name.toLowerCase().includes(searchFilter.toLowerCase()) || resource.note.toLowerCase().includes(searchFilter.toLowerCase()) || resource._id.toLowerCase().includes(searchFilter.toLowerCase()) || resource.link.toLowerCase().includes(searchFilter.toLowerCase())).filter((resource) => (effectiveStatusFilter === 'all' ? true : resource.published === (effectiveStatusFilter === 'true')));
+  const filteredResources = resources?.filter((resource) => {
+    const matchesSearch = searchFilter === '' || resource.name.toLowerCase().includes(searchFilter.toLowerCase()) || resource.note.toLowerCase().includes(searchFilter.toLowerCase()) || resource._id.toLowerCase().includes(searchFilter.toLowerCase()) || resource.link.toLowerCase().includes(searchFilter.toLowerCase());
+    const matchesStatus = effectiveStatusFilter === 'all' || resource.published === (effectiveStatusFilter === 'true');
+    return matchesSearch && matchesStatus;
+  });
 
   return (
     <main className="flex w-full flex-col gap-3 overflow-hidden p-3 lg:gap-5 lg:p-5">
@@ -37,8 +43,8 @@ export default function Page() {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value="all">All Resources</SelectItem>
-              <SelectItem value="true">It&apos;s Published</SelectItem>
+              <SelectItem value="all">Unfiltered</SelectItem>
+              <SelectItem value="true">Published</SelectItem>
               <SelectItem value="false">Not Published</SelectItem>
             </SelectGroup>
           </SelectContent>

@@ -1,17 +1,20 @@
-import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
-import { SaveIcon, RotateCcwIcon, LinkIcon } from 'lucide-react';
-import { Textarea } from '@workspace/ui/components/textarea';
+import { useState } from 'react';
+
+import { useMutation } from 'convex/react';
+import { LinkIcon, RotateCcwIcon, SaveIcon } from 'lucide-react';
+import { toast } from 'sonner';
+
+import { api } from '@workspace/backend/_generated/api';
 import type { MediaFile } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
-import { api } from '@workspace/backend/_generated/api';
 import { Input } from '@workspace/ui/components/input';
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Label } from '@workspace/ui/components/label';
-import { copyText } from '@/utils/copy-text';
+import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
+import { Textarea } from '@workspace/ui/components/textarea';
 import { cn } from '@workspace/ui/lib/utils';
-import { useMutation } from 'convex/react';
-import { useState } from 'react';
-import { toast } from 'sonner';
+
+import { copyText } from '@/utils/copy-text';
 
 interface UpdateDialogProps {
   file: MediaFile;

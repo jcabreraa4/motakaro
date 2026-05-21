@@ -1,13 +1,15 @@
 'use client';
 
+import type { ComponentProps, ReactNode } from 'react';
+import { isValidElement } from 'react';
+
+import type { DynamicToolUIPart, ToolUIPart } from 'ai';
+import { CheckCircleIcon, ChevronDownIcon, CircleIcon, ClockIcon, WrenchIcon, XCircleIcon } from 'lucide-react';
+
+import { CodeBlock } from '@workspace/ui/chatbot/code-block';
 import { Badge } from '@workspace/ui/components/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@workspace/ui/components/collapsible';
 import { cn } from '@workspace/ui/lib/utils';
-import type { DynamicToolUIPart, ToolUIPart } from 'ai';
-import { CheckCircleIcon, ChevronDownIcon, CircleIcon, ClockIcon, WrenchIcon, XCircleIcon } from 'lucide-react';
-import type { ComponentProps, ReactNode } from 'react';
-import { isValidElement } from 'react';
-import { CodeBlock } from '@workspace/ui/chatbot/code-block';
 
 export type ToolProps = ComponentProps<typeof Collapsible>;
 

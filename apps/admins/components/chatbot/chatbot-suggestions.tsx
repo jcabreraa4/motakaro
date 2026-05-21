@@ -1,4 +1,5 @@
 import { Suggestion, Suggestions } from '@workspace/ui/chatbot/suggestion';
+
 import { suggestions } from '@/lib/chatbot/suggestions';
 
 interface ChatbotSuggestionsProps {

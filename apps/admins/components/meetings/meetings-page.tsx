@@ -1,14 +1,17 @@
 'use client';
 
-import { useEffect } from 'react';
-import { api } from '@workspace/backend/_generated/api';
-import { Preloaded, usePreloadedQuery } from 'convex/react';
-import { CircleLoader } from '@workspace/ui/custom/loaders';
-import { Button } from '@workspace/ui/components/button';
-import { useMainStore } from '@/store/main-store';
-import { HeadsetIcon } from 'lucide-react';
-import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
+import { useEffect } from 'react';
+
+import { useAuth } from '@clerk/nextjs';
+import { Preloaded, usePreloadedQuery } from 'convex/react';
+import { HeadsetIcon } from 'lucide-react';
+
+import { api } from '@workspace/backend/_generated/api';
+import { Button } from '@workspace/ui/components/button';
+import { CircleLoader } from '@workspace/ui/custom/loaders';
+
+import { useMainStore } from '@/store/main-store';
 
 interface MeetingsPageProps {
   preloaded: Preloaded<typeof api.meetings.get>;

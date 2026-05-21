@@ -1,12 +1,13 @@
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table';
-import { Button } from '@workspace/ui/components/button';
-import { api } from '@workspace/backend/_generated/api';
-import { Label } from '@workspace/ui/components/label';
-import { Embedding } from '@workspace/backend/schema';
-import { PenIcon, TrashIcon } from 'lucide-react';
 import { useMutation } from 'convex/react';
+import { PenIcon, TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
+
+import { api } from '@workspace/backend/_generated/api';
+import { Embedding } from '@workspace/backend/schema';
+import { Button } from '@workspace/ui/components/button';
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
+import { Label } from '@workspace/ui/components/label';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table';
 
 export function EmbeddingsTable({ embeddings }: { embeddings: Embedding[] }) {
   const deleteEmbedding = useMutation(api.embeddings.remove);

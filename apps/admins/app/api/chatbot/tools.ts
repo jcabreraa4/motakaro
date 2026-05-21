@@ -1,11 +1,13 @@
-import type { ToolUIPart, InferUITools, UIDataTypes, UIMessage } from 'ai';
-import { tiptapToMarkdown } from '@/lib/documents/tiptap-to-markdown';
-import type { Id } from '@workspace/backend/_generated/dataModel';
-import { api } from '@workspace/backend/_generated/api';
-import { ConvexHttpClient } from 'convex/browser';
 import { auth } from '@clerk/nextjs/server';
+import type { InferUITools, ToolUIPart, UIDataTypes, UIMessage } from 'ai';
 import { tool } from 'ai';
+import { ConvexHttpClient } from 'convex/browser';
 import { z } from 'zod';
+
+import { api } from '@workspace/backend/_generated/api';
+import type { Id } from '@workspace/backend/_generated/dataModel';
+
+import { tiptapToMarkdown } from '@/lib/documents/tiptap-to-markdown';
 
 const client = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 

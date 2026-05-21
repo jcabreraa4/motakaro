@@ -1,10 +1,11 @@
 'use client';
 
 import { useQuery } from 'convex/react';
-import { Skeleton } from '@workspace/ui/components/skeleton';
-import { VideoDialog } from '@workspace/ui/magicui/video-dialog';
+
 import { api } from '@workspace/backend/_generated/api';
+import { Skeleton } from '@workspace/ui/components/skeleton';
 import { cn } from '@workspace/ui/lib/utils';
+import { VideoDialog } from '@workspace/ui/magicui/video-dialog';
 
 export default function Page() {
   const resources = useQuery(api.resources.list, { filter: 'published' });

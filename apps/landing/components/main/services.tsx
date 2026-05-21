@@ -1,9 +1,11 @@
-import { Card, CardHeader, CardDescription, CardFooter, CardTitle } from '@workspace/ui/components/card';
 import { type LucideIcon, MegaphoneIcon, SearchIcon, TrendingUpIcon, VideoIcon } from 'lucide-react';
-import { ActionButton } from '@/components/motakaro/action-button';
-import { WordRotate } from '@workspace/ui/magicui/word-rotate';
-import { DotPattern } from '@workspace/ui/magicui/dot-pattern';
+
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { BoxReveal } from '@workspace/ui/magicui/box-reveal';
+import { DotPattern } from '@workspace/ui/magicui/dot-pattern';
+import { WordRotate } from '@workspace/ui/magicui/word-rotate';
+
+import { ActionButton } from '@/components/motakaro/action-button';
 
 type Section = {
   name: string;

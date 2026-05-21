@@ -1,14 +1,46 @@
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+import { useAuth } from '@clerk/nextjs';
+import { useMutation, useQuery } from 'convex/react';
+import { BellIcon, TriangleAlertIcon } from 'lucide-react';
+
+import { api } from '@workspace/backend/_generated/api';
+import type { Notification } from '@workspace/backend/schema';
+import { Button } from '@workspace/ui/components/button';
 import { Popover, PopoverContent, PopoverHeader, PopoverTitle, PopoverTrigger } from '@workspace/ui/components/popover';
 import { Separator } from '@workspace/ui/components/separator';
-import { BellIcon, TriangleAlertIcon } from 'lucide-react';
 import { Spinner } from '@workspace/ui/components/spinner';
-import { Button } from '@workspace/ui/components/button';
-import { api } from '@workspace/backend/_generated/api';
 import { cn } from '@workspace/ui/lib/utils';
-import { useQuery } from 'convex/react';
-import { useAuth } from '@clerk/nextjs';
-import { useState } from 'react';
-import Link from 'next/link';
+
+function Notification({ notification }: { notification: Notification }) {
+  const router = useRouter();
+
+  const updateNotification = useMutation(api.notifications.clientsUpdate);
+
+  function handleUpdate() {
+    if (notification.read) {
+      router.push(`/notifications?search=${notification._id}`);
+    } else {
+      updateNotification({ id: notification._id, read: true });
+    }
+  }
+
+  return (
+    <div
+      onClick={handleUpdate}
+      className={cn('relative flex cursor-pointer flex-col gap-1 border-t p-4', notification.starred && 'bg-primary text-white dark:text-black', !notification.read && (notification.starred ? 'hover:bg-primary/90' : 'hover:bg-secondary'))}
+    >
+      {!notification.read && <span className="absolute top-2 right-2 size-2 rounded-full bg-red-600" />}
+      <div className="flex items-center gap-2">
+        {notification.starred && <TriangleAlertIcon className="size-5 min-w-5 text-yellow-500" />}
+        <p className="truncate font-semibold">{notification.name}</p>
+      </div>
+      <p className="truncate">{notification.content}</p>
+    </div>
+  );
+}
 
 export function NotificationsPopover() {
   const { isLoaded } = useAuth();
@@ -16,6 +48,7 @@ export function NotificationsPopover() {
   const [open, setOpen] = useState(false);
 
   const notifications = useQuery(api.notifications.clientsList, isLoaded ? { limit: 8 } : 'skip');
+  const hasUnread = notifications?.some((notification) => notification.read === false);
 
   return (
     <Popover
@@ -26,9 +59,10 @@ export function NotificationsPopover() {
         <Button
           size="icon-sm"
           variant="ghost"
-          className={cn('cursor-pointer bg-transparent! text-zinc-500 hover:bg-transparent! dark:text-zinc-400 dark:hover:text-white', open && 'dark:text-white')}
+          className={cn('relative cursor-pointer bg-transparent! text-zinc-500 hover:bg-transparent! dark:text-zinc-400 dark:hover:text-white', open && 'dark:text-white')}
         >
           <BellIcon className="size-5" />
+          {hasUnread && <span className="absolute top-0 right-0 size-2 rounded-full bg-primary" />}
         </Button>
       </PopoverTrigger>
       <PopoverContent
@@ -60,23 +94,12 @@ export function NotificationsPopover() {
             <p>There are no notifications!</p>
           </div>
         ) : (
-          <div className="flex max-h-77 min-h-0 flex-1 cursor-pointer flex-col overflow-y-auto rounded-b-lg select-none">
+          <div className="flex max-h-77 min-h-0 flex-1 flex-col overflow-y-auto rounded-b-lg select-none">
             {notifications?.map((notification) => (
-              <Link
+              <Notification
                 key={notification._id}
-                href={`/notifications?search=${notification._id}`}
-              >
-                <div
-                  onClick={() => setOpen(false)}
-                  className={cn('flex flex-col gap-1 border-t p-4', notification.starred ? 'bg-primary text-white hover:bg-primary/90 dark:text-black' : 'hover:bg-secondary')}
-                >
-                  <div className="flex items-center gap-2">
-                    {notification.starred && <TriangleAlertIcon className="size-5 text-yellow-500" />}
-                    <p className="truncate font-semibold">{notification.name}</p>
-                  </div>
-                  <p className="truncate">{notification.content}</p>
-                </div>
-              </Link>
+                notification={notification}
+              />
             ))}
           </div>
         )}

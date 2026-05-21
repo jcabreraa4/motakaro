@@ -1,9 +1,11 @@
-import { PromptInput, PromptInputBody, PromptInputButton, PromptInputFooter, PromptInputSubmit, PromptInputTextarea, PromptInputTools } from '@workspace/ui/chatbot/prompt-input';
-import { ChatbotDialog } from '@/components/chatbot/chatbot-dialog';
-import { PaperclipIcon, RotateCcwIcon } from 'lucide-react';
-import { type ModelId } from '@/lib/chatbot/models';
-import { cn } from '@workspace/ui/lib/utils';
 import { ChatStatus } from 'ai';
+import { PaperclipIcon, RotateCcwIcon } from 'lucide-react';
+
+import { PromptInput, PromptInputBody, PromptInputButton, PromptInputFooter, PromptInputSubmit, PromptInputTextarea, PromptInputTools } from '@workspace/ui/chatbot/prompt-input';
+import { cn } from '@workspace/ui/lib/utils';
+
+import { ChatbotDialog } from '@/components/chatbot/chatbot-dialog';
+import { type ModelId } from '@/lib/chatbot/models';
 
 interface ChatbotInputProps {
   model: ModelId;

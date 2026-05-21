@@ -1,11 +1,13 @@
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
-import type { Id } from '@workspace/backend/_generated/dataModel';
-import { Button } from '@workspace/ui/components/button';
-import { api } from '@workspace/backend/_generated/api';
+import { useState } from 'react';
+
 import { useMutation } from 'convex/react';
 import { TrashIcon } from 'lucide-react';
-import { useState } from 'react';
 import { toast } from 'sonner';
+
+import { api } from '@workspace/backend/_generated/api';
+import type { Id } from '@workspace/backend/_generated/dataModel';
+import { Button } from '@workspace/ui/components/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
 
 interface RemoveDialogProps {
   id: Id<'multimedia'>;

@@ -1,10 +1,12 @@
 'use client';
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@workspace/ui/components/collapsible';
-import { cn } from '@workspace/ui/lib/utils';
-import { ChevronRightIcon, FileIcon, FolderIcon, FolderOpenIcon } from 'lucide-react';
 import type { HTMLAttributes, ReactNode } from 'react';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+
+import { ChevronRightIcon, FileIcon, FolderIcon, FolderOpenIcon } from 'lucide-react';
+
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@workspace/ui/components/collapsible';
+import { cn } from '@workspace/ui/lib/utils';
 
 interface FileTreeContextType {
   expandedPaths: Set<string>;

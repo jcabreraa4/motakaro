@@ -1,10 +1,13 @@
-import { Thumbnail, ImageRender, VideoRender, AudioRender, OtherRender } from '@/components/multimedia/multimedia-render';
+import { useRouter } from 'next/navigation';
+
+import { BanIcon } from 'lucide-react';
+
 import type { Id } from '@workspace/backend/_generated/dataModel';
 import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
-import { mediaType } from '@/utils/media-type';
 import { cn } from '@workspace/ui/lib/utils';
-import { useRouter } from 'next/navigation';
-import { BanIcon } from 'lucide-react';
+
+import { AudioRender, ImageRender, OtherRender, Thumbnail, VideoRender } from '@/components/multimedia/multimedia-render';
+import { mediaType } from '@/utils/media-type';
 
 interface MultimediaPreviewProps {
   id?: Id<'multimedia'>;

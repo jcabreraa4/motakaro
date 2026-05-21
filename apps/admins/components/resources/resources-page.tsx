@@ -1,15 +1,18 @@
 'use client';
 
-import { useEffect } from 'react';
-import { Preloaded, usePreloadedQuery } from 'convex/react';
-import { Thumbnail, VideoRender } from '@/components/multimedia/multimedia-render';
-import { ListVideoIcon, TriangleAlertIcon, VideoOffIcon } from 'lucide-react';
-import { CircleLoader } from '@workspace/ui/custom/loaders';
-import { Button } from '@workspace/ui/components/button';
-import { api } from '@workspace/backend/_generated/api';
-import { useMainStore } from '@/store/main-store';
-import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
+import { useEffect } from 'react';
+
+import { useAuth } from '@clerk/nextjs';
+import { Preloaded, usePreloadedQuery } from 'convex/react';
+import { ListVideoIcon, TriangleAlertIcon, VideoOffIcon } from 'lucide-react';
+
+import { api } from '@workspace/backend/_generated/api';
+import { Button } from '@workspace/ui/components/button';
+import { CircleLoader } from '@workspace/ui/custom/loaders';
+
+import { Thumbnail, VideoRender } from '@/components/multimedia/multimedia-render';
+import { useMainStore } from '@/store/main-store';
 
 interface ResourcePageProps {
   preloaded: Preloaded<typeof api.resources.get>;

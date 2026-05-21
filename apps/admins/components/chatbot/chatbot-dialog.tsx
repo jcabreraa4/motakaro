@@ -1,8 +1,11 @@
+import { useState } from 'react';
+
+import { CheckIcon, ChevronDownIcon } from 'lucide-react';
+
 import { ModelSelector, ModelSelectorContent, ModelSelectorEmpty, ModelSelectorGroup, ModelSelectorInput, ModelSelectorItem, ModelSelectorList, ModelSelectorLogo, ModelSelectorLogoGroup, ModelSelectorName, ModelSelectorTrigger } from '@workspace/ui/chatbot/model-selector';
 import { PromptInputButton } from '@workspace/ui/chatbot/prompt-input';
-import { type ModelId, models, chefs } from '@/lib/chatbot/models';
-import { CheckIcon, ChevronDownIcon } from 'lucide-react';
-import { useState } from 'react';
+
+import { type ModelId, chefs, models } from '@/lib/chatbot/models';
 
 interface ChatbotDialogProps {
   chatModel: ModelId;

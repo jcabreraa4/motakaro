@@ -1,6 +1,7 @@
-import { renderToMarkdown } from '@tiptap/static-renderer/pm/markdown';
-import { tiptapExtensions } from '@/lib/documents/tiptap';
 import { JSONContent } from '@tiptap/core';
+import { renderToMarkdown } from '@tiptap/static-renderer/pm/markdown';
+
+import { tiptapExtensions } from '@/lib/documents/tiptap';
 
 export function tiptapToMarkdown(content: string): string {
   if (!content) return '';

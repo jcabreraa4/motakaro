@@ -1,16 +1,19 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect } from 'react';
+
+import { useAuth } from '@clerk/nextjs';
 import { Preloaded, usePreloadedQuery } from 'convex/react';
-import { AudioRender, ImageRender, OtherRender, VideoRender } from '@/components/multimedia/multimedia-render';
-import { CircleLoader } from '@workspace/ui/custom/loaders';
-import { Button } from '@workspace/ui/components/button';
+import { FileTextIcon } from 'lucide-react';
+
 import { api } from '@workspace/backend/_generated/api';
+import { Button } from '@workspace/ui/components/button';
+import { CircleLoader } from '@workspace/ui/custom/loaders';
+
+import { AudioRender, ImageRender, OtherRender, VideoRender } from '@/components/multimedia/multimedia-render';
 import { useMainStore } from '@/store/main-store';
 import { mediaType } from '@/utils/media-type';
-import { FileTextIcon } from 'lucide-react';
-import { useAuth } from '@clerk/nextjs';
-import Link from 'next/link';
 
 interface MultimediaPageProps {
   preloaded: Preloaded<typeof api.multimedia.get>;

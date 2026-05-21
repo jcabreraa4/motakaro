@@ -1,7 +1,9 @@
 'use client';
 
-import { motion } from 'motion/react';
 import React, { useEffect, useId, useRef, useState } from 'react';
+
+import { motion } from 'motion/react';
+
 import { cn } from '@workspace/ui/lib/utils';
 
 /**

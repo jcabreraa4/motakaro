@@ -1,8 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+
 import { Play, XIcon } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
+
 import { cn } from '@workspace/ui/lib/utils';
 
 type Animation = 'from-center' | 'top-to-bottom' | 'left-to-right';

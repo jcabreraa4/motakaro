@@ -1,5 +1,6 @@
 import { SquareThemeButton } from '@workspace/ui/custom/theme-buttons';
 import { LightRays } from '@workspace/ui/magicui/light-rays';
+
 import { Branding } from '@/components/motakaro/branding';
 
 export default function Layout({ children }: { children: React.ReactNode }) {

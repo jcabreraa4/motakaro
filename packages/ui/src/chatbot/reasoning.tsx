@@ -1,17 +1,19 @@
 'use client';
 
+import type { ComponentProps, ReactNode } from 'react';
+import { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@workspace/ui/components/collapsible';
-import { cn } from '@workspace/ui/lib/utils';
 import { cjk } from '@streamdown/cjk';
 import { code } from '@streamdown/code';
 import { math } from '@streamdown/math';
 import { mermaid } from '@streamdown/mermaid';
 import { BrainIcon, ChevronDownIcon } from 'lucide-react';
-import type { ComponentProps, ReactNode } from 'react';
-import { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Streamdown } from 'streamdown';
+
 import { Shimmer } from '@workspace/ui/chatbot/shimmer';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@workspace/ui/components/collapsible';
+import { cn } from '@workspace/ui/lib/utils';
 
 interface ReasoningContextValue {
   isStreaming: boolean;

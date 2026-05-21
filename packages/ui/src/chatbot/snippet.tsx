@@ -1,10 +1,12 @@
 'use client';
 
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText } from '@workspace/ui/components/input-group';
-import { cn } from '@workspace/ui/lib/utils';
-import { CheckIcon, CopyIcon } from 'lucide-react';
 import type { ComponentProps } from 'react';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+
+import { CheckIcon, CopyIcon } from 'lucide-react';
+
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText } from '@workspace/ui/components/input-group';
+import { cn } from '@workspace/ui/lib/utils';
 
 interface SnippetContextType {
   code: string;

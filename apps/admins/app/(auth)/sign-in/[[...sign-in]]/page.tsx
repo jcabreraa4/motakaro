@@ -1,20 +1,22 @@
 'use client';
 
-import { z } from 'zod';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+
+import { useAuth, useSignIn } from '@clerk/nextjs';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Field, FieldLabel, FieldError } from '@workspace/ui/components/field';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
-import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@workspace/ui/components/input-otp';
-import { Button } from '@workspace/ui/components/button';
-import { Input } from '@workspace/ui/components/input';
-import { Label } from '@workspace/ui/components/label';
-import { useSignIn, useAuth } from '@clerk/nextjs';
 import { RefreshCwIcon } from 'lucide-react';
 import { toast } from 'sonner';
-import Link from 'next/link';
+import { z } from 'zod';
+
+import { Button } from '@workspace/ui/components/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import { Field, FieldError, FieldLabel } from '@workspace/ui/components/field';
+import { Input } from '@workspace/ui/components/input';
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@workspace/ui/components/input-otp';
+import { Label } from '@workspace/ui/components/label';
 
 // Env Variables
 const pageStatus = process.env.NEXT_PUBLIC_SIGN_IN_ACTIVE!;

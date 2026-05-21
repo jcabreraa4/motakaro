@@ -1,17 +1,20 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useMainStore } from '@/store/main-store';
-import { api } from '@workspace/backend/_generated/api';
-import { Preloaded, usePreloadedQuery } from 'convex/react';
-import { WhiteboardsToolbar } from '@/components/whiteboards/whiteboards-toolbar';
-import type { Whiteboard } from '@workspace/backend/schema';
-import { CircleLoader } from '@workspace/ui/custom/loaders';
-import { Button } from '@workspace/ui/components/button';
-import { PencilRulerIcon } from 'lucide-react';
-import { useCanvas } from '@/hooks/use-canvas';
-import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
+import { useEffect } from 'react';
+
+import { useAuth } from '@clerk/nextjs';
+import { Preloaded, usePreloadedQuery } from 'convex/react';
+import { PencilRulerIcon } from 'lucide-react';
+
+import { api } from '@workspace/backend/_generated/api';
+import type { Whiteboard } from '@workspace/backend/schema';
+import { Button } from '@workspace/ui/components/button';
+import { CircleLoader } from '@workspace/ui/custom/loaders';
+
+import { WhiteboardsToolbar } from '@/components/whiteboards/whiteboards-toolbar';
+import { useCanvas } from '@/hooks/use-canvas';
+import { useMainStore } from '@/store/main-store';
 
 interface WhiteboardsPageProps {
   preloaded: Preloaded<typeof api.whiteboards.get>;

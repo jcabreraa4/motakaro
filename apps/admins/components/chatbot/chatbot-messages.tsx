@@ -1,18 +1,21 @@
-import { MeetingsList, MeetingsGet, ContactsList, ContactsGet, CompaniesList, CompaniesGet, DocumentsList, DocumentsGet, WhiteboardsList, WhiteboardsGet, MultimediaList, MultimediaGet, ResourcesList, ResourcesGet } from '@/components/chatbot/chatbot-tools';
+import { Fragment } from 'react';
+
+import { useUser } from '@clerk/nextjs';
+import { ChatStatus } from 'ai';
+import { CopyIcon, Loader2Icon, MessageSquareIcon, RefreshCcwIcon } from 'lucide-react';
+
+import { Attachment, type AttachmentData, AttachmentPreview, AttachmentRemove, Attachments } from '@workspace/ui/chatbot/attachments';
 import { Conversation, ConversationContent, ConversationEmptyState, ConversationScrollButton } from '@workspace/ui/chatbot/conversation';
-import { type AttachmentData, Attachment, AttachmentPreview, AttachmentRemove, Attachments } from '@workspace/ui/chatbot/attachments';
 import { Message, MessageAction, MessageActions, MessageContent, MessageResponse } from '@workspace/ui/chatbot/message';
 import { OpenIn, OpenInChatGPT, OpenInClaude, OpenInContent, OpenInTrigger } from '@workspace/ui/chatbot/open-in-chat';
-import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
-import { Source, Sources, SourcesContent, SourcesTrigger } from '@workspace/ui/chatbot/sources';
 import { Reasoning, ReasoningContent, ReasoningTrigger } from '@workspace/ui/chatbot/reasoning';
-import { CopyIcon, Loader2Icon, MessageSquareIcon, RefreshCcwIcon } from 'lucide-react';
-import type { ChatMessage } from '@/app/api/chatbot/tools';
-import { copyText } from '@/utils/copy-text';
+import { Source, Sources, SourcesContent, SourcesTrigger } from '@workspace/ui/chatbot/sources';
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { cn } from '@workspace/ui/lib/utils';
-import { useUser } from '@clerk/nextjs';
-import { Fragment } from 'react';
-import { ChatStatus } from 'ai';
+
+import type { ChatMessage } from '@/app/api/chatbot/tools';
+import { CompaniesGet, CompaniesList, ContactsGet, ContactsList, DocumentsGet, DocumentsList, MeetingsGet, MeetingsList, MultimediaGet, MultimediaList, ResourcesGet, ResourcesList, WhiteboardsGet, WhiteboardsList } from '@/components/chatbot/chatbot-tools';
+import { copyText } from '@/utils/copy-text';
 
 interface ChatbotMessagesProps {
   status: ChatStatus;

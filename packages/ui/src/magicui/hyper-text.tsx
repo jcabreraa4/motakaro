@@ -1,7 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useState, type ComponentType, type RefAttributes } from 'react';
-import { AnimatePresence, motion, type DOMMotionComponents, type HTMLMotionProps, type MotionProps } from 'motion/react';
+import { type ComponentType, type RefAttributes, useEffect, useRef, useState } from 'react';
+
+import { AnimatePresence, type DOMMotionComponents, type HTMLMotionProps, type MotionProps, motion } from 'motion/react';
+
 import { cn } from '@workspace/ui/lib/utils';
 
 type CharacterSet = string[] | readonly string[];

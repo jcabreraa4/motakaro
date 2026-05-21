@@ -1,13 +1,15 @@
 'use client';
 
+import type { ComponentProps } from 'react';
+import { createContext, useContext, useMemo } from 'react';
+
+import type { LanguageModelUsage } from 'ai';
+import { getUsage } from 'tokenlens';
+
 import { Button } from '@workspace/ui/components/button';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@workspace/ui/components/hover-card';
 import { Progress } from '@workspace/ui/components/progress';
 import { cn } from '@workspace/ui/lib/utils';
-import type { LanguageModelUsage } from 'ai';
-import type { ComponentProps } from 'react';
-import { createContext, useContext, useMemo } from 'react';
-import { getUsage } from 'tokenlens';
 
 const PERCENT_MAX = 100;
 const ICON_RADIUS = 10;

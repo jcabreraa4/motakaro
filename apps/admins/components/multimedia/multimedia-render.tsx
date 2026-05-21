@@ -1,8 +1,10 @@
-import { type LucideIcon, HeadphonesIcon, Loader2Icon, VideoIcon } from 'lucide-react';
-import { cn } from '@workspace/ui/lib/utils';
 import dynamic from 'next/dynamic';
-import { useState } from 'react';
 import Image from 'next/image';
+import { useState } from 'react';
+
+import { HeadphonesIcon, Loader2Icon, type LucideIcon, VideoIcon } from 'lucide-react';
+
+import { cn } from '@workspace/ui/lib/utils';
 
 const OtherMediaRender = dynamic(() => import('@/components/multimedia/other-render').then((m) => m.OtherMediaRender), { ssr: false });
 

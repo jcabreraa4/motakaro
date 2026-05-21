@@ -1,11 +1,14 @@
-import { useTiptapSync } from '@convex-dev/prosemirror-sync/tiptap';
-import type { Id } from '@workspace/backend/_generated/dataModel';
-import { tiptapExtensions } from '@/lib/documents/tiptap';
-import { useEditor, EditorContent } from '@tiptap/react';
-import { api } from '@workspace/backend/_generated/api';
-import { useEditorStore } from '@/store/editor-store';
-import { Loader2 } from 'lucide-react';
 import { useEffect } from 'react';
+
+import { useTiptapSync } from '@convex-dev/prosemirror-sync/tiptap';
+import { EditorContent, useEditor } from '@tiptap/react';
+import { Loader2 } from 'lucide-react';
+
+import { api } from '@workspace/backend/_generated/api';
+import type { Id } from '@workspace/backend/_generated/dataModel';
+
+import { tiptapExtensions } from '@/lib/documents/tiptap';
+import { useEditorStore } from '@/store/editor-store';
 
 export function DocumentsPaper({ paperId }: { paperId: Id<'documents'> }) {
   const { setEditor } = useEditorStore();

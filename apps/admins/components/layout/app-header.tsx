@@ -1,18 +1,21 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useMainStore } from '@/store/main-store';
-import { usePathname } from '@/hooks/use-pathname';
-import { Separator } from '@workspace/ui/components/separator';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
-import { NotificationsPopover } from '@/components/notifications/notifications-popover';
-import { HeaderThemeButton } from '@workspace/ui/custom/theme-buttons';
-import { SidebarTrigger } from '@workspace/ui/components/sidebar';
-import { AppPresence } from '@/components/layout/app-presence';
-import { Button } from '@workspace/ui/components/button';
-import { cn } from '@workspace/ui/lib/utils';
-import { BotIcon } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect } from 'react';
+
+import { BotIcon } from 'lucide-react';
+
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
+import { Button } from '@workspace/ui/components/button';
+import { Separator } from '@workspace/ui/components/separator';
+import { SidebarTrigger } from '@workspace/ui/components/sidebar';
+import { HeaderThemeButton } from '@workspace/ui/custom/theme-buttons';
+import { cn } from '@workspace/ui/lib/utils';
+
+import { AppPresence } from '@/components/layout/app-presence';
+import { NotificationsPopover } from '@/components/notifications/notifications-popover';
+import { usePathname } from '@/hooks/use-pathname';
+import { useMainStore } from '@/store/main-store';
 
 function capitalize(word: string) {
   return word.charAt(0).toUpperCase() + word.slice(1);

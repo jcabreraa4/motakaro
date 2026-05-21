@@ -1,8 +1,11 @@
-import { ImageRender, Thumbnail } from '@/components/multimedia/multimedia-render';
-import type { Id } from '@workspace/backend/_generated/dataModel';
-import { ImageOffIcon, TriangleAlertIcon } from 'lucide-react';
-import { cn } from '@workspace/ui/lib/utils';
 import { useRouter } from 'next/navigation';
+
+import { ImageOffIcon, TriangleAlertIcon } from 'lucide-react';
+
+import type { Id } from '@workspace/backend/_generated/dataModel';
+import { cn } from '@workspace/ui/lib/utils';
+
+import { ImageRender, Thumbnail } from '@/components/multimedia/multimedia-render';
 
 interface ResourcePreviewProps {
   id?: Id<'resources'>;

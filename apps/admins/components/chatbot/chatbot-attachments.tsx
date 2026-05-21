@@ -1,10 +1,13 @@
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@workspace/ui/components/hover-card';
-import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
+import { useState } from 'react';
+
+import { TrashIcon } from 'lucide-react';
+
 import { Suggestions } from '@workspace/ui/chatbot/suggestion';
 import { Button } from '@workspace/ui/components/button';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@workspace/ui/components/hover-card';
 import { cn } from '@workspace/ui/lib/utils';
-import { TrashIcon } from 'lucide-react';
-import { useState } from 'react';
+
+import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
 
 function Attachment({ file }: { file: File }) {
   const [open, setOpen] = useState(false);

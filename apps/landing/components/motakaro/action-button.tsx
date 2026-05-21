@@ -1,6 +1,7 @@
-import { ButtonVariant } from '@workspace/ui/types/button';
-import { Button } from '@workspace/ui/components/button';
 import Link from 'next/link';
+
+import { Button } from '@workspace/ui/components/button';
+import { ButtonVariant } from '@workspace/ui/types/button';
 
 interface ActionButtonProps {
   variant?: ButtonVariant;

@@ -1,12 +1,14 @@
 'use client';
 
+import type { ComponentProps, HTMLAttributes, ReactNode } from 'react';
+import { createContext, useCallback, useContext, useMemo } from 'react';
+
+import type { FileUIPart, SourceDocumentUIPart } from 'ai';
+import { FileTextIcon, GlobeIcon, ImageIcon, Music2Icon, PaperclipIcon, VideoIcon, XIcon } from 'lucide-react';
+
 import { Button } from '@workspace/ui/components/button';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@workspace/ui/components/hover-card';
 import { cn } from '@workspace/ui/lib/utils';
-import type { FileUIPart, SourceDocumentUIPart } from 'ai';
-import { FileTextIcon, GlobeIcon, ImageIcon, Music2Icon, PaperclipIcon, VideoIcon, XIcon } from 'lucide-react';
-import type { ComponentProps, HTMLAttributes, ReactNode } from 'react';
-import { createContext, useCallback, useContext, useMemo } from 'react';
 
 // ============================================================================
 // Types

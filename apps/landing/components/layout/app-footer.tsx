@@ -1,8 +1,10 @@
-import { DotPattern } from '@workspace/ui/magicui/dot-pattern';
-import { Branding } from '@/components/motakaro/branding';
+import Link from 'next/link';
+
 import { Button } from '@workspace/ui/components/button';
 import { cn } from '@workspace/ui/lib/utils';
-import Link from 'next/link';
+import { DotPattern } from '@workspace/ui/magicui/dot-pattern';
+
+import { Branding } from '@/components/motakaro/branding';
 
 export function AppFooter() {
   return (

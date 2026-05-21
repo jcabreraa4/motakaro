@@ -1,9 +1,10 @@
+import type { MediaFile } from '@workspace/backend/schema';
+import { cn } from '@workspace/ui/lib/utils';
+
+import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
 import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
 import { MultimediaToolbar } from '@/components/multimedia/multimedia-toolbar';
-import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
-import type { MediaFile } from '@workspace/backend/schema';
 import { useMainStore } from '@/store/main-store';
-import { cn } from '@workspace/ui/lib/utils';
 
 export function MediaTable({ multimedia }: { multimedia: MediaFile[] }) {
   const showChatbot = useMainStore((state) => state.showChatbot);

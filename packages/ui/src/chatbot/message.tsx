@@ -1,18 +1,20 @@
 'use client';
 
-import { Button } from '@workspace/ui/components/button';
-import { ButtonGroup, ButtonGroupText } from '@workspace/ui/components/button-group';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@workspace/ui/components/tooltip';
-import { cn } from '@workspace/ui/lib/utils';
+import type { ComponentProps, HTMLAttributes, ReactElement } from 'react';
+import { createContext, memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+
 import { cjk } from '@streamdown/cjk';
 import { code } from '@streamdown/code';
 import { math } from '@streamdown/math';
 import { mermaid } from '@streamdown/mermaid';
 import type { UIMessage } from 'ai';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
-import type { ComponentProps, HTMLAttributes, ReactElement } from 'react';
-import { createContext, memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Streamdown } from 'streamdown';
+
+import { Button } from '@workspace/ui/components/button';
+import { ButtonGroup, ButtonGroupText } from '@workspace/ui/components/button-group';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@workspace/ui/components/tooltip';
+import { cn } from '@workspace/ui/lib/utils';
 
 export type MessageProps = HTMLAttributes<HTMLDivElement> & {
   from: UIMessage['role'];
