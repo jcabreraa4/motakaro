@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -12,7 +11,10 @@ import { Button } from '@workspace/ui/components/button';
 import { Popover, PopoverContent, PopoverHeader, PopoverTitle, PopoverTrigger } from '@workspace/ui/components/popover';
 import { Separator } from '@workspace/ui/components/separator';
 import { Spinner } from '@workspace/ui/components/spinner';
+import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { cn } from '@workspace/ui/lib/utils';
+
+import { useMainStore } from '@/store/main-store';
 
 interface NotificationProps {
   notification: Notification;
@@ -21,9 +23,14 @@ interface NotificationProps {
 
 function Notification({ notification, setOpen }: NotificationProps) {
   const router = useRouter();
+  const isMobile = useIsMobile();
+
+  const showChatbot = useMainStore((state) => state.showChatbot);
+  const toggleChatbot = useMainStore((state) => state.toggleChatbot);
 
   function handleClick() {
     router.push(`/notifications?search=${notification._id}`);
+    if (isMobile && showChatbot) toggleChatbot();
     setOpen(false);
   }
 
@@ -43,12 +50,23 @@ function Notification({ notification, setOpen }: NotificationProps) {
 }
 
 export function NotificationsPopover() {
+  const router = useRouter();
+  const isMobile = useIsMobile();
   const { isLoaded } = useAuth();
 
   const [open, setOpen] = useState(false);
 
+  const showChatbot = useMainStore((state) => state.showChatbot);
+  const toggleChatbot = useMainStore((state) => state.toggleChatbot);
+
   const notifications = useQuery(api.notifications.list, isLoaded ? { limit: 8 } : 'skip');
   const hasUnread = notifications?.some((notification) => notification.read === false);
+
+  function handleClick() {
+    router.push('/notifications');
+    if (isMobile && showChatbot) toggleChatbot();
+    setOpen(false);
+  }
 
   return (
     <Popover
@@ -72,15 +90,13 @@ export function NotificationsPopover() {
         <PopoverHeader className="px-4 py-3">
           <PopoverTitle className="flex items-center justify-between select-none">
             Notifications
-            <Link href="/notifications">
-              <Button
-                variant="link"
-                className="h-fit cursor-pointer"
-                onClick={() => setOpen(false)}
-              >
-                View all
-              </Button>
-            </Link>
+            <Button
+              variant="link"
+              className="h-fit cursor-pointer"
+              onClick={handleClick}
+            >
+              View all
+            </Button>
           </PopoverTitle>
         </PopoverHeader>
         <Separator />

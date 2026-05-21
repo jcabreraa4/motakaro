@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -44,11 +43,17 @@ function Notification({ notification, setOpen }: NotificationProps) {
 
 export function NotificationsPopover() {
   const { isLoaded } = useAuth();
+  const router = useRouter();
 
   const [open, setOpen] = useState(false);
 
   const notifications = useQuery(api.notifications.clientsList, isLoaded ? { limit: 8 } : 'skip');
   const hasUnread = notifications?.some((notification) => notification.read === false);
+
+  function handleClick() {
+    router.push('/notifications');
+    setOpen(false);
+  }
 
   return (
     <Popover
@@ -72,15 +77,13 @@ export function NotificationsPopover() {
         <PopoverHeader className="px-4 py-3">
           <PopoverTitle className="flex items-center justify-between select-none">
             Notifications
-            <Link href="/notifications">
-              <Button
-                variant="link"
-                className="h-fit cursor-pointer"
-                onClick={() => setOpen(false)}
-              >
-                View all
-              </Button>
-            </Link>
+            <Button
+              variant="link"
+              className="h-fit cursor-pointer"
+              onClick={handleClick}
+            >
+              View all
+            </Button>
           </PopoverTitle>
         </PopoverHeader>
         <Separator />
