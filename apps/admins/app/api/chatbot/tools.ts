@@ -497,6 +497,74 @@ export const tools = {
     }
   }),
 
+  // Notifications Tools
+  notificationsList: tool({
+    description: `List all notifications.`,
+    inputSchema: z.object(),
+    async execute() {
+      try {
+        // Authenticate Convex
+        const { getToken } = await auth();
+        const token = await getToken({ template: 'convex' });
+        client.setAuth(token!);
+
+        // Obtain Notifications
+        const notifications = await client.query(api.notifications.list, { limit: 8 });
+
+        // Return Notifications
+        if (!notifications || notifications.length === 0) {
+          return {
+            status: 200,
+            content: 'No notifications found.'
+          };
+        }
+        return {
+          status: 200,
+          content: notifications
+        };
+      } catch (error) {
+        return {
+          status: 500,
+          message: `Error loading notifications: ${error}`
+        };
+      }
+    }
+  }),
+  notificationsGet: tool({
+    description: 'Get an specific notification.',
+    inputSchema: z.object({
+      id: z.string().describe('The ID of the notification.')
+    }),
+    async execute({ id }) {
+      try {
+        // Authenticate Convex
+        const { getToken } = await auth();
+        const token = await getToken({ template: 'convex' });
+        client.setAuth(token!);
+
+        // Obtain Notification
+        const notification = await client.query(api.notifications.get, { id: id as Id<'notifications'> });
+
+        // Return Notification
+        if (!notification) {
+          return {
+            status: 200,
+            content: 'No notification found.'
+          };
+        }
+        return {
+          status: 200,
+          content: notification
+        };
+      } catch (error) {
+        return {
+          status: 500,
+          message: `Error loading notification: ${error}`
+        };
+      }
+    }
+  }),
+
   // Other Tools
   usersRedirect: tool({
     description: 'Redirects the user to a specified URL inside the app.',
@@ -548,7 +616,11 @@ export type MultimediaGetPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-mul
 export type ResourcesListPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-resourcesList' }>;
 export type ResourcesGetPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-resourcesGet' }>;
 
+// Notifications Tools
+export type NotificationsListPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-notificationsList' }>;
+export type NotificationsGetPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-notificationsGet' }>;
+
 // Other Tools
 export type UsersRedirectPart = Extract<ToolUIPart<ChatTools>, { type: 'tool-usersRedirect' }>;
 
-export type ToolParts = MeetingsListPart | MeetingsGetPart | ContactsListPart | ContactsGetPart | CompaniesListPart | CompaniesGetPart | DocumentsListPart | DocumentsGetPart | WhiteboardsListPart | WhiteboardsGetPart | MultimediaListPart | MultimediaGetPart | ResourcesListPart | ResourcesGetPart;
+export type ToolParts = MeetingsListPart | MeetingsGetPart | ContactsListPart | ContactsGetPart | CompaniesListPart | CompaniesGetPart | DocumentsListPart | DocumentsGetPart | WhiteboardsListPart | WhiteboardsGetPart | MultimediaListPart | MultimediaGetPart | ResourcesListPart | ResourcesGetPart | NotificationsListPart | NotificationsGetPart;

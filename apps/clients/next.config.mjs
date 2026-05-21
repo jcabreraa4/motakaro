@@ -1,4 +1,5 @@
 import { withSentryConfig } from '@sentry/nextjs';
+
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
@@ -16,6 +17,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: '*.convex.cloud'
+      },
+      {
+        protocol: 'https',
+        hostname: 'motakaro.com'
       }
     ]
   }

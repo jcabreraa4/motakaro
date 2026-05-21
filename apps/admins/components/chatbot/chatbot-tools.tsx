@@ -2,7 +2,7 @@ import { CodeBlock } from '@workspace/ui/chatbot/code-block';
 import { Tool, ToolContent, ToolHeader, ToolInput, ToolOutput } from '@workspace/ui/chatbot/tool';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@workspace/ui/components/carousel';
 
-import type { CompaniesGetPart, CompaniesListPart, ContactsGetPart, ContactsListPart, DocumentsGetPart, DocumentsListPart, MeetingsGetPart, MeetingsListPart, MultimediaGetPart, MultimediaListPart, ResourcesGetPart, ResourcesListPart, ToolParts, WhiteboardsGetPart, WhiteboardsListPart } from '@/app/api/chatbot/tools';
+import type { CompaniesGetPart, CompaniesListPart, ContactsGetPart, ContactsListPart, DocumentsGetPart, DocumentsListPart, MeetingsGetPart, MeetingsListPart, MultimediaGetPart, MultimediaListPart, NotificationsGetPart, NotificationsListPart, ResourcesGetPart, ResourcesListPart, ToolParts, WhiteboardsGetPart, WhiteboardsListPart } from '@/app/api/chatbot/tools';
 import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
 import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
 
@@ -244,6 +244,30 @@ export function ResourcesGet({ part }: { part: ResourcesGetPart }) {
         input
         part={part}
         title="Get Resource"
+      />
+    </div>
+  );
+}
+
+// Notifications Tools
+export function NotificationsList({ part }: { part: NotificationsListPart }) {
+  return (
+    <div>
+      <ToolCodeBlock
+        part={part}
+        title="List Notifications"
+      />
+    </div>
+  );
+}
+
+export function NotificationsGet({ part }: { part: NotificationsGetPart }) {
+  return (
+    <div>
+      <ToolCodeBlock
+        input
+        part={part}
+        title="Get Notification"
       />
     </div>
   );

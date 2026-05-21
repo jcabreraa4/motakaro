@@ -18,13 +18,13 @@ import { useMainStore } from '@/store/main-store';
 
 function Notification({ notification }: { notification: Notification }) {
   return (
-    <div className={cn('relative flex cursor-pointer flex-col gap-1 border-t p-4 hover:bg-secondary', notification.starred && 'bg-primary text-white hover:bg-primary/85 dark:text-black')}>
+    <div className={cn('relative flex h-20 cursor-pointer flex-col justify-between border-t p-4 hover:bg-secondary', notification.starred && 'bg-primary text-white hover:bg-primary/85 dark:text-black')}>
       {!notification.read && <span className="absolute top-2 right-2 size-2 rounded-full bg-red-600" />}
       <div className="flex items-center gap-2">
         {notification.starred && <TriangleAlertIcon className="size-5 min-w-5 text-yellow-500" />}
         <p className="truncate font-semibold">{notification.name}</p>
       </div>
-      {notification.content && <p className="truncate">{notification.content}</p>}
+      <p className="truncate">{notification.content}</p>
     </div>
   );
 }
@@ -90,7 +90,7 @@ export function NotificationsPopover() {
             <p>There are no notifications!</p>
           </div>
         ) : (
-          <div className="flex max-h-77 min-h-0 flex-1 flex-col overflow-y-auto rounded-b-lg select-none">
+          <div className="flex max-h-80 min-h-0 flex-1 flex-col overflow-y-auto rounded-b-lg select-none">
             {notifications?.map((notification) => (
               <Link
                 key={notification._id}

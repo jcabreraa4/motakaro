@@ -1,5 +1,6 @@
 import { ConvexError, v } from 'convex/values';
 
+import { Id } from './_generated/dataModel';
 import { mutation, query } from './_generated/server';
 import { getClientAuth, verifyAdminAuth, verifyClientAuth } from './auth';
 
@@ -20,6 +21,23 @@ export const list = query({
       .withIndex('by_companyId', (q) => q.eq('companyId', args.companyId))
       .order('desc');
     return args.limit ? await query.take(args.limit) : await query.collect();
+  }
+});
+
+export const get = query({
+  args: {
+    id: v.string()
+  },
+  handler: async (ctx, args) => {
+    // Check Identity
+    await verifyAdminAuth(ctx);
+
+    try {
+      // Return Notification
+      return await ctx.db.get(args.id as Id<'notifications'>);
+    } catch {
+      return null;
+    }
   }
 });
 

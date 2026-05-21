@@ -14,7 +14,7 @@ import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@w
 import { cn } from '@workspace/ui/lib/utils';
 
 import type { ChatMessage } from '@/app/api/chatbot/tools';
-import { CompaniesGet, CompaniesList, ContactsGet, ContactsList, DocumentsGet, DocumentsList, MeetingsGet, MeetingsList, MultimediaGet, MultimediaList, ResourcesGet, ResourcesList, WhiteboardsGet, WhiteboardsList } from '@/components/chatbot/chatbot-tools';
+import { CompaniesGet, CompaniesList, ContactsGet, ContactsList, DocumentsGet, DocumentsList, MeetingsGet, MeetingsList, MultimediaGet, MultimediaList, NotificationsGet, NotificationsList, ResourcesGet, ResourcesList, WhiteboardsGet, WhiteboardsList } from '@/components/chatbot/chatbot-tools';
 import { copyText } from '@/utils/copy-text';
 
 interface ChatbotMessagesProps {
@@ -245,6 +245,22 @@ export function ChatbotMessages({ status, messages, lastInput, regenerate }: Cha
                 } else if (part.type === 'tool-resourcesGet') {
                   return (
                     <ResourcesGet
+                      key={`${message.id}-${partIndex}`}
+                      part={part}
+                    />
+                  );
+
+                  // Notifications Tools
+                } else if (part.type === 'tool-notificationsList') {
+                  return (
+                    <NotificationsList
+                      key={`${message.id}-${partIndex}`}
+                      part={part}
+                    />
+                  );
+                } else if (part.type === 'tool-notificationsGet') {
+                  return (
+                    <NotificationsGet
                       key={`${message.id}-${partIndex}`}
                       part={part}
                     />
