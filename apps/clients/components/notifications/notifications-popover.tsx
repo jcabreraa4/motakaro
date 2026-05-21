@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { useAuth } from '@clerk/nextjs';
@@ -13,18 +14,31 @@ import { Separator } from '@workspace/ui/components/separator';
 import { Spinner } from '@workspace/ui/components/spinner';
 import { cn } from '@workspace/ui/lib/utils';
 
-function Notification({ notification }: { notification: Notification }) {
+interface NotificationProps {
+  notification: Notification;
+  setOpen: (open: boolean) => void;
+}
+
+function Notification({ notification, setOpen }: NotificationProps) {
+  const router = useRouter();
+
+  function handleClick() {
+    router.push(`/notifications?search=${notification._id}`);
+    setOpen(false);
+  }
+
   return (
-    <Link href={`/notifications?search=${notification._id}`}>
-      <div className={cn('relative flex cursor-pointer flex-col gap-1 border-t p-4 hover:bg-secondary', notification.starred && 'bg-primary text-white hover:bg-primary/85 dark:text-black')}>
-        {!notification.read && <span className="absolute top-2 right-2 size-2 rounded-full bg-red-600" />}
-        <div className="flex items-center gap-2">
-          {notification.starred && <TriangleAlertIcon className="size-5 min-w-5 text-yellow-500" />}
-          <p className="truncate font-semibold">{notification.name}</p>
-        </div>
-        <p className="truncate">{notification.content}</p>
+    <div
+      onClick={handleClick}
+      className={cn('relative flex cursor-pointer flex-col gap-1 border-t p-4 hover:bg-secondary', notification.starred && 'bg-primary text-white hover:bg-primary/85 dark:text-black')}
+    >
+      {!notification.read && <span className="absolute top-2 right-2 size-2 rounded-full bg-red-600" />}
+      <div className="flex items-center gap-2">
+        {notification.starred && <TriangleAlertIcon className="size-5 min-w-5 text-yellow-500" />}
+        <p className="truncate font-semibold">{notification.name}</p>
       </div>
-    </Link>
+      {notification.content && <p className="truncate">{notification.content}</p>}
+    </div>
   );
 }
 
@@ -85,6 +99,7 @@ export function NotificationsPopover() {
               <Notification
                 key={notification._id}
                 notification={notification}
+                setOpen={setOpen}
               />
             ))}
           </div>
