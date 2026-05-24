@@ -2,7 +2,7 @@ import { ConvexError, v } from 'convex/values';
 
 import type { Id } from './_generated/dataModel';
 import { internalMutation, mutation, query } from './_generated/server';
-import { verifyAdminAuth, verifyClientAuth } from './auth';
+import { getClientAuth, verifyAdminAuth, verifyClientAuth } from './auth';
 
 // Admins Functions
 
@@ -34,7 +34,8 @@ export const list = query({
 
 export const get = query({
   args: {
-    id: v.string()
+    id: v.optional(v.string()),
+    clerkId: v.optional(v.string())
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -42,7 +43,14 @@ export const get = query({
 
     try {
       // Return Contact
-      return await ctx.db.get(args.id as Id<'contacts'>);
+      if (args.id) {
+        return await ctx.db.get(args.id as Id<'contacts'>);
+      } else if (args.clerkId) {
+        return await ctx.db
+          .query('contacts')
+          .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId!))
+          .first();
+      }
     } catch {
       return null;
     }
@@ -50,6 +58,24 @@ export const get = query({
 });
 
 // Clients Functions
+
+export const clientsGet = query({
+  handler: async (ctx) => {
+    // Check Identity
+    const identity = await getClientAuth(ctx);
+    if (!identity) return null;
+
+    try {
+      // Return Contact
+      return await ctx.db
+        .query('contacts')
+        .withIndex('by_clerkId', (q) => q.eq('clerkId', identity.subject))
+        .first();
+    } catch {
+      return null;
+    }
+  }
+});
 
 export const clientsUpdate = mutation({
   handler: async (ctx) => {
@@ -64,7 +90,7 @@ export const clientsUpdate = mutation({
     if (!contact) throw new ConvexError('Contact not found');
 
     // Update Contact
-    if (contact) await ctx.db.patch(contact._id, { seen: Date.now() });
+    await ctx.db.patch(contact._id, { seen: Date.now() });
   }
 });
 
@@ -106,6 +132,13 @@ export const internalRemove = internalMutation({
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
     if (!contact) throw new ConvexError('Contact not found');
+
+    // Remove Memberships
+    const memberships = await ctx.db
+      .query('memberships')
+      .withIndex('by_contactId', (q) => q.eq('contactId', contact._id))
+      .collect();
+    await Promise.all(memberships.map((m) => ctx.db.delete(m._id)));
 
     // Remove Contact
     await ctx.db.delete(contact._id);

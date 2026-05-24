@@ -7,7 +7,6 @@ import { flushSync } from 'react-dom';
 import { MoonIcon, SunIcon } from 'lucide-react';
 
 import { Button } from '@workspace/ui/components/button';
-import { DropdownMenuItem } from '@workspace/ui/components/dropdown-menu';
 import { cn } from '@workspace/ui/lib/utils';
 import { ButtonSize, ButtonVariant } from '@workspace/ui/types/button';
 
@@ -70,22 +69,6 @@ export function RectangleThemeButton({ variant = 'outline', className }: Rectang
       <span className="hidden dark:block">Light Mode</span>
       <span className="dark:hidden">Dark Mode</span>
     </Button>
-  );
-}
-
-export function DropdownThemeButton({ className }: { className?: string }) {
-  const { setTheme, theme } = useTheme();
-
-  return (
-    <DropdownMenuItem
-      className={cn('cursor-pointer', className)}
-      onClick={() => setTheme(theme == 'light' ? 'dark' : 'light')}
-    >
-      <SunIcon className="hidden dark:block" />
-      <MoonIcon className="dark:hidden" />
-      <span className="hidden dark:block">Light Mode</span>
-      <span className="dark:hidden">Dark Mode</span>
-    </DropdownMenuItem>
   );
 }
 

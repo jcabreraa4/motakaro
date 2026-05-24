@@ -5,9 +5,12 @@ import { useEffect, useState } from 'react';
 
 import { useClerk, useOrganization, useOrganizationList } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
+import { useQuery } from 'convex/react';
 import { BuildingIcon, ChevronsUpDown } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { api } from '@workspace/backend/_generated/api';
+import { Company } from '@workspace/backend/schema';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@workspace/ui/components/sidebar';
@@ -37,7 +40,7 @@ function TeamSkeleton() {
 interface TeamDataProps {
   name: string;
   plan?: string;
-  logo: string;
+  logo?: string;
   className?: string;
 }
 
@@ -55,123 +58,112 @@ function TeamData({ name, plan, logo, className }: TeamDataProps) {
       </Avatar>
       <div className={cn('grid flex-1 text-left text-sm leading-tight', className)}>
         <span className="truncate font-medium">{name}</span>
-        {plan && <span className="truncate text-xs">{plan}</span>}
+        {plan && <span className="truncate text-xs capitalize">{plan}</span>}
       </div>
     </>
   );
 }
 
-type Team = {
-  id: string;
-  name: string;
-  logo: string;
-  plan?: string;
-};
-
-interface NavTeamProps {
-  teams: Team[];
-}
-
-export function NavTeam({ teams }: NavTeamProps) {
+export function NavTeam() {
   const { isMobile } = useSidebar();
   const { setActive } = useOrganizationList();
   const { organization } = useOrganization();
   const { openOrganizationProfile } = useClerk();
   const { theme } = useTheme();
 
-  const firstTeam = teams[0];
-  const [activeTeam, setActiveTeam] = useState<Team | null>(null);
+  const companies = useQuery(api.companies.clientsList);
+
+  const [activeCompany, setActiveCompany] = useState<Company | null>(null);
 
   useEffect(() => {
-    if (organization?.id) {
-      const match = teams.find((team) => team.id === organization.id);
-      setActiveTeam(match ?? teams[0] ?? null);
+    if (organization?.id && companies && companies[0]) {
+      const active = companies.find((company) => company.clerkId === organization.id);
+      if (active) setActiveCompany(active);
     }
-  }, [organization?.id, teams]);
+  }, [organization?.id, companies, setActive]);
 
-  async function handleSwitch(team: Team) {
-    setActiveTeam(team);
+  async function handleSwitch(company: Company) {
+    setActiveCompany(company);
     if (setActive) {
-      await setActive({ organization: team.id }).finally(() => {
+      await setActive({ organization: company.clerkId }).finally(() => {
         toast.success('Organization switched successfully.');
       });
     }
   }
 
-  if (!firstTeam) return <TeamSkeleton />;
+  if (!activeCompany) return <TeamSkeleton />;
 
-  if (teams.length === 1) {
+  const otherCompanies = companies?.filter((company) => company?._id !== activeCompany._id);
+
+  if (otherCompanies && otherCompanies.length !== 0) {
     return (
       <SidebarMenu>
         <SidebarMenuItem>
-          <SidebarMenuButton
-            size="lg"
-            className="cursor-pointer data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            onClick={() =>
-              openOrganizationProfile({
-                appearance: {
-                  theme: theme === 'dark' ? dark : undefined
-                }
-              })
-            }
-          >
-            <TeamData
-              name={firstTeam.name}
-              plan={firstTeam.plan}
-              logo={firstTeam.logo}
-              className="select-none"
-            />
-            <ChevronsUpDown className="ml-auto" />
-          </SidebarMenuButton>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <SidebarMenuButton
+                size="lg"
+                variant="outline"
+                className="cursor-pointer bg-sidebar data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              >
+                <TeamData
+                  name={activeCompany.name}
+                  plan={activeCompany.plan}
+                  logo={activeCompany.logo}
+                  className="select-none"
+                />
+                <ChevronsUpDown className="ml-auto" />
+              </SidebarMenuButton>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+              align="start"
+              side={isMobile ? 'bottom' : 'right'}
+              sideOffset={4}
+            >
+              <DropdownMenuLabel className="text-xs text-muted-foreground select-none">Other Organizations</DropdownMenuLabel>
+              {otherCompanies.map((company) => (
+                <DropdownMenuItem
+                  key={company._id}
+                  onClick={() => handleSwitch(company)}
+                  className="cursor-pointer gap-2 p-2"
+                >
+                  <TeamData
+                    name={company.name}
+                    plan={company.plan}
+                    logo={company.logo}
+                  />
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </SidebarMenuItem>
       </SidebarMenu>
     );
   }
 
-  if (!activeTeam) return <TeamSkeleton />;
-
-  const otherTeams = teams.filter((team) => team.id !== activeTeam.id);
-
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
-              size="lg"
-              className="cursor-pointer data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            >
-              <TeamData
-                name={activeTeam.name}
-                plan={activeTeam.plan}
-                logo={activeTeam.logo}
-                className="select-none"
-              />
-              <ChevronsUpDown className="ml-auto" />
-            </SidebarMenuButton>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            align="start"
-            side={isMobile ? 'bottom' : 'right'}
-            sideOffset={4}
-          >
-            <DropdownMenuLabel className="text-xs text-muted-foreground select-none">Other Organizations</DropdownMenuLabel>
-            {otherTeams.map((team) => (
-              <DropdownMenuItem
-                key={team.id}
-                onClick={() => handleSwitch(team)}
-                className="cursor-pointer gap-2 p-2"
-              >
-                <TeamData
-                  name={team.name}
-                  plan={team.plan}
-                  logo={team.logo}
-                />
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <SidebarMenuButton
+          size="lg"
+          className="cursor-pointer data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+          onClick={() =>
+            openOrganizationProfile({
+              appearance: {
+                theme: theme === 'dark' ? dark : undefined
+              }
+            })
+          }
+        >
+          <TeamData
+            name={activeCompany.name}
+            plan={activeCompany.plan}
+            logo={activeCompany.logo}
+            className="select-none"
+          />
+          <ChevronsUpDown className="ml-auto" />
+        </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>
   );

@@ -2,7 +2,7 @@ import { ConvexError, v } from 'convex/values';
 
 import type { Id } from './_generated/dataModel';
 import { internalMutation, query } from './_generated/server';
-import { verifyAdminAuth } from './auth';
+import { getClientAuth, verifyAdminAuth } from './auth';
 
 // Admins Functions
 
@@ -30,6 +30,33 @@ export const get = query({
     } catch {
       return null;
     }
+  }
+});
+
+// Clients Functions
+
+export const clientsList = query({
+  handler: async (ctx) => {
+    // Check Identity
+    const identity = await getClientAuth(ctx);
+    if (!identity) return null;
+
+    // Obtain Contact
+    const contact = await ctx.db
+      .query('contacts')
+      .withIndex('by_clerkId', (q) => q.eq('clerkId', identity.subject))
+      .first();
+    if (!contact) throw new ConvexError('Contact not found');
+
+    // Obtain Memberships
+    const memberships = await ctx.db
+      .query('memberships')
+      .withIndex('by_contactId', (q) => q.eq('contactId', contact._id))
+      .collect();
+
+    // Return Companies
+    const companies = await Promise.all(memberships.map((membership) => ctx.db.get(membership.companyId)));
+    return companies.filter((company) => company !== null);
   }
 });
 

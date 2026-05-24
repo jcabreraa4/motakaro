@@ -39,16 +39,21 @@ export const get = query({
   },
   handler: async (ctx, args) => {
     // Check Identity
-    await verifyAdminAuth(ctx);
+    const identity = await verifyAdminAuth(ctx);
 
     try {
+      // Return Employee
       if (args.id) {
-        // Return Employee
         return await ctx.db.get(args.id as Id<'employees'>);
       } else if (args.clerkId) {
         return await ctx.db
           .query('employees')
           .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId!))
+          .first();
+      } else {
+        return await ctx.db
+          .query('employees')
+          .withIndex('by_clerkId', (q) => q.eq('clerkId', identity.subject))
           .first();
       }
     } catch {

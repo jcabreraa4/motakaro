@@ -1,4 +1,4 @@
-import { clerkClient, currentUser } from '@clerk/nextjs/server';
+import { currentUser } from '@clerk/nextjs/server';
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from '@workspace/ui/components/sidebar';
 
@@ -8,9 +8,6 @@ import { NavUser } from '@/components/layout/nav-user';
 
 export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const user = await currentUser();
-  const client = await clerkClient();
-
-  const memberships = await client.users.getOrganizationMembershipList({ userId: user!.id });
 
   const userData = {
     name: user!.fullName || 'User',
@@ -18,35 +15,13 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
     avatar: user!.imageUrl
   };
 
-  const teamsData = await Promise.all(
-    memberships.data.map(async ({ organization }) => {
-      try {
-        const subscription = await client.billing.getOrganizationBillingSubscription(organization.id);
-        const activeItem = subscription.subscriptionItems?.find((item) => item.status === 'active');
-        return {
-          id: organization.id,
-          name: organization.name,
-          logo: organization.imageUrl,
-          plan: activeItem?.plan?.name
-        };
-      } catch {
-        return {
-          id: organization.id,
-          name: organization.name,
-          logo: organization.imageUrl,
-          plan: undefined
-        };
-      }
-    })
-  );
-
   return (
     <Sidebar
       collapsible="icon"
       {...props}
     >
       <SidebarHeader>
-        <NavTeam teams={teamsData} />
+        <NavTeam />
       </SidebarHeader>
       <SidebarContent>
         <NavMain />

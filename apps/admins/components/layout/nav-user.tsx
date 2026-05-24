@@ -3,20 +3,18 @@
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
 
-import { useClerk } from '@clerk/nextjs';
+import { useAuth, useClerk } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
-import { ChevronsUpDown, CircleUserIcon, LogOutIcon, SettingsIcon, UserRoundIcon } from 'lucide-react';
+import { useQuery } from 'convex/react';
+import { ChevronsUpDown, CircleUserIcon, LogOutIcon, MoonIcon, SettingsIcon, SunIcon, UserRoundIcon } from 'lucide-react';
 
+import { api } from '@workspace/backend/_generated/api';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@workspace/ui/components/sidebar';
-import { DropdownThemeButton } from '@workspace/ui/custom/theme-buttons';
 import { cn } from '@workspace/ui/lib/utils';
 
-interface UserDataProps {
-  name: string;
-  email: string;
-  avatar: string;
+interface UserDataProps extends NavUserProps {
   className?: string;
 }
 
@@ -47,9 +45,16 @@ interface NavUserProps {
 }
 
 export function NavUser({ name, email, avatar }: NavUserProps) {
+  const { isLoaded } = useAuth();
   const { isMobile } = useSidebar();
   const { signOut, openUserProfile } = useClerk();
-  const { theme } = useTheme();
+  const { theme, setTheme } = useTheme();
+
+  const userData = useQuery(api.employees.get, isLoaded ? {} : 'skip');
+
+  const displayName = userData ? `${userData.name} ${userData.surname}` : name;
+  const displayEmail = userData?.email ?? email;
+  const displayAvatar = userData?.avatar ?? avatar;
 
   return (
     <SidebarMenu>
@@ -58,12 +63,13 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="cursor-pointer data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              variant="outline"
+              className="cursor-pointer bg-sidebar data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <UserData
-                name={name}
-                email={email}
-                avatar={avatar}
+                name={displayName}
+                email={displayEmail}
+                avatar={displayAvatar}
                 className="select-none"
               />
               <ChevronsUpDown className="ml-auto size-4" />
@@ -78,9 +84,9 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <UserData
-                  name={name}
-                  email={email}
-                  avatar={avatar}
+                  name={displayName}
+                  email={displayEmail}
+                  avatar={displayAvatar}
                 />
               </div>
             </DropdownMenuLabel>
@@ -105,7 +111,15 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
                   Settings
                 </DropdownMenuItem>
               </Link>
-              <DropdownThemeButton />
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => setTheme(theme == 'light' ? 'dark' : 'light')}
+              >
+                <SunIcon className="hidden dark:block" />
+                <MoonIcon className="dark:hidden" />
+                <span className="hidden dark:block">Light Mode</span>
+                <span className="dark:hidden">Dark Mode</span>
+              </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem
