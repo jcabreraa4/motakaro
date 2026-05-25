@@ -28,16 +28,6 @@ const sections: Section[] = [
         icon: LayoutDashboardIcon
       },
       {
-        title: 'Analytics',
-        url: '/analytics',
-        icon: ChartColumnBigIcon
-      }
-    ]
-  },
-  {
-    title: 'Contact',
-    items: [
-      {
         title: 'Meetings',
         url: '/meetings',
         icon: HeadsetIcon
@@ -63,9 +53,14 @@ const sections: Section[] = [
         icon: Building2Icon
       },
       {
-        title: 'Payments',
-        url: '/payments',
+        title: 'Invoices',
+        url: '/invoices',
         icon: WalletIcon
+      },
+      {
+        title: 'Analytics',
+        url: '/analytics',
+        icon: ChartColumnBigIcon
       }
     ]
   },

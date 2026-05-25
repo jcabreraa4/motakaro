@@ -569,7 +569,7 @@ export const tools = {
   usersRedirect: tool({
     description: 'Redirects the user to a specified URL inside the app.',
     inputSchema: z.object({
-      section: z.enum(['/overview', '/analytics', '/meetings', '/messages', '/contacts', '/companies', '/payments', '/documents', '/whiteboards', '/multimedia', '/resources', '/notifications', '/settings']),
+      section: z.enum(['/overview', '/meetings', '/messages', '/contacts', '/companies', '/invoices', '/analytics', '/documents', '/whiteboards', '/multimedia', '/resources', '/notifications', '/settings']),
       id: z.string().optional().describe('ID for dynamic routes like /multimedia/[id] (Only avaliable for /meetings, /documents, /whiteboards, /multimedia and /resources)')
     }),
     async execute({ section, id }) {
