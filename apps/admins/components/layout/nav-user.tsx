@@ -41,7 +41,7 @@ function UserData({ name, email, avatar, className }: UserDataProps) {
 interface NavUserProps {
   name: string;
   email: string;
-  avatar: string;
+  avatar?: string;
 }
 
 export function NavUser({ name, email, avatar }: NavUserProps) {
@@ -50,11 +50,11 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
   const { signOut, openUserProfile } = useClerk();
   const { theme, setTheme } = useTheme();
 
-  const userData = useQuery(api.employees.get, isLoaded ? {} : 'skip');
+  const employee = useQuery(api.employees.get, isLoaded ? {} : 'skip');
 
-  const displayName = userData ? `${userData.name} ${userData.surname}` : name;
-  const displayEmail = userData?.email ?? email;
-  const displayAvatar = userData?.avatar ?? avatar;
+  const displayName = employee ? `${employee.name} ${employee.surname}` : name;
+  const displayEmail = employee?.email ?? email;
+  const displayAvatar = employee?.avatar ?? avatar;
 
   return (
     <SidebarMenu>

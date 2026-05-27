@@ -1,7 +1,7 @@
-import { usePathname as useSegments } from 'next/navigation';
+import { usePathname as usePath } from 'next/navigation';
 
 export function usePathname() {
-  const pathname = useSegments();
+  const pathname = usePath();
   const segments = pathname.split('/').filter(Boolean);
-  return { segments };
+  return { pathname, segments };
 }

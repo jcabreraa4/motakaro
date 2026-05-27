@@ -37,10 +37,7 @@ function TeamSkeleton() {
   );
 }
 
-interface TeamDataProps {
-  name: string;
-  plan?: string;
-  logo?: string;
+interface TeamDataProps extends TeamSettingsProps {
   className?: string;
 }
 
@@ -64,83 +61,15 @@ function TeamData({ name, plan, logo, className }: TeamDataProps) {
   );
 }
 
-export function NavTeam() {
-  const { isMobile } = useSidebar();
-  const { setActive } = useOrganizationList();
-  const { organization } = useOrganization();
-  const { openOrganizationProfile } = useClerk();
+interface TeamSettingsProps {
+  name: string;
+  plan?: string;
+  logo?: string;
+}
+
+function TeamSettings({ name, plan, logo }: TeamSettingsProps) {
   const { theme } = useTheme();
-
-  const companies = useQuery(api.companies.clientsList);
-
-  const [activeCompany, setActiveCompany] = useState<Company | null>(null);
-
-  useEffect(() => {
-    if (organization?.id && companies && companies[0]) {
-      const active = companies.find((company) => company.clerkId === organization.id);
-      if (active) setActiveCompany(active);
-    }
-  }, [organization?.id, companies, setActive]);
-
-  async function handleSwitch(company: Company) {
-    setActiveCompany(company);
-    if (setActive) {
-      await setActive({ organization: company.clerkId }).finally(() => {
-        toast.success('Organization switched successfully.');
-      });
-    }
-  }
-
-  if (!activeCompany) return <TeamSkeleton />;
-
-  const otherCompanies = companies?.filter((company) => company?._id !== activeCompany._id);
-
-  if (otherCompanies && otherCompanies.length !== 0) {
-    return (
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <SidebarMenuButton
-                size="lg"
-                variant="outline"
-                className="cursor-pointer bg-sidebar data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-              >
-                <TeamData
-                  name={activeCompany.name}
-                  plan={activeCompany.plan}
-                  logo={activeCompany.logo}
-                  className="select-none"
-                />
-                <ChevronsUpDown className="ml-auto" />
-              </SidebarMenuButton>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-              align="start"
-              side={isMobile ? 'bottom' : 'right'}
-              sideOffset={4}
-            >
-              <DropdownMenuLabel className="text-xs text-muted-foreground select-none">Other Organizations</DropdownMenuLabel>
-              {otherCompanies.map((company) => (
-                <DropdownMenuItem
-                  key={company._id}
-                  onClick={() => handleSwitch(company)}
-                  className="cursor-pointer gap-2 p-2"
-                >
-                  <TeamData
-                    name={company.name}
-                    plan={company.plan}
-                    logo={company.logo}
-                  />
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </SidebarMenuItem>
-      </SidebarMenu>
-    );
-  }
+  const { openOrganizationProfile } = useClerk();
 
   return (
     <SidebarMenu>
@@ -157,14 +86,126 @@ export function NavTeam() {
           }
         >
           <TeamData
-            name={activeCompany.name}
-            plan={activeCompany.plan}
-            logo={activeCompany.logo}
+            name={name}
+            plan={plan}
+            logo={logo}
             className="select-none"
           />
           <ChevronsUpDown className="ml-auto" />
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>
+  );
+}
+
+interface TeamSelectorProps {
+  companies: Company[];
+  activeCompany: Company;
+  setActiveCompany: (company: Company) => void;
+}
+
+function TeamSelector({ companies, activeCompany, setActiveCompany }: TeamSelectorProps) {
+  const { isMobile } = useSidebar();
+  const { setActive } = useOrganizationList();
+
+  const otherCompanies = companies.filter((company) => company._id !== activeCompany._id);
+
+  async function handleSwitch(company: Company) {
+    setActiveCompany(company);
+    if (setActive) {
+      await setActive({ organization: company.clerkId }).finally(() => {
+        toast.success('Organization switched successfully.');
+      });
+    }
+  }
+
+  return (
+    <SidebarMenu>
+      <SidebarMenuItem>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <SidebarMenuButton
+              size="lg"
+              variant="outline"
+              className="cursor-pointer bg-sidebar data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            >
+              <TeamData
+                name={activeCompany.name}
+                plan={activeCompany.plan}
+                logo={activeCompany.logo}
+                className="select-none"
+              />
+              <ChevronsUpDown className="ml-auto" />
+            </SidebarMenuButton>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+            align="start"
+            side={isMobile ? 'bottom' : 'right'}
+            sideOffset={4}
+          >
+            <DropdownMenuLabel className="text-xs text-muted-foreground select-none">Other Organizations</DropdownMenuLabel>
+            {otherCompanies.map((company) => (
+              <DropdownMenuItem
+                key={company._id}
+                onClick={() => handleSwitch(company)}
+                className="cursor-pointer gap-2 p-2"
+              >
+                <TeamData
+                  name={company.name}
+                  plan={company.plan}
+                  logo={company.logo}
+                />
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </SidebarMenuItem>
+    </SidebarMenu>
+  );
+}
+
+export function NavTeam({ teams }: { teams: Company[] }) {
+  const { organization } = useOrganization();
+
+  const companies = useQuery(api.companies.clientsList);
+
+  const [activeCompany, setActiveCompany] = useState<Company | null>(null);
+
+  useEffect(() => {
+    if (organization?.id && companies && companies[0]) {
+      const active = companies.find((company) => company.clerkId === organization.id);
+      if (active) setActiveCompany(active);
+    }
+  }, [organization?.id, companies]);
+
+  if (!activeCompany && teams.length === 1) {
+    return (
+      <TeamSettings
+        name={teams[0]!.name}
+        plan={teams[0]!.plan}
+        logo={teams[0]!.logo}
+      />
+    );
+  }
+
+  if (!activeCompany) return <TeamSkeleton />;
+
+  if (!companies || companies.length === 1) {
+    return (
+      <TeamSettings
+        name={activeCompany.name}
+        plan={activeCompany.plan}
+        logo={activeCompany.logo}
+      />
+    );
+  }
+
+  return (
+    <TeamSelector
+      companies={companies}
+      activeCompany={activeCompany}
+      setActiveCompany={setActiveCompany}
+    />
   );
 }

@@ -1,18 +1,11 @@
-import { currentUser } from '@clerk/nextjs/server';
-
 import { Sidebar, SidebarContent, SidebarHeader, SidebarRail } from '@workspace/ui/components/sidebar';
 
 import { NavMain } from '@/components/layout/nav-main';
 import { NavUser } from '@/components/layout/nav-user';
+import { getEmployee } from '@/server/get-employee';
 
 export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const user = await currentUser();
-
-  const userData = {
-    name: user!.fullName || 'User',
-    email: user!.emailAddresses[0]!.emailAddress,
-    avatar: user!.imageUrl
-  };
+  const employee = await getEmployee();
 
   return (
     <Sidebar
@@ -20,7 +13,11 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
       {...props}
     >
       <SidebarHeader>
-        <NavUser {...userData} />
+        <NavUser
+          name={`${employee!.name} ${employee!.surname}`}
+          email={employee!.email}
+          avatar={employee!.avatar}
+        />
       </SidebarHeader>
       <SidebarContent>
         <NavMain />

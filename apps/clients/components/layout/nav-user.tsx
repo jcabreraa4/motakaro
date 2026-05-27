@@ -42,22 +42,21 @@ function UserData({ name, email, avatar, className }: UserDataProps) {
 interface NavUserProps {
   name: string;
   email: string;
-  avatar: string;
+  avatar?: string;
 }
 
 export function NavUser({ name, email, avatar }: NavUserProps) {
+  usePresence();
   const { isLoaded } = useAuth();
   const { isMobile } = useSidebar();
   const { signOut, openUserProfile, openOrganizationProfile } = useClerk();
   const { theme, setTheme } = useTheme();
 
-  const userData = useQuery(api.contacts.clientsGet, isLoaded ? {} : 'skip');
+  const contact = useQuery(api.contacts.clientsGet, isLoaded ? {} : 'skip');
 
-  const displayName = userData ? `${userData.name} ${userData.surname}` : name;
-  const displayEmail = userData?.email ?? email;
-  const displayAvatar = userData?.avatar ?? avatar;
-
-  usePresence();
+  const displayName = contact ? `${contact.name} ${contact.surname}` : name;
+  const displayEmail = contact?.email ?? email;
+  const displayAvatar = contact?.avatar ?? avatar;
 
   return (
     <SidebarMenu>

@@ -1,7 +1,7 @@
-import { useSearchParams, usePathname as useSegments } from 'next/navigation';
+import { usePathname as usePath, useSearchParams } from 'next/navigation';
 
 export function usePathname() {
-  const pathname = useSegments();
+  const pathname = usePath();
   const searchParams = useSearchParams();
 
   const segments = pathname.split('/').filter(Boolean);
@@ -9,5 +9,5 @@ export function usePathname() {
   const search = searchParams.toString();
   const fullPath = search ? `${pathname}?${search}` : pathname;
 
-  return { segments, fullPath };
+  return { pathname, segments, fullPath };
 }
