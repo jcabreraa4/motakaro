@@ -24,9 +24,9 @@ http.route({
     if (event.type === 'user.created' || event.type === 'user.updated') {
       await ctx.runMutation(internal.employees.internalUpsert, {
         email: event.data.email_addresses[0]?.email_address ?? '',
-        name: event.data.first_name ?? undefined,
-        surname: event.data.last_name ?? undefined,
-        avatar: event.data.image_url ?? undefined,
+        name: event.data.first_name ?? '',
+        surname: event.data.last_name ?? '',
+        avatar: event.data.image_url ?? '',
         clerkId: event.data.id
       });
     } else if (event.type === 'user.deleted') {
@@ -77,10 +77,10 @@ http.route({
     // Handle User Events
     if (event.type === 'user.created' || event.type === 'user.updated') {
       await ctx.runMutation(internal.contacts.internalUpsert, {
-        email: event.data.email_addresses[0]?.email_address ?? '',
-        name: event.data.first_name ?? undefined,
-        surname: event.data.last_name ?? undefined,
-        avatar: event.data.image_url ?? undefined,
+        email: event.data.email_addresses[0].email_address,
+        name: event.data.first_name ?? '',
+        surname: event.data.last_name ?? '',
+        avatar: event.data.image_url ?? '',
         clerkId: event.data.id
       });
     } else if (event.type === 'user.deleted') {
@@ -93,7 +93,7 @@ http.route({
     if (event.type === 'organization.created' || event.type === 'organization.updated') {
       await ctx.runMutation(internal.companies.internalUpsert, {
         name: event.data.name,
-        logo: event.data.image_url ?? undefined,
+        logo: event.data.image_url ?? '',
         clerkId: event.data.id
       });
     } else if (event.type === 'organization.deleted') {
@@ -124,8 +124,8 @@ http.route({
       const plan = event.data.plan?.slug as OrgPlan;
 
       await ctx.runMutation(internal.companies.internalUpdate, {
-        clerkId: clerkId,
-        plan: plan
+        plan: plan,
+        clerkId: clerkId
       });
     }
 
@@ -179,7 +179,7 @@ http.route({
       await ctx.runMutation(internal.meetings.upsert, {
         name: payload.title,
         note: payload.responses?.notes?.value,
-        url: payload.videoCallData?.url,
+        link: payload.videoCallData?.url,
         start: new Date(payload.startTime).getTime(),
         end: new Date(payload.endTime).getTime(),
         organizer: payload.organizer.email,

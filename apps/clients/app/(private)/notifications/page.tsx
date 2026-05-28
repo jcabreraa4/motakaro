@@ -21,7 +21,7 @@ export default function Page() {
 
   const notifications = useQuery(api.notifications.clientsList, isLoaded ? {} : 'skip');
   const filteredNotifications = notifications?.filter((file) => {
-    const matchesSearch = searchFilter === '' || file.name.toLowerCase().includes(searchFilter.toLowerCase()) || file.note.toLowerCase().includes(searchFilter.toLowerCase()) || file.content.toLowerCase().includes(searchFilter.toLowerCase()) || file._id.toLowerCase().includes(searchFilter.toLowerCase());
+    const matchesSearch = searchFilter === '' || file.name.toLowerCase().includes(searchFilter.toLowerCase()) || file.content.toLowerCase().includes(searchFilter.toLowerCase()) || file._id.toLowerCase().includes(searchFilter.toLowerCase());
     const matchesType = effectiveTypeFilter === 'all' || (effectiveTypeFilter === 'unread' && file.read === false) || (effectiveTypeFilter === 'important' && file.starred === true);
     return matchesSearch && matchesType;
   });

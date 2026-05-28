@@ -63,8 +63,8 @@ function TeamData({ name, plan, logo, className }: TeamDataProps) {
 
 interface TeamSettingsProps {
   name: string;
-  plan?: string;
-  logo?: string;
+  plan: string;
+  logo: string;
 }
 
 function TeamSettings({ name, plan, logo }: TeamSettingsProps) {

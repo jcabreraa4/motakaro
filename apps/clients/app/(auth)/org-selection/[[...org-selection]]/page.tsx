@@ -13,23 +13,19 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Label } from '@workspace/ui/components/label';
 import { CircleLoader } from '@workspace/ui/custom/loaders';
 
-// Env Variables
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
 
-// Toast Messages
 const errorMessage = 'An internal error has occurred.';
 const successMessage = 'Organization selected successfully.';
 
 export default function OrgSelectionPage() {
-  // Basic Hooks
-  const router = useRouter();
+  const { push } = useRouter();
   const { signOut } = useClerk();
   const { session } = useSession();
   const { isLoaded, setActive, userMemberships } = useOrganizationList({
     userMemberships: { pageSize: 3 }
   });
 
-  // State Hooks
   const [showSpinner, setShowSpinner] = useState(false);
   const [isSelecting, setIsSelecting] = useState(false);
 
@@ -57,7 +53,7 @@ export default function OrgSelectionPage() {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
           toast.success(successMessage);
-          router.push(url);
+          push(url);
         }
       });
     } catch {

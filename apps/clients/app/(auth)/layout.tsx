@@ -1,4 +1,4 @@
-import { SquareThemeButton } from '@workspace/ui/custom/theme-buttons';
+import { RectangleThemeButton, SquareThemeButton } from '@workspace/ui/custom/theme-buttons';
 import { LightRays } from '@workspace/ui/magicui/light-rays';
 
 import { Branding } from '@/components/motakaro/branding';
@@ -7,9 +7,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <main className="flex h-svh bg-primary-foreground dark:bg-[#0A0A0A]">
       <section className="relative flex h-full w-full items-center justify-center p-5">
-        <div className="absolute top-0 left-0 p-5">
-          <Branding className="xl:hidden" />
-          <SquareThemeButton className="hidden xl:flex" />
+        <div className="absolute top-0 left-0 flex w-full justify-between p-5">
+          <Branding />
+          <SquareThemeButton className="md:hidden" />
+          <RectangleThemeButton className="hidden md:flex" />
         </div>
         {children}
       </section>

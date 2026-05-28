@@ -1,6 +1,8 @@
+import { useRouter } from 'next/navigation';
+
 import { useMutation } from 'convex/react';
 import { format } from 'date-fns';
-import { BellIcon, CheckCheckIcon, TriangleAlertIcon } from 'lucide-react';
+import { BellIcon, CheckCheckIcon, ExternalLinkIcon, TriangleAlertIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import type { Notification } from '@workspace/backend/schema';
@@ -9,7 +11,17 @@ import { Separator } from '@workspace/ui/components/separator';
 import { cn } from '@workspace/ui/lib/utils';
 
 export function NotificationsTable({ notifications }: { notifications: Notification[] }) {
+  const router = useRouter();
+
   const updateNotification = useMutation(api.notifications.update);
+
+  function handleLink(link: string) {
+    if (link.startsWith('/')) {
+      router.push(link);
+    } else {
+      window.open(link, '_blank');
+    }
+  }
 
   return (
     <section className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto">
@@ -23,15 +35,27 @@ export function NotificationsTable({ notifications }: { notifications: Notificat
               {notification.starred ? <TriangleAlertIcon className="text-yellow-500" /> : <BellIcon />}
               <p className="text-lg font-semibold">{format(new Date(notification._creationTime), 'MMM dd, yyyy · HH:mm')}</p>
             </div>
-            {!notification.read && (
-              <Button
-                onClick={() => updateNotification({ id: notification._id, read: true })}
-                className={cn('cursor-pointer', notification.starred && 'bg-red-700 text-white hover:bg-red-700/85')}
-              >
-                <CheckCheckIcon />
-                Mark as Read
-              </Button>
-            )}
+            <div className="flex gap-2">
+              {notification.link && (
+                <Button
+                  variant={notification.starred ? 'secondary' : 'default'}
+                  className={cn('cursor-pointer')}
+                  onClick={() => handleLink(notification.link!)}
+                >
+                  <ExternalLinkIcon />
+                  <span className="hidden lg:flex">Open Link</span>
+                </Button>
+              )}
+              {!notification.read && (
+                <Button
+                  onClick={() => updateNotification({ id: notification._id, read: true })}
+                  className={cn('cursor-pointer', notification.starred && 'bg-red-700 text-white hover:bg-red-700/85')}
+                >
+                  <CheckCheckIcon />
+                  <span className="hidden lg:flex">Mark as Read</span>
+                </Button>
+              )}
+            </div>
           </div>
           <Separator className={cn(notification.starred ? 'dark:bg-black' : 'bg-primary')} />
           <p className="text-lg font-semibold">{notification.name}</p>

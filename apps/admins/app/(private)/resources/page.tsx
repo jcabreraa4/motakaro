@@ -23,7 +23,7 @@ export default function Page() {
 
   const resources = useQuery(api.resources.list, isLoaded ? {} : 'skip');
   const filteredResources = resources?.filter((resource) => {
-    const matchesSearch = searchFilter === '' || resource.name.toLowerCase().includes(searchFilter.toLowerCase()) || resource.note.toLowerCase().includes(searchFilter.toLowerCase()) || resource._id.toLowerCase().includes(searchFilter.toLowerCase()) || resource.link.toLowerCase().includes(searchFilter.toLowerCase());
+    const matchesSearch = searchFilter === '' || resource.name.toLowerCase().includes(searchFilter.toLowerCase()) || resource._id.toLowerCase().includes(searchFilter.toLowerCase()) || resource.link.toLowerCase().includes(searchFilter.toLowerCase());
     const matchesStatus = effectiveStatusFilter === 'all' || resource.published === (effectiveStatusFilter === 'true');
     return matchesSearch && matchesStatus;
   });

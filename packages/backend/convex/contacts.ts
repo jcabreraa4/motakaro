@@ -90,7 +90,10 @@ export const clientsUpdate = mutation({
     if (!contact) throw new ConvexError('Contact not found');
 
     // Update Contact
-    await ctx.db.patch(contact._id, { seen: Date.now() });
+    await ctx.db.patch(contact._id, {
+      seen: Date.now(),
+      updated: Date.now()
+    });
   }
 });
 
@@ -98,10 +101,10 @@ export const clientsUpdate = mutation({
 
 export const internalUpsert = internalMutation({
   args: {
-    name: v.optional(v.string()),
-    surname: v.optional(v.string()),
     email: v.string(),
-    avatar: v.optional(v.string()),
+    name: v.string(),
+    surname: v.string(),
+    avatar: v.string(),
     clerkId: v.string()
   },
   handler: async (ctx, args) => {
@@ -113,10 +116,19 @@ export const internalUpsert = internalMutation({
 
     if (contact) {
       // Update Contact
-      await ctx.db.patch(contact._id, args);
+      await ctx.db.patch(contact._id, { ...args, updated: Date.now() });
     } else {
       // Create Contact
-      await ctx.db.insert('contacts', { ...args, onboarded: false });
+      await ctx.db.insert('contacts', {
+        email: args.email,
+        name: args.name,
+        surname: args.surname,
+        avatar: args.avatar,
+        clerkId: args.clerkId,
+        starred: false,
+        onboarded: false,
+        updated: Date.now()
+      });
     }
   }
 });

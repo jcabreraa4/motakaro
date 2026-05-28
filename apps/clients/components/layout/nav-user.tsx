@@ -42,7 +42,7 @@ function UserData({ name, email, avatar, className }: UserDataProps) {
 interface NavUserProps {
   name: string;
   email: string;
-  avatar?: string;
+  avatar: string;
 }
 
 export function NavUser({ name, email, avatar }: NavUserProps) {

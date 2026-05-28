@@ -18,11 +18,9 @@ import { Input } from '@workspace/ui/components/input';
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@workspace/ui/components/input-otp';
 import { Label } from '@workspace/ui/components/label';
 
-// Env Variables
 const pageStatus = process.env.NEXT_PUBLIC_SIGN_IN_ACTIVE!;
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
 
-// Sign In Schema
 const signInSchema = z.object({
   email: z.email('Invalid email'),
   password: z.string().min(1, 'Password is required')
@@ -30,30 +28,24 @@ const signInSchema = z.object({
 
 type SignInFormType = z.infer<typeof signInSchema>;
 
-// Toast Messages
 const errorMessage = 'An internal error has occurred.';
 const successMessage = 'You are successfully signed in.';
 const checkMessage = 'Please check your credentials.';
 
-export default function SignInPage() {
-  // Basic Hooks
-  const router = useRouter();
+export default function Page() {
+  const { push } = useRouter();
   const { isSignedIn } = useAuth();
   const { signIn, fetchStatus } = useSignIn();
 
-  // State Hooks
   const [emailCode, setEmailCode] = useState('');
 
-  // Effect Hooks
   useEffect(() => {
-    if (isSignedIn) router.push(redirectPage);
-  }, [isSignedIn, router]);
+    if (isSignedIn) push(redirectPage);
+  }, [isSignedIn, push]);
 
-  // Page Status
   const isDisabled = pageStatus === 'false';
   const isLoading = fetchStatus === 'fetching';
 
-  // Sign In Form
   const signInForm = useForm<SignInFormType>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -78,7 +70,7 @@ export default function SignInPage() {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
           toast.success(successMessage);
-          router.push(url);
+          push(url);
         }
       });
     } else if (signIn.status === 'needs_client_trust') {
@@ -104,7 +96,7 @@ export default function SignInPage() {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
           toast.success(successMessage);
-          router.push(url);
+          push(url);
         }
       });
     } else {

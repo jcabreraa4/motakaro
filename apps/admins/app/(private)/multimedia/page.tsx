@@ -23,7 +23,7 @@ export default function Page() {
 
   const multimedia = useQuery(api.multimedia.list, isLoaded ? {} : 'skip');
   const filteredMultimedia = multimedia?.filter((file) => {
-    const matchesSearch = searchFilter === '' || file.name.toLowerCase().includes(searchFilter.toLowerCase()) || file.note.toLowerCase().includes(searchFilter.toLowerCase()) || file._id.toLowerCase().includes(searchFilter.toLowerCase());
+    const matchesSearch = searchFilter === '' || file.name.toLowerCase().includes(searchFilter.toLowerCase()) || file._id.toLowerCase().includes(searchFilter.toLowerCase());
     const matchesType = effectiveTypeFilter === 'all' || file.type.includes(effectiveTypeFilter);
     return matchesSearch && matchesType;
   });

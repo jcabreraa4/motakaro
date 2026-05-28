@@ -18,11 +18,9 @@ import { Input } from '@workspace/ui/components/input';
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@workspace/ui/components/input-otp';
 import { Label } from '@workspace/ui/components/label';
 
-// Env Variables
 const pageStatus = process.env.NEXT_PUBLIC_SIGN_IN_ACTIVE!;
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
 
-// Sign In Schema
 const signInSchema = z.object({
   email: z.email('Invalid email'),
   password: z.string().min(1, 'Password is required')
@@ -30,32 +28,27 @@ const signInSchema = z.object({
 
 type SignInFormType = z.infer<typeof signInSchema>;
 
-// Toast Messages
 const errorMessage = 'An internal error has occurred.';
 const successMessage = 'You are successfully signed in.';
 const checkMessage = 'Please check your credentials.';
 
 export default function SignInPage() {
-  // Basic Hooks
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const { push } = useRouter();
   const { isSignedIn, orgId } = useAuth();
   const { signIn, fetchStatus } = useSignIn();
   const { session } = useSession();
+  const searchParams = useSearchParams();
 
-  // State Hooks
   const [emailCode, setEmailCode] = useState('');
   const invitationAttempted = useRef(false);
 
-  // Clerk Params
   const clerkTicket = searchParams.get('__clerk_ticket');
   const clerkStatus = searchParams.get('__clerk_status');
 
-  // Effect Hooks
   useEffect(() => {
-    if (isSignedIn) router.push(redirectPage);
-    if (session && !orgId) router.push('/org-selection');
-  }, [isSignedIn, session, orgId, router]);
+    if (isSignedIn) push(redirectPage);
+    if (session && !orgId) push('/org-selection');
+  }, [isSignedIn, session, orgId, push]);
 
   useEffect(() => {
     // Clerk Legacy Fix, Update in the Future
@@ -69,19 +62,17 @@ export default function SignInPage() {
       if (result.status === 'complete') {
         await (signIn as any).setActive({ session: result.createdSessionId });
         toast.success(successMessage);
-        router.push(redirectPage);
+        push(redirectPage);
       } else {
         toast.error(errorMessage);
       }
     }
     checkInvitation();
-  }, [clerkTicket, clerkStatus, signIn]);
+  }, [clerkTicket, clerkStatus, signIn, push]);
 
-  // Page Status
   const isDisabled = pageStatus === 'false';
   const isLoading = fetchStatus === 'fetching';
 
-  // Sign In Form
   const signInForm = useForm<SignInFormType>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -106,7 +97,7 @@ export default function SignInPage() {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
           toast.success(successMessage);
-          router.push(url);
+          push(url);
         }
       });
     } else if (signIn.status === 'needs_client_trust') {
@@ -132,7 +123,7 @@ export default function SignInPage() {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
           toast.success(successMessage);
-          router.push(url);
+          push(url);
         }
       });
     } else {

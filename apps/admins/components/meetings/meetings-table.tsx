@@ -69,7 +69,7 @@ export function MeetingsTable({ meetings }: { meetings: Meeting[] }) {
             <Button
               variant="secondary"
               className="cursor-pointer"
-              onClick={() => handleOpen(meeting.url)}
+              onClick={() => handleOpen(meeting.link)}
             >
               <ExternalLinkIcon />
               {!showChatbot && <span>Open Meeting</span>}

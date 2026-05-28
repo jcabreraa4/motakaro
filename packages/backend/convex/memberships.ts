@@ -6,9 +6,9 @@ import { internalMutation } from './_generated/server';
 
 export const internalUpsert = internalMutation({
   args: {
+    orgRole: v.union(v.literal('org:admin'), v.literal('org:member')),
     contactClerkId: v.string(),
-    companyClerkId: v.string(),
-    orgRole: v.union(v.literal('org:admin'), v.literal('org:member'))
+    companyClerkId: v.string()
   },
   handler: async (ctx, args) => {
     // Obtain Convex Contact ID
@@ -35,14 +35,22 @@ export const internalUpsert = internalMutation({
     if (membership) {
       // Update Membership
       await ctx.db.patch(membership._id, {
-        orgRole: args.orgRole
+        // Webhook Columns
+        orgRole: args.orgRole,
+
+        // Primary Columns
+        updated: Date.now()
       });
     } else {
       // Create Membership
       await ctx.db.insert('memberships', {
+        // Webhook Columns
+        orgRole: args.orgRole,
         contactId: contact._id,
         companyId: company._id,
-        orgRole: args.orgRole
+
+        // Primary Columns
+        updated: Date.now()
       });
     }
   }

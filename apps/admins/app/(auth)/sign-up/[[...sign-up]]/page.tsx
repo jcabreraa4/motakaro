@@ -18,11 +18,9 @@ import { Input } from '@workspace/ui/components/input';
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@workspace/ui/components/input-otp';
 import { Label } from '@workspace/ui/components/label';
 
-// Env Variables
 const pageStatus = process.env.NEXT_PUBLIC_SIGN_UP_ACTIVE!;
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
 
-// Sign Up Schema
 const signUpSchema = z
   .object({
     name: z.string().min(1, 'Name is required'),
@@ -37,35 +35,28 @@ const signUpSchema = z
 
 type SignUpFormType = z.infer<typeof signUpSchema>;
 
-// Toast Messages
 const errorMessage = 'An internal error has occurred.';
 const successMessage = 'You are successfully signed up.';
 const checkMessage = 'Please check your credentials.';
 
 export default function SignInPage() {
-  // Basic Hooks
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const { push } = useRouter();
   const { isSignedIn } = useAuth();
   const { signUp, fetchStatus } = useSignUp();
+  const searchParams = useSearchParams();
 
-  // State Hooks
   const [emailCode, setEmailCode] = useState('');
 
-  // Clerk Params
   const clerkTicket = searchParams.get('__clerk_ticket');
   const clerkStatus = searchParams.get('__clerk_status');
 
-  // Effect Hooks
   useEffect(() => {
-    if (isSignedIn) router.push(redirectPage);
-  }, [isSignedIn, router]);
+    if (isSignedIn) push(redirectPage);
+  }, [isSignedIn, push]);
 
-  // Page Status
   const isDisabled = pageStatus === 'false';
   const isLoading = fetchStatus === 'fetching';
 
-  // Sign Up Form
   const signUpForm = useForm<SignUpFormType>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -96,7 +87,7 @@ export default function SignInPage() {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
           toast.success(successMessage);
-          router.push(url);
+          push(url);
         }
       });
     } else if (signUp.status === 'missing_requirements') {
@@ -127,7 +118,7 @@ export default function SignInPage() {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
           toast.success(successMessage);
-          router.push(url);
+          push(url);
         }
       });
     } else {

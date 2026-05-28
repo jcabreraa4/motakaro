@@ -59,7 +59,7 @@ export const upsert = internalMutation({
   args: {
     name: v.optional(v.string()),
     note: v.optional(v.string()),
-    url: v.optional(v.string()),
+    link: v.optional(v.string()),
     start: v.optional(v.number()),
     end: v.optional(v.number()),
     organizer: v.optional(v.string()),
@@ -88,7 +88,7 @@ export const upsert = internalMutation({
       return await ctx.db.insert('meetings', {
         name: args.name ?? 'Untitled Booking',
         note: args.note ?? '',
-        url: args.url ?? '',
+        link: args.link ?? '',
         start: args.start ?? 0,
         end: args.end ?? 0,
         starred: false,

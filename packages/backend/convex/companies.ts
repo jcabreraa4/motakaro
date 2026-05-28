@@ -65,7 +65,7 @@ export const clientsList = query({
 export const internalUpsert = internalMutation({
   args: {
     name: v.string(),
-    logo: v.optional(v.string()),
+    logo: v.string(),
     clerkId: v.string()
   },
   handler: async (ctx, args) => {
@@ -77,10 +77,18 @@ export const internalUpsert = internalMutation({
 
     if (company) {
       // Update Company
-      await ctx.db.patch(company._id, args);
+      await ctx.db.patch(company._id, { ...args, updated: Date.now() });
     } else {
       // Create Company
-      await ctx.db.insert('companies', { ...args, plan: 'onboarding' });
+      await ctx.db.insert('companies', {
+        name: args.name,
+        logo: args.logo,
+        plan: 'onboarding',
+        clerkId: args.clerkId,
+        starred: false,
+        onboarded: false,
+        updated: Date.now()
+      });
     }
   }
 });
@@ -104,8 +112,8 @@ export const internalRemove = internalMutation({
 
 export const internalUpdate = internalMutation({
   args: {
-    clerkId: v.string(),
-    plan: v.optional(v.union(v.literal('onboarding'), v.literal('rollout'), v.literal('scaling')))
+    plan: v.union(v.literal('onboarding'), v.literal('rollout'), v.literal('scaling')),
+    clerkId: v.string()
   },
   handler: async (ctx, args) => {
     // Obtain Company
@@ -116,6 +124,6 @@ export const internalUpdate = internalMutation({
     if (!company) throw new ConvexError('Company not found');
 
     // Update Company
-    await ctx.db.patch(company._id, args);
+    await ctx.db.patch(company._id, { ...args, updated: Date.now() });
   }
 });
