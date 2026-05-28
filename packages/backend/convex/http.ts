@@ -17,13 +17,10 @@ http.route({
     const event = await validateClerkAdminsRequest(request);
     if (!event) return new Response('Error occurred', { status: 400 });
 
-    // Log Webhook Data
-    console.log(`Clerk Admins Webhook Data: ${JSON.stringify(event.data)}`);
-
-    // Handle User Events
+    // User Events
     if (event.type === 'user.created' || event.type === 'user.updated') {
       await ctx.runMutation(internal.employees.internalUpsert, {
-        email: event.data.email_addresses[0]?.email_address ?? '',
+        email: event.data.email_addresses[0]?.email_address,
         name: event.data.first_name ?? '',
         surname: event.data.last_name ?? '',
         avatar: event.data.image_url ?? '',
@@ -35,7 +32,7 @@ http.route({
       });
     }
 
-    // Return 200 OK Status
+    // Return Success
     return new Response(null, { status: 200 });
   })
 });
@@ -71,10 +68,7 @@ http.route({
     const event = await validateClerkClientsRequest(request);
     if (!event) return new Response('Error occurred', { status: 400 });
 
-    // Log Webhook Data
-    console.log(`Clerk Clients Webhook Data: ${JSON.stringify(event.data)}`);
-
-    // Handle User Events
+    // User Events
     if (event.type === 'user.created' || event.type === 'user.updated') {
       await ctx.runMutation(internal.contacts.internalUpsert, {
         email: event.data.email_addresses[0].email_address,
@@ -89,7 +83,7 @@ http.route({
       });
     }
 
-    // Handle Organization Events
+    // Organization Events
     if (event.type === 'organization.created' || event.type === 'organization.updated') {
       await ctx.runMutation(internal.companies.internalUpsert, {
         name: event.data.name,
@@ -102,7 +96,7 @@ http.route({
       });
     }
 
-    // Handle Membership Events
+    // Membership Events
     if (event.type === 'organizationMembership.created' || event.type === 'organizationMembership.updated') {
       await ctx.runMutation(internal.memberships.internalUpsert, {
         contactClerkId: event.data.public_user_data.user_id,
@@ -116,7 +110,7 @@ http.route({
       });
     }
 
-    // Handle Billing Events
+    // Billing Events
     if (event.type === 'subscriptionItem.active') {
       const clerkId = event.data.payer?.organization_id;
       if (!clerkId) return new Response(null, { status: 200 });
@@ -129,7 +123,7 @@ http.route({
       });
     }
 
-    // Return 200 OK Status
+    // Return Success
     return new Response(null, { status: 200 });
   })
 });
@@ -171,10 +165,7 @@ http.route({
     const trigger = event.triggerEvent;
     const payload = event.payload;
 
-    // Log Webhook Data
-    console.log(`Calcom Webhook Data: ${JSON.stringify(event.payload)}`);
-
-    // Handle Booking Event
+    // Booking Events
     if (trigger === 'BOOKING_CREATED') {
       await ctx.runMutation(internal.meetings.upsert, {
         name: payload.title,
@@ -221,6 +212,8 @@ http.route({
         calcomId: payload.uid
       });
     }
+
+    // Return Success
     return new Response(null, { status: 200 });
   })
 });

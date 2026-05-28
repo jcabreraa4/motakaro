@@ -105,6 +105,13 @@ export const internalRemove = internalMutation({
       .first();
     if (!company) throw new ConvexError('Company not found');
 
+    // Remove Memberships
+    const memberships = await ctx.db
+      .query('memberships')
+      .withIndex('by_companyId', (q) => q.eq('companyId', company._id))
+      .collect();
+    await Promise.all(memberships.map((m) => ctx.db.delete(m._id)));
+
     // Remove Company
     await ctx.db.delete(company._id);
   }
