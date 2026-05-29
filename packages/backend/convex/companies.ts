@@ -1,24 +1,30 @@
+import { createClerkClient } from '@clerk/backend';
 import { ConvexError, v } from 'convex/values';
 
 import type { Id } from './_generated/dataModel';
-import { internalMutation, query } from './_generated/server';
+import { internalAction, internalMutation, query } from './_generated/server';
 import { getClientAuth, verifyAdminAuth } from './auth';
 
 // Admins Functions
 
 export const list = query({
-  handler: async (ctx) => {
+  args: {
+    limit: v.optional(v.number())
+  },
+  handler: async (ctx, args) => {
     // Check Identity
     await verifyAdminAuth(ctx);
 
     // Return Companies
-    return await ctx.db.query('companies').order('desc').collect();
+    const query = ctx.db.query('companies').order('desc');
+    return args.limit ? await query.take(args.limit) : await query.collect();
   }
 });
 
 export const get = query({
   args: {
-    id: v.string()
+    id: v.optional(v.string()),
+    clerkId: v.optional(v.string())
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -26,7 +32,14 @@ export const get = query({
 
     try {
       // Return Company
-      return await ctx.db.get(args.id as Id<'companies'>);
+      if (args.id) {
+        return await ctx.db.get(args.id as Id<'companies'>);
+      } else if (args.clerkId) {
+        return await ctx.db
+          .query('companies')
+          .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId!))
+          .first();
+      }
     } catch {
       return null;
     }
@@ -60,7 +73,7 @@ export const clientsList = query({
   }
 });
 
-// Internal Mutations
+// Internal Functions
 
 export const internalUpsert = internalMutation({
   args: {
@@ -85,6 +98,7 @@ export const internalUpsert = internalMutation({
         logo: args.logo,
         plan: 'onboarding',
         clerkId: args.clerkId,
+        status: 'active',
         starred: false,
         onboarded: false,
         updated: Date.now()
@@ -132,5 +146,19 @@ export const internalUpdate = internalMutation({
 
     // Update Company
     await ctx.db.patch(company._id, { ...args, updated: Date.now() });
+  }
+});
+
+// Custom Functions
+
+export const disableDelete = internalAction({
+  args: {
+    clerkId: v.string()
+  },
+  handler: async (ctx, args) => {
+    const clerk = createClerkClient({ secretKey: process.env.CLERK_CLIENTS_SECRET_KEY });
+    await clerk.organizations.updateOrganization(args.clerkId, {
+      adminDeleteEnabled: false
+    });
   }
 });

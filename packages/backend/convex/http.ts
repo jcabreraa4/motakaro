@@ -19,6 +19,7 @@ http.route({
 
     // User Events
     if (event.type === 'user.created' || event.type === 'user.updated') {
+      // Upsert Employee
       await ctx.runMutation(internal.employees.internalUpsert, {
         email: event.data.email_addresses[0]?.email_address,
         name: event.data.first_name ?? '',
@@ -27,6 +28,7 @@ http.route({
         clerkId: event.data.id
       });
     } else if (event.type === 'user.deleted') {
+      // Remove Employee
       await ctx.runMutation(internal.employees.internalRemove, {
         clerkId: event.data.id!
       });
@@ -57,8 +59,8 @@ async function validateClerkAdminsRequest(req: Request): Promise<WebhookEvent | 
 
 // Clerk Clients Webhook
 
-type OrgPlan = 'onboarding' | 'rollout' | 'scaling';
 type OrgRole = 'org:admin' | 'org:member';
+type OrgPlan = 'onboarding' | 'rollout' | 'scaling';
 
 http.route({
   path: '/clerk-clients-webhook',
@@ -70,6 +72,7 @@ http.route({
 
     // User Events
     if (event.type === 'user.created' || event.type === 'user.updated') {
+      // Upsert Contact
       await ctx.runMutation(internal.contacts.internalUpsert, {
         email: event.data.email_addresses[0].email_address,
         name: event.data.first_name ?? '',
@@ -78,6 +81,7 @@ http.route({
         clerkId: event.data.id
       });
     } else if (event.type === 'user.deleted') {
+      // Remove Contact
       await ctx.runMutation(internal.contacts.internalRemove, {
         clerkId: event.data.id!
       });
@@ -85,12 +89,21 @@ http.route({
 
     // Organization Events
     if (event.type === 'organization.created' || event.type === 'organization.updated') {
+      // Disable Delete
+      if (event.type === 'organization.created') {
+        await ctx.runAction(internal.companies.disableDelete, {
+          clerkId: event.data.id
+        });
+      }
+
+      // Upsert Company
       await ctx.runMutation(internal.companies.internalUpsert, {
         name: event.data.name,
         logo: event.data.image_url ?? '',
         clerkId: event.data.id
       });
     } else if (event.type === 'organization.deleted') {
+      // Remove Company
       await ctx.runMutation(internal.companies.internalRemove, {
         clerkId: event.data.id!
       });
@@ -98,12 +111,14 @@ http.route({
 
     // Membership Events
     if (event.type === 'organizationMembership.created' || event.type === 'organizationMembership.updated') {
+      // Upsert Membership
       await ctx.runMutation(internal.memberships.internalUpsert, {
         contactClerkId: event.data.public_user_data.user_id,
         companyClerkId: event.data.organization.id,
         orgRole: event.data.role as OrgRole
       });
     } else if (event.type === 'organizationMembership.deleted') {
+      // Remove Membership
       await ctx.runMutation(internal.memberships.internalRemove, {
         contactClerkId: event.data.public_user_data.user_id,
         companyClerkId: event.data.organization.id

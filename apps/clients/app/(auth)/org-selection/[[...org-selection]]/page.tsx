@@ -29,7 +29,6 @@ export default function OrgSelectionPage() {
   const [showSpinner, setShowSpinner] = useState(false);
   const [isSelecting, setIsSelecting] = useState(false);
 
-  // Effect Hooks
   useEffect(() => {
     if (!isLoaded || isSelecting || userMemberships.isLoading) {
       setShowSpinner(false);

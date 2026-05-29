@@ -160,7 +160,7 @@ export const tools = {
         client.setAuth(token!);
 
         // Obtain Companies
-        const companies = await client.query(api.companies.list);
+        const companies = await client.query(api.companies.list, {});
 
         // Return Companies
         if (!companies || companies.length === 0) {

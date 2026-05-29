@@ -12,6 +12,7 @@ export default defineSchema({
     surname: v.string(),
     avatar: v.string(),
     clerkId: v.string(),
+
     starred: v.boolean(),
     onboarded: v.boolean(),
     updated: v.number(),
@@ -32,6 +33,7 @@ export default defineSchema({
     surname: v.string(),
     avatar: v.string(),
     clerkId: v.string(),
+
     starred: v.boolean(),
     onboarded: v.boolean(),
     updated: v.number(),
@@ -51,6 +53,8 @@ export default defineSchema({
     logo: v.string(),
     plan: v.union(v.literal('onboarding'), v.literal('rollout'), v.literal('scaling')),
     clerkId: v.string(),
+
+    status: v.union(v.literal('active'), v.literal('inactive'), v.literal('deleted')),
     starred: v.boolean(),
     onboarded: v.boolean(),
     updated: v.number(),
@@ -63,7 +67,7 @@ export default defineSchema({
   }).index('by_clerkId', ['clerkId']),
 
   // Motakaro Clients Payments
-  payments: defineTable({
+  invoices: defineTable({
     // Primary Columns
     name: v.string(),
     amount: v.number(),
@@ -84,6 +88,7 @@ export default defineSchema({
     orgRole: v.union(v.literal('org:member'), v.literal('org:admin')),
     contactId: v.id('contacts'),
     companyId: v.id('companies'),
+
     updated: v.number()
   })
     .index('by_contactId', ['contactId'])
@@ -168,6 +173,7 @@ export default defineSchema({
     starred: v.boolean(),
     updated: v.number(),
     storageId: v.id('_storage'),
+
     clientsVisible: v.boolean(),
     clientsStarred: v.boolean(),
 
@@ -213,7 +219,7 @@ export default defineSchema({
 export type Employee = Doc<'employees'>;
 export type Contact = Doc<'contacts'>;
 export type Company = Doc<'companies'>;
-export type Payment = Doc<'payments'>;
+export type Invoice = Doc<'invoices'>;
 export type Membership = Doc<'memberships'>;
 export type Notification = Doc<'notifications'>;
 export type Meeting = Doc<'meetings'>;

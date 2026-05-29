@@ -4,8 +4,8 @@ import { ActionCtx, MutationCtx, QueryCtx } from './_generated/server';
 
 type AnyCtx = QueryCtx | MutationCtx | ActionCtx;
 
-export const adminsIssuer = process.env.CLERK_JWT_ADMINS_DOMAIN;
-export const clientsIssuer = process.env.CLERK_JWT_CLIENTS_DOMAIN;
+export const adminsIssuer = process.env.CLERK_ADMINS_JWT_DOMAIN;
+export const clientsIssuer = process.env.CLERK_CLIENTS_JWT_DOMAIN;
 
 // Admins Functions
 

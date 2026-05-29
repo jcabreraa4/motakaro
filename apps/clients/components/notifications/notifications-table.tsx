@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation';
 
 import { useMutation } from 'convex/react';
 import { format } from 'date-fns';
-import { BellIcon, CheckCheckIcon, ExternalLinkIcon, TriangleAlertIcon } from 'lucide-react';
+import { BellIcon, CheckCheckIcon, ExternalLinkIcon, NavigationIcon, TriangleAlertIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import type { Notification } from '@workspace/backend/schema';
@@ -42,8 +42,8 @@ export function NotificationsTable({ notifications }: { notifications: Notificat
                   className={cn('cursor-pointer')}
                   onClick={() => handleLink(notification.link!)}
                 >
-                  <ExternalLinkIcon />
-                  <span className="hidden lg:flex">Open Link</span>
+                  {notification.link.startsWith('/') ? <NavigationIcon /> : <ExternalLinkIcon />}
+                  <span className="hidden lg:flex">{notification.link.startsWith('/') ? 'Internal Link' : 'External Link'}</span>
                 </Button>
               )}
               {!notification.read && (
