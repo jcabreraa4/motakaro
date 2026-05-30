@@ -22,23 +22,23 @@ import { type ModelId, defaultModel } from '@/lib/chatbot/models';
 import { useMainStore } from '@/store/main-store';
 
 export function AppChatbot() {
-  const router = useRouter();
-  const showChat = useMainStore((state) => state.showChatbot);
-
-  const { userId, isLoaded } = useAuth();
+  const { push } = useRouter();
+  const { isLoaded } = useAuth();
   const { fullPath } = usePathname();
+
+  const showChat = useMainStore((state) => state.showChatbot);
 
   const { messages, setMessages, status, sendMessage, regenerate, addToolOutput } = useChat<ChatMessage>({
     transport: new DefaultChatTransport({ api: '/api/chatbot' }),
     sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
     async onToolCall({ toolCall }) {
       if (toolCall.dynamic) return;
-      if (toolCall.toolName === 'usersRedirect') {
+      if (toolCall.toolName === 'userRedirect') {
         const { section, id } = toolCall.input;
         const path = id ? `${section}/${id}` : section;
-        router.push(path);
+        push(path);
         addToolOutput({
-          tool: 'usersRedirect',
+          tool: 'userRedirect',
           toolCallId: toolCall.toolCallId,
           output: {
             success: true,
@@ -55,8 +55,8 @@ export function AppChatbot() {
   const [chatModel, setChatModel] = useState<ModelId>(defaultModel);
 
   // Request Data
-  const employee = useQuery(api.employees.get, isLoaded ? { clerkId: userId! } : 'skip');
-  const system = `User's data: ${JSON.stringify(employee)}. Current location within the app: ${fullPath}.`;
+  const employee = useQuery(api.employees.get, isLoaded ? {} : 'skip');
+  const system = `User's name is: ${employee?.name} ${employee?.surname}. User's role within Motakaro is: ${employee?.role}. Current location within the app: ${fullPath}.`;
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   function handleSubmit() {

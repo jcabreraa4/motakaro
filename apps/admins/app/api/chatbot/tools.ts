@@ -1,7 +1,6 @@
-import { auth } from '@clerk/nextjs/server';
 import type { InferUITools, ToolUIPart, UIDataTypes, UIMessage } from 'ai';
 import { tool } from 'ai';
-import { ConvexHttpClient } from 'convex/browser';
+import type { ConvexHttpClient } from 'convex/browser';
 import { z } from 'zod';
 
 import { api } from '@workspace/backend/_generated/api';
@@ -9,583 +8,503 @@ import type { Id } from '@workspace/backend/_generated/dataModel';
 
 import { tiptapToMarkdown } from '@/lib/documents/tiptap-to-markdown';
 
-const client = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+export function chatbotTools(convex: ConvexHttpClient) {
+  return {
+    // Meetings Tools
+    meetingsList: tool({
+      description: 'List all meetings.',
+      inputSchema: z.object(),
+      async execute() {
+        try {
+          // Obtain Meetings
+          const meetings = await convex.query(api.meetings.list);
 
-export const tools = {
-  // Meetings Tools
-  meetingsList: tool({
-    description: 'List all meetings.',
-    inputSchema: z.object(),
-    async execute() {
-      try {
-        // Authenticate Convex
-        const { getToken } = await auth();
-        const token = await getToken({ template: 'convex' });
-        client.setAuth(token!);
-
-        // Obtain Meetings
-        const meetings = await client.query(api.meetings.list);
-
-        // Return Meetings
-        if (!meetings || meetings.length === 0) {
-          return {
-            status: 200,
-            content: 'No meetings found.'
-          };
-        }
-        return {
-          status: 200,
-          content: meetings
-        };
-      } catch (error) {
-        return {
-          status: 500,
-          message: `Error loading meetings: ${error}`
-        };
-      }
-    }
-  }),
-  meetingsGet: tool({
-    description: 'Get an specific meeting.',
-    inputSchema: z.object({
-      id: z.string().describe('The ID of the meeting.')
-    }),
-    async execute({ id }) {
-      try {
-        // Authenticate Convex
-        const { getToken } = await auth();
-        const token = await getToken({ template: 'convex' });
-        client.setAuth(token!);
-
-        // Obtain Meeting
-        const meeting = await client.query(api.meetings.get, { id: id as Id<'meetings'> });
-
-        // Return Meeting
-        if (!meeting) {
-          return {
-            status: 200,
-            content: 'No meeting found.'
-          };
-        }
-        return {
-          status: 200,
-          content: meeting
-        };
-      } catch (error) {
-        return {
-          status: 500,
-          message: `Error loading meeting: ${error}`
-        };
-      }
-    }
-  }),
-
-  // Contacts Tools
-  contactsList: tool({
-    description: 'List all contacts.',
-    inputSchema: z.object(),
-    async execute() {
-      try {
-        // Authenticate Convex
-        const { getToken } = await auth();
-        const token = await getToken({ template: 'convex' });
-        client.setAuth(token!);
-
-        // Obtain Contacts
-        const contacts = await client.query(api.contacts.list, {});
-
-        // Return Contacts
-        if (!contacts || contacts.length === 0) {
-          return {
-            status: 200,
-            content: 'No contacts found.'
-          };
-        }
-        return {
-          status: 200,
-          content: contacts
-        };
-      } catch (error) {
-        return {
-          status: 500,
-          message: `Error loading contacts: ${error}`
-        };
-      }
-    }
-  }),
-  contactsGet: tool({
-    description: 'Get an specificcontact.',
-    inputSchema: z.object({
-      id: z.string().describe('The ID of the contact.')
-    }),
-    async execute({ id }) {
-      try {
-        // Authenticate Convex
-        const { getToken } = await auth();
-        const token = await getToken({ template: 'convex' });
-        client.setAuth(token!);
-
-        // Obtain Contact
-        const contact = await client.query(api.contacts.get, { id: id as Id<'contacts'> });
-
-        // Return Contact
-        if (!contact) {
-          return {
-            status: 200,
-            content: 'No contact found.'
-          };
-        }
-        return {
-          status: 200,
-          content: contact
-        };
-      } catch (error) {
-        return {
-          status: 500,
-          message: `Error loading contact: ${error}`
-        };
-      }
-    }
-  }),
-
-  // Companies Tools
-  companiesList: tool({
-    description: 'List all companies.',
-    inputSchema: z.object(),
-    async execute() {
-      try {
-        // Authenticate Convex
-        const { getToken } = await auth();
-        const token = await getToken({ template: 'convex' });
-        client.setAuth(token!);
-
-        // Obtain Companies
-        const companies = await client.query(api.companies.list, {});
-
-        // Return Companies
-        if (!companies || companies.length === 0) {
-          return {
-            status: 200,
-            content: 'No companies found.'
-          };
-        }
-        return {
-          status: 200,
-          content: companies
-        };
-      } catch (error) {
-        return {
-          status: 500,
-          message: `Error loading companies: ${error}`
-        };
-      }
-    }
-  }),
-  companiesGet: tool({
-    description: 'Get an specific company.',
-    inputSchema: z.object({
-      id: z.string().describe('The ID of the company.')
-    }),
-    async execute({ id }) {
-      try {
-        // Authenticate Convex
-        const { getToken } = await auth();
-        const token = await getToken({ template: 'convex' });
-        client.setAuth(token!);
-
-        // Obtain Company
-        const company = await client.query(api.companies.get, { id: id as Id<'companies'> });
-
-        // Return Company
-        if (!company) {
-          return {
-            status: 200,
-            content: 'No company found.'
-          };
-        }
-        return {
-          status: 200,
-          content: company
-        };
-      } catch (error) {
-        return {
-          status: 500,
-          message: `Error loading company: ${error}`
-        };
-      }
-    }
-  }),
-
-  // Documents Tools
-  documentsList: tool({
-    description: 'List all documents.',
-    inputSchema: z.object({
-      company: z.union([z.literal('motakaro'), z.string().min(1)]).describe('Enter "motakaro" for Motakaro documents, or a company ID to filter by company.')
-    }),
-    async execute({ company }) {
-      try {
-        // Authenticate Convex
-        const { getToken } = await auth();
-        const token = await getToken({ template: 'convex' });
-        client.setAuth(token!);
-
-        // Obtain Documents
-        const documents = await client.query(api.documents.list, { companyId: company === 'motakaro' ? undefined : (company as Id<'companies'>) });
-
-        // Return Documents
-        if (!documents || documents.length === 0) {
-          return {
-            status: 200,
-            content: 'No documents found.'
-          };
-        }
-        return {
-          status: 200,
-          content: documents
-        };
-      } catch (error) {
-        return {
-          status: 500,
-          message: `Error loading documents: ${error}`
-        };
-      }
-    }
-  }),
-  documentsGet: tool({
-    description: 'Get an specific document.',
-    inputSchema: z.object({
-      id: z.string().describe('The ID of the document.')
-    }),
-    async execute({ id }) {
-      try {
-        // Authenticate Convex
-        const { getToken } = await auth();
-        const token = await getToken({ template: 'convex' });
-        client.setAuth(token!);
-
-        // Obtain Document
-        const document = await client.query(api.documents.get, { id: id as Id<'documents'> });
-
-        // Return Document
-        if (!document) {
-          return {
-            status: 200,
-            content: 'No document found.'
-          };
-        }
-        return {
-          status: 200,
-          content: {
-            ...document,
-            content: tiptapToMarkdown(document.content)
+          // Return Meetings
+          if (!meetings || meetings.length === 0) {
+            return {
+              status: 200,
+              content: 'No meetings found.'
+            };
           }
-        };
-      } catch (error) {
-        return {
-          status: 500,
-          message: `Error loading document: ${error}`
-        };
+          return {
+            status: 200,
+            content: meetings
+          };
+        } catch (error) {
+          return {
+            status: 500,
+            message: `Error loading meetings: ${error}`
+          };
+        }
       }
-    }
-  }),
-
-  // Whiteboards Tools
-  whiteboardsList: tool({
-    description: 'List all whiteboards.',
-    inputSchema: z.object({
-      company: z.union([z.literal('motakaro'), z.string().min(1)]).describe('Enter "motakaro" for Motakaro whiteboards, or a company ID to filter by company.')
     }),
-    async execute({ company }) {
-      try {
-        // Authenticate Convex
-        const { getToken } = await auth();
-        const token = await getToken({ template: 'convex' });
-        client.setAuth(token!);
+    meetingsGet: tool({
+      description: 'Get an specific meeting.',
+      inputSchema: z.object({
+        id: z.string().describe('The ID of the meeting.')
+      }),
+      async execute({ id }) {
+        try {
+          // Obtain Meeting
+          const meeting = await convex.query(api.meetings.get, { id });
 
-        // Obtain Whiteboards
-        const whiteboards = await client.query(api.whiteboards.list, { companyId: company === 'motakaro' ? undefined : (company as Id<'companies'>) });
-
-        // Return Whiteboards
-        if (!whiteboards || whiteboards.length === 0) {
+          // Return Meeting
+          if (!meeting) {
+            return {
+              status: 200,
+              content: 'No meeting found.'
+            };
+          }
           return {
             status: 200,
-            content: 'No whiteboards found.'
+            content: meeting
+          };
+        } catch (error) {
+          return {
+            status: 500,
+            message: `Error loading meeting: ${error}`
           };
         }
-        return {
-          status: 200,
-          content: whiteboards
-        };
-      } catch (error) {
-        return {
-          status: 500,
-          message: `Error loading whiteboards: ${error}`
-        };
       }
-    }
-  }),
-  whiteboardsGet: tool({
-    description: 'Get an specific whiteboard.',
-    inputSchema: z.object({
-      id: z.string().describe('The ID of the whiteboard.')
     }),
-    async execute({ id }) {
-      try {
-        // Authenticate Convex
-        const { getToken } = await auth();
-        const token = await getToken({ template: 'convex' });
-        client.setAuth(token!);
 
-        // Obtain Whiteboard
-        const whiteboard = await client.query(api.whiteboards.get, { id: id as Id<'whiteboards'> });
+    // Contacts Tools
+    contactsList: tool({
+      description: 'List all contacts.',
+      inputSchema: z.object(),
+      async execute() {
+        try {
+          // Obtain Contacts
+          const contacts = await convex.query(api.contacts.list, {});
 
-        // Return Whiteboard
-        if (!whiteboard) {
+          // Return Contacts
+          if (!contacts || contacts.length === 0) {
+            return {
+              status: 200,
+              content: 'No contacts found.'
+            };
+          }
           return {
             status: 200,
-            content: 'No whiteboard found.'
+            content: contacts
+          };
+        } catch (error) {
+          return {
+            status: 500,
+            message: `Error loading contacts: ${error}`
           };
         }
-        return {
-          status: 200,
-          content: whiteboard
-        };
-      } catch (error) {
-        return {
-          status: 500,
-          message: `Error loading whiteboard: ${error}`
-        };
       }
-    }
-  }),
-
-  // Multimedia Tools
-  multimediaList: tool({
-    description: 'List all media files.',
-    inputSchema: z.object({
-      company: z.union([z.literal('motakaro'), z.string().min(1)]).describe('Enter "motakaro" for Motakaro media files, or a company ID to filter by company.')
     }),
-    async execute({ company }) {
-      try {
-        // Authenticate Convex
-        const { getToken } = await auth();
-        const token = await getToken({ template: 'convex' });
-        client.setAuth(token!);
+    contactsGet: tool({
+      description: 'Get an specificcontact.',
+      inputSchema: z.object({
+        id: z.string().describe('The ID of the contact.')
+      }),
+      async execute({ id }) {
+        try {
+          // Obtain Contact
+          const contact = await convex.query(api.contacts.get, { id });
 
-        // Obtain Multimedia
-        const multimedia = await client.query(api.multimedia.list, { companyId: company === 'motakaro' ? undefined : (company as Id<'companies'>) });
-
-        // Return Multimedia
-        if (!multimedia || multimedia.length === 0) {
+          // Return Contact
+          if (!contact) {
+            return {
+              status: 200,
+              content: 'No contact found.'
+            };
+          }
           return {
             status: 200,
-            content: 'No media files found.'
+            content: contact
+          };
+        } catch (error) {
+          return {
+            status: 500,
+            message: `Error loading contact: ${error}`
           };
         }
-        return {
-          status: 200,
-          content: multimedia
-        };
-      } catch (error) {
-        return {
-          status: 500,
-          message: `Error loading media files: ${error}`
-        };
       }
-    }
-  }),
-  multimediaGet: tool({
-    description: 'Get an specific media file.',
-    inputSchema: z.object({
-      id: z.string().describe('The ID of the media file.')
     }),
-    async execute({ id }) {
-      try {
-        // Authenticate Convex
-        const { getToken } = await auth();
-        const token = await getToken({ template: 'convex' });
-        client.setAuth(token!);
 
-        // Obtain Media File
-        const multimedia = await client.query(api.multimedia.get, { id: id as Id<'multimedia'> });
+    // Companies Tools
+    companiesList: tool({
+      description: 'List all companies.',
+      inputSchema: z.object(),
+      async execute() {
+        try {
+          // Obtain Companies
+          const companies = await convex.query(api.companies.list, {});
 
-        // Return Media File
-        if (!multimedia) {
+          // Return Companies
+          if (!companies || companies.length === 0) {
+            return {
+              status: 200,
+              content: 'No companies found.'
+            };
+          }
           return {
             status: 200,
-            content: 'No media file found.'
+            content: companies
           };
-        }
-        return {
-          status: 200,
-          content: multimedia
-        };
-      } catch (error) {
-        return {
-          status: 500,
-          message: `Error loading media file: ${error}`
-        };
-      }
-    }
-  }),
-
-  // Resources Tools
-  resourcesList: tool({
-    description: `List all resources.`,
-    inputSchema: z.object(),
-    async execute() {
-      try {
-        // Authenticate Convex
-        const { getToken } = await auth();
-        const token = await getToken({ template: 'convex' });
-        client.setAuth(token!);
-
-        // Obtain Resources
-        const resources = await client.query(api.resources.list, {});
-
-        // Return Resources
-        if (!resources || resources.length === 0) {
+        } catch (error) {
           return {
-            status: 200,
-            content: 'No resources found.'
+            status: 500,
+            message: `Error loading companies: ${error}`
           };
         }
-        return {
-          status: 200,
-          content: resources
-        };
-      } catch (error) {
-        return {
-          status: 500,
-          message: `Error loading resources: ${error}`
-        };
       }
-    }
-  }),
-  resourcesGet: tool({
-    description: 'Get an specific resource.',
-    inputSchema: z.object({
-      id: z.string().describe('The ID of the resource.')
     }),
-    async execute({ id }) {
-      try {
-        // Authenticate Convex
-        const { getToken } = await auth();
-        const token = await getToken({ template: 'convex' });
-        client.setAuth(token!);
+    companiesGet: tool({
+      description: 'Get an specific company.',
+      inputSchema: z.object({
+        id: z.string().describe('The ID of the company.')
+      }),
+      async execute({ id }) {
+        try {
+          // Obtain Company
+          const company = await convex.query(api.companies.get, { id });
 
-        // Obtain Resource
-        const resource = await client.query(api.resources.get, { id: id as Id<'resources'> });
-
-        // Return Resource
-        if (!resource) {
+          // Return Company
+          if (!company) {
+            return {
+              status: 200,
+              content: 'No company found.'
+            };
+          }
           return {
             status: 200,
-            content: 'No resource found.'
+            content: company
           };
-        }
-        return {
-          status: 200,
-          content: resource
-        };
-      } catch (error) {
-        return {
-          status: 500,
-          message: `Error loading resource: ${error}`
-        };
-      }
-    }
-  }),
-
-  // Notifications Tools
-  notificationsList: tool({
-    description: `List all notifications.`,
-    inputSchema: z.object(),
-    async execute() {
-      try {
-        // Authenticate Convex
-        const { getToken } = await auth();
-        const token = await getToken({ template: 'convex' });
-        client.setAuth(token!);
-
-        // Obtain Notifications
-        const notifications = await client.query(api.notifications.list, { limit: 8 });
-
-        // Return Notifications
-        if (!notifications || notifications.length === 0) {
+        } catch (error) {
           return {
-            status: 200,
-            content: 'No notifications found.'
+            status: 500,
+            message: `Error loading company: ${error}`
           };
         }
-        return {
-          status: 200,
-          content: notifications
-        };
-      } catch (error) {
-        return {
-          status: 500,
-          message: `Error loading notifications: ${error}`
-        };
       }
-    }
-  }),
-  notificationsGet: tool({
-    description: 'Get an specific notification.',
-    inputSchema: z.object({
-      id: z.string().describe('The ID of the notification.')
     }),
-    async execute({ id }) {
-      try {
-        // Authenticate Convex
-        const { getToken } = await auth();
-        const token = await getToken({ template: 'convex' });
-        client.setAuth(token!);
 
-        // Obtain Notification
-        const notification = await client.query(api.notifications.get, { id: id as Id<'notifications'> });
+    // Documents Tools
+    documentsList: tool({
+      description: 'List all documents.',
+      inputSchema: z.object({
+        company: z.union([z.literal('motakaro'), z.string().min(1)]).describe('Enter "motakaro" for Motakaro documents, or a company ID to filter by company.')
+      }),
+      async execute({ company }) {
+        try {
+          // Obtain Documents
+          const documents = await convex.query(api.documents.list, { companyId: company === 'motakaro' ? undefined : (company as Id<'companies'>) });
 
-        // Return Notification
-        if (!notification) {
+          // Return Documents
+          if (!documents || documents.length === 0) {
+            return {
+              status: 200,
+              content: 'No documents found.'
+            };
+          }
           return {
             status: 200,
-            content: 'No notification found.'
+            content: documents
+          };
+        } catch (error) {
+          return {
+            status: 500,
+            message: `Error loading documents: ${error}`
           };
         }
+      }
+    }),
+    documentsGet: tool({
+      description: 'Get an specific document.',
+      inputSchema: z.object({
+        id: z.string().describe('The ID of the document.')
+      }),
+      async execute({ id }) {
+        try {
+          // Obtain Document
+          const document = await convex.query(api.documents.get, { id });
+
+          // Return Document
+          if (!document) {
+            return {
+              status: 200,
+              content: 'No document found.'
+            };
+          }
+          return {
+            status: 200,
+            content: {
+              ...document,
+              content: tiptapToMarkdown(document.content)
+            }
+          };
+        } catch (error) {
+          return {
+            status: 500,
+            message: `Error loading document: ${error}`
+          };
+        }
+      }
+    }),
+
+    // Whiteboards Tools
+    whiteboardsList: tool({
+      description: 'List all whiteboards.',
+      inputSchema: z.object({
+        company: z.union([z.literal('motakaro'), z.string().min(1)]).describe('Enter "motakaro" for Motakaro whiteboards, or a company ID to filter by company.')
+      }),
+      async execute({ company }) {
+        try {
+          // Obtain Whiteboards
+          const whiteboards = await convex.query(api.whiteboards.list, { companyId: company === 'motakaro' ? undefined : (company as Id<'companies'>) });
+
+          // Return Whiteboards
+          if (!whiteboards || whiteboards.length === 0) {
+            return {
+              status: 200,
+              content: 'No whiteboards found.'
+            };
+          }
+          return {
+            status: 200,
+            content: whiteboards
+          };
+        } catch (error) {
+          return {
+            status: 500,
+            message: `Error loading whiteboards: ${error}`
+          };
+        }
+      }
+    }),
+    whiteboardsGet: tool({
+      description: 'Get an specific whiteboard.',
+      inputSchema: z.object({
+        id: z.string().describe('The ID of the whiteboard.')
+      }),
+      async execute({ id }) {
+        try {
+          // Obtain Whiteboard
+          const whiteboard = await convex.query(api.whiteboards.get, { id });
+
+          // Return Whiteboard
+          if (!whiteboard) {
+            return {
+              status: 200,
+              content: 'No whiteboard found.'
+            };
+          }
+          return {
+            status: 200,
+            content: whiteboard
+          };
+        } catch (error) {
+          return {
+            status: 500,
+            message: `Error loading whiteboard: ${error}`
+          };
+        }
+      }
+    }),
+
+    // Multimedia Tools
+    multimediaList: tool({
+      description: 'List all media files.',
+      inputSchema: z.object({
+        company: z.union([z.literal('motakaro'), z.string().min(1)]).describe('Enter "motakaro" for Motakaro media files, or a company ID to filter by company.')
+      }),
+      async execute({ company }) {
+        try {
+          // Obtain Multimedia
+          const multimedia = await convex.query(api.multimedia.list, { companyId: company === 'motakaro' ? undefined : (company as Id<'companies'>) });
+
+          // Return Multimedia
+          if (!multimedia || multimedia.length === 0) {
+            return {
+              status: 200,
+              content: 'No media files found.'
+            };
+          }
+          return {
+            status: 200,
+            content: multimedia
+          };
+        } catch (error) {
+          return {
+            status: 500,
+            message: `Error loading media files: ${error}`
+          };
+        }
+      }
+    }),
+    multimediaGet: tool({
+      description: 'Get an specific media file.',
+      inputSchema: z.object({
+        id: z.string().describe('The ID of the media file.')
+      }),
+      async execute({ id }) {
+        try {
+          // Obtain Media File
+          const multimedia = await convex.query(api.multimedia.get, { id });
+
+          // Return Media File
+          if (!multimedia) {
+            return {
+              status: 200,
+              content: 'No media file found.'
+            };
+          }
+          return {
+            status: 200,
+            content: multimedia
+          };
+        } catch (error) {
+          return {
+            status: 500,
+            message: `Error loading media file: ${error}`
+          };
+        }
+      }
+    }),
+
+    // Resources Tools
+    resourcesList: tool({
+      description: `List all resources.`,
+      inputSchema: z.object(),
+      async execute() {
+        try {
+          // Obtain Resources
+          const resources = await convex.query(api.resources.list, {});
+
+          // Return Resources
+          if (!resources || resources.length === 0) {
+            return {
+              status: 200,
+              content: 'No resources found.'
+            };
+          }
+          return {
+            status: 200,
+            content: resources
+          };
+        } catch (error) {
+          return {
+            status: 500,
+            message: `Error loading resources: ${error}`
+          };
+        }
+      }
+    }),
+    resourcesGet: tool({
+      description: 'Get an specific resource.',
+      inputSchema: z.object({
+        id: z.string().describe('The ID of the resource.')
+      }),
+      async execute({ id }) {
+        try {
+          // Obtain Resource
+          const resource = await convex.query(api.resources.get, { id });
+
+          // Return Resource
+          if (!resource) {
+            return {
+              status: 200,
+              content: 'No resource found.'
+            };
+          }
+          return {
+            status: 200,
+            content: resource
+          };
+        } catch (error) {
+          return {
+            status: 500,
+            message: `Error loading resource: ${error}`
+          };
+        }
+      }
+    }),
+
+    // Notifications Tools
+    notificationsList: tool({
+      description: `List all notifications.`,
+      inputSchema: z.object(),
+      async execute() {
+        try {
+          // Obtain Notifications
+          const notifications = await convex.query(api.notifications.list, { limit: 8 });
+
+          // Return Notifications
+          if (!notifications || notifications.length === 0) {
+            return {
+              status: 200,
+              content: 'No notifications found.'
+            };
+          }
+          return {
+            status: 200,
+            content: notifications
+          };
+        } catch (error) {
+          return {
+            status: 500,
+            message: `Error loading notifications: ${error}`
+          };
+        }
+      }
+    }),
+    notificationsGet: tool({
+      description: 'Get an specific notification.',
+      inputSchema: z.object({
+        id: z.string().describe('The ID of the notification.')
+      }),
+      async execute({ id }) {
+        try {
+          // Obtain Notification
+          const notification = await convex.query(api.notifications.get, { id });
+
+          // Return Notification
+          if (!notification) {
+            return {
+              status: 200,
+              content: 'No notification found.'
+            };
+          }
+          return {
+            status: 200,
+            content: notification
+          };
+        } catch (error) {
+          return {
+            status: 500,
+            message: `Error loading notification: ${error}`
+          };
+        }
+      }
+    }),
+
+    // Other Tools
+    userRedirect: tool({
+      description: 'Redirects the user to a specified URL inside the app.',
+      inputSchema: z.object({
+        section: z.enum(['/overview', '/meetings', '/messages', '/contacts', '/companies', '/invoices', '/analytics', '/documents', '/whiteboards', '/multimedia', '/resources', '/notifications', '/settings']),
+        id: z.string().optional().describe('ID for dynamic routes like /multimedia/[id] (Only avaliable for /meetings, /documents, /whiteboards, /multimedia and /resources)')
+      }),
+      async execute({ section, id }) {
+        const dynamicRoutes = ['/meetings', '/documents', '/whiteboards', '/multimedia', '/resources'];
+        const isDynamic = dynamicRoutes.includes(section);
+        const path = isDynamic && id ? `${section}/${id}` : section;
         return {
-          status: 200,
-          content: notification
-        };
-      } catch (error) {
-        return {
-          status: 500,
-          message: `Error loading notification: ${error}`
+          success: true,
+          redirect: path
         };
       }
-    }
-  }),
-
-  // Other Tools
-  usersRedirect: tool({
-    description: 'Redirects the user to a specified URL inside the app.',
-    inputSchema: z.object({
-      section: z.enum(['/overview', '/meetings', '/messages', '/contacts', '/companies', '/invoices', '/analytics', '/documents', '/whiteboards', '/multimedia', '/resources', '/notifications', '/settings']),
-      id: z.string().optional().describe('ID for dynamic routes like /multimedia/[id] (Only avaliable for /meetings, /documents, /whiteboards, /multimedia and /resources)')
-    }),
-    async execute({ section, id }) {
-      const dynamicRoutes = ['/meetings', '/documents', '/whiteboards', '/multimedia', '/resources'];
-      const isDynamic = dynamicRoutes.includes(section);
-      const path = isDynamic && id ? `${section}/${id}` : section;
-      return {
-        success: true,
-        redirect: path
-      };
-    }
-  })
-};
+    })
+  };
+}
 
 // General Types
-export type ChatTools = InferUITools<typeof tools>;
+export type ChatTools = InferUITools<ReturnType<typeof chatbotTools>>;
 export type ChatMessage = UIMessage<never, UIDataTypes, ChatTools>;
 
 // Meetings Tools

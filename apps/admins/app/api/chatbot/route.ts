@@ -1,12 +1,11 @@
-import { NextResponse } from 'next/server';
-
 import { mistral } from '@ai-sdk/mistral';
 import { openai } from '@ai-sdk/openai';
-import { auth } from '@clerk/nextjs/server';
 import { type UIMessage, convertToModelMessages, stepCountIs, streamText } from 'ai';
 
-import { tools } from '@/app/api/chatbot/tools';
+import { chatbotTools } from '@/app/api/chatbot/tools';
 import { models } from '@/lib/chatbot/models';
+import { getConvex } from '@/server/get-convex';
+import { verifyAuth } from '@/server/verify-auth';
 
 interface RequestProps {
   model: string;
@@ -18,13 +17,15 @@ interface RequestProps {
 
 export async function POST(request: Request) {
   // Check Identity
-  const userId = await auth();
-  if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  await verifyAuth();
 
   // Process Request
   const { model, system, temperature, messages, timezone }: RequestProps = await request.json();
 
-  // Obtain Date & Time
+  // Obtain Convex
+  const convex = await getConvex();
+
+  // Obtain Calendar
   const date = new Intl.DateTimeFormat('en-CA', {
     timeZone: timezone || 'UTC',
     year: 'numeric',
@@ -49,13 +50,15 @@ export async function POST(request: Request) {
     You are the helpful, approachable, personal assistant in Motakaro.
     Motakaro is a LinkedIn Ads / GTM Consultancy / Hybrid Demand Agency.
     You are used through the Motakaro web app, only by Motakaro employees.
+
     Tool Calling: When fetching data with a tool the user already can the data so dont present it through text.
-    The current date is: ${date}, the current time is: ${time}.
+
+    Current date is: ${date}. Current time is: ${time}.
     ${system}`,
     temperature: temperature,
     messages: await convertToModelMessages(messages),
-    stopWhen: stepCountIs(5),
-    tools: tools
+    stopWhen: stepCountIs(15),
+    tools: chatbotTools(convex)
   });
 
   // Return Response
