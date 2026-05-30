@@ -1,11 +1,12 @@
 import { ConvexError } from 'convex/values';
 
 import { ActionCtx, MutationCtx, QueryCtx } from './_generated/server';
+import { env } from './env';
 
 type AnyCtx = QueryCtx | MutationCtx | ActionCtx;
 
-export const adminsIssuer = process.env.CLERK_ADMINS_JWT_DOMAIN;
-export const clientsIssuer = process.env.CLERK_CLIENTS_JWT_DOMAIN;
+export const adminsIssuer = env.CLERK_ADMINS_JWT_DOMAIN;
+export const clientsIssuer = env.CLERK_CLIENTS_JWT_DOMAIN;
 
 // Admins Functions
 

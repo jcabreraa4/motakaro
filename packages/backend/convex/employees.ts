@@ -94,7 +94,7 @@ export const update = mutation({
   }
 });
 
-// Internal Mutations
+// Internal Functions
 
 export const internalUpsert = internalMutation({
   args: {

@@ -4,6 +4,7 @@ import { Webhook } from 'svix';
 
 import { internal } from './_generated/api';
 import { httpAction } from './_generated/server';
+import { env } from './env';
 
 const http = httpRouter();
 
@@ -45,7 +46,7 @@ async function validateClerkAdminsRequest(req: Request): Promise<WebhookEvent | 
   const svixTimestamp = req.headers.get('svix-timestamp');
   const svixSignature = req.headers.get('svix-signature');
   if (!svixId || !svixTimestamp || !svixSignature) return null;
-  const wh = new Webhook(process.env.CLERK_ADMINS_WEBHOOK_SECRET!);
+  const wh = new Webhook(env.CLERK_ADMINS_WEBHOOK_SECRET);
   try {
     return wh.verify(payloadStr, {
       'svix-id': svixId,
@@ -149,7 +150,7 @@ async function validateClerkClientsRequest(req: Request): Promise<WebhookEvent |
   const svixTimestamp = req.headers.get('svix-timestamp');
   const svixSignature = req.headers.get('svix-signature');
   if (!svixId || !svixTimestamp || !svixSignature) return null;
-  const wh = new Webhook(process.env.CLERK_CLIENTS_WEBHOOK_SECRET!);
+  const wh = new Webhook(env.CLERK_CLIENTS_WEBHOOK_SECRET);
   try {
     return wh.verify(payloadStr, {
       'svix-id': svixId,
@@ -234,9 +235,9 @@ http.route({
 });
 
 async function validateCalcomRequest(body: string, signature: string | null): Promise<boolean> {
-  if (!signature || !process.env.CALCOM_WEBHOOK_SECRET) return false;
+  if (!signature || env.CALCOM_WEBHOOK_SECRET) return false;
   const encoder = new TextEncoder();
-  const key = await crypto.subtle.importKey('raw', encoder.encode(process.env.CALCOM_WEBHOOK_SECRET), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const key = await crypto.subtle.importKey('raw', encoder.encode(env.CALCOM_WEBHOOK_SECRET), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
   const mac = await crypto.subtle.sign('HMAC', key, encoder.encode(body));
   const expected = Array.from(new Uint8Array(mac))
     .map((b) => b.toString(16).padStart(2, '0'))

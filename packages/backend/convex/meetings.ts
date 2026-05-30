@@ -7,18 +7,23 @@ import { verifyAdminAuth } from './auth';
 // Admins Functions
 
 export const list = query({
-  handler: async (ctx) => {
+  args: {
+    limit: v.optional(v.number())
+  },
+  handler: async (ctx, args) => {
     // Check Identity
     await verifyAdminAuth(ctx);
 
     // Return Meetings
-    return ctx.db.query('meetings').order('desc').collect();
+    const query = ctx.db.query('meetings').order('desc');
+    return args.limit ? await query.take(args.limit) : await query.collect();
   }
 });
 
 export const get = query({
   args: {
-    id: v.string()
+    id: v.optional(v.string()),
+    calcomId: v.optional(v.string())
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -26,7 +31,14 @@ export const get = query({
 
     try {
       // Return Meeting
-      return await ctx.db.get(args.id as Id<'meetings'>);
+      if (args.id) {
+        return await ctx.db.get(args.id as Id<'meetings'>);
+      } else if (args.calcomId) {
+        return await ctx.db
+          .query('meetings')
+          .withIndex('by_calcomId', (q) => q.eq('calcomId', args.calcomId!))
+          .first();
+      }
     } catch {
       return null;
     }
@@ -53,7 +65,7 @@ export const update = mutation({
   }
 });
 
-// Internal Mutations
+// Internal Functions
 
 export const upsert = internalMutation({
   args: {

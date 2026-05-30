@@ -4,6 +4,7 @@ import { ConvexError, v } from 'convex/values';
 import type { Id } from './_generated/dataModel';
 import { internalAction, internalMutation, query } from './_generated/server';
 import { getClientAuth, verifyAdminAuth } from './auth';
+import { env } from './env';
 
 // Admins Functions
 
@@ -149,14 +150,12 @@ export const internalUpdate = internalMutation({
   }
 });
 
-// Custom Functions
-
 export const disableDelete = internalAction({
   args: {
     clerkId: v.string()
   },
   handler: async (ctx, args) => {
-    const clerk = createClerkClient({ secretKey: process.env.CLERK_CLIENTS_SECRET_KEY });
+    const clerk = createClerkClient({ secretKey: env.CLERK_CLIENTS_SECRET_KEY });
     await clerk.organizations.updateOrganization(args.clerkId, {
       adminDeleteEnabled: false
     });

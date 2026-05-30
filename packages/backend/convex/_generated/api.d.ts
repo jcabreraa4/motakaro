@@ -14,6 +14,7 @@ import type * as contacts from "../contacts.js";
 import type * as documents from "../documents.js";
 import type * as embeddings from "../embeddings.js";
 import type * as employees from "../employees.js";
+import type * as env from "../env.js";
 import type * as http from "../http.js";
 import type * as meetings from "../meetings.js";
 import type * as memberships from "../memberships.js";
@@ -36,6 +37,7 @@ declare const fullApi: ApiFromModules<{
   documents: typeof documents;
   embeddings: typeof embeddings;
   employees: typeof employees;
+  env: typeof env;
   http: typeof http;
   meetings: typeof meetings;
   memberships: typeof memberships;

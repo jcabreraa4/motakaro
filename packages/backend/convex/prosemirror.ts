@@ -12,6 +12,7 @@ async function requireOwner(ctx: QueryCtx | MutationCtx, documentId: string) {
   // Check Identity
   await verifyAdminAuth(ctx);
 
+  // Obtain Document
   const document = await ctx.db.get(documentId as Id<'documents'>);
   if (!document) throw new ConvexError('Document not found');
 }

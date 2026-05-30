@@ -17,7 +17,7 @@ export function chatbotTools(convex: ConvexHttpClient) {
       async execute() {
         try {
           // Obtain Meetings
-          const meetings = await convex.query(api.meetings.list);
+          const meetings = await convex.query(api.meetings.list, {});
 
           // Return Meetings
           if (!meetings || meetings.length === 0) {
