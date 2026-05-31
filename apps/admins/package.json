@@ -33,6 +33,7 @@
     "@tiptap/static-renderer": "^3.22.4",
     "@types/react-color": "^3.0.13",
     "@workspace/backend": "workspace:*",
+    "@workspace/trigger": "workspace:*",
     "@workspace/ui": "workspace:*",
     "ai": "^6.0.136",
     "convex": "^1.32.0",

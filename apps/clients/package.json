@@ -17,6 +17,7 @@
     "@hookform/resolvers": "^5.2.2",
     "@sentry/nextjs": "^10",
     "@workspace/backend": "workspace:*",
+    "@workspace/trigger": "workspace:*",
     "@workspace/ui": "workspace:*",
     "convex": "^1.32.0",
     "date-fns": "^4.2.1",

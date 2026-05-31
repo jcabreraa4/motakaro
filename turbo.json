@@ -1,7 +1,7 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
-  "globalEnv": ["NEXT_RUNTIME", "CI", "CLERK_CLIENTS_APP_SECRET_KEY", "SENTRY_AUTH_TOKEN"],
+  "globalEnv": ["NEXT_RUNTIME", "CI", "SENTRY_AUTH_TOKEN", "TRIGGER_API_URL", "TRIGGER_SECRET_KEY"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
