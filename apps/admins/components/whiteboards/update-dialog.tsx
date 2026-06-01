@@ -9,6 +9,7 @@ import type { Whiteboard } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { cn } from '@workspace/ui/lib/utils';
@@ -20,19 +21,19 @@ interface UpdateDialogProps {
 
 export function UpdateDialog({ whiteboard, children }: UpdateDialogProps) {
   const [open, setOpen] = useState(false);
-  const [info, setInfo] = useState({ name: whiteboard.name, note: whiteboard.note });
+  const [info, setInfo] = useState({ name: whiteboard.name, note: whiteboard.note, starred: whiteboard.starred.toString() });
 
   const updateWhiteboard = useMutation(api.whiteboards.update);
 
   function updateInfo() {
-    updateWhiteboard({ id: whiteboard._id, name: info.name, note: info.note }).finally(() => {
+    updateWhiteboard({ id: whiteboard._id, name: info.name, note: info.note, starred: info.starred === 'true' }).finally(() => {
       toast.success('Whiteboard updated successfully.');
       setOpen(false);
     });
   }
 
   function handleReset() {
-    setInfo({ name: whiteboard.name, note: whiteboard.note });
+    setInfo({ name: whiteboard.name, note: whiteboard.note, starred: whiteboard.starred.toString() });
   }
 
   return (
@@ -65,6 +66,23 @@ export function UpdateDialog({ whiteboard, children }: UpdateDialogProps) {
               onChange={(e) => setInfo({ ...info, note: e.target.value })}
               className={cn('h-20', info.note !== whiteboard.note && 'border-red-500')}
             />
+          </div>
+          <div className="hidden flex-col gap-2 lg:flex">
+            <Label>Starred</Label>
+            <Select
+              value={info.starred}
+              onValueChange={(value) => setInfo({ ...info, starred: value })}
+            >
+              <SelectTrigger className={cn('w-full cursor-pointer', info.starred !== whiteboard.starred.toString() && 'border-red-500')}>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="true">True</SelectItem>
+                  <SelectItem value="false">False</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
         </div>
         <SheetFooter>

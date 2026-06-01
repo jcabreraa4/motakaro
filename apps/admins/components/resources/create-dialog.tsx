@@ -36,15 +36,15 @@ interface CreateDialogProps {
 
 export function CreateDialog({ variant = 'default', className }: CreateDialogProps) {
   const [open, setOpen] = useState(false);
-  const [info, setInfo] = useState({ name: '', note: '', link: '', embed: '', thumbnail: '', published: 'true' });
+  const [info, setInfo] = useState({ name: '', note: '', starred: 'false', link: '', embed: '', thumbnail: '', published: 'false' });
 
   const createResource = useMutation(api.resources.create);
 
   function handleCreate() {
-    createResource({ name: info.name, note: info.note, link: info.link, embed: info.embed, thumbnail: info.thumbnail, published: info.published === 'true' }).finally(() => {
+    createResource({ name: info.name, note: info.note, starred: info.starred === 'true', link: info.link, embed: info.embed, thumbnail: info.thumbnail, published: info.published === 'true' }).finally(() => {
       toast.success('Resource listed successfully.');
       setOpen(false);
-      setInfo({ name: '', note: '', link: '', embed: '', thumbnail: '', published: 'true' });
+      setInfo({ name: '', note: '', starred: 'false', link: '', embed: '', thumbnail: '', published: 'false' });
     });
   }
 
@@ -85,6 +85,23 @@ export function CreateDialog({ variant = 'default', className }: CreateDialogPro
               value={info.note}
               onChange={(e) => setInfo({ ...info, note: e.target.value })}
             />
+          </div>
+          <div className="hidden flex-col gap-2 lg:flex">
+            <Label>Starred</Label>
+            <Select
+              value={info.starred}
+              onValueChange={(value) => setInfo({ ...info, starred: value })}
+            >
+              <SelectTrigger className="w-full cursor-pointer">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="true">True</SelectItem>
+                  <SelectItem value="false">False</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="link">Video</Label>

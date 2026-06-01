@@ -199,7 +199,7 @@ export default defineSchema({
     companyId: v.optional(v.id('companies'))
   })
     .index('by_companyId_updated', ['companyId', 'updated'])
-    .index('by_companyId_clientsVisible_updated', ['companyId', 'clientsVisible', 'updated']),
+    .index('by_companyId_clientsVisible', ['companyId', 'clientsVisible']),
 
   // Website Resources
   resources: defineTable({

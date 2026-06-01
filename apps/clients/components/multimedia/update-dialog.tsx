@@ -10,6 +10,7 @@ import { Button } from '@workspace/ui/components/button';
 import { Input } from '@workspace/ui/components/input';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Label } from '@workspace/ui/components/label';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { cn } from '@workspace/ui/lib/utils';
@@ -23,19 +24,19 @@ interface UpdateDialogProps {
 
 export function UpdateDialog({ file, children }: UpdateDialogProps) {
   const [open, setOpen] = useState(false);
-  const [info, setInfo] = useState({ name: file.name, note: file.note });
+  const [info, setInfo] = useState({ name: file.name, note: file.note, starred: file.clientsStarred.toString() });
 
   const updateFile = useMutation(api.multimedia.clientsUpdate);
 
   function handleUpdate() {
-    updateFile({ id: file._id, name: info.name, note: info.note }).finally(() => {
+    updateFile({ id: file._id, name: info.name, note: info.note, clientsStarred: info.starred === 'true' }).finally(() => {
       toast.success('File updated successfully.');
       setOpen(false);
     });
   }
 
   function handleReset() {
-    setInfo({ name: file.name, note: file.note });
+    setInfo({ name: file.name, note: file.note, starred: file.clientsStarred.toString() });
   }
 
   return (
@@ -78,6 +79,23 @@ export function UpdateDialog({ file, children }: UpdateDialogProps) {
               onChange={(e) => setInfo({ ...info, note: e.target.value })}
               className={cn('h-20', info.note !== file.note && 'border-red-500')}
             />
+          </div>
+          <div className="hidden flex-col gap-2 lg:flex">
+            <Label>Starred</Label>
+            <Select
+              value={info.starred}
+              onValueChange={(value) => setInfo({ ...info, starred: value })}
+            >
+              <SelectTrigger className={cn('w-full cursor-pointer', info.starred !== file.clientsStarred.toString() && 'border-red-500')}>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="true">True</SelectItem>
+                  <SelectItem value="false">False</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
         </div>
         <SheetFooter className="gap-3">

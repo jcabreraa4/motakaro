@@ -68,8 +68,6 @@ export function MultimediaToolbar({ file }: { file: MediaFile }) {
   ];
 
   function openFile() {
-    if (!file._id) return;
-    updateFile({ id: file._id });
     router.push(`/multimedia/${file._id}`);
   }
 

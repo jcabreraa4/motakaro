@@ -57,7 +57,8 @@ export const create = mutation({
     link: v.string(),
     embed: v.string(),
     thumbnail: v.string(),
-    published: v.boolean()
+    published: v.boolean(),
+    starred: v.boolean()
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -71,7 +72,7 @@ export const create = mutation({
       embed: args.embed,
       thumbnail: args.thumbnail,
       published: args.published,
-      starred: false,
+      starred: args.starred,
       updated: Date.now()
     });
   }

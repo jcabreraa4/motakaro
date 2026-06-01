@@ -19,7 +19,6 @@ function WhiteboardRow({ whiteboard }: { whiteboard: Whiteboard }) {
   const updateWhiteboard = useMutation(api.whiteboards.update);
 
   function openWhiteboard(newWindow = false) {
-    updateWhiteboard({ id: whiteboard._id });
     if (newWindow) {
       window.open(`/whiteboards/${whiteboard._id}`, '_blank');
     } else {

@@ -36,19 +36,19 @@ interface UpdateDialogProps {
 
 export function UpdateDialog({ resource, children }: UpdateDialogProps) {
   const [open, setOpen] = useState(false);
-  const [info, setInfo] = useState({ name: resource.name, note: resource.note, link: resource.link, embed: resource.embed, thumbnail: resource.thumbnail, published: resource.published.toString() });
+  const [info, setInfo] = useState({ name: resource.name, note: resource.note, starred: resource.starred.toString(), link: resource.link, embed: resource.embed, thumbnail: resource.thumbnail, published: resource.published.toString() });
 
   const updateResource = useMutation(api.resources.update);
 
   function handleUpdate() {
-    updateResource({ id: resource._id, name: info.name, note: info.note, link: info.link, embed: info.embed, thumbnail: info.thumbnail, published: info.published === 'true' }).finally(() => {
+    updateResource({ id: resource._id, name: info.name, note: info.note, starred: info.starred === 'true', link: info.link, embed: info.embed, thumbnail: info.thumbnail, published: info.published === 'true' }).finally(() => {
       toast.success('Resource updated successfully.');
       setOpen(false);
     });
   }
 
   function handleReset() {
-    setInfo({ name: resource.name, note: resource.note, link: resource.link, embed: resource.embed, thumbnail: resource.thumbnail, published: resource.published.toString() });
+    setInfo({ name: resource.name, note: resource.note, starred: resource.starred.toString(), link: resource.link, embed: resource.embed, thumbnail: resource.thumbnail, published: resource.published.toString() });
   }
 
   return (
@@ -81,6 +81,23 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
               onChange={(e) => setInfo({ ...info, note: e.target.value })}
               className={cn('h-20', info.note !== resource.note && 'border-red-500')}
             />
+          </div>
+          <div className="hidden flex-col gap-2 lg:flex">
+            <Label>Starred</Label>
+            <Select
+              value={info.starred}
+              onValueChange={(value) => setInfo({ ...info, starred: value })}
+            >
+              <SelectTrigger className={cn('w-full cursor-pointer', info.starred !== resource.starred.toString() && 'border-red-500')}>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="true">True</SelectItem>
+                  <SelectItem value="false">False</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="link">Video</Label>

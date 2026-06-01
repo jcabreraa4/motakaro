@@ -9,6 +9,7 @@ import type { Document } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { cn } from '@workspace/ui/lib/utils';
@@ -20,19 +21,19 @@ interface UpdateDialogProps {
 
 export function UpdateDialog({ document, children }: UpdateDialogProps) {
   const [open, setOpen] = useState(false);
-  const [info, setInfo] = useState({ name: document.name, note: document.note });
+  const [info, setInfo] = useState({ name: document.name, note: document.note, starred: document.starred.toString() });
 
   const updateDocument = useMutation(api.documents.update);
 
   function updateInfo() {
-    updateDocument({ id: document._id, name: info.name, note: info.note }).finally(() => {
+    updateDocument({ id: document._id, name: info.name, note: info.note, starred: info.starred === 'true' }).finally(() => {
       toast.success('Document updated successfully.');
       setOpen(false);
     });
   }
 
   function handleReset() {
-    setInfo({ name: document.name, note: document.note });
+    setInfo({ name: document.name, note: document.note, starred: document.starred.toString() });
   }
 
   return (
@@ -65,6 +66,23 @@ export function UpdateDialog({ document, children }: UpdateDialogProps) {
               onChange={(e) => setInfo({ ...info, note: e.target.value })}
               className={cn('h-20', info.note !== document.note && 'border-red-500')}
             />
+          </div>
+          <div className="hidden flex-col gap-2 lg:flex">
+            <Label>Starred</Label>
+            <Select
+              value={info.starred}
+              onValueChange={(value) => setInfo({ ...info, starred: value })}
+            >
+              <SelectTrigger className={cn('w-full cursor-pointer', info.starred !== document.starred.toString() && 'border-red-500')}>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="true">True</SelectItem>
+                  <SelectItem value="false">False</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
         </div>
         <SheetFooter>

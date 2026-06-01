@@ -106,7 +106,8 @@ export const update = mutation({
     name: v.optional(v.string()),
     note: v.optional(v.string()),
     starred: v.optional(v.boolean()),
-    clientsVisible: v.optional(v.boolean())
+    clientsVisible: v.optional(v.boolean()),
+    clientsStarred: v.optional(v.boolean())
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -122,6 +123,7 @@ export const update = mutation({
       ...(args.note !== undefined ? { note: args.note } : {}),
       ...(args.starred !== undefined ? { starred: args.starred } : {}),
       ...(args.clientsVisible !== undefined ? { clientsVisible: args.clientsVisible } : {}),
+      ...(args.clientsStarred !== undefined ? { clientsStarred: args.clientsStarred } : {}),
       updated: Date.now()
     });
   }
@@ -151,7 +153,7 @@ export const clientsList = query({
     // Return Multimedia
     const query = ctx.db
       .query('multimedia')
-      .withIndex('by_companyId_clientsVisible_updated', (q) => q.eq('companyId', company._id).eq('clientsVisible', true))
+      .withIndex('by_companyId_clientsVisible', (q) => q.eq('companyId', company._id).eq('clientsVisible', true))
       .order('desc');
     const multimedia = args.limit ? await query.take(args.limit) : await query.collect();
     return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await ctx.storage.getUrl(file.storageId) })));

@@ -19,7 +19,6 @@ function DocumentRow({ document }: { document: Document }) {
   const updateDocument = useMutation(api.documents.update);
 
   function openDocument(newWindow = false) {
-    updateDocument({ id: document._id });
     if (newWindow) {
       window.open(`/documents/${document._id}`, '_blank');
     } else {

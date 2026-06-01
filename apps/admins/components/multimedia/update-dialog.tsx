@@ -11,6 +11,7 @@ import { Input } from '@workspace/ui/components/input';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Label } from '@workspace/ui/components/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
+import { Separator } from '@workspace/ui/components/separator';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { cn } from '@workspace/ui/lib/utils';
@@ -24,19 +25,19 @@ interface UpdateDialogProps {
 
 export function UpdateDialog({ file, children }: UpdateDialogProps) {
   const [open, setOpen] = useState(false);
-  const [info, setInfo] = useState({ name: file.name, note: file.note, visible: file.clientsVisible.toString() });
+  const [info, setInfo] = useState({ name: file.name, note: file.note, starred: file.starred.toString(), clientsVisible: file.clientsVisible.toString(), clientsStarred: file.clientsStarred.toString() });
 
   const updateFile = useMutation(api.multimedia.update);
 
   function handleUpdate() {
-    updateFile({ id: file._id, name: info.name, note: info.note, clientsVisible: info.visible === 'true' }).finally(() => {
+    updateFile({ id: file._id, name: info.name, note: info.note, starred: info.starred === 'true', clientsVisible: info.clientsVisible === 'true', clientsStarred: info.clientsStarred === 'true' }).finally(() => {
       toast.success('File updated successfully.');
       setOpen(false);
     });
   }
 
   function handleReset() {
-    setInfo({ name: file.name, note: file.note, visible: file.clientsVisible.toString() });
+    setInfo({ name: file.name, note: file.note, starred: file.starred.toString(), clientsVisible: file.clientsVisible.toString(), clientsStarred: file.clientsStarred.toString() });
   }
 
   return (
@@ -80,24 +81,61 @@ export function UpdateDialog({ file, children }: UpdateDialogProps) {
               className={cn('h-20', info.note !== file.note && 'border-red-500')}
             />
           </div>
+          <div className="hidden flex-col gap-2 lg:flex">
+            <Label>Starred</Label>
+            <Select
+              value={info.starred}
+              onValueChange={(value) => setInfo({ ...info, starred: value })}
+            >
+              <SelectTrigger className={cn('w-full cursor-pointer', info.starred !== file.starred.toString() && 'border-red-500')}>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="true">True</SelectItem>
+                  <SelectItem value="false">False</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
           {file.companyId && (
-            <div className="flex flex-col gap-2">
-              <Label>Visible</Label>
-              <Select
-                value={info.visible}
-                onValueChange={(value) => setInfo({ ...info, visible: value })}
-              >
-                <SelectTrigger className={cn('w-full cursor-pointer', info.visible !== file.clientsVisible.toString() && 'border-red-500')}>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="true">True</SelectItem>
-                    <SelectItem value="false">False</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
+            <>
+              <Separator />
+              <div className="flex flex-col gap-2">
+                <Label>Clients Visible</Label>
+                <Select
+                  value={info.clientsVisible}
+                  onValueChange={(value) => setInfo({ ...info, clientsVisible: value })}
+                >
+                  <SelectTrigger className={cn('w-full cursor-pointer', info.clientsVisible !== file.clientsVisible.toString() && 'border-red-500')}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="true">True</SelectItem>
+                      <SelectItem value="false">False</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label>Clients Starred</Label>
+                <Select
+                  value={info.clientsStarred}
+                  onValueChange={(value) => setInfo({ ...info, clientsStarred: value })}
+                >
+                  <SelectTrigger className={cn('w-full cursor-pointer', info.clientsStarred !== file.clientsStarred.toString() && 'border-red-500')}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="true">True</SelectItem>
+                      <SelectItem value="false">False</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </>
           )}
         </div>
         <SheetFooter>
