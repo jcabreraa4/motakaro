@@ -16,40 +16,40 @@ import { UpdateDialog } from '@/components/whiteboards/update-dialog';
 
 function WhiteboardRow({ whiteboard }: { whiteboard: Whiteboard }) {
   const router = useRouter();
-
   const updateWhiteboard = useMutation(api.whiteboards.update);
 
-  function openWhiteboard() {
-    router.push(`/whiteboards/${whiteboard._id}`);
-  }
-
-  function openWindow() {
-    window.open(`/whiteboards/${whiteboard._id}`, '_blank');
+  function openWhiteboard(newWindow = false) {
+    updateWhiteboard({ id: whiteboard._id });
+    if (newWindow) {
+      window.open(`/whiteboards/${whiteboard._id}`, '_blank');
+    } else {
+      router.push(`/whiteboards/${whiteboard._id}`);
+    }
   }
 
   return (
     <TableRow className="h-12 cursor-pointer p-20">
       <TableCell
         className="w-12.5 p-4"
-        onClick={openWhiteboard}
+        onClick={() => openWhiteboard()}
       >
         {whiteboard.starred ? <StarIcon className="text-yellow-500" /> : <PencilRulerIcon />}
       </TableCell>
       <TableCell
         className="font-medium"
-        onClick={openWhiteboard}
+        onClick={() => openWhiteboard()}
       >
         <div className="w-35 max-w-120 truncate md:w-fit">{whiteboard.name || 'Untitled Whiteboard'}</div>
       </TableCell>
       <TableCell
         className="hidden text-muted-foreground md:table-cell"
-        onClick={openWhiteboard}
+        onClick={() => openWhiteboard()}
       >
         {format(new Date(whiteboard._creationTime), 'MMM dd, yyyy')}
       </TableCell>
       <TableCell
         className="hidden text-muted-foreground lg:table-cell"
-        onClick={openWhiteboard}
+        onClick={() => openWhiteboard()}
       >
         {format(new Date(whiteboard.updated), 'MMM dd, yyyy')}
       </TableCell>
@@ -92,7 +92,7 @@ function WhiteboardRow({ whiteboard }: { whiteboard: Whiteboard }) {
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={openWindow}
+              onClick={() => openWhiteboard(true)}
             >
               <ExternalLinkIcon />
               Open in a new Tab

@@ -78,9 +78,9 @@ export const clientsList = query({
 
 export const internalUpsert = internalMutation({
   args: {
+    clerkId: v.string(),
     name: v.string(),
-    logo: v.string(),
-    clerkId: v.string()
+    logo: v.string()
   },
   handler: async (ctx, args) => {
     // Obtain Company
@@ -95,13 +95,13 @@ export const internalUpsert = internalMutation({
     } else {
       // Create Company
       await ctx.db.insert('companies', {
+        clerkId: args.clerkId,
         name: args.name,
         logo: args.logo,
         plan: 'onboarding',
-        clerkId: args.clerkId,
+        onboarded: false,
         status: 'active',
         starred: false,
-        onboarded: false,
         updated: Date.now()
       });
     }
@@ -134,8 +134,8 @@ export const internalRemove = internalMutation({
 
 export const internalUpdate = internalMutation({
   args: {
-    plan: v.union(v.literal('onboarding'), v.literal('rollout'), v.literal('scaling')),
-    clerkId: v.string()
+    clerkId: v.string(),
+    plan: v.union(v.literal('onboarding'), v.literal('rollout'), v.literal('scaling'))
   },
   handler: async (ctx, args) => {
     // Obtain Company

@@ -16,40 +16,40 @@ import { UpdateDialog } from '@/components/documents/update-dialog';
 
 function DocumentRow({ document }: { document: Document }) {
   const router = useRouter();
-
   const updateDocument = useMutation(api.documents.update);
 
-  function openDocument() {
-    router.push(`/documents/${document._id}`);
-  }
-
-  function openWindow() {
-    window.open(`/documents/${document._id}`, '_blank');
+  function openDocument(newWindow = false) {
+    updateDocument({ id: document._id });
+    if (newWindow) {
+      window.open(`/documents/${document._id}`, '_blank');
+    } else {
+      router.push(`/documents/${document._id}`);
+    }
   }
 
   return (
     <TableRow className="h-12 cursor-pointer p-20">
       <TableCell
         className="w-12.5 p-4"
-        onClick={openDocument}
+        onClick={() => openDocument()}
       >
         {document.starred ? <StarIcon className="text-yellow-500" /> : <FileTextIcon />}
       </TableCell>
       <TableCell
         className="font-medium"
-        onClick={openDocument}
+        onClick={() => openDocument()}
       >
         <div className="w-35 max-w-120 truncate md:w-fit">{document.name || 'Untitled Document'}</div>
       </TableCell>
       <TableCell
         className="hidden text-muted-foreground md:table-cell"
-        onClick={openDocument}
+        onClick={() => openDocument()}
       >
         {format(new Date(document._creationTime), 'MMM dd, yyyy')}
       </TableCell>
       <TableCell
         className="hidden text-muted-foreground lg:table-cell"
-        onClick={openDocument}
+        onClick={() => openDocument()}
       >
         {format(new Date(document.updated), 'MMM dd, yyyy')}
       </TableCell>
@@ -92,7 +92,7 @@ function DocumentRow({ document }: { document: Document }) {
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={openWindow}
+              onClick={() => openDocument(true)}
             >
               <ExternalLinkIcon />
               Open in a new Tab

@@ -1,7 +1,9 @@
 import { useRouter } from 'next/navigation';
 
+import { useMutation } from 'convex/react';
 import { BanIcon } from 'lucide-react';
 
+import { api } from '@workspace/backend/_generated/api';
 import type { Id } from '@workspace/backend/_generated/dataModel';
 import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { cn } from '@workspace/ui/lib/utils';
@@ -19,20 +21,21 @@ interface MultimediaPreviewProps {
 }
 
 export function MultimediaPreview({ id, src, name, type, interact = false, preview = false }: MultimediaPreviewProps) {
-  const isMobile = useIsMobile();
   const router = useRouter();
-
+  const isMobile = useIsMobile();
   const fileType = mediaType(type);
+  const updateFile = useMutation(api.multimedia.update);
 
-  function handleClick() {
+  function openFile() {
     if (!id) return;
+    updateFile({ id });
     router.push(`/multimedia/${id}`);
   }
 
   return (
     <div
       className={cn('relative aspect-video overflow-hidden rounded-md border border-black bg-black select-none dark:border-white', id && 'cursor-pointer')}
-      onClick={handleClick}
+      onClick={openFile}
     >
       {fileType === 'image' ? (
         <ImageRender

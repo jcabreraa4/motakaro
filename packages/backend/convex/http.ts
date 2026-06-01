@@ -164,6 +164,8 @@ async function validateClerkClientsRequest(req: Request): Promise<WebhookEvent |
 
 // Calcom Webhook
 
+type CalcomTrigger = 'BOOKING_CREATED' | 'BOOKING_RESCHEDULED' | 'BOOKING_CANCELLED' | 'BOOKING_REJECTED' | 'MEETING_STARTED' | 'MEETING_ENDED';
+
 http.route({
   path: '/cal-webhook',
   method: 'POST',
@@ -178,12 +180,13 @@ http.route({
 
     // Extract Data
     const event = JSON.parse(body);
-    const trigger = event.triggerEvent;
+    const trigger = event.triggerEvent as CalcomTrigger;
     const payload = event.payload;
 
     // Booking Events
     if (trigger === 'BOOKING_CREATED') {
-      await ctx.runMutation(internal.meetings.upsert, {
+      await ctx.runMutation(internal.meetings.internalUpsert, {
+        calcomId: payload.uid,
         name: payload.title,
         note: payload.responses?.notes?.value,
         link: payload.videoCallData?.url,
@@ -191,41 +194,40 @@ http.route({
         end: new Date(payload.endTime).getTime(),
         organizer: payload.organizer.email,
         attendees: payload.attendees.map((a: { email: string }) => a.email),
-        website: payload.responses?.website?.value,
-        attribution: payload.responses?.attribution?.value,
         status: 'scheduled',
-        calcomId: payload.uid
+        website: payload.responses?.website?.value,
+        attribution: payload.responses?.attribution?.value
       });
     } else if (trigger === 'BOOKING_RESCHEDULED') {
-      await ctx.runMutation(internal.meetings.upsert, {
-        start: new Date(payload.startTime).getTime(),
-        end: new Date(payload.endTime).getTime(),
-        rescheduling: payload.rescheduleReason,
-        status: 'scheduled',
+      await ctx.runMutation(internal.meetings.internalUpdate, {
         calcomId: payload.rescheduleUid ?? payload.uid,
+        status: 'scheduled',
+        rescheduling: payload.responses?.rescheduleReason?.value,
+        newStart: new Date(payload.startTime).getTime(),
+        newEnd: new Date(payload.endTime).getTime(),
         newCalcomId: payload.uid
       });
     } else if (trigger === 'BOOKING_CANCELLED') {
-      await ctx.runMutation(internal.meetings.upsert, {
-        cancellation: payload.cancellationReason ?? '',
+      await ctx.runMutation(internal.meetings.internalUpdate, {
+        calcomId: payload.uid,
         status: 'cancelled',
-        calcomId: payload.uid
+        cancellation: payload.cancellationReason
       });
     } else if (trigger === 'BOOKING_REJECTED') {
-      await ctx.runMutation(internal.meetings.upsert, {
-        rejection: payload.rejectionReason ?? '',
+      await ctx.runMutation(internal.meetings.internalUpdate, {
+        calcomId: payload.uid,
         status: 'rejected',
-        calcomId: payload.uid
+        rejection: payload.rejectionReason
       });
     } else if (trigger === 'MEETING_STARTED') {
-      await ctx.runMutation(internal.meetings.upsert, {
-        status: 'ongoing',
-        calcomId: payload.uid
+      await ctx.runMutation(internal.meetings.internalUpdate, {
+        calcomId: event.uid,
+        status: 'ongoing'
       });
     } else if (trigger === 'MEETING_ENDED') {
-      await ctx.runMutation(internal.meetings.upsert, {
-        status: 'finished',
-        calcomId: payload.uid
+      await ctx.runMutation(internal.meetings.internalUpdate, {
+        calcomId: event.uid,
+        status: 'finished'
       });
     }
 
@@ -235,7 +237,7 @@ http.route({
 });
 
 async function validateCalcomRequest(body: string, signature: string | null): Promise<boolean> {
-  if (!signature || env.CALCOM_WEBHOOK_SECRET) return false;
+  if (!signature || !env.CALCOM_WEBHOOK_SECRET) return false;
   const encoder = new TextEncoder();
   const key = await crypto.subtle.importKey('raw', encoder.encode(env.CALCOM_WEBHOOK_SECRET), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
   const mac = await crypto.subtle.sign('HMAC', key, encoder.encode(body));

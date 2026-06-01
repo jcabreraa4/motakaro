@@ -67,23 +67,19 @@ export const update = mutation({
 
 // Internal Functions
 
-export const upsert = internalMutation({
+export const internalUpsert = internalMutation({
   args: {
-    name: v.optional(v.string()),
-    note: v.optional(v.string()),
-    link: v.optional(v.string()),
-    start: v.optional(v.number()),
-    end: v.optional(v.number()),
-    organizer: v.optional(v.string()),
-    attendees: v.optional(v.array(v.string())),
-    website: v.optional(v.string()),
-    attribution: v.optional(v.string()),
-    rescheduling: v.optional(v.string()),
-    cancellation: v.optional(v.string()),
-    rejection: v.optional(v.string()),
+    calcomId: v.string(),
+    name: v.string(),
+    link: v.string(),
+    start: v.number(),
+    end: v.number(),
+    organizer: v.string(),
+    attendees: v.array(v.string()),
     status: v.union(v.literal('scheduled'), v.literal('cancelled'), v.literal('rejected'), v.literal('ongoing'), v.literal('finished')),
-    newCalcomId: v.optional(v.string()),
-    calcomId: v.string()
+    note: v.optional(v.string()),
+    website: v.optional(v.string()),
+    attribution: v.optional(v.string())
   },
   handler: async (ctx, args) => {
     // Obtain Meeting
@@ -94,23 +90,57 @@ export const upsert = internalMutation({
 
     if (meeting) {
       // Update Meeting
-      await ctx.db.patch(meeting._id, args);
+      await ctx.db.patch(meeting._id, { ...args, updated: Date.now() });
     } else {
       // Create Meeting
       return await ctx.db.insert('meetings', {
-        name: args.name ?? 'Untitled Booking',
-        note: args.note ?? '',
-        link: args.link ?? '',
-        start: args.start ?? 0,
-        end: args.end ?? 0,
-        starred: false,
-        organizer: args.organizer ?? '',
-        attendees: args.attendees ?? [args.organizer ?? ''],
-        website: args.website,
-        attribution: args.attribution,
+        calcomId: args.calcomId,
+        name: args.name,
+        link: args.link,
+        start: args.start,
+        end: args.end,
+        organizer: args.organizer,
+        attendees: args.attendees,
         status: args.status,
-        calcomId: args.calcomId
+        starred: false,
+        updated: Date.now(),
+        note: args.note,
+        website: args.website,
+        attribution: args.attribution
       });
     }
+  }
+});
+
+export const internalUpdate = internalMutation({
+  args: {
+    calcomId: v.string(),
+    status: v.union(v.literal('scheduled'), v.literal('cancelled'), v.literal('rejected'), v.literal('ongoing'), v.literal('finished')),
+    rescheduling: v.optional(v.string()),
+    cancellation: v.optional(v.string()),
+    rejection: v.optional(v.string()),
+    newStart: v.optional(v.number()),
+    newEnd: v.optional(v.number()),
+    newCalcomId: v.optional(v.string())
+  },
+  handler: async (ctx, args) => {
+    // Obtain Meeting
+    const meeting = await ctx.db
+      .query('meetings')
+      .withIndex('by_calcomId', (q) => q.eq('calcomId', args.calcomId))
+      .first();
+    if (!meeting) throw new ConvexError('Meeting not found');
+
+    // Update Meeting
+    await ctx.db.patch(meeting._id, {
+      status: args.status,
+      ...(args.rescheduling !== undefined ? { rescheduling: args.rescheduling } : {}),
+      ...(args.cancellation !== undefined ? { cancellation: args.cancellation } : {}),
+      ...(args.rejection !== undefined ? { rejection: args.rejection } : {}),
+      ...(args.newStart !== undefined ? { start: args.newStart } : {}),
+      ...(args.newEnd !== undefined ? { end: args.newEnd } : {}),
+      ...(args.newCalcomId !== undefined ? { calcomId: args.newCalcomId } : {}),
+      updated: Date.now()
+    });
   }
 });

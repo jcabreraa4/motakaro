@@ -6,19 +6,19 @@ import { internalMutation } from './_generated/server';
 
 export const internalUpsert = internalMutation({
   args: {
-    orgRole: v.union(v.literal('org:admin'), v.literal('org:member')),
     contactClerkId: v.string(),
-    companyClerkId: v.string()
+    companyClerkId: v.string(),
+    orgRole: v.union(v.literal('org:admin'), v.literal('org:member'))
   },
   handler: async (ctx, args) => {
-    // Obtain Convex Contact ID
+    // Obtain Contact
     const contact = await ctx.db
       .query('contacts')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.contactClerkId))
       .first();
     if (!contact) throw new ConvexError('Contact not found');
 
-    // Obtain Convex Company ID
+    // Obtain Company
     const company = await ctx.db
       .query('companies')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.companyClerkId))
@@ -31,25 +31,18 @@ export const internalUpsert = internalMutation({
       .withIndex('by_contactId_companyId', (q) => q.eq('contactId', contact._id).eq('companyId', company._id))
       .first();
 
-    // Check for Membership
     if (membership) {
       // Update Membership
       await ctx.db.patch(membership._id, {
-        // Webhook Columns
         orgRole: args.orgRole,
-
-        // Primary Columns
         updated: Date.now()
       });
     } else {
       // Create Membership
       await ctx.db.insert('memberships', {
-        // Webhook Columns
-        orgRole: args.orgRole,
         contactId: contact._id,
         companyId: company._id,
-
-        // Primary Columns
+        orgRole: args.orgRole,
         updated: Date.now()
       });
     }
@@ -62,19 +55,19 @@ export const internalRemove = internalMutation({
     companyClerkId: v.string()
   },
   handler: async (ctx, args) => {
-    // Obtain Convex Contact ID
+    // Obtain Contact
     const contact = await ctx.db
       .query('contacts')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.contactClerkId))
       .first();
-    if (!contact) return; // Contact already deleted, race condition
+    if (!contact) return; // If contact already deleted, race condition
 
-    // Obtain Convex Company ID
+    // Obtain Company
     const company = await ctx.db
       .query('companies')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.companyClerkId))
       .first();
-    if (!company) return; // Company already deleted, race condition
+    if (!company) return; // If company already deleted, race condition
 
     // Obtain Membership
     const membership = await ctx.db

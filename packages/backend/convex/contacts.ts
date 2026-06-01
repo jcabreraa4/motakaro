@@ -101,11 +101,11 @@ export const clientsUpdate = mutation({
 
 export const internalUpsert = internalMutation({
   args: {
+    clerkId: v.string(),
     email: v.string(),
     name: v.string(),
     surname: v.string(),
-    avatar: v.string(),
-    clerkId: v.string()
+    avatar: v.string()
   },
   handler: async (ctx, args) => {
     // Obtain Contact
@@ -120,13 +120,13 @@ export const internalUpsert = internalMutation({
     } else {
       // Create Contact
       await ctx.db.insert('contacts', {
+        clerkId: args.clerkId,
         email: args.email,
         name: args.name,
         surname: args.surname,
         avatar: args.avatar,
-        clerkId: args.clerkId,
-        starred: false,
         onboarded: false,
+        starred: false,
         updated: Date.now()
       });
     }

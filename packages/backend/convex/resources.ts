@@ -12,12 +12,11 @@ export const list = query({
     filter: v.optional(v.literal('published'))
   },
   handler: async (ctx, args) => {
-    // Check Filter
     if (args.filter) {
       // Return Resources
       const query = ctx.db
         .query('resources')
-        .withIndex('by_published_updated', (q) => q.eq('published', true))
+        .withIndex('by_published', (q) => q.eq('published', true))
         .order('desc');
       return args.limit ? await query.take(args.limit) : await query.collect();
     }
@@ -70,10 +69,10 @@ export const create = mutation({
       note: args.note,
       link: args.link,
       embed: args.embed,
-      starred: false,
-      updated: Date.now(),
       thumbnail: args.thumbnail,
-      published: args.published
+      published: args.published,
+      starred: false,
+      updated: Date.now()
     });
   }
 });
@@ -102,9 +101,9 @@ export const update = mutation({
     note: v.optional(v.string()),
     link: v.optional(v.string()),
     embed: v.optional(v.string()),
-    starred: v.optional(v.boolean()),
     thumbnail: v.optional(v.string()),
-    published: v.optional(v.boolean())
+    published: v.optional(v.boolean()),
+    starred: v.optional(v.boolean())
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -120,9 +119,9 @@ export const update = mutation({
       ...(args.note !== undefined ? { note: args.note } : {}),
       ...(args.link !== undefined ? { link: args.link } : {}),
       ...(args.embed !== undefined ? { embed: args.embed } : {}),
-      ...(args.starred !== undefined ? { starred: args.starred } : {}),
       ...(args.thumbnail !== undefined ? { thumbnail: args.thumbnail } : {}),
       ...(args.published !== undefined ? { published: args.published } : {}),
+      ...(args.starred !== undefined ? { starred: args.starred } : {}),
       updated: Date.now()
     });
   }

@@ -67,8 +67,9 @@ export function MultimediaToolbar({ file }: { file: MediaFile }) {
     }
   ];
 
-  function handleClick() {
+  function openFile() {
     if (!file._id) return;
+    updateFile({ id: file._id });
     router.push(`/multimedia/${file._id}`);
   }
 
@@ -98,7 +99,7 @@ export function MultimediaToolbar({ file }: { file: MediaFile }) {
       </RemoveDialog>
       <SectionButton
         icon={ExpandIcon}
-        onClick={handleClick}
+        onClick={openFile}
       />
     </div>
   );

@@ -66,8 +66,7 @@ export const update = mutation({
   args: {
     id: v.optional(v.id('employees')),
     clerkId: v.optional(v.string()),
-    seen: v.optional(v.boolean()),
-    context: v.optional(v.string())
+    seen: v.optional(v.boolean())
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -88,7 +87,6 @@ export const update = mutation({
     // Update Employee
     await ctx.db.patch(employee._id, {
       ...(args.seen !== undefined ? { seen: Date.now() } : {}),
-      ...(args.context !== undefined ? { context: args.context } : {}),
       updated: Date.now()
     });
   }
@@ -98,11 +96,11 @@ export const update = mutation({
 
 export const internalUpsert = internalMutation({
   args: {
+    clerkId: v.string(),
     email: v.string(),
     name: v.string(),
     surname: v.string(),
-    avatar: v.string(),
-    clerkId: v.string()
+    avatar: v.string()
   },
   handler: async (ctx, args) => {
     // Obtain Employee
@@ -117,13 +115,13 @@ export const internalUpsert = internalMutation({
     } else {
       // Create Employee
       await ctx.db.insert('employees', {
+        clerkId: args.clerkId,
         email: args.email,
         name: args.name,
         surname: args.surname,
         avatar: args.avatar,
-        clerkId: args.clerkId,
-        starred: false,
         onboarded: false,
+        starred: false,
         updated: Date.now()
       });
     }
