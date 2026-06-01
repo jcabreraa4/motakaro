@@ -106,8 +106,8 @@ export function UploadDialog({ variant = 'default', className }: UploadDialogPro
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Upload File</DialogTitle>
-          <DialogDescription className="lg:hidden">Images, videos, audios or pdfs.</DialogDescription>
-          <DialogDescription className="hidden lg:block">Upload images, videos, audios or pdfs.</DialogDescription>
+          <DialogDescription className="md:hidden">Images, videos, audios or pdfs.</DialogDescription>
+          <DialogDescription className="hidden md:block">Upload images, videos, audios or pdfs.</DialogDescription>
         </DialogHeader>
         {file ? (
           <div className="flex flex-col gap-5 overflow-hidden">

@@ -40,7 +40,8 @@ export function RemoveDialog({ id, redirect = false, children }: DeleteDialogPro
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Delete Document</DialogTitle>
-          <DialogDescription>Are you sure? This action cannot be undone.</DialogDescription>
+          <DialogDescription className="md:hidden">This action cannot be undone.</DialogDescription>
+          <DialogDescription className="hidden md:block">Are you sure? This action cannot be undone.</DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <DialogClose asChild>

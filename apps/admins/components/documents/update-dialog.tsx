@@ -45,7 +45,7 @@ export function UpdateDialog({ document, children }: UpdateDialogProps) {
       <SheetContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <SheetHeader>
           <SheetTitle>Update Document</SheetTitle>
-          <SheetDescription className="hidden lg:block">Update selected document&apos;s information.</SheetDescription>
+          <SheetDescription className="hidden md:block">Update selected document&apos;s information.</SheetDescription>
         </SheetHeader>
         <div className="grid flex-1 auto-rows-min gap-4 px-4 lg:gap-5">
           <div className="flex flex-col gap-2">
@@ -67,7 +67,7 @@ export function UpdateDialog({ document, children }: UpdateDialogProps) {
               className={cn('h-20', info.note !== document.note && 'border-red-500')}
             />
           </div>
-          <div className="hidden flex-col gap-2 lg:flex">
+          <div className="hidden flex-col gap-2 xl:flex">
             <Label>Starred</Label>
             <Select
               value={info.starred}

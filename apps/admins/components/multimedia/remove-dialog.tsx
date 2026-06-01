@@ -37,12 +37,13 @@ export function RemoveDialog({ id, children }: RemoveDialogProps) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Delete File</DialogTitle>
-          <DialogDescription>Are you sure? This action cannot be undone.</DialogDescription>
+          <DialogDescription className="md:hidden">This action cannot be undone.</DialogDescription>
+          <DialogDescription className="hidden md:block">Are you sure? This action cannot be undone.</DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button
             variant="destructive"
-            className="flex-1 cursor-pointer"
+            className="w-full cursor-pointer"
             onClick={handleDelete}
           >
             <TrashIcon />
