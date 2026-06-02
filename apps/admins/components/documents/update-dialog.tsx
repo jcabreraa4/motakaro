@@ -45,6 +45,7 @@ export function UpdateDialog({ document, children }: UpdateDialogProps) {
       <SheetContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <SheetHeader>
           <SheetTitle>Update Document</SheetTitle>
+          <SheetDescription className="md:hidden">Update document information.</SheetDescription>
           <SheetDescription className="hidden md:block">Update selected document&apos;s information.</SheetDescription>
         </SheetHeader>
         <div className="grid flex-1 auto-rows-min gap-4 px-4 lg:gap-5">

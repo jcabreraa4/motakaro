@@ -48,6 +48,7 @@ export function UpdateDialog({ file, children }: UpdateDialogProps) {
       <SheetContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <SheetHeader>
           <SheetTitle>Update File</SheetTitle>
+          <SheetDescription className="md:hidden">Update file information.</SheetDescription>
           <SheetDescription className="hidden md:block">Update selected file&apos;s information.</SheetDescription>
         </SheetHeader>
         <div className="grid flex-1 auto-rows-min gap-4 px-4 lg:gap-5">

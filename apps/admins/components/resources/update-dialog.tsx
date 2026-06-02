@@ -11,6 +11,7 @@ import { Input } from '@workspace/ui/components/input';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Label } from '@workspace/ui/components/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
+import { Separator } from '@workspace/ui/components/separator';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { cn } from '@workspace/ui/lib/utils';
@@ -60,6 +61,7 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
       <SheetContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <SheetHeader>
           <SheetTitle>Update Resource</SheetTitle>
+          <SheetDescription className="md:hidden">Update resource information.</SheetDescription>
           <SheetDescription className="hidden md:block">Update selected resource&apos;s information.</SheetDescription>
         </SheetHeader>
         <div className="grid flex-1 auto-rows-min gap-4 px-4 lg:gap-5">
@@ -99,6 +101,7 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
               </SelectContent>
             </Select>
           </div>
+          <Separator className="hidden xl:flex" />
           <div className="flex flex-col gap-2">
             <Label htmlFor="link">Video</Label>
             <InputGroup className={cn(info.link !== resource.link && 'border-red-500')}>
