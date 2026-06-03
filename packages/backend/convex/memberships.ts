@@ -2,7 +2,7 @@ import { ConvexError, v } from 'convex/values';
 
 import { internalMutation } from './_generated/server';
 
-// Internal Functions
+// Internal Mutations
 
 export const internalUpsert = internalMutation({
   args: {

@@ -6,7 +6,7 @@ import { internalAction, internalMutation, query } from './_generated/server';
 import { getClientAuth, verifyAdminAuth } from './auth';
 import { env } from './env';
 
-// Admins Functions
+// Admin Functions
 
 export const list = query({
   args: {
@@ -47,9 +47,9 @@ export const get = query({
   }
 });
 
-// Clients Functions
+// Client Functions
 
-export const clientsList = query({
+export const clientList = query({
   handler: async (ctx) => {
     // Check Identity
     const identity = await getClientAuth(ctx);
@@ -74,7 +74,7 @@ export const clientsList = query({
   }
 });
 
-// Internal Functions
+// Internal Mutations
 
 export const internalUpsert = internalMutation({
   args: {
@@ -149,6 +149,8 @@ export const internalUpdate = internalMutation({
     await ctx.db.patch(company._id, { ...args, updated: Date.now() });
   }
 });
+
+// Internal Actions
 
 export const disableDelete = internalAction({
   args: {

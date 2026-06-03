@@ -26,7 +26,7 @@ export function UpdateDialog({ file, children }: UpdateDialogProps) {
   const [open, setOpen] = useState(false);
   const [info, setInfo] = useState({ name: file.name, note: file.note, starred: file.clientsStarred.toString() });
 
-  const updateFile = useMutation(api.multimedia.clientsUpdate);
+  const updateFile = useMutation(api.multimedia.clientUpdate);
 
   function handleUpdate() {
     updateFile({ id: file._id, name: info.name, note: info.note, clientsStarred: info.starred === 'true' }).finally(() => {

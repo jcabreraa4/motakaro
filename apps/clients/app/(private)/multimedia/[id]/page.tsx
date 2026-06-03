@@ -15,7 +15,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   if (!token) throw new Error('Unauthorized');
 
   // Obtain Preloaded
-  const preloaded = await preloadQuery(api.multimedia.clientsGet, { id }, { token });
+  const preloaded = await preloadQuery(api.multimedia.clientGet, { id }, { token });
 
   // Return Page
   return <MultimediaPage preloaded={preloaded} />;

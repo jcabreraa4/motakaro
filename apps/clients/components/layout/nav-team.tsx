@@ -168,7 +168,7 @@ function TeamSelector({ companies, activeCompany, setActiveCompany }: TeamSelect
 export function NavTeam({ teams }: { teams: Company[] }) {
   const { organization } = useOrganization();
 
-  const companies = useQuery(api.companies.clientsList);
+  const companies = useQuery(api.companies.clientList);
 
   const [activeCompany, setActiveCompany] = useState<Company | null>(null);
 

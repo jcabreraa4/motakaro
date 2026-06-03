@@ -3,7 +3,7 @@ import { ConvexError, v } from 'convex/values';
 import { action, mutation, query } from './_generated/server';
 import { verifyAdminAuth } from './auth';
 
-// Admins Functions
+// Admin Functions
 
 export const list = query({
   handler: async (ctx) => {

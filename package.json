@@ -23,9 +23,9 @@
     "format": "turbo format",
     "typecheck": "turbo typecheck",
     "deploy:infra": "cd packages/backend && bunx convex deploy && cd ../trigger && bunx trigger.dev@latest deploy",
-    "build:admins": "bun run deploy:infra && turbo run build --filter=admins --concurrency=1 && cp -r apps/admins/.next/static apps/admins/.next/standalone/apps/admins/.next/static && cp -r apps/admins/public apps/admins/.next/standalone/apps/admins/public",
+    "build:admins": "turbo run build --filter=admins --concurrency=1 && cp -r apps/admins/.next/static apps/admins/.next/standalone/apps/admins/.next/static && cp -r apps/admins/public apps/admins/.next/standalone/apps/admins/public",
     "start:admins": "PORT=3000 HOSTNAME=0.0.0.0 node apps/admins/.next/standalone/apps/admins/server.js",
-    "build:clients": "bun run deploy:infra && turbo run build --filter=clients --concurrency=1 && cp -r apps/clients/.next/static apps/clients/.next/standalone/apps/clients/.next/static && cp -r apps/clients/public apps/clients/.next/standalone/apps/clients/public",
+    "build:clients": "turbo run build --filter=clients --concurrency=1 && cp -r apps/clients/.next/static apps/clients/.next/standalone/apps/clients/.next/static && cp -r apps/clients/public apps/clients/.next/standalone/apps/clients/public",
     "start:clients": "PORT=3000 HOSTNAME=0.0.0.0 node apps/clients/.next/standalone/apps/clients/server.js"
   },
   "workspaces": [

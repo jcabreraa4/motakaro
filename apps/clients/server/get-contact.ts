@@ -11,5 +11,5 @@ export async function getContact() {
   const convex = await getConvex();
 
   // Return Contact
-  return await convex.query(api.contacts.clientsGet);
+  return await convex.query(api.contacts.clientGet);
 }

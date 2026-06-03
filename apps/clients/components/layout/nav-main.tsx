@@ -66,7 +66,7 @@ export function NavMain() {
           <SidebarGroupLabel className="pointer-events-none select-none">{section.title}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {section.items?.map((item) => (
+              {section.items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild

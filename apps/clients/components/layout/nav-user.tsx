@@ -1,11 +1,12 @@
 'use client';
 
 import { useTheme } from 'next-themes';
+import Link from 'next/link';
 
 import { useAuth, useClerk } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
 import { useQuery } from 'convex/react';
-import { BuildingIcon, ChevronsUpDown, CircleUserIcon, LogOutIcon, MoonIcon, SunIcon, UserRoundIcon } from 'lucide-react';
+import { BellIcon, BuildingIcon, ChevronsUpDown, CircleUserIcon, LogOutIcon, MoonIcon, SunIcon, UserRoundIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
@@ -52,7 +53,7 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
   const { signOut, openUserProfile, openOrganizationProfile } = useClerk();
   const { theme, setTheme } = useTheme();
 
-  const contact = useQuery(api.contacts.clientsGet, isLoaded ? {} : 'skip');
+  const contact = useQuery(api.contacts.clientGet, isLoaded ? {} : 'skip');
 
   const displayName = contact ? `${contact.name} ${contact.surname}` : name;
   const displayEmail = contact?.email ?? email;
@@ -120,6 +121,12 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
                 <BuildingIcon />
                 Organization
               </DropdownMenuItem>
+              <Link href="/notifications">
+                <DropdownMenuItem className="cursor-pointer">
+                  <BellIcon />
+                  Notifications
+                </DropdownMenuItem>
+              </Link>
               <DropdownMenuItem
                 className="cursor-pointer"
                 onClick={() => setTheme(theme == 'light' ? 'dark' : 'light')}

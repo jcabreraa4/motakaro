@@ -4,9 +4,8 @@ import { useTheme } from 'next-themes';
 import Link from 'next/link';
 
 import { useAuth, useClerk } from '@clerk/nextjs';
-import { dark } from '@clerk/themes';
 import { useQuery } from 'convex/react';
-import { ChevronsUpDown, CircleUserIcon, LogOutIcon, MoonIcon, SettingsIcon, SunIcon, UserRoundIcon } from 'lucide-react';
+import { BellIcon, ChevronsUpDown, LogOutIcon, MoonIcon, SettingsIcon, SunIcon, UserRoundIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
@@ -47,7 +46,7 @@ interface NavUserProps {
 export function NavUser({ name, email, avatar }: NavUserProps) {
   const { isLoaded } = useAuth();
   const { isMobile } = useSidebar();
-  const { signOut, openUserProfile } = useClerk();
+  const { signOut } = useClerk();
   const { theme, setTheme } = useTheme();
 
   const employee = useQuery(api.employees.get, isLoaded ? {} : 'skip');
@@ -92,23 +91,16 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() =>
-                  openUserProfile({
-                    appearance: {
-                      theme: theme === 'dark' ? dark : undefined
-                    }
-                  })
-                }
-              >
-                <CircleUserIcon />
-                Account
-              </DropdownMenuItem>
               <Link href="/settings">
                 <DropdownMenuItem className="cursor-pointer">
                   <SettingsIcon />
                   Settings
+                </DropdownMenuItem>
+              </Link>
+              <Link href="/notifications">
+                <DropdownMenuItem className="cursor-pointer">
+                  <BellIcon />
+                  Notifications
                 </DropdownMenuItem>
               </Link>
               <DropdownMenuItem

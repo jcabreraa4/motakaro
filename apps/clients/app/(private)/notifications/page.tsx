@@ -19,7 +19,7 @@ export default function Page() {
   const [typeFilter, setTypeFilter] = useParams('filter');
   const effectiveTypeFilter = typeFilter || 'all';
 
-  const notifications = useQuery(api.notifications.clientsList, isLoaded ? {} : 'skip');
+  const notifications = useQuery(api.notifications.clientList, isLoaded ? {} : 'skip');
   const filteredNotifications = notifications?.filter((file) => {
     const matchesSearch = searchFilter === '' || file.name.toLowerCase().includes(searchFilter.toLowerCase()) || file.content.toLowerCase().includes(searchFilter.toLowerCase()) || file._id.toLowerCase().includes(searchFilter.toLowerCase());
     const matchesType = effectiveTypeFilter === 'all' || (effectiveTypeFilter === 'unread' && file.read === false) || (effectiveTypeFilter === 'important' && file.starred === true);

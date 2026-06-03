@@ -4,7 +4,7 @@ import { Id } from './_generated/dataModel';
 import { mutation, query } from './_generated/server';
 import { getClientAuth, verifyAdminAuth, verifyClientAuth } from './auth';
 
-// Admins Functions
+// Admin Functions
 
 export const list = query({
   args: {
@@ -62,9 +62,9 @@ export const update = mutation({
   }
 });
 
-// Clients Functions
+// Client Functions
 
-export const clientsList = query({
+export const clientList = query({
   args: {
     limit: v.optional(v.number())
   },
@@ -92,7 +92,7 @@ export const clientsList = query({
   }
 });
 
-export const clientsUpdate = mutation({
+export const clientUpdate = mutation({
   args: {
     id: v.id('notifications'),
     read: v.optional(v.boolean())

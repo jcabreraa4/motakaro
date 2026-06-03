@@ -1,3 +1,3 @@
 export default function Page() {
-  return <>Profile Settings</>;
+  return <>Security Settings</>;
 }

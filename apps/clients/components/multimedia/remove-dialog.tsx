@@ -17,7 +17,7 @@ interface RemoveDialogProps {
 export function RemoveDialog({ id, children }: RemoveDialogProps) {
   const [open, setOpen] = useState(false);
 
-  const removeFile = useMutation(api.multimedia.clientsRemove);
+  const removeFile = useMutation(api.multimedia.clientRemove);
 
   function handleDelete() {
     removeFile({ id }).finally(() => {

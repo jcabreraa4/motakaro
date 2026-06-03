@@ -4,7 +4,7 @@ import type { Id } from './_generated/dataModel';
 import { mutation, query } from './_generated/server';
 import { getClientAuth, verifyAdminAuth, verifyClientAuth, verifyIdentity } from './auth';
 
-// Admins Functions
+// Admin Functions
 
 export const list = query({
   args: {
@@ -129,9 +129,9 @@ export const update = mutation({
   }
 });
 
-// Clients Functions
+// Client Functions
 
-export const clientsList = query({
+export const clientList = query({
   args: {
     limit: v.optional(v.number())
   },
@@ -160,7 +160,7 @@ export const clientsList = query({
   }
 });
 
-export const clientsGet = query({
+export const clientGet = query({
   args: {
     id: v.string()
   },
@@ -199,7 +199,7 @@ export const clientsGet = query({
   }
 });
 
-export const clientsCreate = mutation({
+export const clientCreate = mutation({
   args: {
     name: v.string(),
     type: v.string(),
@@ -240,7 +240,7 @@ export const clientsCreate = mutation({
   }
 });
 
-export const clientsRemove = mutation({
+export const clientRemove = mutation({
   args: {
     id: v.id('multimedia')
   },
@@ -273,7 +273,7 @@ export const clientsRemove = mutation({
   }
 });
 
-export const clientsUpdate = mutation({
+export const clientUpdate = mutation({
   args: {
     id: v.id('multimedia'),
     name: v.optional(v.string()),

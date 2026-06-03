@@ -4,7 +4,7 @@ import type { Id } from './_generated/dataModel';
 import { internalMutation, mutation, query } from './_generated/server';
 import { verifyAdminAuth } from './auth';
 
-// Admins Functions
+// Admin Functions
 
 export const list = query({
   args: {
@@ -92,7 +92,7 @@ export const update = mutation({
   }
 });
 
-// Internal Functions
+// Internal Mutations
 
 export const internalUpsert = internalMutation({
   args: {

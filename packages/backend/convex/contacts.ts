@@ -4,7 +4,7 @@ import type { Id } from './_generated/dataModel';
 import { internalMutation, mutation, query } from './_generated/server';
 import { getClientAuth, verifyAdminAuth, verifyClientAuth } from './auth';
 
-// Admins Functions
+// Admin Functions
 
 export const list = query({
   args: {
@@ -57,9 +57,9 @@ export const get = query({
   }
 });
 
-// Clients Functions
+// Client Functions
 
-export const clientsGet = query({
+export const clientGet = query({
   handler: async (ctx) => {
     // Check Identity
     const identity = await getClientAuth(ctx);
@@ -77,7 +77,7 @@ export const clientsGet = query({
   }
 });
 
-export const clientsUpdate = mutation({
+export const clientUpdate = mutation({
   handler: async (ctx) => {
     // Check Identity
     const identity = await verifyClientAuth(ctx);
@@ -97,7 +97,7 @@ export const clientsUpdate = mutation({
   }
 });
 
-// Internal Functions
+// Internal Mutations
 
 export const internalUpsert = internalMutation({
   args: {

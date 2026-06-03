@@ -13,7 +13,7 @@ import { cn } from '@workspace/ui/lib/utils';
 export function NotificationsTable({ notifications }: { notifications: Notification[] }) {
   const router = useRouter();
 
-  const updateNotification = useMutation(api.notifications.clientsUpdate);
+  const updateNotification = useMutation(api.notifications.clientUpdate);
 
   function handleLink(link: string) {
     if (link.startsWith('/')) {

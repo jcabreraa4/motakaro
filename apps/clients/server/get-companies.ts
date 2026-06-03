@@ -11,5 +11,5 @@ export async function getCompanies() {
   const convex = await getConvex();
 
   // Return Companies
-  return await convex.query(api.companies.clientsList);
+  return await convex.query(api.companies.clientList);
 }

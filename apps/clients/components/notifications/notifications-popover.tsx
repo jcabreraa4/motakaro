@@ -31,7 +31,7 @@ export function NotificationsPopover() {
 
   const [open, setOpen] = useState(false);
 
-  const notifications = useQuery(api.notifications.clientsList, isLoaded ? { limit: 8 } : 'skip');
+  const notifications = useQuery(api.notifications.clientList, isLoaded ? { limit: 8 } : 'skip');
   const hasUnread = notifications?.some((notification) => notification.read === false);
 
   return (

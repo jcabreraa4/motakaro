@@ -7,7 +7,7 @@ import { api } from '@workspace/backend/_generated/api';
 
 export function usePresence() {
   const { user } = useUser();
-  const update = useMutation(api.contacts.clientsUpdate);
+  const update = useMutation(api.contacts.clientUpdate);
 
   useEffect(() => {
     if (!user) return;

@@ -49,7 +49,7 @@ function SectionButton({ onClick, icon: Icon, isActive }: SectionButtonProps) {
 
 export function MultimediaToolbar({ file }: { file: MediaFile }) {
   const router = useRouter();
-  const updateFile = useMutation(api.multimedia.clientsUpdate);
+  const updateFile = useMutation(api.multimedia.clientUpdate);
 
   const sectionButtons = [
     {
