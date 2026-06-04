@@ -7,8 +7,9 @@ export async function getConvex() {
   // Obtain Token
   const { getToken } = await auth();
   const token = await getToken({ template: 'convex' });
+  if (!token) throw new Error('Unauthorized');
 
   // Authenticate Convex
   convex.setAuth(token!);
-  return convex;
+  return { convex, token };
 }

@@ -8,8 +8,8 @@ export async function getEmployee() {
   await verifyAuth();
 
   // Obtain Convex
-  const convex = await getConvex();
+  const { convex } = await getConvex();
 
-  // Return Contact
+  // Return Employee
   return await convex.query(api.employees.get, {});
 }

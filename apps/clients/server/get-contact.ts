@@ -8,7 +8,7 @@ export async function getContact() {
   await verifyAuth();
 
   // Obtain Convex
-  const convex = await getConvex();
+  const { convex } = await getConvex();
 
   // Return Contact
   return await convex.query(api.contacts.clientGet);

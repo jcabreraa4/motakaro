@@ -8,7 +8,7 @@ export async function getCompanies() {
   await verifyAuth();
 
   // Obtain Convex
-  const convex = await getConvex();
+  const { convex } = await getConvex();
 
   // Return Companies
   return await convex.query(api.companies.clientList);

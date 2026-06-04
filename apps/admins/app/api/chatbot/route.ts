@@ -23,7 +23,7 @@ export async function POST(request: Request) {
   const { model, system, temperature, messages, timezone }: RequestProps = await request.json();
 
   // Obtain Convex
-  const convex = await getConvex();
+  const { convex } = await getConvex();
 
   // Obtain Calendar
   const date = new Intl.DateTimeFormat('en-CA', {
