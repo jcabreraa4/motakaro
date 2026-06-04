@@ -1,9 +1,8 @@
-import { task } from '@trigger.dev/sdk';
+import { task } from '@trigger.dev/sdk/v3';
 
 export const helloFunction = task({
-  id: 'hello',
+  id: 'hello-function',
   run: async (payload: { name: string }) => {
-    console.log(`Hello ${payload.name}! Welcome to Motakaro.`);
-    return { success: true };
+    return `Hello ${payload.name}! Welcome to Motakaro.`;
   }
 });

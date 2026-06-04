@@ -1,38 +1,26 @@
-import { RectangleThemeButton, SquareThemeButton } from '@workspace/ui/custom/theme-buttons';
-import { LightRays } from '@workspace/ui/magicui/light-rays';
+import Image from 'next/image';
 
 import { Branding } from '@/components/motakaro/branding';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <main className="flex h-svh bg-primary-foreground dark:bg-[#0A0A0A]">
+    <main className="dark flex h-svh bg-[#0A0A0A]">
       <section className="relative flex h-full w-full items-center justify-center p-5">
-        <div className="absolute top-0 left-0 flex w-full justify-between p-5">
-          <Branding className="cursor-default" />
-          <SquareThemeButton className="md:hidden" />
-          <RectangleThemeButton className="hidden md:flex" />
+        <div className="absolute top-0 left-0 flex w-full justify-between p-5 xl:p-8">
+          <Branding className="cursor-default text-white" />
         </div>
         {children}
       </section>
-      <section className="pointer-events-none relative hidden h-full w-full border-l bg-motakaro select-none xl:flex">
+      <section className="pointer-events-none relative hidden h-full w-full select-none xl:flex">
         <div className="absolute z-10 flex h-full w-full flex-col items-center justify-center gap-4 text-center">
-          <span className="text-xs font-semibold tracking-[0.35em] text-black uppercase">ADMIN ACCESS</span>
-          <h1 className="text-5xl font-bold text-black">Motakaro</h1>
+          <span className="text-sm font-bold tracking-[0.35em] text-white uppercase">Where GTM Meets Engineering</span>
+          <h1 className="text-5xl font-bold text-white">Motakaro Access</h1>
         </div>
-        <LightRays
-          blur={80}
-          speed={10}
-          count={2}
-          length="100vh"
-          color="#ffffff"
-        />
-        <LightRays
-          fromBottom
-          blur={80}
-          speed={10}
-          count={2}
-          length="100vh"
-          color="#ffffff"
+        <Image
+          fill
+          src="/background.webp"
+          alt="Motakaro"
+          className="opacity-15"
         />
       </section>
     </main>

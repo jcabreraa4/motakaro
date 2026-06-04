@@ -38,6 +38,7 @@
         "@tiptap/react": "^3.20.2",
         "@tiptap/starter-kit": "^3.20.2",
         "@tiptap/static-renderer": "^3.22.4",
+        "@trigger.dev/sdk": "^4.4.6",
         "@types/react-color": "^3.0.13",
         "@workspace/backend": "workspace:*",
         "@workspace/trigger": "workspace:*",

@@ -4,12 +4,12 @@ import { ConvexHttpClient } from 'convex/browser';
 const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
 export async function getConvex() {
-  // Obtain Token
+  // Authenticate Convex
   const { getToken } = await auth();
   const token = await getToken({ template: 'convex' });
   if (!token) throw new Error('Unauthorized');
-
-  // Authenticate Convex
   convex.setAuth(token!);
+
+  // Return Convex
   return { convex, token };
 }
