@@ -1,3 +1,3 @@
 export default function Page() {
-  return <>Profile Settings</>;
+  return <section className="w-full rounded-md border p-2 lg:p-4">Account Settings</section>;
 }

@@ -1,9 +1,6 @@
 'use client';
 
 import { Geist, Geist_Mono } from 'next/font/google';
-import { useEffect } from 'react';
-
-import * as Sentry from '@sentry/nextjs';
 
 import '@workspace/ui/globals.css';
 import { cn } from '@workspace/ui/lib/utils';
@@ -21,15 +18,7 @@ const fontMono = Geist_Mono({
   variable: '--font-mono'
 });
 
-interface GlobalErrorProps {
-  error: Error & { digest?: string };
-}
-
-export default function GlobalError({ error }: GlobalErrorProps) {
-  useEffect(() => {
-    Sentry.captureException(error);
-  }, [error]);
-
+export default function GlobalError() {
   return (
     <html
       lang="en"

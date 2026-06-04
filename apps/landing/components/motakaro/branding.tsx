@@ -11,7 +11,7 @@ interface BrandingProps {
 export function Branding({ href = '/', className }: BrandingProps) {
   return (
     <Link href={href}>
-      <div className={cn('pointer-events-none flex items-center gap-2 select-none', className)}>
+      <div className={cn('flex items-center gap-2 select-none', className)}>
         <Image
           src="/motakaro.webp"
           alt="MTKOLogo"

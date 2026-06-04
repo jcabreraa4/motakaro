@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <main className="flex h-svh bg-primary-foreground dark:bg-[#0A0A0A]">
       <section className="relative flex h-full w-full items-center justify-center p-5">
         <div className="absolute top-0 left-0 flex w-full justify-between p-5">
-          <Branding />
+          <Branding className="cursor-default" />
           <SquareThemeButton className="md:hidden" />
           <RectangleThemeButton className="hidden md:flex" />
         </div>

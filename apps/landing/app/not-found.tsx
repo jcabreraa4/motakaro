@@ -1,4 +1,4 @@
-import { AnimatedThemeButton } from '@workspace/ui/custom/theme-buttons';
+import { RectangleThemeButton, SquareThemeButton } from '@workspace/ui/custom/theme-buttons';
 import { Particles } from '@workspace/ui/magicui/particles';
 
 import { Branding } from '@/components/motakaro/branding';
@@ -10,7 +10,8 @@ export default function NotFound() {
         <Branding />
       </div>
       <div className="fixed top-0 right-0 z-50 p-5">
-        <AnimatedThemeButton className="hidden lg:flex" />
+        <SquareThemeButton className="md:hidden" />
+        <RectangleThemeButton className="hidden md:flex" />
       </div>
       <section className="pointer-events-none flex h-14 w-full justify-center gap-5 select-none">
         <div className="flex h-full items-center border-e-2 pe-5">
