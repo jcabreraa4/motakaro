@@ -4,13 +4,13 @@ import { UploadCloud } from 'lucide-react';
 
 import { cn } from '@workspace/ui/lib/utils';
 
-interface FileDropzoneProps {
+interface DropzoneProps {
   getRootProps: (props?: DropzoneRootProps) => DropzoneRootProps;
   getInputProps: (props?: DropzoneInputProps) => DropzoneInputProps;
   isDragActive: boolean;
 }
 
-export function FileDropzone({ getRootProps, getInputProps, isDragActive }: FileDropzoneProps) {
+export function Dropzone({ getRootProps, getInputProps, isDragActive }: DropzoneProps) {
   return (
     <div
       {...getRootProps({ role: 'button', tabIndex: 0 })}

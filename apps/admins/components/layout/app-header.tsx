@@ -1,25 +1,70 @@
 'use client';
 
+import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { useEffect } from 'react';
 
-import { BotIcon } from 'lucide-react';
+import { BotIcon, MoonIcon, SunIcon } from 'lucide-react';
 
+import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
 import { Button } from '@workspace/ui/components/button';
 import { Separator } from '@workspace/ui/components/separator';
 import { SidebarTrigger } from '@workspace/ui/components/sidebar';
-import { HeaderThemeButton } from '@workspace/ui/custom/theme-buttons';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip';
 import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { AppPresence } from '@/components/layout/app-presence';
 import { NotificationsPopover } from '@/components/notifications/notifications-popover';
 import { usePathname } from '@/hooks/use-pathname';
+import { usePresence } from '@/hooks/use-presence';
 import { useMainStore } from '@/store/main-store';
 
 function capitalize(word: string) {
   return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
+function UserPresence({ className }: { className?: string }) {
+  const { actives } = usePresence();
+
+  if (!actives?.length) return null;
+
+  return (
+    <div className={cn('flex gap-2', className)}>
+      {actives.map((employee) => (
+        <Tooltip key={employee._id}>
+          <TooltipTrigger asChild>
+            <div className="relative cursor-default">
+              <Avatar className="size-8">
+                <AvatarImage src={employee.avatar} />
+                <AvatarFallback className="text-xs">{employee.name?.[0]?.toUpperCase() ?? '?'}</AvatarFallback>
+              </Avatar>
+              <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full border border-background bg-green-500" />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            <p>{`${employee.name ?? ''} ${employee.surname ?? ''}`.trim()}</p>
+          </TooltipContent>
+        </Tooltip>
+      ))}
+    </div>
+  );
+}
+
+function ThemeButton({ className }: { className?: string }) {
+  const { theme, setTheme } = useTheme();
+
+  return (
+    <Button
+      size="icon-sm"
+      variant="ghost"
+      className={cn('cursor-pointer bg-transparent! text-zinc-500 hover:bg-transparent! dark:text-zinc-400 dark:hover:text-white', className)}
+      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+    >
+      <SunIcon className="hidden size-5 dark:block" />
+      <MoonIcon className="size-5 dark:hidden" />
+    </Button>
+  );
 }
 
 export function AppHeader() {
@@ -73,7 +118,7 @@ export function AppHeader() {
         </Breadcrumb>
       </div>
       <div className="flex gap-8">
-        <AppPresence className="hidden select-none 2xl:flex" />
+        <UserPresence className="hidden select-none 2xl:flex" />
         <div className="flex gap-2">
           <Button
             size="icon-sm"
@@ -84,7 +129,7 @@ export function AppHeader() {
             <BotIcon className="size-6" />
           </Button>
           <NotificationsPopover />
-          <HeaderThemeButton className="hidden lg:flex" />
+          <ThemeButton className="hidden lg:flex" />
         </div>
       </div>
     </header>

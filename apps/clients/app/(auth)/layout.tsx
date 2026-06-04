@@ -1,13 +1,13 @@
 import Image from 'next/image';
 
-import { Branding } from '@/components/motakaro/branding';
+import { Branding } from '@/components/branding';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <main className="dark flex h-svh bg-[#0A0A0A]">
       <section className="relative flex h-full w-full items-center justify-center p-5">
         <div className="absolute top-0 left-0 flex w-full justify-between p-5 xl:p-8">
-          <Branding className="cursor-default text-white" />
+          <Branding />
         </div>
         {children}
       </section>
@@ -18,8 +18,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
         <Image
           fill
-          src="/background.webp"
           alt="Motakaro"
+          src="/background.webp"
           className="opacity-15"
         />
       </section>

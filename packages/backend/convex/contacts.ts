@@ -18,7 +18,7 @@ export const list = query({
     // Check Filter
     if (args.filter) {
       // Return Contacts
-      const threshold = Date.now() - 30000;
+      const threshold = Date.now() - 60000;
       const query = ctx.db
         .query('contacts')
         .filter((q) => q.gte(q.field('seen'), threshold))

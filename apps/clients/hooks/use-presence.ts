@@ -1,18 +1,18 @@
 import { useEffect } from 'react';
 
-import { useUser } from '@clerk/nextjs';
+import { useAuth } from '@clerk/nextjs';
 import { useMutation } from 'convex/react';
 
 import { api } from '@workspace/backend/_generated/api';
 
 export function usePresence() {
-  const { user } = useUser();
+  const { userId } = useAuth();
   const update = useMutation(api.contacts.clientUpdate);
 
   useEffect(() => {
-    if (!user) return;
+    if (!userId) return;
     update();
-    const interval = setInterval(() => update(), 60000);
+    const interval = setInterval(() => update(), 50000);
     return () => clearInterval(interval);
-  }, [user?.id, update, user]);
+  }, [userId, update]);
 }

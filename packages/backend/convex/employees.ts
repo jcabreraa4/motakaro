@@ -18,7 +18,7 @@ export const list = query({
     // Check Filter
     if (args.filter) {
       // Return Employees
-      const threshold = Date.now() - 30000;
+      const threshold = Date.now() - 60000;
       const query = ctx.db
         .query('employees')
         .filter((q) => q.gte(q.field('seen'), threshold))
@@ -70,7 +70,7 @@ export const update = mutation({
   },
   handler: async (ctx, args) => {
     // Check Identity
-    await verifyAdminAuth(ctx);
+    const identity = await verifyAdminAuth(ctx);
 
     // Obtain Employee
     let employee = null;
@@ -80,6 +80,11 @@ export const update = mutation({
       employee = await ctx.db
         .query('employees')
         .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId!))
+        .first();
+    } else {
+      employee = await ctx.db
+        .query('employees')
+        .withIndex('by_clerkId', (q) => q.eq('clerkId', identity.subject))
         .first();
     }
     if (!employee) throw new ConvexError('Employee not found');

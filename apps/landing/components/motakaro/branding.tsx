@@ -3,14 +3,9 @@ import Link from 'next/link';
 
 import { cn } from '@workspace/ui/lib/utils';
 
-interface BrandingProps {
-  href?: string;
-  className?: string;
-}
-
-export function Branding({ href = '/', className }: BrandingProps) {
+export function Branding({ className }: { className?: string }) {
   return (
-    <Link href={href}>
+    <Link href="/">
       <div className={cn('flex items-center gap-2 select-none', className)}>
         <Image
           src="/motakaro.webp"

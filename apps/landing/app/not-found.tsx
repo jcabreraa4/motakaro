@@ -1,10 +1,8 @@
-import { Particles } from '@workspace/ui/magicui/particles';
-
 import { Branding } from '@/components/motakaro/branding';
 
 export default function NotFound() {
   return (
-    <main className="flex h-screen flex-col items-center justify-center gap-5">
+    <main className="flex h-screen flex-col items-center justify-center gap-5 bg-[#0A0A0A] text-white">
       <div className="fixed top-0 left-0 z-50 p-5 xl:p-8">
         <Branding />
       </div>
@@ -16,12 +14,6 @@ export default function NotFound() {
           <p className="text-3xl font-semibold">Page not found</p>
         </div>
       </section>
-      <Particles
-        className="fixed inset-0 z-[-1]"
-        quantity={150}
-        ease={80}
-        refresh
-      />
     </main>
   );
 }

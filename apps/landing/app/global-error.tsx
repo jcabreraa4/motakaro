@@ -4,7 +4,6 @@ import { Geist, Geist_Mono } from 'next/font/google';
 
 import '@workspace/ui/globals.css';
 import { cn } from '@workspace/ui/lib/utils';
-import { Particles } from '@workspace/ui/magicui/particles';
 
 import { Branding } from '@/components/motakaro/branding';
 
@@ -26,9 +25,9 @@ export default function GlobalError() {
       className={cn('antialiased', fontMono.variable, 'font-sans', fontSans.variable)}
     >
       <body suppressHydrationWarning>
-        <main className="flex h-screen flex-col items-center justify-center gap-5">
-          <div className="fixed top-0 left-0 z-50 p-5">
-            <Branding className="cursor-default" />
+        <main className="flex h-screen flex-col items-center justify-center gap-5 bg-[#0A0A0A] text-white">
+          <div className="fixed top-0 left-0 z-50 p-5 xl:p-8">
+            <Branding />
           </div>
           <section className="pointer-events-none flex h-14 w-full justify-center gap-5 select-none">
             <div className="flex h-full items-center border-e-2 pe-5">
@@ -38,12 +37,6 @@ export default function GlobalError() {
               <p className="text-3xl font-semibold">Internal error</p>
             </div>
           </section>
-          <Particles
-            className="fixed inset-0 z-[-1]"
-            quantity={150}
-            ease={80}
-            refresh
-          />
         </main>
       </body>
     </html>

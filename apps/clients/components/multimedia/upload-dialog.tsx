@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
-import { FileDropzone } from '@workspace/ui/custom/file-dropzone';
+import { Dropzone } from '@workspace/ui/custom/dropzone';
 import { cn } from '@workspace/ui/lib/utils';
 import type { ButtonVariant } from '@workspace/ui/types/button';
 
@@ -123,7 +123,7 @@ export function UploadDialog({ variant = 'default', className }: UploadDialogPro
             />
           </div>
         ) : (
-          <FileDropzone
+          <Dropzone
             isDragActive={isDragActive}
             getRootProps={getRootProps}
             getInputProps={getInputProps}
