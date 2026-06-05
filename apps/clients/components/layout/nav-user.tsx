@@ -79,10 +79,10 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            side={isMobile ? 'bottom' : 'right'}
             align="end"
             sideOffset={4}
+            side={isMobile ? 'bottom' : 'right'}
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
@@ -128,7 +128,7 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
                 </DropdownMenuItem>
               </Link>
               <DropdownMenuItem
-                className="cursor-pointer"
+                className="cursor-pointer md:hidden"
                 onClick={() => setTheme(theme == 'light' ? 'dark' : 'light')}
               >
                 <SunIcon className="hidden dark:block" />
