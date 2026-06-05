@@ -92,7 +92,7 @@ export function AppHeader() {
   }, [segments[1]]);
 
   return (
-    <header className="flex h-12 shrink-0 items-center justify-between gap-2 border-b bg-sidebar px-3 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 md:bg-inherit lg:px-4 xl:h-16 print:hidden">
+    <header className="flex h-12 shrink-0 items-center justify-between gap-2 border-x border-t bg-sidebar px-3 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 md:h-16 md:rounded-t-md md:bg-white md:px-4 dark:bg-sidebar dark:md:bg-[#0A0A0A] print:hidden">
       <div className="flex items-center gap-1">
         <SidebarTrigger className="-ml-1 cursor-pointer" />
         <Separator
@@ -129,7 +129,7 @@ export function AppHeader() {
             <BotIcon className="size-6" />
           </Button>
           <NotificationsPopover />
-          <ThemeButton className="hidden lg:flex" />
+          <ThemeButton className="hidden md:flex" />
         </div>
       </div>
     </header>

@@ -1,4 +1,4 @@
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from '@workspace/ui/components/sidebar';
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@workspace/ui/components/sidebar';
 
 import { NavMain } from '@/components/layout/nav-main';
 import { NavTeam } from '@/components/layout/nav-team';
@@ -12,8 +12,9 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
 
   return (
     <Sidebar
-      collapsible="icon"
       {...props}
+      collapsible="icon"
+      className="border-none py-2"
     >
       <SidebarHeader>
         <NavTeam teams={companies || []} />
@@ -28,7 +29,6 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
           avatar={contact!.avatar}
         />
       </SidebarFooter>
-      <SidebarRail />
     </Sidebar>
   );
 }

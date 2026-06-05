@@ -30,8 +30,8 @@ export function MultimediaPreview({ id, src, name, type, interact = false, previ
 
   return (
     <div
-      className={cn('relative aspect-video overflow-hidden rounded-md border border-black bg-black select-none dark:border-white', id && 'cursor-pointer')}
       onClick={openFile}
+      className={cn('relative aspect-video overflow-hidden rounded-md border select-none', id && 'cursor-pointer')}
     >
       {fileType === 'image' ? (
         <ImageRender

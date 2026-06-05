@@ -11,11 +11,14 @@ export default async function Layout({ children }: { children: React.ReactNode }
   const defaultOpen = cookieStore.get('sidebar_state')?.value !== 'false';
 
   return (
-    <SidebarProvider defaultOpen={defaultOpen}>
+    <SidebarProvider
+      className="bg-sidebar"
+      defaultOpen={defaultOpen}
+    >
       <AppSidebar />
-      <SidebarInset className="h-svh overflow-hidden">
+      <SidebarInset className="h-svh overflow-hidden bg-sidebar md:py-2 md:pr-2">
         <AppHeader />
-        <div className="flex min-h-0 flex-1 overflow-hidden">
+        <div className="flex min-h-0 flex-1 overflow-hidden rounded-b-md border bg-white dark:bg-[#0A0A0A]">
           <Suspense>{children}</Suspense>
         </div>
       </SidebarInset>
