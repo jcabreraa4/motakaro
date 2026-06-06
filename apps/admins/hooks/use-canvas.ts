@@ -9,14 +9,14 @@ import { api } from '@workspace/backend/_generated/api';
 import type { Whiteboard } from '@workspace/backend/schema';
 
 import { useCanvasStore } from '@/store/canvas-store';
-import { useMainStore } from '@/store/main-store';
+import { useChatbotStore } from '@/store/chatbot-store';
 
 const SAVE_DELAY_MS = 1500;
 const MAX_HISTORY = 50;
 
 export function useCanvas(whiteboard: Whiteboard | null) {
   const updateWhiteboard = useMutation(api.whiteboards.update);
-  const showChatbot = useMainStore((state) => state.showChatbot);
+  const chatbot = useChatbotStore((state) => state.chatbot);
   const activeTool = useCanvasStore((state) => state.activeTool);
 
   const mainRef = useRef<HTMLElement>(null);
@@ -277,7 +277,7 @@ export function useCanvas(whiteboard: Whiteboard | null) {
   // Re-sync size when chatbot sidebar toggles
   useEffect(() => {
     requestAnimationFrame(syncCanvasSize);
-  }, [showChatbot, syncCanvasSize]);
+  }, [chatbot, syncCanvasSize]);
 
   return { mainRef, canvasElRef };
 }

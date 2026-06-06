@@ -9,10 +9,10 @@ import { ListVideoIcon, TriangleAlertIcon, VideoOffIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
-import { CircleLoader } from '@workspace/ui/custom/loaders';
+import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 import { Thumbnail, VideoRender } from '@/components/multimedia/multimedia-render';
-import { useMainStore } from '@/store/main-store';
+import { useHeader } from '@/hooks/use-header';
 
 interface ResourcePageProps {
   preloaded: Preloaded<typeof api.resources.get>;
@@ -20,13 +20,14 @@ interface ResourcePageProps {
 
 export function ResourcePage({ preloaded }: ResourcePageProps) {
   const { isLoaded } = useAuth();
-  if (!isLoaded) return <CircleLoader />;
+  if (!isLoaded) return <GenericLoader />;
   return <ResourcePageInner preloaded={preloaded} />;
 }
 
 function ResourcePageInner({ preloaded }: ResourcePageProps) {
+  const { setSubroute } = useHeader();
+
   const resource = usePreloadedQuery(preloaded);
-  const setSubroute = useMainStore((state) => state.setSubroute);
 
   useEffect(() => {
     if (resource) setSubroute(resource.name);

@@ -5,9 +5,9 @@ import { useQuery } from 'convex/react';
 import { PencilRulerIcon, SearchIcon, XIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
-import { CircleLoader } from '@workspace/ui/custom/loaders';
+import { EmptySection } from '@workspace/ui/custom/empty-section';
+import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 import { CreateButton } from '@/components/whiteboards/create-button';
 import { WhiteboardsTable } from '@/components/whiteboards/whiteboards-table';
@@ -52,35 +52,21 @@ export default function Page() {
         />
       </section>
       {!whiteboards ? (
-        <CircleLoader />
+        <GenericLoader />
       ) : whiteboards.length === 0 ? (
-        <section className="flex min-h-0 flex-1 items-center justify-center select-none">
-          <Empty>
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <PencilRulerIcon className="size-6" />
-              </EmptyMedia>
-              <EmptyTitle className="text-xl">No Whiteboards Available</EmptyTitle>
-              <EmptyDescription className="text-md hidden lg:block">You haven&apos;t created any whiteboards yet. Get started by creating your first whiteboard.</EmptyDescription>
-            </EmptyHeader>
-            <EmptyContent>
-              <CreateButton className="min-w-50" />
-            </EmptyContent>
-          </Empty>
-        </section>
+        <EmptySection
+          icon={PencilRulerIcon}
+          title="No Whiteboards Available"
+          description="There are currently no whiteboards available."
+        >
+          <CreateButton className="min-w-50" />
+        </EmptySection>
       ) : filteredBoards?.length === 0 ? (
-        <section className="flex min-h-0 flex-1 items-center justify-center select-none">
-          <Empty>
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <PencilRulerIcon className="size-6" />
-              </EmptyMedia>
-              <EmptyTitle className="text-xl">No Whiteboards Found</EmptyTitle>
-              <EmptyDescription className="text-md hidden lg:block">No whiteboards match your search criteria. Try adjusting your filters or search term.</EmptyDescription>
-              <EmptyDescription className="text-md lg:hidden">No whiteboards match your search criteria.</EmptyDescription>
-            </EmptyHeader>
-          </Empty>
-        </section>
+        <EmptySection
+          icon={PencilRulerIcon}
+          title="No Whiteboards Found"
+          description="No whiteboards match your search criteria."
+        />
       ) : (
         <WhiteboardsTable whiteboards={filteredBoards || []} />
       )}

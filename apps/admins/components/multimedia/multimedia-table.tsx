@@ -4,10 +4,10 @@ import { cn } from '@workspace/ui/lib/utils';
 import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
 import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
 import { MultimediaToolbar } from '@/components/multimedia/multimedia-toolbar';
-import { useMainStore } from '@/store/main-store';
+import { useChatbot } from '@/hooks/use-chatbot';
 
 export function MediaTable({ multimedia }: { multimedia: MediaFile[] }) {
-  const showChatbot = useMainStore((state) => state.showChatbot);
+  const { chatbot } = useChatbot();
 
   const starredFiles = multimedia.filter((file) => file.starred);
   const nonStarredFiles = multimedia!.filter((file) => !file.starred);
@@ -15,7 +15,7 @@ export function MediaTable({ multimedia }: { multimedia: MediaFile[] }) {
   return (
     <section className="flex min-h-0 flex-1 flex-col gap-8 overflow-y-scroll lg:pe-3">
       {starredFiles.length != 0 && (
-        <div className={cn('grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3', showChatbot ? '2xl:grid-cols-3' : '2xl:grid-cols-4')}>
+        <div className={cn('grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3', chatbot ? '2xl:grid-cols-3' : '2xl:grid-cols-4')}>
           {starredFiles.map((file) => (
             <div
               key={file._id}
@@ -38,7 +38,7 @@ export function MediaTable({ multimedia }: { multimedia: MediaFile[] }) {
         </div>
       )}
       {nonStarredFiles.length != 0 && (
-        <div className={cn('grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3', showChatbot ? '2xl:grid-cols-3' : '2xl:grid-cols-4')}>
+        <div className={cn('grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3', chatbot ? '2xl:grid-cols-3' : '2xl:grid-cols-4')}>
           {nonStarredFiles.map((file) => (
             <div
               key={file._id}

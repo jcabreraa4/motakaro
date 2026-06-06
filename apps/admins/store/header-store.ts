@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 
-interface MainStore {
+interface HeaderStore {
   subroute: string | null;
   setSubroute: (name: string | null) => void;
 }
 
-export const useMainStore = create<MainStore>((set) => ({
+export const useHeaderStore = create<HeaderStore>((set) => ({
   subroute: null,
   setSubroute: (subroute: string | null) => set({ subroute })
 }));

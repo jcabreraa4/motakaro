@@ -7,6 +7,7 @@ import { Building2Icon, ChartColumnBigIcon, FileTextIcon, HeadsetIcon, ImageIcon
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
 import { cn } from '@workspace/ui/lib/utils';
 
+import { useChatbot } from '@/hooks/use-chatbot';
 import { usePathname } from '@/hooks/use-pathname';
 
 type Section = {
@@ -93,6 +94,7 @@ const sections: Section[] = [
 
 export function NavMain() {
   const { segments } = usePathname();
+  const { closeMobile } = useChatbot();
 
   function isActive(url: string) {
     if (`/${segments[0]}` === url) return true;
@@ -111,6 +113,7 @@ export function NavMain() {
                   <SidebarMenuButton
                     asChild
                     tooltip={item.title}
+                    onClick={closeMobile}
                     className={cn(isActive(item.url) && 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground active:bg-primary active:text-primary-foreground')}
                   >
                     <Link href={item.url}>

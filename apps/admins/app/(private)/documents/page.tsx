@@ -5,9 +5,9 @@ import { useQuery } from 'convex/react';
 import { FileTextIcon, SearchIcon, XIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
-import { CircleLoader } from '@workspace/ui/custom/loaders';
+import { EmptySection } from '@workspace/ui/custom/empty-section';
+import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 import { CreateButton } from '@/components/documents/create-button';
 import { DocumentsTable } from '@/components/documents/documents-table';
@@ -52,35 +52,21 @@ export default function Page() {
         />
       </section>
       {!documents ? (
-        <CircleLoader />
+        <GenericLoader />
       ) : documents.length === 0 ? (
-        <section className="flex min-h-0 flex-1 items-center justify-center select-none">
-          <Empty>
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <FileTextIcon className="size-6" />
-              </EmptyMedia>
-              <EmptyTitle className="text-xl">No Documents Available</EmptyTitle>
-              <EmptyDescription className="text-md hidden lg:block">You haven&apos;t created any documents yet. Get started by creating your first document.</EmptyDescription>
-            </EmptyHeader>
-            <EmptyContent>
-              <CreateButton className="min-w-50" />
-            </EmptyContent>
-          </Empty>
-        </section>
+        <EmptySection
+          icon={FileTextIcon}
+          title="No Documents Available"
+          description="There are currently no documents available."
+        >
+          <CreateButton className="min-w-50" />
+        </EmptySection>
       ) : filteredDocuments?.length === 0 ? (
-        <section className="flex min-h-0 flex-1 items-center justify-center select-none">
-          <Empty>
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <FileTextIcon className="size-6" />
-              </EmptyMedia>
-              <EmptyTitle className="text-xl">No Documents Found</EmptyTitle>
-              <EmptyDescription className="text-md hidden lg:block">No documents match your search criteria. Try adjusting your filters or search term.</EmptyDescription>
-              <EmptyDescription className="text-md lg:hidden">No documents match your search criteria.</EmptyDescription>
-            </EmptyHeader>
-          </Empty>
-        </section>
+        <EmptySection
+          icon={FileTextIcon}
+          title="No Documents Found"
+          description="No documents match your search criteria."
+        />
       ) : (
         <DocumentsTable documents={filteredDocuments || []} />
       )}

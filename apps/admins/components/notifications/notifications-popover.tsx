@@ -11,10 +11,10 @@ import { Button } from '@workspace/ui/components/button';
 import { Popover, PopoverContent, PopoverHeader, PopoverTitle, PopoverTrigger } from '@workspace/ui/components/popover';
 import { Separator } from '@workspace/ui/components/separator';
 import { Spinner } from '@workspace/ui/components/spinner';
-import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
+import { HeaderButton } from '@workspace/ui/custom/header-button';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { useMainStore } from '@/store/main-store';
+import { useChatbot } from '@/hooks/use-chatbot';
 
 function Notification({ notification }: { notification: Notification }) {
   return (
@@ -31,18 +31,15 @@ function Notification({ notification }: { notification: Notification }) {
 
 export function NotificationsPopover() {
   const { isLoaded } = useAuth();
-  const isMobile = useIsMobile();
+  const { closeMobile } = useChatbot();
 
   const [open, setOpen] = useState(false);
 
   const notifications = useQuery(api.notifications.list, isLoaded ? { limit: 8 } : 'skip');
   const hasUnread = notifications?.some((notification) => notification.read === false);
 
-  const showChatbot = useMainStore((state) => state.showChatbot);
-  const toggleChatbot = useMainStore((state) => state.toggleChatbot);
-
   function handleClick() {
-    if (isMobile && showChatbot) toggleChatbot();
+    closeMobile();
     setOpen(false);
   }
 
@@ -52,14 +49,10 @@ export function NotificationsPopover() {
       onOpenChange={setOpen}
     >
       <PopoverTrigger asChild>
-        <Button
-          size="icon-sm"
-          variant="ghost"
-          className={cn('relative cursor-pointer bg-transparent! text-zinc-500 hover:bg-transparent! dark:text-zinc-400 dark:hover:text-white', open && 'dark:text-white')}
-        >
+        <HeaderButton className={cn('relative', open && 'dark:text-white')}>
           <BellIcon className="size-5" />
           {hasUnread && <span className="absolute top-0 right-0 size-2 rounded-full bg-primary" />}
-        </Button>
+        </HeaderButton>
       </PopoverTrigger>
       <PopoverContent
         align="end"

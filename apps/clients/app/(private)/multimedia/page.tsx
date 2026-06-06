@@ -5,10 +5,10 @@ import { useQuery } from 'convex/react';
 import { ImageIcon, SearchIcon, XIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
-import { CircleLoader } from '@workspace/ui/custom/loaders';
+import { EmptySection } from '@workspace/ui/custom/empty-section';
+import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 import { MediaTable } from '@/components/multimedia/multimedia-table';
 import { UploadDialog } from '@/components/multimedia/upload-dialog';
@@ -79,35 +79,21 @@ export default function Page() {
         />
       </section>
       {!multimedia ? (
-        <CircleLoader />
+        <GenericLoader />
       ) : multimedia.length === 0 ? (
-        <section className="flex min-h-0 flex-1 items-center justify-center select-none">
-          <Empty>
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <ImageIcon className="size-6" />
-              </EmptyMedia>
-              <EmptyTitle className="text-xl">No Multimedia Available</EmptyTitle>
-              <EmptyDescription className="text-md hidden lg:block">You haven&apos;t uploaded any files yet. Get started by uploading your first file.</EmptyDescription>
-            </EmptyHeader>
-            <EmptyContent>
-              <UploadDialog className="min-w-50" />
-            </EmptyContent>
-          </Empty>
-        </section>
+        <EmptySection
+          icon={ImageIcon}
+          title="No Multimedia Available"
+          description="There are currently no files available."
+        >
+          <UploadDialog className="min-w-50" />
+        </EmptySection>
       ) : filteredMultimedia?.length === 0 ? (
-        <section className="flex min-h-0 flex-1 items-center justify-center select-none">
-          <Empty>
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <ImageIcon className="size-6" />
-              </EmptyMedia>
-              <EmptyTitle className="text-xl">No Multimedia Found</EmptyTitle>
-              <EmptyDescription className="text-md hidden lg:block">No multimedia match your search criteria. Try adjusting your filters or search term.</EmptyDescription>
-              <EmptyDescription className="text-md lg:hidden">No multimedia match your search criteria.</EmptyDescription>
-            </EmptyHeader>
-          </Empty>
-        </section>
+        <EmptySection
+          icon={ImageIcon}
+          title="No Multimedia Found"
+          description="No files match your search criteria."
+        />
       ) : (
         <MediaTable multimedia={filteredMultimedia || []} />
       )}

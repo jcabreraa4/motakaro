@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { BotIcon, CircleUserIcon, type LucideIcon, PaletteIcon } from 'lucide-react';
+import { BotIcon, CircleUserIcon, type LucideIcon, PaletteIcon, ShieldIcon } from 'lucide-react';
 
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
 import { cn } from '@workspace/ui/lib/utils';
@@ -20,6 +20,11 @@ const items: Item[] = [
     title: 'Account',
     url: '/settings',
     icon: CircleUserIcon
+  },
+  {
+    title: 'Security',
+    url: '/settings/security',
+    icon: ShieldIcon
   },
   {
     title: 'Assistant',

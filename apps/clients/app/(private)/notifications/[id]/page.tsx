@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { use, useEffect } from 'react';
 
-import { CircleLoader } from '@workspace/ui/custom/loaders';
+import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -13,5 +13,5 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     router.push(`/notifications?search=${id}`);
   }, [id, router]);
 
-  return <CircleLoader />;
+  return <GenericLoader />;
 }

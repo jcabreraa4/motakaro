@@ -1,5 +1,5 @@
-import { CircleLoader } from '@workspace/ui/custom/loaders';
+import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 export default function Loading() {
-  return <CircleLoader />;
+  return <GenericLoader />;
 }

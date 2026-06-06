@@ -10,11 +10,11 @@ import { PencilRulerIcon } from 'lucide-react';
 import { api } from '@workspace/backend/_generated/api';
 import type { Whiteboard } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
-import { CircleLoader } from '@workspace/ui/custom/loaders';
+import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 import { WhiteboardsToolbar } from '@/components/whiteboards/whiteboards-toolbar';
 import { useCanvas } from '@/hooks/use-canvas';
-import { useMainStore } from '@/store/main-store';
+import { useHeader } from '@/hooks/use-header';
 
 interface WhiteboardsPageProps {
   preloaded: Preloaded<typeof api.whiteboards.get>;
@@ -22,13 +22,14 @@ interface WhiteboardsPageProps {
 
 export function WhiteboardsPage({ preloaded }: WhiteboardsPageProps) {
   const { isLoaded } = useAuth();
-  if (!isLoaded) return <CircleLoader />;
+  if (!isLoaded) return <GenericLoader />;
   return <CanvasMainInner preloaded={preloaded} />;
 }
 
 function CanvasMainInner({ preloaded }: WhiteboardsPageProps) {
+  const { setSubroute } = useHeader();
+
   const whiteboard = usePreloadedQuery(preloaded);
-  const setSubroute = useMainStore((state) => state.setSubroute);
 
   useEffect(() => {
     if (whiteboard) setSubroute(whiteboard.name);

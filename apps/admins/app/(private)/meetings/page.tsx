@@ -9,11 +9,11 @@ import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
 import { Calendar } from '@workspace/ui/components/calendar';
 import { Card, CardHeader, CardTitle } from '@workspace/ui/components/card';
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { Skeleton } from '@workspace/ui/components/skeleton';
-import { CircleLoader } from '@workspace/ui/custom/loaders';
+import { EmptySection } from '@workspace/ui/custom/empty-section';
+import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 import { CreateDialog } from '@/components/meetings/create-dialog';
 import { MeetingsTable } from '@/components/meetings/meetings-table';
@@ -138,35 +138,21 @@ export default function Page() {
           </InputGroup>
         </section>
         {!meetings ? (
-          <CircleLoader />
+          <GenericLoader />
         ) : meetings.length === 0 ? (
-          <section className="flex min-h-0 flex-1 items-center justify-center select-none">
-            <Empty>
-              <EmptyHeader>
-                <EmptyMedia variant="icon">
-                  <HeadsetIcon className="size-6" />
-                </EmptyMedia>
-                <EmptyTitle className="text-xl">No Meetings Available</EmptyTitle>
-                <EmptyDescription className="text-md hidden lg:block">There are no meetings available yet. Get started by booking your first meeting.</EmptyDescription>
-              </EmptyHeader>
-              <EmptyContent>
-                <CreateDialog className="min-w-50" />
-              </EmptyContent>
-            </Empty>
-          </section>
+          <EmptySection
+            icon={HeadsetIcon}
+            title="No Meetings Available"
+            description="There are currently no meetings available."
+          >
+            <CreateDialog className="min-w-50" />
+          </EmptySection>
         ) : filteredMeetings?.length === 0 ? (
-          <section className="flex min-h-0 flex-1 items-center justify-center select-none">
-            <Empty>
-              <EmptyHeader>
-                <EmptyMedia variant="icon">
-                  <HeadsetIcon className="size-6" />
-                </EmptyMedia>
-                <EmptyTitle className="text-xl">No Meetings Found</EmptyTitle>
-                <EmptyDescription className="text-md hidden lg:block">No meetings match your search criteria. Try adjusting your filters or search term.</EmptyDescription>
-                <EmptyDescription className="text-md lg:hidden">No meetings match your search criteria.</EmptyDescription>
-              </EmptyHeader>
-            </Empty>
-          </section>
+          <EmptySection
+            icon={HeadsetIcon}
+            title="No Meetings Found"
+            description="No meetings match your search criteria."
+          />
         ) : (
           <MeetingsTable meetings={filteredMeetings || []} />
         )}

@@ -1,33 +1,59 @@
 'use client';
 
-import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { useEffect } from 'react';
 
-import { BotIcon, MoonIcon, SunIcon } from 'lucide-react';
+import { BotIcon } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
-import { Button } from '@workspace/ui/components/button';
 import { Separator } from '@workspace/ui/components/separator';
 import { SidebarTrigger } from '@workspace/ui/components/sidebar';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip';
-import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
+import { HeaderButton } from '@workspace/ui/custom/header-button';
+import { ThemeButton } from '@workspace/ui/custom/theme-button';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { NotificationsPopover } from '@/components/notifications/notifications-popover';
+import { useChatbot } from '@/hooks/use-chatbot';
+import { useHeader } from '@/hooks/use-header';
 import { usePathname } from '@/hooks/use-pathname';
 import { usePresence } from '@/hooks/use-presence';
-import { useMainStore } from '@/store/main-store';
 
-function capitalize(word: string) {
-  return word.charAt(0).toUpperCase() + word.slice(1);
+function HeaderBreadcrumb() {
+  const { segments } = usePathname();
+  const { closeMobile } = useChatbot();
+  const { subroute, setSubroute } = useHeader();
+
+  useEffect(() => {
+    if (!segments[1]) setSubroute(null);
+  }, [segments[1]]);
+
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem onClick={closeMobile}>
+          <Link href={`/${segments[0]}`}>
+            <BreadcrumbPage className="font-medium capitalize select-none">{segments[0]}</BreadcrumbPage>
+          </Link>
+        </BreadcrumbItem>
+        {subroute && (
+          <>
+            <BreadcrumbSeparator className="hidden text-black lg:block dark:text-white" />
+            <BreadcrumbItem className="pointer-events-none hidden select-none lg:block">
+              <BreadcrumbPage>{subroute}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </>
+        )}
+      </BreadcrumbList>
+    </Breadcrumb>
+  );
 }
 
 function UserPresence({ className }: { className?: string }) {
   const { actives } = usePresence();
 
-  if (!actives?.length) return null;
+  if (!actives || actives.length === 0) return null;
 
   return (
     <div className={cn('flex gap-2', className)}>
@@ -51,83 +77,34 @@ function UserPresence({ className }: { className?: string }) {
   );
 }
 
-function ThemeButton({ className }: { className?: string }) {
-  const { theme, setTheme } = useTheme();
+function ChatbotButton() {
+  const { chatbot, toggleChatbot } = useChatbot();
 
   return (
-    <Button
-      size="icon-sm"
-      variant="ghost"
-      className={cn('cursor-pointer bg-transparent! text-zinc-500 hover:bg-transparent! dark:text-zinc-400 dark:hover:text-white', className)}
-      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+    <HeaderButton
+      onClick={toggleChatbot}
+      className={cn(chatbot && 'text-black dark:text-white')}
     >
-      <SunIcon className="hidden size-5 dark:block" />
-      <MoonIcon className="size-5 dark:hidden" />
-    </Button>
+      <BotIcon className="size-6" />
+    </HeaderButton>
   );
 }
 
 export function AppHeader() {
-  const { segments } = usePathname();
-  const section = capitalize(segments[0]!);
-
-  const isMobile = useIsMobile();
-
-  const subroute = useMainStore((state) => state.subroute);
-  const setSubroute = useMainStore((state) => state.setSubroute);
-
-  const showChatbot = useMainStore((state) => state.showChatbot);
-  const toggleChatbot = useMainStore((state) => state.toggleChatbot);
-
-  function handleChatbot() {
-    if (isMobile && showChatbot) toggleChatbot();
-  }
-
-  useEffect(() => {
-    handleChatbot();
-  }, [segments[0]]);
-
-  useEffect(() => {
-    if (!segments[1]) setSubroute(null);
-  }, [segments[1]]);
-
   return (
-    <header className="flex h-12 shrink-0 items-center justify-between gap-2 border-x border-t bg-sidebar px-3 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 md:h-16 md:rounded-t-md md:bg-white md:px-4 dark:bg-sidebar dark:md:bg-[#0A0A0A] print:hidden">
+    <header className="flex h-12 shrink-0 items-center justify-between gap-2 border-x border-t bg-sidebar px-3 transition-[width,height] ease-linear md:h-16 md:rounded-t-md md:bg-white md:px-4 dark:bg-sidebar dark:md:bg-[#0A0A0A] print:hidden">
       <div className="flex items-center gap-1">
         <SidebarTrigger className="-ml-1 cursor-pointer" />
         <Separator
           orientation="vertical"
           className="mr-2 data-[orientation=vertical]:h-4"
         />
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem onClick={handleChatbot}>
-              <Link href={`/${segments[0]}`}>
-                <BreadcrumbPage className="font-medium select-none">{section}</BreadcrumbPage>
-              </Link>
-            </BreadcrumbItem>
-            {subroute && (
-              <>
-                <BreadcrumbSeparator className="hidden text-black lg:block dark:text-white" />
-                <BreadcrumbItem className="pointer-events-none hidden select-none lg:block">
-                  <BreadcrumbPage>{subroute}</BreadcrumbPage>
-                </BreadcrumbItem>
-              </>
-            )}
-          </BreadcrumbList>
-        </Breadcrumb>
+        <HeaderBreadcrumb />
       </div>
       <div className="flex gap-8">
         <UserPresence className="hidden select-none 2xl:flex" />
         <div className="flex gap-2">
-          <Button
-            size="icon-sm"
-            variant="ghost"
-            className={cn('cursor-pointer text-zinc-500 hover:bg-transparent! dark:text-zinc-400 dark:hover:text-white', showChatbot && 'text-black dark:text-white')}
-            onClick={toggleChatbot}
-          >
-            <BotIcon className="size-6" />
-          </Button>
+          <ChatbotButton />
           <NotificationsPopover />
           <ThemeButton className="hidden md:flex" />
         </div>

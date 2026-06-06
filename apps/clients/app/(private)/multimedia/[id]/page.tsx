@@ -11,7 +11,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
 
   // Obtain File
   const { token } = await getConvex();
-  const file = await preloadQuery(api.multimedia.get, { id }, { token });
+  const file = await preloadQuery(api.multimedia.clientGet, { id }, { token });
 
   // Return File
   return <MultimediaPage preloaded={file} />;

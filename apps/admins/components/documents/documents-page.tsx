@@ -10,12 +10,12 @@ import { FileTextIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
-import { CircleLoader } from '@workspace/ui/custom/loaders';
+import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 import { DesktopToolbar } from '@/components/documents/desktop-toolbar';
 import { MobileToolbar } from '@/components/documents/mobile-toolbar';
 import { useEditor } from '@/hooks/use-editor';
-import { useMainStore } from '@/store/main-store';
+import { useHeader } from '@/hooks/use-header';
 
 const DocumentsPaper = dynamic(() => import('@/components/documents/documents-paper').then((m) => ({ default: m.DocumentsPaper })), { ssr: false });
 
@@ -25,13 +25,14 @@ interface DocumentsPageProps {
 
 export function DocumentsPage({ preloaded }: DocumentsPageProps) {
   const { isLoaded } = useAuth();
-  if (!isLoaded) return <CircleLoader />;
+  if (!isLoaded) return <GenericLoader />;
   return <DocumentsPageInner preloaded={preloaded} />;
 }
 
 function DocumentsPageInner({ preloaded }: DocumentsPageProps) {
+  const { setSubroute } = useHeader();
+
   const { document } = useEditor(preloaded);
-  const setSubroute = useMainStore((state) => state.setSubroute);
 
   useEffect(() => {
     if (document) setSubroute(document.name);

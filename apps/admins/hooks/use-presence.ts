@@ -10,10 +10,10 @@ import { api } from '@workspace/backend/_generated/api';
 export function usePresence() {
   const { userId, isLoaded } = useAuth();
 
+  const employees = useQuery(api.employees.list, isLoaded ? { filter: 'actives' } : 'skip');
   const updateEmployee = useMutation(api.employees.update);
-  const activeEmployees = useQuery(api.employees.list, isLoaded ? { filter: 'actives' } : 'skip');
 
-  const actives = activeEmployees?.filter((employee) => employee.clerkId !== userId);
+  const actives = employees?.filter((employee) => employee.clerkId !== userId);
 
   useEffect(() => {
     if (!userId) return;

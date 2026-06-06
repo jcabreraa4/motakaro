@@ -11,18 +11,17 @@ import { Button } from '@workspace/ui/components/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { useMainStore } from '@/store/main-store';
+import { useChatbot } from '@/hooks/use-chatbot';
 
 export function MeetingsTable({ meetings }: { meetings: Meeting[] }) {
-  const router = useRouter();
-
-  const showChatbot = useMainStore((state) => state.showChatbot);
+  const { push } = useRouter();
+  const { chatbot } = useChatbot();
 
   const updateMeeting = useMutation(api.meetings.update);
 
   function handleManage(id: string) {
     if (!id) return;
-    router.push(`/meetings/${id}`);
+    push(`/meetings/${id}`);
   }
 
   function handleOpen(url: string) {
@@ -38,7 +37,7 @@ export function MeetingsTable({ meetings }: { meetings: Meeting[] }) {
           className="min-h-fit"
         >
           <CardHeader>
-            <CardTitle className={cn('flex items-center gap-3 truncate', showChatbot && 'lg:flex-col lg:items-start lg:gap-5')}>
+            <CardTitle className={cn('flex items-center gap-3 truncate', chatbot && 'lg:flex-col lg:items-start lg:gap-5')}>
               <div className={cn('pointer-events-none flex max-w-40 items-center justify-center rounded-lg p-2 text-black select-none lg:min-w-40', meeting.status === 'scheduled' ? 'bg-motakaro text-white' : meeting.status === 'cancelled' ? 'bg-red-300' : meeting.status === 'ongoing' ? 'animate-pulse bg-green-300' : meeting.status === 'finished' ? 'bg-primary text-white dark:text-black' : 'bg-yellow-300')}>
                 <div className="flex gap-2">
                   {meeting.status === 'scheduled' ? <ClockIcon className="size-5" /> : meeting.status === 'cancelled' ? <CalendarX2Icon className="size-5" /> : meeting.status === 'ongoing' ? <RadioIcon className="size-5" /> : meeting.status === 'finished' ? <CheckCircleIcon className="size-5" /> : <CircleSlash className="size-5" />}
@@ -72,7 +71,7 @@ export function MeetingsTable({ meetings }: { meetings: Meeting[] }) {
               onClick={() => handleOpen(meeting.link)}
             >
               <ExternalLinkIcon />
-              {!showChatbot && <span>Open Meeting</span>}
+              {!chatbot && <span>Open Meeting</span>}
             </Button>
             <Button
               variant="secondary"

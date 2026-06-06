@@ -11,7 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/av
 import { Button } from '@workspace/ui/components/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { Label } from '@workspace/ui/components/label';
-import { CircleLoader } from '@workspace/ui/custom/loaders';
+import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
 
@@ -63,7 +63,7 @@ export default function OrgSelectionPage() {
 
   // Loading State
   if (!isLoaded || isSelecting || userMemberships.isLoading || (!userMemberships?.data?.length && !showSpinner)) {
-    return <CircleLoader />;
+    return <GenericLoader />;
   }
 
   // No Organizations

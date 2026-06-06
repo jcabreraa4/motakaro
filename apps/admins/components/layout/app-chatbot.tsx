@@ -17,16 +17,15 @@ import { ChatbotAttachments } from '@/components/chatbot/chatbot-attachments';
 import { ChatbotInput } from '@/components/chatbot/chatbot-input';
 import { ChatbotMessages } from '@/components/chatbot/chatbot-messages';
 import { ChatbotSuggestions } from '@/components/chatbot/chatbot-suggestions';
+import { useChatbot } from '@/hooks/use-chatbot';
 import { usePathname } from '@/hooks/use-pathname';
 import { type ModelId, defaultModel } from '@/lib/chatbot/models';
-import { useMainStore } from '@/store/main-store';
 
 export function AppChatbot() {
   const { push } = useRouter();
   const { isLoaded } = useAuth();
+  const { chatbot } = useChatbot();
   const { fullPath } = usePathname();
-
-  const showChat = useMainStore((state) => state.showChatbot);
 
   const { messages, setMessages, status, sendMessage, regenerate, addToolOutput } = useChat<ChatMessage>({
     transport: new DefaultChatTransport({ api: '/api/chatbot' }),
@@ -98,7 +97,7 @@ export function AppChatbot() {
     setFiles([]);
   }
 
-  if (!showChat) return null;
+  if (!chatbot) return null;
 
   return (
     <section className="flex w-full flex-col items-center gap-2 py-2 lg:py-5 xl:w-120 xl:border-l print:hidden">

@@ -9,9 +9,9 @@ import { HeadsetIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
-import { CircleLoader } from '@workspace/ui/custom/loaders';
+import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
-import { useMainStore } from '@/store/main-store';
+import { useHeader } from '@/hooks/use-header';
 
 interface MeetingsPageProps {
   preloaded: Preloaded<typeof api.meetings.get>;
@@ -19,13 +19,14 @@ interface MeetingsPageProps {
 
 export function MeetingsPage({ preloaded }: MeetingsPageProps) {
   const { isLoaded } = useAuth();
-  if (!isLoaded) return <CircleLoader />;
+  if (!isLoaded) return <GenericLoader />;
   return <MeetingsPageInner preloaded={preloaded} />;
 }
 
 function MeetingsPageInner({ preloaded }: MeetingsPageProps) {
+  const { setSubroute } = useHeader();
+
   const meeting = usePreloadedQuery(preloaded);
-  const setSubroute = useMainStore((state) => state.setSubroute);
 
   useEffect(() => {
     if (meeting) setSubroute(meeting.name);

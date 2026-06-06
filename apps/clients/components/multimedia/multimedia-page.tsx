@@ -9,10 +9,10 @@ import { FileTextIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
-import { CircleLoader } from '@workspace/ui/custom/loaders';
+import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 import { AudioRender, ImageRender, OtherRender, VideoRender } from '@/components/multimedia/multimedia-render';
-import { useMainStore } from '@/store/main-store';
+import { useHeader } from '@/hooks/use-header';
 import { mediaType } from '@/utils/media-type';
 
 interface MultimediaPageProps {
@@ -21,13 +21,14 @@ interface MultimediaPageProps {
 
 export function MultimediaPage({ preloaded }: MultimediaPageProps) {
   const { isLoaded } = useAuth();
-  if (!isLoaded) return <CircleLoader />;
+  if (!isLoaded) return <GenericLoader />;
   return <MediaPageInner preloaded={preloaded} />;
 }
 
 function MediaPageInner({ preloaded }: MultimediaPageProps) {
+  const { setSubroute } = useHeader();
+
   const file = usePreloadedQuery(preloaded);
-  const setSubroute = useMainStore((state) => state.setSubroute);
 
   useEffect(() => {
     if (file) setSubroute(file.name);

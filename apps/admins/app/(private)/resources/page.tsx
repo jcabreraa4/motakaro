@@ -5,10 +5,10 @@ import { useQuery } from 'convex/react';
 import { ListVideoIcon, SearchIcon, XIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
-import { CircleLoader } from '@workspace/ui/custom/loaders';
+import { EmptySection } from '@workspace/ui/custom/empty-section';
+import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 import { CreateDialog } from '@/components/resources/create-dialog';
 import { ResourcesTable } from '@/components/resources/resources-table';
@@ -77,35 +77,21 @@ export default function Page() {
         />
       </section>
       {!resources ? (
-        <CircleLoader />
+        <GenericLoader />
       ) : resources.length === 0 ? (
-        <section className="flex min-h-0 flex-1 items-center justify-center select-none">
-          <Empty>
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <ListVideoIcon className="size-6" />
-              </EmptyMedia>
-              <EmptyTitle className="text-xl">No Resources Available</EmptyTitle>
-              <EmptyDescription className="text-md hidden lg:block">You haven&apos;t listed any resources yet. Get started by listing your first resource.</EmptyDescription>
-            </EmptyHeader>
-            <EmptyContent>
-              <CreateDialog className="min-w-50" />
-            </EmptyContent>
-          </Empty>
-        </section>
+        <EmptySection
+          icon={ListVideoIcon}
+          title="No Resources Available"
+          description="There are currently no resources available."
+        >
+          <CreateDialog className="min-w-50" />
+        </EmptySection>
       ) : filteredResources?.length === 0 ? (
-        <section className="flex min-h-0 flex-1 items-center justify-center select-none">
-          <Empty>
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <ListVideoIcon className="size-6" />
-              </EmptyMedia>
-              <EmptyTitle className="text-xl">No Resources Found</EmptyTitle>
-              <EmptyDescription className="text-md hidden lg:block">No resources match your search criteria. Try adjusting your filters or search term.</EmptyDescription>
-              <EmptyDescription className="text-md lg:hidden">No resources match your search criteria.</EmptyDescription>
-            </EmptyHeader>
-          </Empty>
-        </section>
+        <EmptySection
+          icon={ListVideoIcon}
+          title="No Resources Found"
+          description="No resources match your search criteria."
+        />
       ) : (
         <ResourcesTable resources={filteredResources || []} />
       )}

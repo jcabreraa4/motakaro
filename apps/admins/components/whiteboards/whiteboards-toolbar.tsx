@@ -4,8 +4,8 @@ import { Button } from '@workspace/ui/components/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip';
 import { cn } from '@workspace/ui/lib/utils';
 
+import { useChatbot } from '@/hooks/use-chatbot';
 import { type Tool, useCanvasStore } from '@/store/canvas-store';
-import { useMainStore } from '@/store/main-store';
 
 interface ToolbarButtonProps {
   label: string;
@@ -71,18 +71,18 @@ const tools: { label: string; icon: LucideIcon; tool: Tool }[] = [
 ];
 
 export function WhiteboardsToolbar() {
-  const showChatbot = useMainStore((state) => state.showChatbot);
+  const { chatbot } = useChatbot();
   const { activeTool, setActiveTool, canUndo, canRedo, undo, redo } = useCanvasStore();
 
   return (
-    <div className={cn('absolute top-[50%] z-10 flex -translate-y-[50%] flex-col gap-4', showChatbot ? 'left-4' : 'right-4')}>
+    <div className={cn('absolute top-[50%] z-10 flex -translate-y-[50%] flex-col gap-4', chatbot ? 'left-4' : 'right-4')}>
       <div className="flex flex-col items-center gap-1 rounded-md border bg-sidebar p-0.5 shadow-md">
         {tools.map(({ label, icon, tool }) => (
           <ToolbarButton
             key={tool}
             label={label}
             icon={icon}
-            showChatbot={showChatbot}
+            showChatbot={chatbot}
             isActive={activeTool === tool}
             onClick={() => setActiveTool(tool)}
           />
@@ -92,14 +92,14 @@ export function WhiteboardsToolbar() {
         <ToolbarButton
           label="Undo"
           icon={Undo2Icon}
-          showChatbot={showChatbot}
+          showChatbot={chatbot}
           isDisabled={!canUndo}
           onClick={undo}
         />
         <ToolbarButton
           label="Redo"
           icon={Redo2Icon}
-          showChatbot={showChatbot}
+          showChatbot={chatbot}
           isDisabled={!canRedo}
           onClick={redo}
         />
