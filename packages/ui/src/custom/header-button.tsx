@@ -6,7 +6,7 @@ export function HeaderButton({ className, ...props }: React.ComponentProps<typeo
     <Button
       size="icon-sm"
       variant="ghost"
-      className={cn('cursor-pointer bg-transparent! text-zinc-500 hover:bg-transparent! dark:text-zinc-400 dark:hover:text-white', className)}
+      className={cn('cursor-pointer bg-transparent! text-primary/85 hover:bg-transparent! dark:hover:text-white', className)}
       {...props}
     />
   );
