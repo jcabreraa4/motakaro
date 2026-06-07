@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 
 import { ClerkProvider } from '@clerk/nextjs';
+import { Analytics } from '@vercel/analytics/next';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 import { Toaster } from '@workspace/ui/components/sonner';
@@ -51,6 +52,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <TooltipProvider>
                   {children}
                   <Toaster />
+                  <Analytics />
                 </TooltipProvider>
               </ConvexProvider>
             </ThemeProvider>
