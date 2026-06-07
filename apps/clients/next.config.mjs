@@ -3,7 +3,6 @@ import { withSentryConfig } from '@sentry/nextjs';
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  output: 'standalone',
   typescript: {
     ignoreBuildErrors: true
   },
@@ -20,7 +19,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'motakaro.com'
+        hostname: '*.motakaro.com'
       }
     ]
   }

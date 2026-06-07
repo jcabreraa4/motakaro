@@ -3,17 +3,10 @@ import { withSentryConfig } from '@sentry/nextjs';
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  output: 'standalone',
   typescript: {
     ignoreBuildErrors: true
   },
   transpilePackages: ['@workspace/ui'],
-  webpack: (config) => {
-    config.externals.push({
-      canvas: 'commonjs canvas'
-    });
-    return config;
-  },
   images: {
     remotePatterns: [
       {
@@ -26,7 +19,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'motakaro.com'
+        hostname: '*.motakaro.com'
       }
     ]
   }

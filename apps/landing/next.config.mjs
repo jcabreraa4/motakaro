@@ -13,7 +13,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'motakaro.com'
+        hostname: '*.motakaro.com'
       }
     ]
   }
