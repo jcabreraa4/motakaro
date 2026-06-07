@@ -4,12 +4,7 @@ import { PaperclipIcon, RotateCcwIcon } from 'lucide-react';
 import { PromptInput, PromptInputBody, PromptInputButton, PromptInputFooter, PromptInputSubmit, PromptInputTextarea, PromptInputTools } from '@workspace/ui/chatbot/prompt-input';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { ChatbotDialog } from '@/components/chatbot/chatbot-dialog';
-import { type ModelId } from '@/lib/chatbot/models';
-
 interface ChatbotInputProps {
-  model: ModelId;
-  setModel: (model: ModelId) => void;
   input: string;
   setInput: (input: string) => void;
   files: File[];
@@ -20,7 +15,7 @@ interface ChatbotInputProps {
   className?: string;
 }
 
-export function ChatbotInput({ model, setModel, input, setInput, files, setFiles, status, handleSubmit, emptyChat, className }: ChatbotInputProps) {
+export function ChatbotInput({ input, setInput, files, setFiles, status, handleSubmit, emptyChat, className }: ChatbotInputProps) {
   return (
     <PromptInput
       globalDrop
@@ -63,10 +58,6 @@ export function ChatbotInput({ model, setModel, input, setInput, files, setFiles
               <RotateCcwIcon size={16} />
             </PromptInputButton>
           </div>
-          <ChatbotDialog
-            chatModel={model}
-            setChatModel={setModel}
-          />
         </PromptInputTools>
         <PromptInputSubmit
           disabled={!(input.trim() || files.length > 0) || status === 'streaming'}

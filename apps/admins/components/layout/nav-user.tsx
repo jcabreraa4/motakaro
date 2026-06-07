@@ -4,8 +4,9 @@ import { useTheme } from 'next-themes';
 import Link from 'next/link';
 
 import { useAuth, useClerk } from '@clerk/nextjs';
+import { dark } from '@clerk/themes';
 import { useQuery } from 'convex/react';
-import { BellIcon, ChevronsUpDown, LogOutIcon, MoonIcon, SettingsIcon, SunIcon, UserRoundIcon } from 'lucide-react';
+import { BellIcon, ChevronsUpDown, CircleUserIcon, LogOutIcon, MoonIcon, SunIcon, UserRoundIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
@@ -46,8 +47,8 @@ interface NavUserProps {
 export function NavUser({ name, email, avatar }: NavUserProps) {
   const { isLoaded } = useAuth();
   const { isMobile } = useSidebar();
-  const { signOut } = useClerk();
   const { theme, setTheme } = useTheme();
+  const { signOut, openUserProfile } = useClerk();
 
   const employee = useQuery(api.employees.get, isLoaded ? {} : 'skip');
 
@@ -91,12 +92,19 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <Link href="/settings">
-                <DropdownMenuItem className="cursor-pointer">
-                  <SettingsIcon />
-                  Settings
-                </DropdownMenuItem>
-              </Link>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() =>
+                  openUserProfile({
+                    appearance: {
+                      theme: theme === 'dark' ? dark : undefined
+                    }
+                  })
+                }
+              >
+                <CircleUserIcon />
+                Account
+              </DropdownMenuItem>
               <Link href="/notifications">
                 <DropdownMenuItem className="cursor-pointer">
                   <BellIcon />

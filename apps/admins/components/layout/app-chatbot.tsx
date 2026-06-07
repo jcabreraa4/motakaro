@@ -22,7 +22,6 @@ import { ChatbotMessages } from '@/components/chatbot/chatbot-messages';
 import { ChatbotSuggestions } from '@/components/chatbot/chatbot-suggestions';
 import { useChatbot } from '@/hooks/use-chatbot';
 import { usePathname } from '@/hooks/use-pathname';
-import { type ModelId, defaultModel } from '@/lib/chatbot/models';
 
 export function AppChatbot() {
   const { push } = useRouter();
@@ -54,7 +53,6 @@ export function AppChatbot() {
   const [input, setInput] = useState('');
   const [files, setFiles] = useState<File[]>([]);
   const [lastInput, setLastInput] = useState('');
-  const [chatModel, setChatModel] = useState<ModelId>(defaultModel);
 
   // Request Data
   const employee = useQuery(api.employees.get, isLoaded ? {} : 'skip');
@@ -68,7 +66,6 @@ export function AppChatbot() {
       { text: input, files: dt.files },
       {
         body: {
-          model: chatModel,
           system: system,
           timezone: timezone
         }
@@ -84,7 +81,6 @@ export function AppChatbot() {
       { text: suggestion },
       {
         body: {
-          model: chatModel,
           system: system,
           timezone: timezone
         }
@@ -108,7 +104,7 @@ export function AppChatbot() {
         <div className="flex h-full w-full items-center justify-between px-2">
           <div className="flex gap-1.5">
             <GhostIcon className="size-4.5" />
-            <span className="text-sm select-none">Ghostty</span>
+            <span className="text-sm select-none">Assistant</span>
           </div>
           <Button
             size="icon-sm"
@@ -144,8 +140,6 @@ export function AppChatbot() {
         </div>
       )}
       <ChatbotInput
-        model={chatModel}
-        setModel={setChatModel}
         input={input}
         setInput={setInput}
         files={files}

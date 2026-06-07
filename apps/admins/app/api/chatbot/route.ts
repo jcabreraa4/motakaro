@@ -1,14 +1,11 @@
-import { mistral } from '@ai-sdk/mistral';
 import { openai } from '@ai-sdk/openai';
 import { type UIMessage, convertToModelMessages, stepCountIs, streamText } from 'ai';
 
 import { chatbotTools } from '@/app/api/chatbot/tools';
-import { models } from '@/lib/chatbot/models';
 import { getConvex } from '@/server/get-convex';
 import { verifyAuth } from '@/server/verify-auth';
 
 interface RequestProps {
-  model: string;
   system: string;
   temperature?: number | 1;
   messages: UIMessage[];
@@ -20,7 +17,7 @@ export async function POST(request: Request) {
   await verifyAuth();
 
   // Process Request
-  const { model, system, temperature, messages, timezone }: RequestProps = await request.json();
+  const { system, temperature, messages, timezone }: RequestProps = await request.json();
 
   // Obtain Convex
   const { convex } = await getConvex();
@@ -40,12 +37,9 @@ export async function POST(request: Request) {
     hour12: false
   }).format(new Date());
 
-  // Obtain Model
-  const selectedModel = models.find((m) => m.id === model);
-
   // Generate Response
   const result = streamText({
-    model: selectedModel?.chefSlug === 'openai' ? openai(model) : mistral(model),
+    model: openai('gpt-4o-mini'),
     system: `
     You are the helpful, approachable, personal assistant in Motakaro.
     Motakaro is a LinkedIn Ads / GTM Consultancy / Hybrid Demand Agency.

@@ -50,8 +50,8 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
   usePresence();
   const { isLoaded } = useAuth();
   const { isMobile } = useSidebar();
-  const { signOut, openUserProfile, openOrganizationProfile } = useClerk();
   const { theme, setTheme } = useTheme();
+  const { signOut, openUserProfile, openOrganizationProfile } = useClerk();
 
   const contact = useQuery(api.contacts.clientGet, isLoaded ? {} : 'skip');
 
