@@ -215,17 +215,7 @@ export default defineSchema({
     updated: v.number()
   })
     .index('by_updated', ['updated'])
-    .index('by_published', ['published']),
-
-  // Chatbot Knowledge
-  embeddings: defineTable({
-    source: v.string(),
-    content: v.string(),
-    vector: v.array(v.float64())
-  }).vectorIndex('by_vector', {
-    vectorField: 'vector',
-    dimensions: 1536
-  })
+    .index('by_published', ['published'])
 });
 
 export type Employee = Doc<'employees'>;
@@ -239,4 +229,3 @@ export type Document = Doc<'documents'>;
 export type MediaFile = Doc<'multimedia'> & { url: string | null };
 export type Whiteboard = Doc<'whiteboards'>;
 export type Resource = Doc<'resources'>;
-export type Embedding = Doc<'embeddings'>;

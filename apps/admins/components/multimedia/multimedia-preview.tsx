@@ -7,6 +7,7 @@ import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { AudioRender, ImageRender, OtherRender, Thumbnail, VideoRender } from '@/components/multimedia/multimedia-render';
+import { useChatbot } from '@/hooks/use-chatbot';
 import { mediaType } from '@/utils/media-type';
 
 interface MultimediaPreviewProps {
@@ -19,13 +20,16 @@ interface MultimediaPreviewProps {
 }
 
 export function MultimediaPreview({ id, src, name, type, interact = false, preview = false }: MultimediaPreviewProps) {
-  const router = useRouter();
+  const { push } = useRouter();
+  const { closeMobile } = useChatbot();
+
   const isMobile = useIsMobile();
   const fileType = mediaType(type);
 
   function openFile() {
     if (!id) return;
-    router.push(`/multimedia/${id}`);
+    push(`/multimedia/${id}`);
+    closeMobile();
   }
 
   return (

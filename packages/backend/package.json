@@ -14,7 +14,9 @@
     "typescript": "latest"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^3.0.68",
     "@clerk/backend": "^3.2.0",
+    "@convex-dev/agent": "^0.6.2",
     "@convex-dev/prosemirror-sync": "^0.2.3",
     "@types/node": "^25.4.0",
     "convex": "^1.32.0",
