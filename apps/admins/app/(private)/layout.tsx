@@ -5,6 +5,7 @@ import { SidebarInset, SidebarProvider } from '@workspace/ui/components/sidebar'
 
 import { AppChatbot } from '@/components/layout/app-chatbot';
 import { AppHeader } from '@/components/layout/app-header';
+import { AppOnboard } from '@/components/layout/app-onboard';
 import { AppSidebar } from '@/components/layout/app-sidebar';
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
@@ -26,6 +27,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
           <AppChatbot />
         </div>
       </SidebarInset>
+      <AppOnboard />
     </SidebarProvider>
   );
 }

@@ -66,7 +66,8 @@ export const update = mutation({
   args: {
     id: v.optional(v.id('employees')),
     clerkId: v.optional(v.string()),
-    seen: v.optional(v.boolean())
+    seen: v.optional(v.boolean()),
+    onboarded: v.optional(v.boolean())
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -92,6 +93,7 @@ export const update = mutation({
     // Update Employee
     await ctx.db.patch(employee._id, {
       ...(args.seen !== undefined ? { seen: Date.now() } : {}),
+      ...(args.onboarded !== undefined ? { onboarded: args.onboarded } : {}),
       updated: Date.now()
     });
   }
