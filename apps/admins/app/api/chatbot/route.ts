@@ -2,7 +2,7 @@ import { openai } from '@ai-sdk/openai';
 import { type UIMessage, convertToModelMessages, stepCountIs, streamText } from 'ai';
 
 import { chatbotTools } from '@/app/api/chatbot/tools';
-import { getConvex } from '@/server/get-convex';
+import { runConvex } from '@/server/run-convex';
 import { verifyAuth } from '@/server/verify-auth';
 
 interface RequestProps {
@@ -20,7 +20,7 @@ export async function POST(request: Request) {
   const { system, temperature, messages, timezone }: RequestProps = await request.json();
 
   // Obtain Convex
-  const { convex } = await getConvex();
+  const { convex } = await runConvex();
 
   // Obtain Calendar
   const date = new Intl.DateTimeFormat('en-CA', {

@@ -51,29 +51,35 @@ function HeaderBreadcrumb() {
 }
 
 function UserPresence({ className }: { className?: string }) {
-  const { actives } = usePresence();
+  const { employees } = usePresence();
 
-  if (!actives || actives.length === 0) return null;
+  if (!employees || employees.length === 0) return null;
 
   return (
-    <div className={cn('flex gap-2', className)}>
-      {actives.map((employee) => (
-        <Tooltip key={employee._id}>
-          <TooltipTrigger asChild>
-            <div className="relative cursor-default">
-              <Avatar className="size-8">
-                <AvatarImage src={employee.avatar} />
-                <AvatarFallback className="text-xs">{employee.name?.[0]?.toUpperCase() ?? '?'}</AvatarFallback>
-              </Avatar>
-              <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full border border-background bg-green-500" />
-            </div>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">
-            <p>{`${employee.name ?? ''} ${employee.surname ?? ''}`.trim()}</p>
-          </TooltipContent>
-        </Tooltip>
-      ))}
-    </div>
+    <>
+      <div className={cn('flex items-center gap-2', className)}>
+        {employees.map((employee) => (
+          <Tooltip key={employee._id}>
+            <TooltipTrigger asChild>
+              <div className="relative cursor-default">
+                <Avatar className="size-6">
+                  <AvatarImage src={employee.avatar} />
+                  <AvatarFallback className="text-xs">{employee.name?.[0]?.toUpperCase() ?? '?'}</AvatarFallback>
+                </Avatar>
+                <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full border border-background bg-green-500" />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">
+              <p>{`${employee.name ?? ''} ${employee.surname ?? ''}`.trim()}</p>
+            </TooltipContent>
+          </Tooltip>
+        ))}
+      </div>
+      <Separator
+        orientation="vertical"
+        className={cn('ml-2 data-[orientation=vertical]:h-4', className)}
+      />
+    </>
   );
 }
 
@@ -101,7 +107,7 @@ export function AppHeader() {
         />
         <HeaderBreadcrumb />
       </div>
-      <div className="flex gap-8">
+      <div className="flex items-center gap-2">
         <UserPresence className="hidden select-none 2xl:flex" />
         <div className="flex gap-2">
           <ChatbotButton />

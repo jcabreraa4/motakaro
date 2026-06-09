@@ -13,14 +13,14 @@ export function usePresence() {
   const employees = useQuery(api.employees.list, isLoaded ? { filter: 'actives' } : 'skip');
   const updateEmployee = useMutation(api.employees.update);
 
-  const actives = employees?.filter((employee) => employee.clerkId !== userId);
+  const filtered = employees?.filter((employee) => employee.clerkId !== userId);
 
   useEffect(() => {
     if (!userId) return;
-    updateEmployee({ seen: true });
-    const interval = setInterval(() => updateEmployee({ seen: true }), 50000);
+    updateEmployee({});
+    const interval = setInterval(() => updateEmployee({}), 50000);
     return () => clearInterval(interval);
   }, [userId, updateEmployee]);
 
-  return { actives };
+  return { employees: filtered };
 }

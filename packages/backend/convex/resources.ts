@@ -4,16 +4,14 @@ import type { Id } from './_generated/dataModel';
 import { mutation, query } from './_generated/server';
 import { verifyAdminAuth } from './auth';
 
-// Admin Functions
-
 export const list = query({
   args: {
     limit: v.optional(v.number()),
     filter: v.optional(v.literal('published'))
   },
   handler: async (ctx, args) => {
+    // Return Published
     if (args.filter) {
-      // Return Resources
       const query = ctx.db
         .query('resources')
         .withIndex('by_published', (q) => q.eq('published', true))

@@ -1,6 +1,6 @@
 import { api } from '@workspace/backend/_generated/api';
 
-import { getConvex } from '@/server/get-convex';
+import { runConvex } from '@/server/run-convex';
 import { verifyAuth } from '@/server/verify-auth';
 
 export async function getCompanies() {
@@ -8,7 +8,7 @@ export async function getCompanies() {
   await verifyAuth();
 
   // Obtain Convex
-  const { convex } = await getConvex();
+  const { convex } = await runConvex();
 
   // Return Companies
   return await convex.query(api.companies.clientList);

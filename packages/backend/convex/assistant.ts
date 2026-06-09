@@ -43,7 +43,7 @@ async function verifyThread(ctx: ActionCtx | MutationCtx | QueryCtx, threadId: s
 
 async function getSystem(ctx: ActionCtx, clerkId: string, system?: string) {
   // Obtain Employee
-  const employee = await ctx.runQuery(api.employees.get, { clerkId });
+  const employee = await ctx.runQuery(api.employees.get, {});
 
   if (!employee) {
     return [instructions, `Contexto del usuario autenticado:\n- Clerk ID: ${clerkId}\n- Employee: No encontrado`, system].filter(Boolean).join('\n\n');

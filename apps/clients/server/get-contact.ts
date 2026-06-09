@@ -1,6 +1,6 @@
 import { api } from '@workspace/backend/_generated/api';
 
-import { getConvex } from '@/server/get-convex';
+import { runConvex } from '@/server/run-convex';
 import { verifyAuth } from '@/server/verify-auth';
 
 export async function getContact() {
@@ -8,7 +8,7 @@ export async function getContact() {
   await verifyAuth();
 
   // Obtain Convex
-  const { convex } = await getConvex();
+  const { convex } = await runConvex();
 
   // Return Contact
   return await convex.query(api.contacts.clientGet);

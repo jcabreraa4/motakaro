@@ -4,8 +4,6 @@ import { Id } from './_generated/dataModel';
 import { mutation, query } from './_generated/server';
 import { getClientAuth, verifyAdminAuth, verifyClientAuth } from './auth';
 
-// Admin Functions
-
 export const list = query({
   args: {
     limit: v.optional(v.number()),
@@ -69,7 +67,7 @@ export const clientList = query({
     limit: v.optional(v.number())
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Obtain Identity
     const identity = await getClientAuth(ctx);
     if (!identity) return null;
 
@@ -98,7 +96,7 @@ export const clientUpdate = mutation({
     read: v.optional(v.boolean())
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Obtain Identity
     const identity = await verifyClientAuth(ctx);
 
     // Obtain Company

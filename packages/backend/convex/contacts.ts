@@ -4,8 +4,6 @@ import type { Id } from './_generated/dataModel';
 import { internalMutation, mutation, query } from './_generated/server';
 import { getClientAuth, verifyAdminAuth, verifyClientAuth } from './auth';
 
-// Admin Functions
-
 export const list = query({
   args: {
     limit: v.optional(v.number()),
@@ -15,9 +13,8 @@ export const list = query({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Check Filter
+    // Return Actives
     if (args.filter) {
-      // Return Contacts
       const threshold = Date.now() - 60000;
       const query = ctx.db
         .query('contacts')
@@ -61,7 +58,7 @@ export const get = query({
 
 export const clientGet = query({
   handler: async (ctx) => {
-    // Check Identity
+    // Obtain Identity
     const identity = await getClientAuth(ctx);
     if (!identity) return null;
 
@@ -78,8 +75,11 @@ export const clientGet = query({
 });
 
 export const clientUpdate = mutation({
-  handler: async (ctx) => {
-    // Check Identity
+  args: {
+    onboarded: v.optional(v.boolean())
+  },
+  handler: async (ctx, args) => {
+    // Obtain Identity
     const identity = await verifyClientAuth(ctx);
 
     // Obtain Contact
@@ -91,8 +91,9 @@ export const clientUpdate = mutation({
 
     // Update Contact
     await ctx.db.patch(contact._id, {
-      seen: Date.now(),
-      updated: Date.now()
+      ...(args.onboarded !== undefined ? { onboarded: args.onboarded } : {}),
+      updated: Date.now(),
+      seen: Date.now()
     });
   }
 });

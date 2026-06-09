@@ -4,8 +4,6 @@ import type { Id } from './_generated/dataModel';
 import { internalMutation, mutation, query } from './_generated/server';
 import { verifyAdminAuth } from './auth';
 
-// Admin Functions
-
 export const list = query({
   args: {
     limit: v.optional(v.number())

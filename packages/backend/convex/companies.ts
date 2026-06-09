@@ -6,8 +6,6 @@ import { internalAction, internalMutation, query } from './_generated/server';
 import { getClientAuth, verifyAdminAuth } from './auth';
 import { env } from './env';
 
-// Admin Functions
-
 export const list = query({
   args: {
     limit: v.optional(v.number())
@@ -51,7 +49,7 @@ export const get = query({
 
 export const clientList = query({
   handler: async (ctx) => {
-    // Check Identity
+    // Obtain Identity
     const identity = await getClientAuth(ctx);
     if (!identity) return null;
 
