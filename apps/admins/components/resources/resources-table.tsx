@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import type { Resource } from '@workspace/backend/schema';
 import { cn } from '@workspace/ui/lib/utils';
 
@@ -21,11 +23,12 @@ export function ResourcesTable({ resources }: { resources: Resource[] }) {
               key={resource._id}
               className="flex flex-col gap-5"
             >
-              <ResourcesPreview
-                id={resource._id}
-                src={resource.thumbnail}
-                name={resource.name}
-              />
+              <Link href={`/resources/${resource._id}`}>
+                <ResourcesPreview
+                  src={resource.thumbnail}
+                  className="cursor-pointer"
+                />
+              </Link>
               <ResourcesInfo
                 name={resource.name}
                 published={resource.published}
@@ -42,11 +45,12 @@ export function ResourcesTable({ resources }: { resources: Resource[] }) {
               key={resource._id}
               className="flex flex-col gap-5"
             >
-              <ResourcesPreview
-                id={resource._id}
-                src={resource.thumbnail}
-                name={resource.name}
-              />
+              <Link href={`/resources/${resource._id}`}>
+                <ResourcesPreview
+                  src={resource.thumbnail}
+                  className="cursor-pointer"
+                />
+              </Link>
               <ResourcesInfo
                 name={resource.name}
                 published={resource.published}

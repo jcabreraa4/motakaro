@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { CodeBlock } from '@workspace/ui/chatbot/code-block';
 import { Tool, ToolContent, ToolHeader, ToolInput, ToolOutput } from '@workspace/ui/chatbot/tool';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@workspace/ui/components/carousel';
@@ -174,12 +176,13 @@ export function MultimediaList({ part }: { part: MultimediaListPart }) {
               {part.output.content.map((file, index) => (
                 <CarouselItem key={index}>
                   <div className="flex flex-col gap-5">
-                    <MultimediaPreview
-                      id={file._id}
-                      src={file.url!}
-                      name={file.name}
-                      type={file.type}
-                    />
+                    <Link href={`/multimedia/${file._id}`}>
+                      <MultimediaPreview
+                        src={file.url!}
+                        type={file.type}
+                        className="cursor-pointer"
+                      />
+                    </Link>
                     <MultimediaInfo
                       name={file.name}
                       size={file.size}
@@ -208,12 +211,13 @@ export function MultimediaGet({ part }: { part: MultimediaGetPart }) {
       />
       {part.state === 'output-available' && typeof part.output.content === 'object' && (
         <div className="flex flex-col gap-5">
-          <MultimediaPreview
-            id={part.output.content._id}
-            src={part.output.content.url}
-            name={part.output.content.name}
-            type={part.output.content.type}
-          />
+          <Link href={`/multimedia/${part.output.content._id}`}>
+            <MultimediaPreview
+              src={part.output.content.url}
+              type={part.output.content.type}
+              className="cursor-pointer"
+            />
+          </Link>
           <MultimediaInfo
             name={part.output.content.name}
             size={part.output.content.size}

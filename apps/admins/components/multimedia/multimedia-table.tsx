@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import type { MediaFile } from '@workspace/backend/schema';
 import { cn } from '@workspace/ui/lib/utils';
 
@@ -21,12 +23,13 @@ export function MultimediaTable({ multimedia }: { multimedia: MediaFile[] }) {
               key={file._id}
               className="flex flex-col gap-5"
             >
-              <MultimediaPreview
-                id={file._id}
-                src={file.url!}
-                name={file.name}
-                type={file.type}
-              />
+              <Link href={`/multimedia/${file._id}`}>
+                <MultimediaPreview
+                  src={file.url!}
+                  type={file.type}
+                  className="cursor-pointer"
+                />
+              </Link>
               <MultimediaInfo
                 name={file.name}
                 size={file.size}
@@ -44,12 +47,13 @@ export function MultimediaTable({ multimedia }: { multimedia: MediaFile[] }) {
               key={file._id}
               className="flex flex-col gap-5"
             >
-              <MultimediaPreview
-                id={file._id}
-                src={file.url!}
-                name={file.name}
-                type={file.type}
-              />
+              <Link href={`/multimedia/${file._id}`}>
+                <MultimediaPreview
+                  src={file.url!}
+                  type={file.type}
+                  className="cursor-pointer"
+                />
+              </Link>
               <MultimediaInfo
                 name={file.name}
                 size={file.size}

@@ -34,7 +34,6 @@ function Attachment({ file }: { file: File }) {
         <MultimediaPreview
           preview
           src={URL.createObjectURL(file)}
-          name={file.name}
           type={file.type}
         />
       </HoverCardContent>

@@ -1,47 +1,30 @@
-import { useRouter } from 'next/navigation';
-
 import { BanIcon } from 'lucide-react';
 
-import type { Id } from '@workspace/backend/_generated/dataModel';
 import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { AudioRender, ImageRender, OtherRender, Thumbnail, VideoRender } from '@/components/multimedia/multimedia-render';
-import { useChatbot } from '@/hooks/use-chatbot';
 import { mediaType } from '@/utils/media-type';
 
 interface MultimediaPreviewProps {
-  id?: Id<'multimedia'>;
   src: string;
-  name?: string;
   type: string;
   interact?: boolean;
   preview?: boolean;
+  className?: string;
 }
 
-export function MultimediaPreview({ id, src, name, type, interact = false, preview = false }: MultimediaPreviewProps) {
-  const { push } = useRouter();
-  const { closeMobile } = useChatbot();
-
+export function MultimediaPreview({ src, type, interact = false, preview = false, className }: MultimediaPreviewProps) {
   const isMobile = useIsMobile();
   const fileType = mediaType(type);
 
-  function openFile() {
-    if (!id) return;
-    push(`/multimedia/${id}`);
-    closeMobile();
-  }
-
   return (
-    <div
-      onClick={openFile}
-      className={cn('relative aspect-video overflow-hidden rounded-md border select-none', id && 'cursor-pointer')}
-    >
+    <div className={cn('relative aspect-video overflow-hidden rounded-md border select-none', className)}>
       {fileType === 'image' ? (
         <ImageRender
           fill
           src={src}
-          alt={name || 'Image'}
+          alt="Image Preview"
           className="object-cover"
         />
       ) : fileType === 'video' ? (

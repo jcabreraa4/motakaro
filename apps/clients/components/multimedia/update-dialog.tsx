@@ -106,7 +106,7 @@ export function UpdateDialog({ file, children }: UpdateDialogProps) {
             onClick={handleReset}
           >
             <RotateCcwIcon />
-            Reset Changes
+            Clear Changes
           </Button>
           <Button
             className="cursor-pointer"

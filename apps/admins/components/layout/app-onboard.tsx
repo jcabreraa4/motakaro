@@ -16,7 +16,7 @@ export function AppOnboard() {
   const updateEmployee = useMutation(api.employees.update);
 
   function completeOnboarding() {
-    updateEmployee({ onboarded: true }).then(() => {
+    updateEmployee({ onboarded: true }).finally(() => {
       toast.success('Onboarding completed successfully!');
     });
   }

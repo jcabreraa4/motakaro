@@ -16,7 +16,7 @@ export function AppOnboard() {
   const updateContact = useMutation(api.contacts.clientUpdate);
 
   function completeOnboarding() {
-    updateContact({ onboarded: true }).then(() => {
+    updateContact({ onboarded: true }).finally(() => {
       toast.success('Onboarding completed successfully!');
     });
   }
