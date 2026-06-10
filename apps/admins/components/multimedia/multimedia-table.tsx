@@ -6,7 +6,7 @@ import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
 import { MultimediaToolbar } from '@/components/multimedia/multimedia-toolbar';
 import { useChatbot } from '@/hooks/use-chatbot';
 
-export function MediaTable({ multimedia }: { multimedia: MediaFile[] }) {
+export function MultimediaTable({ multimedia }: { multimedia: MediaFile[] }) {
   const { chatbot } = useChatbot();
 
   const starredFiles = multimedia.filter((file) => file.starred);

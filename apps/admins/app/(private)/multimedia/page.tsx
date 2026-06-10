@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { EmptySection } from '@workspace/ui/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
-import { MediaTable } from '@/components/multimedia/multimedia-table';
+import { MultimediaTable } from '@/components/multimedia/multimedia-table';
 import { UploadDialog } from '@/components/multimedia/upload-dialog';
 import { useParams } from '@/hooks/use-params';
 
@@ -95,7 +95,7 @@ export default function Page() {
           description="No files match your search criteria."
         />
       ) : (
-        <MediaTable multimedia={filteredMultimedia || []} />
+        <MultimediaTable multimedia={filteredMultimedia || []} />
       )}
     </main>
   );

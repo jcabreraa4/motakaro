@@ -4,7 +4,7 @@ import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
 import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
 import { MultimediaToolbar } from '@/components/multimedia/multimedia-toolbar';
 
-export function MediaTable({ multimedia }: { multimedia: MediaFile[] }) {
+export function MultimediaTable({ multimedia }: { multimedia: MediaFile[] }) {
   const starredFiles = multimedia.filter((file) => file.clientsStarred);
   const nonStarredFiles = multimedia!.filter((file) => !file.clientsStarred);
 

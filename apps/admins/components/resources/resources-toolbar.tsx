@@ -1,31 +1,26 @@
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 import { useMutation } from 'convex/react';
-import { CopyIcon, ExpandIcon, type LucideIcon, PenIcon, StarIcon, TrashIcon } from 'lucide-react';
+import { ExpandIcon, ExternalLinkIcon, type LucideIcon, PenIcon, StarIcon, TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
 import type { Resource } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
-import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 
 import { RemoveDialog } from '@/components/resources/remove-dialog';
 import { UpdateDialog } from '@/components/resources/update-dialog';
-import { copyText } from '@/utils/copy-text';
 
-interface SectionButtonProps {
-  onClick?: () => void;
+interface ToolbarButtonProps {
   icon: LucideIcon;
+  onClick?: () => void;
   isActive?: boolean;
 }
 
-function SectionButton({ onClick, icon: Icon, isActive }: SectionButtonProps) {
-  const isMobile = useIsMobile();
-
+function ToolbarButton({ icon: Icon, onClick, isActive }: ToolbarButtonProps) {
   return (
     <Button
       onClick={onClick}
-      size={isMobile ? 'icon' : 'default'}
       variant={isActive ? 'default' : 'outline'}
       className="cursor-pointer"
     >
@@ -35,60 +30,42 @@ function SectionButton({ onClick, icon: Icon, isActive }: SectionButtonProps) {
 }
 
 export function ResourcesToolbar({ resource }: { resource: Resource }) {
-  const router = useRouter();
-  const updateFile = useMutation(api.resources.update);
+  const updateResource = useMutation(api.resources.update);
 
-  const sectionButtons = [
-    {
-      icon: StarIcon,
-      onClick: () => updateFile({ id: resource._id, starred: !resource.starred }).finally(() => toast.success(resource.starred ? 'Resource removed from starred successfully.' : 'Resource added to starred successfully.')),
-      isActive: resource.starred
-    },
-    {
-      icon: CopyIcon,
-      onClick: () => {
-        if (!resource.link) {
-          toast.error('The resource has no link available.');
-          return;
-        }
-        copyText({ text: resource.link, type: 'link' });
-      }
+  function toggleStarred() {
+    updateResource({ id: resource._id, starred: !resource.starred }).finally(() => {
+      toast.success(resource.starred ? 'File removed from starred successfully.' : 'File added to starred successfully.');
+    });
+  }
+
+  function openLink() {
+    if (!resource.link) {
+      toast.error('No video attached to this resource.');
+      return;
     }
-  ];
-
-  function handleClick() {
-    if (!resource._id) return;
-    router.push(`/resources/${resource._id}`);
+    window.open(resource.link, '_blank');
   }
 
   return (
     <div className="flex gap-3">
-      {sectionButtons.map((sectionButton, index) => (
-        <SectionButton
-          key={index}
-          {...sectionButton}
-        />
-      ))}
+      <ToolbarButton
+        icon={StarIcon}
+        onClick={toggleStarred}
+        isActive={resource.starred}
+      />
+      <ToolbarButton
+        icon={ExternalLinkIcon}
+        onClick={openLink}
+      />
       <UpdateDialog resource={resource}>
-        <Button
-          variant="outline"
-          className="cursor-pointer"
-        >
-          <PenIcon />
-        </Button>
+        <ToolbarButton icon={PenIcon} />
       </UpdateDialog>
       <RemoveDialog id={resource._id}>
-        <Button
-          variant="outline"
-          className="cursor-pointer"
-        >
-          <TrashIcon />
-        </Button>
+        <ToolbarButton icon={TrashIcon} />
       </RemoveDialog>
-      <SectionButton
-        icon={ExpandIcon}
-        onClick={handleClick}
-      />
+      <Link href={`/resources/${resource._id}`}>
+        <ToolbarButton icon={ExpandIcon} />
+      </Link>
     </div>
   );
 }

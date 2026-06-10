@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 import { ImageOffIcon, TriangleAlertIcon } from 'lucide-react';
 
@@ -13,37 +13,30 @@ interface ResourcePreviewProps {
 }
 
 export function ResourcesPreview({ id, src, name }: ResourcePreviewProps) {
-  const router = useRouter();
-
-  function handleClick() {
-    router.push(`/resources/${id}`);
-  }
-
   const invalidSrc = src && !src.startsWith('http') && !src.startsWith('/');
 
   return (
-    <div
-      onClick={handleClick}
-      className="relative aspect-video cursor-pointer overflow-hidden rounded-md border select-none"
-    >
-      {!src ? (
-        <Thumbnail
-          icon={ImageOffIcon}
-          text="No Thumbnail"
-        />
-      ) : invalidSrc ? (
-        <Thumbnail
-          icon={TriangleAlertIcon}
-          text="Invalid Thumbnail"
-        />
-      ) : (
-        <ImageRender
-          fill
-          src={src}
-          alt={name || 'Image'}
-          className="object-cover"
-        />
-      )}
-    </div>
+    <Link href={`/resources/${id}`}>
+      <div className="relative aspect-video cursor-pointer overflow-hidden rounded-md border select-none">
+        {!src ? (
+          <Thumbnail
+            icon={ImageOffIcon}
+            text="No Thumbnail"
+          />
+        ) : invalidSrc ? (
+          <Thumbnail
+            icon={TriangleAlertIcon}
+            text="Invalid Thumbnail"
+          />
+        ) : (
+          <ImageRender
+            fill
+            src={src}
+            alt={name || 'Image'}
+            className="object-cover"
+          />
+        )}
+      </div>
+    </Link>
   );
 }
