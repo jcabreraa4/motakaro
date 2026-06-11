@@ -18,37 +18,37 @@ function DocumentRow({ document }: { document: Document }) {
   const router = useRouter();
   const updateDocument = useMutation(api.documents.update);
 
-  function openDocument(newWindow = false) {
-    if (newWindow) {
-      window.open(`/documents/${document._id}`, '_blank');
-    } else {
-      router.push(`/documents/${document._id}`);
-    }
+  function openDocument() {
+    router.push(`/documents/${document._id}`);
+  }
+
+  function openExternal() {
+    window.open(`/documents/${document._id}`, '_blank');
   }
 
   return (
     <TableRow className="h-12 cursor-pointer p-20">
       <TableCell
+        onClick={openDocument}
         className="w-12.5 p-4"
-        onClick={() => openDocument()}
       >
         {document.starred ? <StarIcon className="text-yellow-500" /> : <FileTextIcon />}
       </TableCell>
       <TableCell
+        onClick={openDocument}
         className="font-medium"
-        onClick={() => openDocument()}
       >
         <div className="w-35 max-w-120 truncate md:w-fit">{document.name || 'Untitled Document'}</div>
       </TableCell>
       <TableCell
+        onClick={openDocument}
         className="hidden text-muted-foreground md:table-cell"
-        onClick={() => openDocument()}
       >
         {format(new Date(document._creationTime), 'MMM dd, yyyy')}
       </TableCell>
       <TableCell
+        onClick={openDocument}
         className="hidden text-muted-foreground lg:table-cell"
-        onClick={() => openDocument()}
       >
         {format(new Date(document.updated), 'MMM dd, yyyy')}
       </TableCell>
@@ -90,8 +90,8 @@ function DocumentRow({ document }: { document: Document }) {
               {document.starred ? 'Quit from Favorites' : 'Add to Favorites'}
             </DropdownMenuItem>
             <DropdownMenuItem
+              onClick={openExternal}
               className="cursor-pointer"
-              onClick={() => openDocument(true)}
             >
               <ExternalLinkIcon />
               Open in a new Tab

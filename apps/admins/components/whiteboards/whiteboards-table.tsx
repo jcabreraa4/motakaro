@@ -18,37 +18,37 @@ function WhiteboardRow({ whiteboard }: { whiteboard: Whiteboard }) {
   const router = useRouter();
   const updateWhiteboard = useMutation(api.whiteboards.update);
 
-  function openWhiteboard(newWindow = false) {
-    if (newWindow) {
-      window.open(`/whiteboards/${whiteboard._id}`, '_blank');
-    } else {
-      router.push(`/whiteboards/${whiteboard._id}`);
-    }
+  function openWhiteboard() {
+    router.push(`/whiteboards/${whiteboard._id}`);
+  }
+
+  function openExternal() {
+    window.open(`/whiteboards/${whiteboard._id}`, '_blank');
   }
 
   return (
     <TableRow className="h-12 cursor-pointer p-20">
       <TableCell
+        onClick={openWhiteboard}
         className="w-12.5 p-4"
-        onClick={() => openWhiteboard()}
       >
         {whiteboard.starred ? <StarIcon className="text-yellow-500" /> : <PencilRulerIcon />}
       </TableCell>
       <TableCell
+        onClick={openWhiteboard}
         className="font-medium"
-        onClick={() => openWhiteboard()}
       >
         <div className="w-35 max-w-120 truncate md:w-fit">{whiteboard.name || 'Untitled Whiteboard'}</div>
       </TableCell>
       <TableCell
+        onClick={openWhiteboard}
         className="hidden text-muted-foreground md:table-cell"
-        onClick={() => openWhiteboard()}
       >
         {format(new Date(whiteboard._creationTime), 'MMM dd, yyyy')}
       </TableCell>
       <TableCell
+        onClick={openWhiteboard}
         className="hidden text-muted-foreground lg:table-cell"
-        onClick={() => openWhiteboard()}
       >
         {format(new Date(whiteboard.updated), 'MMM dd, yyyy')}
       </TableCell>
@@ -90,8 +90,8 @@ function WhiteboardRow({ whiteboard }: { whiteboard: Whiteboard }) {
               {whiteboard.starred ? 'Quit from Favorites' : 'Add to Favorites'}
             </DropdownMenuItem>
             <DropdownMenuItem
+              onClick={openExternal}
               className="cursor-pointer"
-              onClick={() => openWhiteboard(true)}
             >
               <ExternalLinkIcon />
               Open in a new Tab

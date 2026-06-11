@@ -7,6 +7,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import type { CompaniesGetPart, CompaniesListPart, ContactsGetPart, ContactsListPart, DocumentsGetPart, DocumentsListPart, MeetingsGetPart, MeetingsListPart, MultimediaGetPart, MultimediaListPart, NotificationsGetPart, NotificationsListPart, ResourcesGetPart, ResourcesListPart, ToolParts, WhiteboardsGetPart, WhiteboardsListPart } from '@/app/api/chatbot/tools';
 import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
 import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
+import { useChatbot } from '@/hooks/use-chatbot';
 
 interface ToolCodeBlockProps {
   part: ToolParts;
@@ -163,6 +164,8 @@ export function WhiteboardsGet({ part }: { part: WhiteboardsGetPart }) {
 
 // Multimedia Tools
 export function MultimediaList({ part }: { part: MultimediaListPart }) {
+  const { closeMobile } = useChatbot();
+
   return (
     <div>
       <ToolCodeBlock
@@ -176,7 +179,10 @@ export function MultimediaList({ part }: { part: MultimediaListPart }) {
               {part.output.content.map((file, index) => (
                 <CarouselItem key={index}>
                   <div className="flex flex-col gap-5">
-                    <Link href={`/multimedia/${file._id}`}>
+                    <Link
+                      onClick={closeMobile}
+                      href={`/multimedia/${file._id}`}
+                    >
                       <MultimediaPreview
                         src={file.url!}
                         type={file.type}
@@ -202,6 +208,8 @@ export function MultimediaList({ part }: { part: MultimediaListPart }) {
 }
 
 export function MultimediaGet({ part }: { part: MultimediaGetPart }) {
+  const { closeMobile } = useChatbot();
+
   return (
     <div>
       <ToolCodeBlock
@@ -211,7 +219,10 @@ export function MultimediaGet({ part }: { part: MultimediaGetPart }) {
       />
       {part.state === 'output-available' && typeof part.output.content === 'object' && (
         <div className="flex flex-col gap-5">
-          <Link href={`/multimedia/${part.output.content._id}`}>
+          <Link
+            onClick={closeMobile}
+            href={`/multimedia/${part.output.content._id}`}
+          >
             <MultimediaPreview
               src={part.output.content.url}
               type={part.output.content.type}
