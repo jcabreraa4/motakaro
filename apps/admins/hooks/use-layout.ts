@@ -2,20 +2,21 @@ import { useShallow } from 'zustand/react/shallow';
 
 import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 
-import { useChatbotStore } from '@/store/chatbot-store';
+import { useLayoutStore } from '@/store/layout-store';
 
-export function useChatbot() {
+export function useLayout() {
   const isMobile = useIsMobile();
-  const { chatbot, toggleChatbot } = useChatbotStore(
+
+  const { chatbot, toggleChatbot } = useLayoutStore(
     useShallow((state) => ({
       chatbot: state.chatbot,
       toggleChatbot: state.toggleChatbot
     }))
   );
 
-  function closeMobile() {
+  function closeMobileChatbot() {
     if (isMobile && chatbot) toggleChatbot();
   }
 
-  return { chatbot, toggleChatbot, closeMobile };
+  return { chatbot, toggleChatbot, closeMobileChatbot };
 }

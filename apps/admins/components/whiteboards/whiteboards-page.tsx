@@ -27,13 +27,14 @@ export function WhiteboardsPage({ preloaded }: WhiteboardsPageProps) {
 }
 
 function CanvasMainInner({ preloaded }: WhiteboardsPageProps) {
-  const { setSubroute } = useHeader();
+  const { setBreadcrumbs } = useHeader();
 
   const whiteboard = usePreloadedQuery(preloaded);
 
   useEffect(() => {
-    if (whiteboard) setSubroute(whiteboard.name);
-  }, [whiteboard, setSubroute]);
+    if (whiteboard) setBreadcrumbs([{ text: whiteboard.name }]);
+    return () => setBreadcrumbs([]);
+  }, [whiteboard, setBreadcrumbs]);
 
   if (!whiteboard) {
     return (

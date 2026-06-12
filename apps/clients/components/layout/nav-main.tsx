@@ -7,7 +7,7 @@ import { HeadsetIcon, ImageIcon, LayoutDashboardIcon, type LucideIcon, MessageSq
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { usePathname } from '@/hooks/use-pathname';
+import { useLocation } from '@/hooks/use-location';
 
 type Section = {
   title: string;
@@ -52,10 +52,10 @@ const sections: Section[] = [
 ];
 
 export function NavMain() {
-  const { segments } = usePathname();
+  const { section } = useLocation();
 
   function isActive(url: string) {
-    if (`/${segments[0]}` === url) return true;
+    if (`/${section}` === url) return true;
     return false;
   }
 

@@ -7,8 +7,8 @@ import { Building2Icon, ChartColumnBigIcon, FileTextIcon, HeadsetIcon, ImageIcon
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { useChatbot } from '@/hooks/use-chatbot';
-import { usePathname } from '@/hooks/use-pathname';
+import { useLayout } from '@/hooks/use-layout';
+import { useLocation } from '@/hooks/use-location';
 
 type Section = {
   title: string;
@@ -21,7 +21,7 @@ type Section = {
 
 const sections: Section[] = [
   {
-    title: 'Dashboard',
+    title: 'Agency',
     items: [
       {
         title: 'Overview',
@@ -29,14 +29,39 @@ const sections: Section[] = [
         icon: LayoutDashboardIcon
       },
       {
+        title: 'Analytics',
+        url: '/analytics',
+        icon: ChartColumnBigIcon
+      },
+      {
         title: 'Meetings',
         url: '/meetings',
         icon: HeadsetIcon
       },
       {
-        title: 'Messages',
-        url: '/messages',
-        icon: MessageSquareIcon
+        title: 'Resources',
+        url: '/resources',
+        icon: ListVideoIcon
+      }
+    ]
+  },
+  {
+    title: 'Internal',
+    items: [
+      {
+        title: 'Multimedia',
+        url: '/multimedia',
+        icon: ImageIcon
+      },
+      {
+        title: 'Documents',
+        url: '/documents',
+        icon: FileTextIcon
+      },
+      {
+        title: 'Whiteboards',
+        url: '/whiteboards',
+        icon: PencilRulerIcon
       }
     ]
   },
@@ -57,47 +82,17 @@ const sections: Section[] = [
         title: 'Invoices',
         url: '/invoices',
         icon: WalletIcon
-      },
-      {
-        title: 'Analytics',
-        url: '/analytics',
-        icon: ChartColumnBigIcon
-      }
-    ]
-  },
-  {
-    title: 'Storage',
-    items: [
-      {
-        title: 'Documents',
-        url: '/documents',
-        icon: FileTextIcon
-      },
-      {
-        title: 'Whiteboards',
-        url: '/whiteboards',
-        icon: PencilRulerIcon
-      },
-      {
-        title: 'Multimedia',
-        url: '/multimedia',
-        icon: ImageIcon
-      },
-      {
-        title: 'Resources',
-        url: '/resources',
-        icon: ListVideoIcon
       }
     ]
   }
 ];
 
 export function NavMain() {
-  const { segments } = usePathname();
-  const { closeMobile } = useChatbot();
+  const { section } = useLocation();
+  const { closeMobileChatbot } = useLayout();
 
   function isActive(url: string) {
-    if (`/${segments[0]}` === url) return true;
+    if (`/${section}` === url) return true;
     return false;
   }
 
@@ -113,7 +108,7 @@ export function NavMain() {
                   <SidebarMenuButton
                     asChild
                     tooltip={item.title}
-                    onClick={closeMobile}
+                    onClick={closeMobileChatbot}
                     className={cn(isActive(item.url) ? 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground active:bg-primary active:text-primary-foreground' : 'text-primary/85')}
                   >
                     <Link href={item.url}>

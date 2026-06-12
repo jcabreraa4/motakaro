@@ -48,7 +48,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <ThemeProvider
               enableSystem
               attribute="class"
-              defaultTheme="light"
+              defaultTheme="dark"
               disableTransitionOnChange
             >
               <ConvexProvider>

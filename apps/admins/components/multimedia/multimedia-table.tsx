@@ -6,10 +6,10 @@ import { cn } from '@workspace/ui/lib/utils';
 import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
 import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
 import { MultimediaToolbar } from '@/components/multimedia/multimedia-toolbar';
-import { useChatbot } from '@/hooks/use-chatbot';
+import { useLayout } from '@/hooks/use-layout';
 
 export function MultimediaTable({ multimedia }: { multimedia: MediaFile[] }) {
-  const { chatbot } = useChatbot();
+  const { chatbot } = useLayout();
 
   const starredFiles = multimedia.filter((file) => file.starred);
   const nonStarredFiles = multimedia!.filter((file) => !file.starred);

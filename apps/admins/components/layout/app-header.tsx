@@ -1,10 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { Fragment } from 'react';
 
+import { useAuth } from '@clerk/nextjs';
+import { useQuery } from 'convex/react';
 import { GhostIcon } from 'lucide-react';
 
+import { api } from '@workspace/backend/_generated/api';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
 import { Separator } from '@workspace/ui/components/separator';
@@ -15,50 +18,60 @@ import { ThemeButton } from '@workspace/ui/custom/theme-button';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { NotificationsPopover } from '@/components/notifications/notifications-popover';
-import { useChatbot } from '@/hooks/use-chatbot';
 import { useHeader } from '@/hooks/use-header';
-import { usePathname } from '@/hooks/use-pathname';
-import { usePresence } from '@/hooks/use-presence';
+import { useLayout } from '@/hooks/use-layout';
+import { useLocation } from '@/hooks/use-location';
 
 function HeaderBreadcrumb() {
-  const { segments } = usePathname();
-  const { closeMobile } = useChatbot();
-  const { subroute, setSubroute } = useHeader();
-
-  useEffect(() => {
-    if (!segments[1]) setSubroute(null);
-  }, [segments[1]]);
+  const { section } = useLocation();
+  const { breadcrumbs } = useHeader();
+  const { closeMobileChatbot } = useLayout();
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        <BreadcrumbItem onClick={closeMobile}>
-          <Link href={`/${segments[0]}`}>
-            <BreadcrumbPage className="font-medium capitalize select-none">{segments[0]}</BreadcrumbPage>
+        <BreadcrumbItem>
+          <Link
+            href={`/${section}`}
+            onClick={closeMobileChatbot}
+          >
+            <BreadcrumbPage className="font-medium capitalize select-none">{section}</BreadcrumbPage>
           </Link>
         </BreadcrumbItem>
-        {subroute && (
-          <>
+        {breadcrumbs.map((item, index) => (
+          <Fragment key={index}>
             <BreadcrumbSeparator className="hidden text-black lg:block dark:text-white" />
-            <BreadcrumbItem className="pointer-events-none hidden select-none lg:block">
-              <BreadcrumbPage>{subroute}</BreadcrumbPage>
+            <BreadcrumbItem className={cn('hidden select-none lg:block', item.href && 'cursor-pointer')}>
+              {item.href ? (
+                <Link
+                  href={item.href}
+                  onClick={closeMobileChatbot}
+                >
+                  <BreadcrumbPage>{item.text}</BreadcrumbPage>
+                </Link>
+              ) : (
+                <BreadcrumbPage>{item.text}</BreadcrumbPage>
+              )}
             </BreadcrumbItem>
-          </>
-        )}
+          </Fragment>
+        ))}
       </BreadcrumbList>
     </Breadcrumb>
   );
 }
 
 function UserPresence({ className }: { className?: string }) {
-  const { employees } = usePresence();
+  const { userId, isLoaded } = useAuth();
 
-  if (!employees || employees.length === 0) return null;
+  const employees = useQuery(api.employees.list, isLoaded ? { filter: 'actives' } : 'skip');
+  const filteredEmployees = employees?.filter((employee) => employee.clerkId !== userId);
+
+  if (!filteredEmployees || filteredEmployees.length === 0) return null;
 
   return (
     <>
       <div className={cn('flex items-center gap-2', className)}>
-        {employees.map((employee) => (
+        {filteredEmployees.map((employee) => (
           <Tooltip key={employee._id}>
             <TooltipTrigger asChild>
               <div className="relative cursor-default">
@@ -84,7 +97,7 @@ function UserPresence({ className }: { className?: string }) {
 }
 
 function ChatbotButton() {
-  const { chatbot, toggleChatbot } = useChatbot();
+  const { chatbot, toggleChatbot } = useLayout();
 
   return (
     <HeaderButton

@@ -1,11 +1,16 @@
 import { create } from 'zustand';
 
+type BreadcrumbItem = {
+  text: string;
+  href?: string;
+};
+
 interface HeaderStore {
-  subroute: string | null;
-  setSubroute: (name: string | null) => void;
+  breadcrumbs: BreadcrumbItem[];
+  setBreadcrumbs: (breadcrumbs: BreadcrumbItem[]) => void;
 }
 
 export const useHeaderStore = create<HeaderStore>((set) => ({
-  subroute: null,
-  setSubroute: (subroute: string | null) => set({ subroute })
+  breadcrumbs: [],
+  setBreadcrumbs: (breadcrumbs: BreadcrumbItem[]) => set({ breadcrumbs })
 }));

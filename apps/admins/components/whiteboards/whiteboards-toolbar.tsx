@@ -4,7 +4,7 @@ import { Button } from '@workspace/ui/components/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { useChatbot } from '@/hooks/use-chatbot';
+import { useLayout } from '@/hooks/use-layout';
 import { type Tool, useCanvasStore } from '@/store/canvas-store';
 
 interface ToolbarButtonProps {
@@ -71,7 +71,7 @@ const tools: { label: string; icon: LucideIcon; tool: Tool }[] = [
 ];
 
 export function WhiteboardsToolbar() {
-  const { chatbot } = useChatbot();
+  const { chatbot } = useLayout();
   const { activeTool, setActiveTool, canUndo, canRedo, undo, redo } = useCanvasStore();
 
   return (

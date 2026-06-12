@@ -24,13 +24,14 @@ export function MeetingsPage({ preloaded }: MeetingsPageProps) {
 }
 
 function MeetingsPageInner({ preloaded }: MeetingsPageProps) {
-  const { setSubroute } = useHeader();
+  const { setBreadcrumbs } = useHeader();
 
   const meeting = usePreloadedQuery(preloaded);
 
   useEffect(() => {
-    if (meeting) setSubroute(meeting.name);
-  }, [meeting, setSubroute]);
+    if (meeting) setBreadcrumbs([{ text: meeting.name }]);
+    return () => setBreadcrumbs([]);
+  }, [meeting, setBreadcrumbs]);
 
   if (!meeting) {
     return (

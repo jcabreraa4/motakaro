@@ -1,41 +1,44 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { Fragment } from 'react';
 
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
 import { Separator } from '@workspace/ui/components/separator';
 import { SidebarTrigger } from '@workspace/ui/components/sidebar';
 import { ThemeButton } from '@workspace/ui/custom/theme-button';
+import { cn } from '@workspace/ui/lib/utils';
 
 import { NotificationsPopover } from '@/components/notifications/notifications-popover';
 import { useHeader } from '@/hooks/use-header';
-import { usePathname } from '@/hooks/use-pathname';
+import { useLocation } from '@/hooks/use-location';
 
 function HeaderBreadcrumb() {
-  const { segments } = usePathname();
-  const { subroute, setSubroute } = useHeader();
-
-  useEffect(() => {
-    if (!segments[1]) setSubroute(null);
-  }, [segments[1]]);
+  const { section } = useLocation();
+  const { breadcrumbs } = useHeader();
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <Link href={`/${segments[0]}`}>
-            <BreadcrumbPage className="font-medium capitalize select-none">{segments[0]}</BreadcrumbPage>
+          <Link href={`/${section}`}>
+            <BreadcrumbPage className="font-medium capitalize select-none">{section}</BreadcrumbPage>
           </Link>
         </BreadcrumbItem>
-        {subroute && (
-          <>
+        {breadcrumbs.map((item, index) => (
+          <Fragment key={index}>
             <BreadcrumbSeparator className="hidden text-black lg:block dark:text-white" />
-            <BreadcrumbItem className="pointer-events-none hidden select-none lg:block">
-              <BreadcrumbPage>{subroute}</BreadcrumbPage>
+            <BreadcrumbItem className={cn('hidden select-none lg:block', item.href && 'cursor-pointer')}>
+              {item.href ? (
+                <Link href={item.href}>
+                  <BreadcrumbPage>{item.text}</BreadcrumbPage>
+                </Link>
+              ) : (
+                <BreadcrumbPage>{item.text}</BreadcrumbPage>
+              )}
             </BreadcrumbItem>
-          </>
-        )}
+          </Fragment>
+        ))}
       </BreadcrumbList>
     </Breadcrumb>
   );

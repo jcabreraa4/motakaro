@@ -25,13 +25,14 @@ export function ResourcePage({ preloaded }: ResourcePageProps) {
 }
 
 function ResourcePageInner({ preloaded }: ResourcePageProps) {
-  const { setSubroute } = useHeader();
+  const { setBreadcrumbs } = useHeader();
 
   const resource = usePreloadedQuery(preloaded);
 
   useEffect(() => {
-    if (resource) setSubroute(resource.name);
-  }, [resource, setSubroute]);
+    if (resource) setBreadcrumbs([{ text: resource.name }]);
+    return () => setBreadcrumbs([]);
+  }, [resource, setBreadcrumbs]);
 
   if (!resource) {
     return (

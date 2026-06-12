@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 
-interface ChatbotStore {
+interface LayoutStore {
   chatbot: boolean;
   toggleChatbot: () => void;
 }
 
-export const useChatbotStore = create<ChatbotStore>((set) => ({
+export const useLayoutStore = create<LayoutStore>((set) => ({
   chatbot: false,
   toggleChatbot: () => set((state) => ({ chatbot: !state.chatbot }))
 }));

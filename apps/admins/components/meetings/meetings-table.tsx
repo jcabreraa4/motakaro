@@ -11,11 +11,11 @@ import { Button } from '@workspace/ui/components/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { useChatbot } from '@/hooks/use-chatbot';
+import { useLayout } from '@/hooks/use-layout';
 
 export function MeetingsTable({ meetings }: { meetings: Meeting[] }) {
   const { push } = useRouter();
-  const { chatbot } = useChatbot();
+  const { chatbot } = useLayout();
 
   const updateMeeting = useMutation(api.meetings.update);
 

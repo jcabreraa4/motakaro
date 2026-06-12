@@ -14,7 +14,7 @@ import { Spinner } from '@workspace/ui/components/spinner';
 import { HeaderButton } from '@workspace/ui/custom/header-button';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { useChatbot } from '@/hooks/use-chatbot';
+import { useLayout } from '@/hooks/use-layout';
 
 function Notification({ notification }: { notification: Notification }) {
   return (
@@ -31,7 +31,7 @@ function Notification({ notification }: { notification: Notification }) {
 
 export function NotificationsPopover() {
   const { isLoaded } = useAuth();
-  const { closeMobile } = useChatbot();
+  const { closeMobileChatbot } = useLayout();
 
   const [open, setOpen] = useState(false);
 
@@ -39,7 +39,7 @@ export function NotificationsPopover() {
   const hasUnread = notifications?.some((notification) => notification.read === false);
 
   function handleClick() {
-    closeMobile();
+    closeMobileChatbot();
     setOpen(false);
   }
 

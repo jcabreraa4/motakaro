@@ -1,5 +1,3 @@
-'use client';
-
 import { useCallback, useEffect, useRef } from 'react';
 
 import { useMutation } from 'convex/react';
@@ -9,14 +7,14 @@ import { api } from '@workspace/backend/_generated/api';
 import type { Whiteboard } from '@workspace/backend/schema';
 
 import { useCanvasStore } from '@/store/canvas-store';
-import { useChatbotStore } from '@/store/chatbot-store';
+import { useLayoutStore } from '@/store/layout-store';
 
 const SAVE_DELAY_MS = 1500;
 const MAX_HISTORY = 50;
 
 export function useCanvas(whiteboard: Whiteboard | null) {
   const updateWhiteboard = useMutation(api.whiteboards.update);
-  const chatbot = useChatbotStore((state) => state.chatbot);
+  const chatbot = useLayoutStore((state) => state.chatbot);
   const activeTool = useCanvasStore((state) => state.activeTool);
 
   const mainRef = useRef<HTMLElement>(null);

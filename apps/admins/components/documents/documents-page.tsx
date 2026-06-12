@@ -30,13 +30,14 @@ export function DocumentsPage({ preloaded }: DocumentsPageProps) {
 }
 
 function DocumentsPageInner({ preloaded }: DocumentsPageProps) {
-  const { setSubroute } = useHeader();
+  const { setBreadcrumbs } = useHeader();
 
   const { document } = useEditor(preloaded);
 
   useEffect(() => {
-    if (document) setSubroute(document.name);
-  }, [document, setSubroute]);
+    if (document) setBreadcrumbs([{ text: document.name }]);
+    return () => setBreadcrumbs([]);
+  }, [document, setBreadcrumbs]);
 
   if (!document) {
     return (

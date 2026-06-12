@@ -3,22 +3,18 @@ import { Agent, listUIMessages, syncStreams, vStreamArgs } from '@convex-dev/age
 import { paginationOptsValidator } from 'convex/server';
 import { ConvexError, v } from 'convex/values';
 
-import { api, components } from './_generated/api';
-import { ActionCtx, MutationCtx, QueryCtx, action, mutation, query } from './_generated/server';
-import { verifyAdminAuth } from './auth';
-
-// Agent
+import { api, components } from './_generated/api.js';
+import { ActionCtx, MutationCtx, QueryCtx, action, mutation, query } from './_generated/server.js';
+import { verifyAdminAuth } from './auth.js';
 
 const DEFAULT_THREAD_TITLE = 'New conversation';
 const THREADS_LIMIT = 50;
-
-const instructions = ['Eres el asistente de IA de Motakaro para el panel interno de administradores.', 'Responde siempre en español, con un tono claro, directo y profesional.', 'Ayuda a razonar, redactar, resumir, planificar y resolver dudas operativas del equipo.', 'Si no tienes datos suficientes para responder con seguridad, dilo y pide el contexto necesario.', 'No inventes datos de clientes, compañías, documentos, reuniones u otros recursos internos.'].join('\n');
 
 export const assistant = new Agent(components.agent, {
   name: 'Motakaro Assistant',
   languageModel: openai.chat('gpt-4o-mini'),
   embeddingModel: openai.embedding('text-embedding-3-small'),
-  instructions,
+  instructions: '',
   maxSteps: 15
 });
 

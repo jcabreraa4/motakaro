@@ -2,10 +2,11 @@
 
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 import { useAuth, useClerk } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
-import { useQuery } from 'convex/react';
+import { useMutation, useQuery } from 'convex/react';
 import { BellIcon, ChevronsUpDown, CircleUserIcon, LogOutIcon, MoonIcon, SunIcon, UserRoundIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
@@ -51,7 +52,17 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
   const { signOut, openUserProfile } = useClerk();
 
   const employee = useQuery(api.employees.get, isLoaded ? {} : 'skip');
+  const updateEmployee = useMutation(api.employees.update);
 
+  // Indicate Presence
+  useEffect(() => {
+    if (!isLoaded) return;
+    updateEmployee({});
+    const interval = setInterval(() => updateEmployee({}), 50000);
+    return () => clearInterval(interval);
+  }, [isLoaded, updateEmployee]);
+
+  // Select Data
   const displayName = employee ? `${employee.name} ${employee.surname}` : name;
   const displayEmail = employee?.email ?? email;
   const displayAvatar = employee?.avatar ?? avatar;

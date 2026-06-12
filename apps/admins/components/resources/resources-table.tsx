@@ -6,10 +6,10 @@ import { cn } from '@workspace/ui/lib/utils';
 import { ResourcesInfo } from '@/components/resources/resources-info';
 import { ResourcesPreview } from '@/components/resources/resources-preview';
 import { ResourcesToolbar } from '@/components/resources/resources-toolbar';
-import { useChatbot } from '@/hooks/use-chatbot';
+import { useLayout } from '@/hooks/use-layout';
 
 export function ResourcesTable({ resources }: { resources: Resource[] }) {
-  const { chatbot } = useChatbot();
+  const { chatbot } = useLayout();
 
   const starredResources = resources.filter((file) => file.starred);
   const nonStarredResources = resources.filter((file) => !file.starred);

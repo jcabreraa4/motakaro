@@ -26,13 +26,14 @@ export function MultimediaPage({ preloaded }: MultimediaPageProps) {
 }
 
 function MediaPageInner({ preloaded }: MultimediaPageProps) {
-  const { setSubroute } = useHeader();
+  const { setBreadcrumbs } = useHeader();
 
   const file = usePreloadedQuery(preloaded);
 
   useEffect(() => {
-    if (file) setSubroute(file.name);
-  }, [file, setSubroute]);
+    if (file) setBreadcrumbs([{ text: file.name }]);
+    return () => setBreadcrumbs([]);
+  }, [file, setBreadcrumbs]);
 
   if (!file) {
     return (
@@ -62,7 +63,7 @@ function MediaPageInner({ preloaded }: MultimediaPageProps) {
             alt={file.name}
             width={file.width}
             height={file.height}
-            className="max-h-[80vh] rounded-lg border border-black bg-black dark:border-white"
+            className="max-h-[80vh] rounded-lg border"
           />
         ) : type === 'video' ? (
           <div className="relative overflow-hidden">
@@ -71,18 +72,18 @@ function MediaPageInner({ preloaded }: MultimediaPageProps) {
               src={file.url}
               width={file.width}
               height={file.height}
-              className="max-h-[80vh] w-full rounded-lg border border-black bg-black dark:border-white"
+              className="max-h-[80vh] w-full rounded-lg border"
             />
           </div>
         ) : type === 'audio' ? (
-          <div className="relative aspect-video overflow-hidden rounded-md border border-black bg-black dark:border-white">
+          <div className="relative aspect-video overflow-hidden rounded-md border">
             <AudioRender
               interact
               src={file.url}
             />
           </div>
         ) : (
-          <div className="relative h-[80vh] overflow-hidden rounded-md border border-black bg-black dark:border-white">
+          <div className="relative h-[80vh] overflow-hidden rounded-md border">
             <OtherRender
               interact
               src={file.url}

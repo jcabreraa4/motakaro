@@ -2,10 +2,11 @@
 
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 import { useAuth, useClerk } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
-import { useQuery } from 'convex/react';
+import { useMutation, useQuery } from 'convex/react';
 import { BellIcon, BuildingIcon, ChevronsUpDown, CircleUserIcon, LogOutIcon, MoonIcon, SunIcon, UserRoundIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
@@ -13,8 +14,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/av
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@workspace/ui/components/sidebar';
 import { cn } from '@workspace/ui/lib/utils';
-
-import { usePresence } from '@/hooks/use-presence';
 
 interface UserDataProps extends NavUserProps {
   className?: string;
@@ -47,14 +46,23 @@ interface NavUserProps {
 }
 
 export function NavUser({ name, email, avatar }: NavUserProps) {
-  usePresence();
   const { isLoaded } = useAuth();
   const { isMobile } = useSidebar();
   const { theme, setTheme } = useTheme();
   const { signOut, openUserProfile, openOrganizationProfile } = useClerk();
 
   const contact = useQuery(api.contacts.clientGet, isLoaded ? {} : 'skip');
+  const updateContact = useMutation(api.contacts.clientUpdate);
 
+  // Indicate Presence
+  useEffect(() => {
+    if (!isLoaded) return;
+    updateContact({});
+    const interval = setInterval(() => updateContact({}), 50000);
+    return () => clearInterval(interval);
+  }, [isLoaded, updateContact]);
+
+  // Select Data
   const displayName = contact ? `${contact.name} ${contact.surname}` : name;
   const displayEmail = contact?.email ?? email;
   const displayAvatar = contact?.avatar ?? avatar;
