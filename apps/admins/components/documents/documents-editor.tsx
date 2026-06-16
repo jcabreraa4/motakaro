@@ -1,25 +1,26 @@
 import { useEffect } from 'react';
 
 import { useTiptapSync } from '@convex-dev/prosemirror-sync/tiptap';
-import { EditorContent, useEditor } from '@tiptap/react';
+import { EditorContent, useEditor as useTiptap } from '@tiptap/react';
 import { Loader2 } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import type { Id } from '@workspace/backend/_generated/dataModel';
 
+import { useEditor } from '@/hooks/use-editor';
 import { tiptapExtensions } from '@/lib/documents/tiptap';
-import { useEditorStore } from '@/store/editor-store';
 
-export function DocumentsPaper({ paperId }: { paperId: Id<'documents'> }) {
-  const { setEditor } = useEditorStore();
-  const sync = useTiptapSync(api.prosemirror, paperId);
+export function DocumentsEditor({ id }: { id: Id<'documents'> }) {
+  const { setEditor } = useEditor();
+
+  const sync = useTiptapSync(api.prosemirror, id);
 
   useEffect(() => {
     if (sync.isLoading || sync.initialContent !== null || !sync.create) return;
     void sync.create({ type: 'doc', content: [] });
   }, [sync.isLoading, sync.initialContent, sync.create, sync]);
 
-  const editor = useEditor(
+  const editor = useTiptap(
     {
       content: sync.initialContent ?? undefined,
       onCreate({ editor }) {
@@ -55,7 +56,7 @@ export function DocumentsPaper({ paperId }: { paperId: Id<'documents'> }) {
       immediatelyRender: false,
       editable: !sync.isLoading && sync.initialContent !== null
     },
-    [paperId, sync.extension, sync.initialContent]
+    [id, sync.extension, sync.initialContent]
   );
 
   if (sync.isLoading || sync.initialContent === null || !sync.extension) {

@@ -8,16 +8,13 @@ import { HeadsetIcon, SearchIcon, TrashIcon, XIcon } from 'lucide-react';
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
 import { Calendar } from '@workspace/ui/components/calendar';
-import { Card, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
-import { Skeleton } from '@workspace/ui/components/skeleton';
 import { EmptySection } from '@workspace/ui/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 import { CreateDialog } from '@/components/meetings/create-dialog';
 import { MeetingsTable } from '@/components/meetings/meetings-table';
-import { StarredsTable } from '@/components/meetings/starreds-table';
 import { useParams } from '@/hooks/use-params';
 
 export default function Page() {
@@ -36,7 +33,6 @@ export default function Page() {
     setDateFilter(day ? format(day, 'yyyy-MM-dd') : '');
   }
 
-  const starredMeetings = meetings?.filter((meeting) => meeting.starred);
   const filteredMeetings = meetings?.filter((meeting) => {
     const matchesSearch = searchFilter === '' || meeting.name.toLowerCase().includes(searchFilter.toLowerCase()) || meeting._id.toLowerCase().includes(searchFilter.toLowerCase()) || meeting.organizer.toLowerCase().includes(searchFilter.toLowerCase());
     const matchesStatus = effectiveStatusFilter === 'all' || meeting.status.includes(effectiveStatusFilter);
@@ -66,30 +62,6 @@ export default function Page() {
             Unselect Date
           </Button>
         </div>
-        {!meetings ? (
-          <Card className="h-full min-h-45">
-            <CardHeader>
-              <CardTitle>Starred Meetings</CardTitle>
-            </CardHeader>
-            <div className="mx-1 h-full overflow-y-scroll">
-              <div className="flex flex-col gap-3 px-5">
-                {[1, 2, 3, 4, 5, 6, 7, 8].map((index) => (
-                  <Skeleton
-                    key={index}
-                    className="h-9 w-full"
-                  />
-                ))}
-              </div>
-            </div>
-          </Card>
-        ) : (
-          <StarredsTable
-            meetings={starredMeetings || []}
-            searchFilter={searchFilter}
-            setSearchFilter={setSearchFilter}
-            className="h-full min-h-45"
-          />
-        )}
       </section>
       <div className="flex w-full flex-col gap-3 overflow-hidden p-3 lg:gap-5 lg:p-5">
         <section className="flex flex-col gap-3 lg:flex-row xl:gap-5">

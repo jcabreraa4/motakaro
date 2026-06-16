@@ -188,8 +188,8 @@ export default defineSchema({
     starred: v.boolean(),
     updated: v.number(),
 
-    clientsVisible: v.boolean(),
-    clientsStarred: v.boolean(),
+    clientVisible: v.boolean(),
+    clientStarred: v.boolean(),
 
     // Additional Columns
     width: v.optional(v.number()),
@@ -199,7 +199,7 @@ export default defineSchema({
     companyId: v.optional(v.id('companies'))
   })
     .index('by_companyId_updated', ['companyId', 'updated'])
-    .index('by_companyId_clientsVisible', ['companyId', 'clientsVisible']),
+    .index('by_companyId_clientVisible', ['companyId', 'clientVisible']),
 
   // Website Resources
   resources: defineTable({

@@ -9,21 +9,25 @@ import type { Id } from '@workspace/backend/_generated/dataModel';
 import { Button } from '@workspace/ui/components/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
 
-interface RemoveDialogProps {
+interface MultimediaRemoveProps {
   id: Id<'multimedia'>;
+  onSuccess?: () => void;
   children: React.ReactNode;
 }
 
-export function RemoveDialog({ id, children }: RemoveDialogProps) {
-  const [open, setOpen] = useState(false);
-
+export function MultimediaRemove({ id, onSuccess, children }: MultimediaRemoveProps) {
   const removeFile = useMutation(api.multimedia.clientRemove);
 
-  function handleDelete() {
-    removeFile({ id }).finally(() => {
-      toast.success('File deleted successfully.');
-      setOpen(false);
-    });
+  const [open, setOpen] = useState(false);
+
+  function handleRemove() {
+    removeFile({ id })
+      .then(() => {
+        setOpen(false);
+        toast.success('File deleted successfully.');
+        onSuccess?.();
+      })
+      .catch(() => toast.error('An internal error has occurred.'));
   }
 
   return (
@@ -31,9 +35,7 @@ export function RemoveDialog({ id, children }: RemoveDialogProps) {
       open={open}
       onOpenChange={setOpen}
     >
-      <DialogTrigger asChild>
-        <DialogTrigger asChild>{children}</DialogTrigger>
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Delete File</DialogTitle>
@@ -44,7 +46,7 @@ export function RemoveDialog({ id, children }: RemoveDialogProps) {
           <Button
             variant="destructive"
             className="w-full cursor-pointer"
-            onClick={handleDelete}
+            onClick={handleRemove}
           >
             <TrashIcon />
             Delete File

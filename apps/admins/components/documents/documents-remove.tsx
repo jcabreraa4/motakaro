@@ -1,4 +1,3 @@
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { useMutation } from 'convex/react';
@@ -10,25 +9,25 @@ import type { Id } from '@workspace/backend/_generated/dataModel';
 import { Button } from '@workspace/ui/components/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
 
-interface DeleteDialogProps {
+interface DocumentsRemoveProps {
   id: Id<'documents'>;
-  redirect?: boolean;
+  onSuccess?: () => void;
   children: React.ReactNode;
 }
 
-export function RemoveDialog({ id, redirect = false, children }: DeleteDialogProps) {
-  const router = useRouter();
+export function DocumentsRemove({ id, onSuccess, children }: DocumentsRemoveProps) {
+  const removeDocument = useMutation(api.documents.remove);
 
   const [open, setOpen] = useState(false);
 
-  const removeDocument = useMutation(api.documents.remove);
-
-  function handleDelete() {
-    removeDocument({ id }).finally(() => {
-      toast.success('Document removed successfully.');
-      setOpen(false);
-      if (redirect) router.push('/documents');
-    });
+  function handleRemove() {
+    removeDocument({ id })
+      .then(() => {
+        setOpen(false);
+        toast.success('Document deleted successfully.');
+        onSuccess?.();
+      })
+      .catch(() => toast.error('An internal error has occurred.'));
   }
 
   return (
@@ -48,7 +47,7 @@ export function RemoveDialog({ id, redirect = false, children }: DeleteDialogPro
             <Button
               variant="destructive"
               className="w-full cursor-pointer"
-              onClick={handleDelete}
+              onClick={handleRemove}
             >
               <TrashIcon />
               Delete Document

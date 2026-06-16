@@ -8,8 +8,8 @@ import { api } from '@workspace/backend/_generated/api';
 import type { Resource } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 
-import { RemoveDialog } from '@/components/resources/remove-dialog';
-import { UpdateDialog } from '@/components/resources/update-dialog';
+import { ResourcesRemove } from '@/components/resources/resources-remove';
+import { ResourcesUpdate } from '@/components/resources/resources-update';
 
 interface ToolbarButtonProps {
   icon: LucideIcon;
@@ -32,37 +32,34 @@ function ToolbarButton({ icon: Icon, onClick, isActive }: ToolbarButtonProps) {
 export function ResourcesToolbar({ resource }: { resource: Resource }) {
   const updateResource = useMutation(api.resources.update);
 
-  function toggleStarred() {
-    updateResource({ id: resource._id, starred: !resource.starred }).finally(() => {
-      toast.success(resource.starred ? 'File removed from starred successfully.' : 'File added to starred successfully.');
-    });
+  function handleUpdate() {
+    updateResource({ id: resource._id, starred: !resource.starred })
+      .then(() => toast.success(resource.starred ? 'Resource starred successfully.' : 'Resource unstarred successfully.'))
+      .catch(() => toast.error('An internal error has occurred.'));
   }
 
   function openLink() {
-    if (!resource.link) {
-      toast.error('No video attached to this resource.');
-      return;
-    }
-    window.open(resource.link, '_blank');
+    if (resource.link) window.open(resource.link, '_blank');
+    else toast.error('No video attached to this resource.');
   }
 
   return (
     <div className="flex gap-3">
       <ToolbarButton
         icon={StarIcon}
-        onClick={toggleStarred}
+        onClick={handleUpdate}
         isActive={resource.starred}
       />
       <ToolbarButton
         icon={ExternalLinkIcon}
         onClick={openLink}
       />
-      <UpdateDialog resource={resource}>
+      <ResourcesUpdate resource={resource}>
         <ToolbarButton icon={PenIcon} />
-      </UpdateDialog>
-      <RemoveDialog id={resource._id}>
+      </ResourcesUpdate>
+      <ResourcesRemove id={resource._id}>
         <ToolbarButton icon={TrashIcon} />
-      </RemoveDialog>
+      </ResourcesRemove>
       <Link href={`/resources/${resource._id}`}>
         <ToolbarButton icon={ExpandIcon} />
       </Link>

@@ -74,8 +74,8 @@ export const create = mutation({
       updated: Date.now(),
       storageId: args.storageId,
       companyId: args.companyId,
-      clientsVisible: false,
-      clientsStarred: false
+      clientVisible: false,
+      clientStarred: false
     });
   }
 });
@@ -104,8 +104,8 @@ export const update = mutation({
     name: v.optional(v.string()),
     note: v.optional(v.string()),
     starred: v.optional(v.boolean()),
-    clientsVisible: v.optional(v.boolean()),
-    clientsStarred: v.optional(v.boolean())
+    clientVisible: v.optional(v.boolean()),
+    clientStarred: v.optional(v.boolean())
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -120,8 +120,8 @@ export const update = mutation({
       ...(args.name !== undefined ? { name: args.name } : {}),
       ...(args.note !== undefined ? { note: args.note } : {}),
       ...(args.starred !== undefined ? { starred: args.starred } : {}),
-      ...(args.clientsVisible !== undefined ? { clientsVisible: args.clientsVisible } : {}),
-      ...(args.clientsStarred !== undefined ? { clientsStarred: args.clientsStarred } : {}),
+      ...(args.clientVisible !== undefined ? { clientVisible: args.clientVisible } : {}),
+      ...(args.clientStarred !== undefined ? { clientStarred: args.clientStarred } : {}),
       updated: Date.now()
     });
   }
@@ -151,7 +151,7 @@ export const clientList = query({
     // Return Multimedia
     const query = ctx.db
       .query('multimedia')
-      .withIndex('by_companyId_clientsVisible', (q) => q.eq('companyId', company._id).eq('clientsVisible', true))
+      .withIndex('by_companyId_clientVisible', (q) => q.eq('companyId', company._id).eq('clientVisible', true))
       .order('desc');
     const multimedia = args.limit ? await query.take(args.limit) : await query.collect();
     return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await ctx.storage.getUrl(file.storageId) })));
@@ -232,8 +232,8 @@ export const clientCreate = mutation({
       updated: Date.now(),
       storageId: args.storageId,
       companyId: company._id,
-      clientsVisible: true,
-      clientsStarred: false
+      clientVisible: true,
+      clientStarred: false
     });
   }
 });
@@ -276,7 +276,7 @@ export const clientUpdate = mutation({
     id: v.id('multimedia'),
     name: v.optional(v.string()),
     note: v.optional(v.string()),
-    clientsStarred: v.optional(v.boolean())
+    clientStarred: v.optional(v.boolean())
   },
   handler: async (ctx, args) => {
     // Obtain Identity
@@ -305,7 +305,7 @@ export const clientUpdate = mutation({
     await ctx.db.patch(args.id, {
       ...(args.name !== undefined ? { name: args.name } : {}),
       ...(args.note !== undefined ? { note: args.note } : {}),
-      ...(args.clientsStarred !== undefined ? { clientsStarred: args.clientsStarred } : {}),
+      ...(args.clientStarred !== undefined ? { clientStarred: args.clientStarred } : {}),
       updated: Date.now()
     });
   }

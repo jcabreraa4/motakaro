@@ -1,19 +1,23 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import { useAuth } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
-import { FileTextIcon, SearchIcon, XIcon } from 'lucide-react';
+import { FileTextIcon, PlusIcon, SearchIcon, XIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
+import { Button } from '@workspace/ui/components/button';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { EmptySection } from '@workspace/ui/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
-import { CreateButton } from '@/components/documents/create-button';
+import { DocumentsCreate } from '@/components/documents/documents-create';
 import { DocumentsTable } from '@/components/documents/documents-table';
 import { useParams } from '@/hooks/use-params';
 
 export default function Page() {
+  const { push } = useRouter();
   const { isLoaded } = useAuth();
 
   const [searchFilter, setSearchFilter] = useParams('search');
@@ -46,10 +50,15 @@ export default function Page() {
             </InputGroupAddon>
           )}
         </InputGroup>
-        <CreateButton
-          variant="outline"
-          className="min-w-50"
-        />
+        <DocumentsCreate onSuccess={(id) => push(`/documents/${id}`)}>
+          <Button
+            variant="outline"
+            className="min-w-50 cursor-pointer"
+          >
+            <PlusIcon />
+            Create Document
+          </Button>
+        </DocumentsCreate>
       </section>
       {!documents ? (
         <GenericLoader />
@@ -59,7 +68,12 @@ export default function Page() {
           title="No Documents Available"
           description="There are currently no documents available."
         >
-          <CreateButton className="min-w-50" />
+          <DocumentsCreate onSuccess={(id) => push(`/documents/${id}`)}>
+            <Button className="min-w-50 cursor-pointer">
+              <PlusIcon />
+              Create Document
+            </Button>
+          </DocumentsCreate>
         </EmptySection>
       ) : filteredDocuments?.length === 0 ? (
         <EmptySection

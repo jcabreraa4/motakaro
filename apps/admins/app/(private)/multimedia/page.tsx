@@ -2,16 +2,17 @@
 
 import { useAuth } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
-import { ImageIcon, SearchIcon, XIcon } from 'lucide-react';
+import { ImageIcon, PlusIcon, SearchIcon, XIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
+import { Button } from '@workspace/ui/components/button';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { EmptySection } from '@workspace/ui/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 import { MultimediaTable } from '@/components/multimedia/multimedia-table';
-import { UploadDialog } from '@/components/multimedia/upload-dialog';
+import { MultimediaUpload } from '@/components/multimedia/multimedia-upload';
 import { useParams } from '@/hooks/use-params';
 
 export default function Page() {
@@ -73,10 +74,15 @@ export default function Page() {
             </InputGroupAddon>
           )}
         </InputGroup>
-        <UploadDialog
-          variant="outline"
-          className="min-w-50"
-        />
+        <MultimediaUpload>
+          <Button
+            variant="outline"
+            className="min-w-50 cursor-pointer"
+          >
+            <PlusIcon />
+            Upload File
+          </Button>
+        </MultimediaUpload>
       </section>
       {!multimedia ? (
         <GenericLoader />
@@ -86,7 +92,12 @@ export default function Page() {
           title="No Multimedia Available"
           description="There are currently no files available."
         >
-          <UploadDialog className="min-w-50" />
+          <MultimediaUpload>
+            <Button className="min-w-50 cursor-pointer">
+              <PlusIcon />
+              Upload File
+            </Button>
+          </MultimediaUpload>
         </EmptySection>
       ) : filteredMultimedia?.length === 0 ? (
         <EmptySection

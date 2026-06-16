@@ -8,10 +8,10 @@ import { api } from '@workspace/backend/_generated/api';
 import type { MediaFile } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 
-import { RemoveDialog } from '@/components/multimedia/remove-dialog';
-import { UpdateDialog } from '@/components/multimedia/update-dialog';
+import { MultimediaRemove } from '@/components/multimedia/multimedia-remove';
+import { MultimediaUpdate } from '@/components/multimedia/multimedia-update';
 
-async function mediaDownload(url: string, name: string) {
+async function downloadFile(url: string, name: string) {
   const toastId = toast.loading('Preparing the download of the file...');
   try {
     const blob = await fetch(url).then((r) => r.blob());
@@ -49,29 +49,29 @@ function ToolbarButton({ icon: Icon, onClick, isActive }: ToolbarButtonProps) {
 export function MultimediaToolbar({ file }: { file: MediaFile }) {
   const updateFile = useMutation(api.multimedia.update);
 
-  function toggleStarred() {
-    updateFile({ id: file._id, starred: !file.starred }).finally(() => {
-      toast.success(file.starred ? 'File removed from starred successfully.' : 'File added to starred successfully.');
-    });
+  function handleUpdate() {
+    updateFile({ id: file._id, starred: !file.starred })
+      .then(() => toast.success(file.starred ? 'File starred successfully.' : 'File unstarred successfully.'))
+      .catch(() => toast.error('An internal error has occurred.'));
   }
 
   return (
     <div className="flex gap-3">
       <ToolbarButton
         icon={StarIcon}
-        onClick={toggleStarred}
+        onClick={handleUpdate}
         isActive={file.starred}
       />
       <ToolbarButton
         icon={DownloadIcon}
-        onClick={() => mediaDownload(file.url!, file.name)}
+        onClick={() => downloadFile(file.url!, file.name)}
       />
-      <UpdateDialog file={file}>
+      <MultimediaUpdate file={file}>
         <ToolbarButton icon={PenIcon} />
-      </UpdateDialog>
-      <RemoveDialog id={file._id}>
+      </MultimediaUpdate>
+      <MultimediaRemove id={file._id}>
         <ToolbarButton icon={TrashIcon} />
-      </RemoveDialog>
+      </MultimediaRemove>
       <Link href={`/multimedia/${file._id}`}>
         <ToolbarButton icon={ExpandIcon} />
       </Link>

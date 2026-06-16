@@ -3,7 +3,7 @@ import { BanIcon } from 'lucide-react';
 import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { AudioRender, ImageRender, OtherRender, Thumbnail, VideoRender } from '@/components/multimedia/multimedia-render';
+import { MultimediaAudio, MultimediaFile, MultimediaImage, MultimediaThumbnail, MultimediaVideo } from '@/components/multimedia/multimedia-render';
 import { mediaType } from '@/utils/media-type';
 
 interface MultimediaPreviewProps {
@@ -14,37 +14,35 @@ interface MultimediaPreviewProps {
   className?: string;
 }
 
-export function MultimediaPreview({ src, type, interact = false, preview = false, className }: MultimediaPreviewProps) {
+export function MultimediaPreview({ src, type, interact, preview, className }: MultimediaPreviewProps) {
   const isMobile = useIsMobile();
   const fileType = mediaType(type);
 
   return (
     <div className={cn('relative aspect-video overflow-hidden rounded-md border select-none', className)}>
       {fileType === 'image' ? (
-        <ImageRender
+        <MultimediaImage
           fill
           src={src}
-          alt="Image Preview"
-          className="object-cover"
         />
       ) : fileType === 'video' ? (
-        <VideoRender
+        <MultimediaVideo
           src={src}
           preview={preview}
           interact={interact || isMobile}
         />
       ) : fileType === 'audio' ? (
-        <AudioRender
+        <MultimediaAudio
           src={src}
           interact={interact || isMobile}
         />
       ) : fileType === 'other' ? (
-        <OtherRender
+        <MultimediaFile
           src={src}
           interact={interact || isMobile}
         />
       ) : (
-        <Thumbnail
+        <MultimediaThumbnail
           icon={BanIcon}
           text="Type not Allowed"
         />

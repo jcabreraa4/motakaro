@@ -12,7 +12,6 @@ import { cn } from '@workspace/ui/lib/utils';
 
 export function NotificationsTable({ notifications }: { notifications: Notification[] }) {
   const router = useRouter();
-
   const updateNotification = useMutation(api.notifications.update);
 
   function handleLink(link: string) {
@@ -39,7 +38,7 @@ export function NotificationsTable({ notifications }: { notifications: Notificat
               {notification.link && (
                 <Button
                   variant={notification.starred ? 'secondary' : 'default'}
-                  className={cn('cursor-pointer')}
+                  className="cursor-pointer"
                   onClick={() => handleLink(notification.link!)}
                 >
                   {notification.link.startsWith('/') ? <NavigationIcon /> : <ExternalLinkIcon />}

@@ -2,15 +2,16 @@
 
 import { useAuth } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
-import { ListVideoIcon, SearchIcon, XIcon } from 'lucide-react';
+import { ListVideoIcon, PlusIcon, SearchIcon, XIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
+import { Button } from '@workspace/ui/components/button';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { EmptySection } from '@workspace/ui/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
-import { CreateDialog } from '@/components/resources/create-dialog';
+import { ResourcesCreate } from '@/components/resources/resources-create';
 import { ResourcesTable } from '@/components/resources/resources-table';
 import { useParams } from '@/hooks/use-params';
 
@@ -71,10 +72,15 @@ export default function Page() {
             </InputGroupAddon>
           )}
         </InputGroup>
-        <CreateDialog
-          variant="outline"
-          className="min-w-50"
-        />
+        <ResourcesCreate>
+          <Button
+            variant="outline"
+            className="min-w-50 cursor-pointer"
+          >
+            <PlusIcon />
+            Create Resource
+          </Button>
+        </ResourcesCreate>
       </section>
       {!resources ? (
         <GenericLoader />
@@ -84,7 +90,12 @@ export default function Page() {
           title="No Resources Available"
           description="There are currently no resources available."
         >
-          <CreateDialog className="min-w-50" />
+          <ResourcesCreate>
+            <Button className="min-w-50 cursor-pointer">
+              <PlusIcon />
+              Create Resource
+            </Button>
+          </ResourcesCreate>
         </EmptySection>
       ) : filteredResources?.length === 0 ? (
         <EmptySection

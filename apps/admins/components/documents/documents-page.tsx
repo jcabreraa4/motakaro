@@ -5,19 +5,17 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 
 import { useAuth } from '@clerk/nextjs';
-import { Preloaded } from 'convex/react';
+import { Preloaded, usePreloadedQuery } from 'convex/react';
 import { FileTextIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
 import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
-import { DesktopToolbar } from '@/components/documents/desktop-toolbar';
-import { MobileToolbar } from '@/components/documents/mobile-toolbar';
-import { useEditor } from '@/hooks/use-editor';
+import { DocumentsToolbar } from '@/components/documents/documents-toolbar';
 import { useHeader } from '@/hooks/use-header';
 
-const DocumentsPaper = dynamic(() => import('@/components/documents/documents-paper').then((m) => ({ default: m.DocumentsPaper })), { ssr: false });
+const DocumentsEditor = dynamic(() => import('@/components/documents/documents-editor').then((m) => ({ default: m.DocumentsEditor })), { ssr: false });
 
 interface DocumentsPageProps {
   preloaded: Preloaded<typeof api.documents.get>;
@@ -26,16 +24,16 @@ interface DocumentsPageProps {
 export function DocumentsPage({ preloaded }: DocumentsPageProps) {
   const { isLoaded } = useAuth();
   if (!isLoaded) return <GenericLoader />;
-  return <DocumentsPageInner preloaded={preloaded} />;
+  return <DocumentsPageLoaded preloaded={preloaded} />;
 }
 
-function DocumentsPageInner({ preloaded }: DocumentsPageProps) {
+function DocumentsPageLoaded({ preloaded }: DocumentsPageProps) {
   const { setBreadcrumbs } = useHeader();
 
-  const { document } = useEditor(preloaded);
+  const document = usePreloadedQuery(preloaded);
 
   useEffect(() => {
-    if (document) setBreadcrumbs([{ text: document.name }]);
+    if (document) setBreadcrumbs([{ text: document.name || 'Untitled Document' }]);
     return () => setBreadcrumbs([]);
   }, [document, setBreadcrumbs]);
 
@@ -58,15 +56,8 @@ function DocumentsPageInner({ preloaded }: DocumentsPageProps) {
 
   return (
     <main className="flex w-full flex-col gap-2 p-3 lg:gap-3 lg:p-5">
-      <DesktopToolbar
-        document={document}
-        className="hidden xl:flex"
-      />
-      <MobileToolbar
-        document={document}
-        className="xl:hidden"
-      />
-      <DocumentsPaper paperId={document._id} />
+      <DocumentsToolbar document={document} />
+      <DocumentsEditor id={document._id} />
     </main>
   );
 }

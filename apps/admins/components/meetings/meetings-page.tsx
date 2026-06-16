@@ -20,16 +20,16 @@ interface MeetingsPageProps {
 export function MeetingsPage({ preloaded }: MeetingsPageProps) {
   const { isLoaded } = useAuth();
   if (!isLoaded) return <GenericLoader />;
-  return <MeetingsPageInner preloaded={preloaded} />;
+  return <MeetingsLoaded preloaded={preloaded} />;
 }
 
-function MeetingsPageInner({ preloaded }: MeetingsPageProps) {
+function MeetingsLoaded({ preloaded }: MeetingsPageProps) {
   const { setBreadcrumbs } = useHeader();
 
   const meeting = usePreloadedQuery(preloaded);
 
   useEffect(() => {
-    if (meeting) setBreadcrumbs([{ text: meeting.name }]);
+    if (meeting) setBreadcrumbs([{ text: meeting.name || 'Untitled Meeting' }]);
     return () => setBreadcrumbs([]);
   }, [meeting, setBreadcrumbs]);
 

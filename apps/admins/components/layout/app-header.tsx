@@ -40,7 +40,7 @@ function HeaderBreadcrumb() {
         </BreadcrumbItem>
         {breadcrumbs.map((item, index) => (
           <Fragment key={index}>
-            <BreadcrumbSeparator className="hidden text-black lg:block dark:text-white" />
+            <BreadcrumbSeparator className="hidden lg:block" />
             <BreadcrumbItem className={cn('hidden select-none lg:block', item.href && 'cursor-pointer')}>
               {item.href ? (
                 <Link

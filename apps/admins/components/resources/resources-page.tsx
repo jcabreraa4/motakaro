@@ -11,26 +11,26 @@ import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
 import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
-import { Thumbnail, VideoRender } from '@/components/multimedia/multimedia-render';
+import { MultimediaThumbnail, MultimediaVideo } from '@/components/multimedia/multimedia-render';
 import { useHeader } from '@/hooks/use-header';
 
-interface ResourcePageProps {
+interface ResourcesPageProps {
   preloaded: Preloaded<typeof api.resources.get>;
 }
 
-export function ResourcePage({ preloaded }: ResourcePageProps) {
+export function ResourcesPage({ preloaded }: ResourcesPageProps) {
   const { isLoaded } = useAuth();
   if (!isLoaded) return <GenericLoader />;
-  return <ResourcePageInner preloaded={preloaded} />;
+  return <ResourcesLoaded preloaded={preloaded} />;
 }
 
-function ResourcePageInner({ preloaded }: ResourcePageProps) {
+function ResourcesLoaded({ preloaded }: ResourcesPageProps) {
   const { setBreadcrumbs } = useHeader();
 
   const resource = usePreloadedQuery(preloaded);
 
   useEffect(() => {
-    if (resource) setBreadcrumbs([{ text: resource.name }]);
+    if (resource) setBreadcrumbs([{ text: resource.name || 'Untitled Resource' }]);
     return () => setBreadcrumbs([]);
   }, [resource, setBreadcrumbs]);
 
@@ -55,25 +55,25 @@ function ResourcePageInner({ preloaded }: ResourcePageProps) {
 
   return (
     <main className="flex w-full flex-1 justify-center p-3 lg:p-5">
-      <section className="flex w-full max-w-5xl flex-col justify-center gap-6 md:px-5">
+      <section className="flex w-full max-w-5xl flex-col justify-center md:px-5">
         {!resource.embed ? (
-          <Thumbnail
+          <MultimediaThumbnail
             icon={VideoOffIcon}
             text="No Video Attached"
-            className="aspect-video border border-black dark:border-white"
+            className="aspect-video border"
           />
         ) : invalidEmbed ? (
-          <Thumbnail
+          <MultimediaThumbnail
             icon={TriangleAlertIcon}
             text="Invalid Video Embed"
-            className="aspect-video border border-black dark:border-white"
+            className="aspect-video border"
           />
         ) : (
           <div className="relative">
-            <VideoRender
+            <MultimediaVideo
               external
               src={resource.embed}
-              className="aspect-video max-h-[80vh] w-full rounded-lg border border-black bg-black dark:border-white"
+              className="aspect-video max-h-[80vh] w-full rounded-lg border"
             />
           </div>
         )}

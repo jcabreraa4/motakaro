@@ -18,26 +18,43 @@ import { cn } from '@workspace/ui/lib/utils';
 
 import { copyText } from '@/utils/copy-text';
 
-interface UpdateDialogProps {
+interface MultimediaUpdateProps {
   file: MediaFile;
+  onSuccess?: () => void;
   children: React.ReactNode;
 }
 
-export function UpdateDialog({ file, children }: UpdateDialogProps) {
-  const [open, setOpen] = useState(false);
-  const [info, setInfo] = useState({ name: file.name, note: file.note, starred: file.starred.toString(), clientsVisible: file.clientsVisible.toString(), clientsStarred: file.clientsStarred.toString() });
-
+export function MultimediaUpdate({ file, onSuccess, children }: MultimediaUpdateProps) {
   const updateFile = useMutation(api.multimedia.update);
 
+  const [open, setOpen] = useState(false);
+  const [info, setInfo] = useState({ name: file.name, note: file.note, starred: file.starred.toString(), clientVisible: file.clientVisible.toString(), clientStarred: file.clientStarred.toString() });
+
   function handleUpdate() {
-    updateFile({ id: file._id, name: info.name, note: info.note, starred: info.starred === 'true', clientsVisible: info.clientsVisible === 'true', clientsStarred: info.clientsStarred === 'true' }).finally(() => {
-      toast.success('File updated successfully.');
-      setOpen(false);
-    });
+    updateFile({ id: file._id, name: info.name, note: info.note, starred: info.starred === 'true', clientVisible: info.clientVisible === 'true', clientStarred: info.clientStarred === 'true' })
+      .then(() => {
+        setOpen(false);
+        toast.success('File updated successfully.');
+        onSuccess?.();
+      })
+      .catch(() => toast.error('An internal error has ocurred.'));
   }
 
   function handleReset() {
-    setInfo({ name: file.name, note: file.note, starred: file.starred.toString(), clientsVisible: file.clientsVisible.toString(), clientsStarred: file.clientsStarred.toString() });
+    setInfo({ name: file.name, note: file.note, starred: file.starred.toString(), clientVisible: file.clientVisible.toString(), clientStarred: file.clientStarred.toString() });
+  }
+
+  function disableReset() {
+    return (
+      JSON.stringify(info) ===
+      JSON.stringify({
+        name: file.name,
+        note: file.note,
+        starred: file.starred.toString(),
+        clientVisible: file.clientVisible.toString(),
+        clientStarred: file.clientStarred.toString()
+      })
+    );
   }
 
   return (
@@ -105,10 +122,10 @@ export function UpdateDialog({ file, children }: UpdateDialogProps) {
               <div className="flex flex-col gap-2">
                 <Label>Clients Visible</Label>
                 <Select
-                  value={info.clientsVisible}
-                  onValueChange={(value) => setInfo({ ...info, clientsVisible: value })}
+                  value={info.clientVisible}
+                  onValueChange={(value) => setInfo({ ...info, clientVisible: value })}
                 >
-                  <SelectTrigger className={cn('w-full cursor-pointer', info.clientsVisible !== file.clientsVisible.toString() && 'border-red-500')}>
+                  <SelectTrigger className={cn('w-full cursor-pointer', info.clientVisible !== file.clientVisible.toString() && 'border-red-500')}>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -122,10 +139,10 @@ export function UpdateDialog({ file, children }: UpdateDialogProps) {
               <div className="flex flex-col gap-2">
                 <Label>Clients Starred</Label>
                 <Select
-                  value={info.clientsStarred}
-                  onValueChange={(value) => setInfo({ ...info, clientsStarred: value })}
+                  value={info.clientStarred}
+                  onValueChange={(value) => setInfo({ ...info, clientStarred: value })}
                 >
-                  <SelectTrigger className={cn('w-full cursor-pointer', info.clientsStarred !== file.clientsStarred.toString() && 'border-red-500')}>
+                  <SelectTrigger className={cn('w-full cursor-pointer', info.clientStarred !== file.clientStarred.toString() && 'border-red-500')}>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -141,8 +158,9 @@ export function UpdateDialog({ file, children }: UpdateDialogProps) {
         </div>
         <SheetFooter>
           <Button
+            disabled={disableReset()}
             variant="outline"
-            className="cursor-pointer"
+            className="hidden cursor-pointer xl:flex"
             onClick={handleReset}
           >
             <RotateCcwIcon />

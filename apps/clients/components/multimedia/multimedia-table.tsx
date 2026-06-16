@@ -7,8 +7,8 @@ import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
 import { MultimediaToolbar } from '@/components/multimedia/multimedia-toolbar';
 
 export function MultimediaTable({ multimedia }: { multimedia: MediaFile[] }) {
-  const starredFiles = multimedia.filter((file) => file.clientsStarred);
-  const nonStarredFiles = multimedia!.filter((file) => !file.clientsStarred);
+  const starredFiles = multimedia.filter((file) => file.clientStarred);
+  const nonStarredFiles = multimedia!.filter((file) => !file.clientStarred);
 
   return (
     <section className="flex min-h-0 flex-1 flex-col gap-8 overflow-y-scroll lg:pe-3">

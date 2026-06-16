@@ -1,3 +1,5 @@
+'use client';
+
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -6,9 +8,9 @@ import { HeadphonesIcon, Loader2Icon, type LucideIcon, VideoIcon } from 'lucide-
 
 import { cn } from '@workspace/ui/lib/utils';
 
-const OtherMediaRender = dynamic(() => import('@/components/multimedia/other-render').then((m) => m.OtherMediaRender), { ssr: false });
+const MultimediaIframe = dynamic(() => import('@/components/multimedia/multimedia-iframe').then((m) => m.MultimediaIframe), { ssr: false });
 
-export function RenderLoader() {
+export function MultimediaLoader() {
   return (
     <div className="absolute inset-0 z-10 flex items-center justify-center bg-white">
       <Loader2Icon className="size-12 animate-spin text-black" />
@@ -16,13 +18,13 @@ export function RenderLoader() {
   );
 }
 
-interface ThumbnailProps {
+interface MultimediaThumbnailProps {
   icon: LucideIcon;
   text: string;
   className?: string;
 }
 
-export function Thumbnail({ icon: Icon, text, className }: ThumbnailProps) {
+export function MultimediaThumbnail({ icon: Icon, text, className }: MultimediaThumbnailProps) {
   return (
     <div className={cn('flex aspect-video items-center justify-center gap-2 rounded-md bg-sidebar select-none', className)}>
       <Icon className="size-6 lg:size-8" />
@@ -31,34 +33,34 @@ export function Thumbnail({ icon: Icon, text, className }: ThumbnailProps) {
   );
 }
 
-interface ImageRenderProps {
+interface MultimediaImageProps {
   src: string;
-  alt: string;
+  fill?: boolean;
   width?: number;
   height?: number;
   className?: string;
-  fill?: boolean;
 }
 
-export function ImageRender({ src, alt, width, height, className, fill = false }: ImageRenderProps) {
+export function MultimediaImage({ src, fill = false, width, height, className }: MultimediaImageProps) {
   if (fill) {
     return (
       <Image
         fill
         src={src}
-        alt={alt}
+        alt="Image"
         sizes="100vw"
-        className={cn('pointer-events-none object-contain', className)}
+        className={cn('pointer-events-none object-cover', className)}
       />
     );
   }
 
   if (width && height) {
     const isVertical = height > width;
+
     return (
       <Image
         src={src}
-        alt={alt}
+        alt="Image"
         width={width}
         height={height}
         className={cn('pointer-events-none mx-auto h-auto w-auto max-w-full', isVertical ? 'h-full' : 'w-full', className)}
@@ -69,14 +71,14 @@ export function ImageRender({ src, alt, width, height, className, fill = false }
   return (
     <img
       src={src}
-      alt={alt}
+      alt="Image"
       loading="lazy"
       className={cn('pointer-events-none mx-auto h-auto w-auto max-w-full', className)}
     />
   );
 }
 
-interface VideoRenderProps {
+interface MultimediaVideoProps {
   src: string;
   width?: number;
   height?: number;
@@ -86,13 +88,13 @@ interface VideoRenderProps {
   className?: string;
 }
 
-export function VideoRender({ src, width, height, interact = false, external = false, preview = false, className }: VideoRenderProps) {
+export function MultimediaVideo({ src, width, height, interact = false, external = false, preview = false, className }: MultimediaVideoProps) {
   const [loading, setLoading] = useState(true);
 
   if (external) {
     return (
       <>
-        {loading && <RenderLoader />}
+        {loading && <MultimediaLoader />}
         <iframe
           src={src}
           allowFullScreen
@@ -105,31 +107,15 @@ export function VideoRender({ src, width, height, interact = false, external = f
     );
   }
 
-  if (interact) {
-    return (
-      <>
-        {loading && <RenderLoader />}
-        <video
-          controls
-          src={src}
-          width={width}
-          height={height}
-          preload="metadata"
-          className={cn('object-cover', className)}
-          onLoadedData={() => setLoading(false)}
-        />
-      </>
-    );
-  }
-
   if (preview) {
     return (
       <>
-        {loading && <RenderLoader />}
+        {loading && <MultimediaLoader />}
         <video
           src={src}
           width={width}
           height={height}
+          controls={interact}
           preload="metadata"
           className={cn('object-cover', className)}
           onLoadedData={() => setLoading(false)}
@@ -139,20 +125,20 @@ export function VideoRender({ src, width, height, interact = false, external = f
   }
 
   return (
-    <Thumbnail
+    <MultimediaThumbnail
       icon={VideoIcon}
       text="Video File"
     />
   );
 }
 
-interface AudioRenderProps {
+interface MultimediaAudioProps {
   src: string;
   interact?: boolean;
   className?: string;
 }
 
-export function AudioRender({ src, interact = false, className }: AudioRenderProps) {
+export function MultimediaAudio({ src, interact = false, className }: MultimediaAudioProps) {
   if (interact) {
     return (
       <div className="flex aspect-video flex-col items-center justify-center gap-2 rounded-md bg-gray-100 dark:bg-gray-100 dark:text-black">
@@ -173,22 +159,22 @@ export function AudioRender({ src, interact = false, className }: AudioRenderPro
   }
 
   return (
-    <Thumbnail
+    <MultimediaThumbnail
       icon={HeadphonesIcon}
       text="Audio File"
     />
   );
 }
 
-interface OtherRenderProps {
+interface MultimediaFileProps {
   src: string;
   interact?: boolean;
   className?: string;
 }
 
-export function OtherRender({ src, interact = false, className }: OtherRenderProps) {
+export function MultimediaFile({ src, interact = false, className }: MultimediaFileProps) {
   return (
-    <OtherMediaRender
+    <MultimediaIframe
       src={src}
       interact={interact}
       className={className}

@@ -11,44 +11,50 @@ import { Button } from '@workspace/ui/components/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table';
 
-import { RemoveDialog } from '@/components/documents/remove-dialog';
-import { UpdateDialog } from '@/components/documents/update-dialog';
+import { DocumentsRemove } from '@/components/documents/documents-remove';
+import { DocumentsUpdate } from '@/components/documents/documents-update';
 
 function DocumentRow({ document }: { document: Document }) {
   const router = useRouter();
   const updateDocument = useMutation(api.documents.update);
 
-  function openDocument() {
+  function openInternally() {
     router.push(`/documents/${document._id}`);
   }
 
-  function openExternal() {
+  function openExternally() {
     window.open(`/documents/${document._id}`, '_blank');
+  }
+
+  function handleUpdate() {
+    updateDocument({ id: document._id, starred: !document.starred })
+      .then(() => toast.success(document.starred ? 'Document starred successfully.' : 'Document unstarred successfully.'))
+      .catch(() => toast.error('An internal error has occurred.'));
   }
 
   return (
     <TableRow className="h-12 cursor-pointer p-20">
       <TableCell
-        onClick={openDocument}
+        onClick={openInternally}
         className="w-12.5 p-4"
       >
         {document.starred ? <StarIcon className="text-yellow-500" /> : <FileTextIcon />}
       </TableCell>
       <TableCell
-        onClick={openDocument}
+        onClick={openInternally}
         className="font-medium"
       >
         <div className="w-35 max-w-120 truncate md:w-fit">{document.name || 'Untitled Document'}</div>
       </TableCell>
       <TableCell
-        onClick={openDocument}
-        className="hidden text-muted-foreground md:table-cell"
+        onClick={openInternally}
+        className="hidden text-muted-foreground lg:table-cell"
       >
         {format(new Date(document._creationTime), 'MMM dd, yyyy')}
       </TableCell>
       <TableCell
-        onClick={openDocument}
-        className="hidden text-muted-foreground lg:table-cell"
+        onClick={openInternally}
+        className="hidden text-muted-foreground md:table-cell"
       >
         {format(new Date(document.updated), 'MMM dd, yyyy')}
       </TableCell>
@@ -68,7 +74,7 @@ function DocumentRow({ document }: { document: Document }) {
             align="end"
             className="w-fit"
           >
-            <UpdateDialog document={document}>
+            <DocumentsUpdate document={document}>
               <DropdownMenuItem
                 className="cursor-pointer"
                 onSelect={(e) => e.preventDefault()}
@@ -76,28 +82,26 @@ function DocumentRow({ document }: { document: Document }) {
                 <FilePenIcon />
                 Update Document
               </DropdownMenuItem>
-            </UpdateDialog>
+            </DocumentsUpdate>
             <DropdownMenuItem
               className="cursor-pointer"
               onSelect={(e) => {
                 e.preventDefault();
-                updateDocument({ id: document._id, starred: !document.starred }).finally(() => {
-                  toast.success(document.starred ? 'Document removed from starred successfully.' : 'Document added to starred successfully.');
-                });
+                handleUpdate();
               }}
             >
               {document.starred ? <StarOffIcon /> : <StarIcon />}
               {document.starred ? 'Quit from Favorites' : 'Add to Favorites'}
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={openExternal}
+              onClick={openExternally}
               className="cursor-pointer"
             >
               <ExternalLinkIcon />
               Open in a new Tab
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <RemoveDialog id={document._id}>
+            <DocumentsRemove id={document._id}>
               <DropdownMenuItem
                 className="cursor-pointer"
                 onSelect={(e) => e.preventDefault()}
@@ -105,7 +109,7 @@ function DocumentRow({ document }: { document: Document }) {
                 <TrashIcon />
                 Delete Document
               </DropdownMenuItem>
-            </RemoveDialog>
+            </DocumentsRemove>
           </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>
@@ -124,8 +128,8 @@ export function DocumentsTable({ documents }: { documents: Document[] }) {
           <TableRow className="border-none hover:bg-transparent">
             <TableHead>Name</TableHead>
             <TableHead>&nbsp;</TableHead>
-            <TableHead className="hidden md:table-cell">Created</TableHead>
-            <TableHead className="hidden lg:table-cell">Updated</TableHead>
+            <TableHead className="hidden lg:table-cell">Created</TableHead>
+            <TableHead className="hidden md:table-cell">Updated</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>

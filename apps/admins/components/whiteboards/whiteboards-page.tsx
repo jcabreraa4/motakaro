@@ -8,12 +8,11 @@ import { Preloaded, usePreloadedQuery } from 'convex/react';
 import { PencilRulerIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
-import type { Whiteboard } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
+import { WhiteboardsEditor } from '@/components/whiteboards/whiteboards-canvas';
 import { WhiteboardsToolbar } from '@/components/whiteboards/whiteboards-toolbar';
-import { useCanvas } from '@/hooks/use-canvas';
 import { useHeader } from '@/hooks/use-header';
 
 interface WhiteboardsPageProps {
@@ -23,16 +22,16 @@ interface WhiteboardsPageProps {
 export function WhiteboardsPage({ preloaded }: WhiteboardsPageProps) {
   const { isLoaded } = useAuth();
   if (!isLoaded) return <GenericLoader />;
-  return <CanvasMainInner preloaded={preloaded} />;
+  return <WhiteboardsLoaded preloaded={preloaded} />;
 }
 
-function CanvasMainInner({ preloaded }: WhiteboardsPageProps) {
+function WhiteboardsLoaded({ preloaded }: WhiteboardsPageProps) {
   const { setBreadcrumbs } = useHeader();
 
   const whiteboard = usePreloadedQuery(preloaded);
 
   useEffect(() => {
-    if (whiteboard) setBreadcrumbs([{ text: whiteboard.name }]);
+    if (whiteboard) setBreadcrumbs([{ text: whiteboard.name || 'Untitled Whiteboard' }]);
     return () => setBreadcrumbs([]);
   }, [whiteboard, setBreadcrumbs]);
 
@@ -53,19 +52,10 @@ function CanvasMainInner({ preloaded }: WhiteboardsPageProps) {
     );
   }
 
-  return <CanvasEditor whiteboard={whiteboard} />;
-}
-
-function CanvasEditor({ whiteboard }: { whiteboard: Whiteboard }) {
-  const { mainRef, canvasElRef } = useCanvas(whiteboard);
-
   return (
-    <main
-      ref={mainRef}
-      className="relative flex min-h-0 flex-1 touch-none overflow-hidden"
-    >
+    <main className="relative flex min-h-0 flex-1 touch-none overflow-hidden">
       <WhiteboardsToolbar />
-      <canvas ref={canvasElRef} />
+      <WhiteboardsEditor whiteboard={whiteboard} />
     </main>
   );
 }

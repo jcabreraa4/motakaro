@@ -5,23 +5,23 @@ import { Document, Page, pdfjs } from 'react-pdf';
 
 import { cn } from '@workspace/ui/lib/utils';
 
-import { RenderLoader } from '@/components/multimedia/multimedia-render';
+import { MultimediaLoader } from '@/components/multimedia/multimedia-render';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-interface OtherRenderProps {
+interface MultimediaIframeProps {
   src: string;
   interact?: boolean;
   className?: string;
 }
 
-export function OtherMediaRender({ src, interact = false, className }: OtherRenderProps) {
+export function MultimediaIframe({ src, interact, className }: MultimediaIframeProps) {
   const [loading, setLoading] = useState(true);
 
   if (interact) {
     return (
       <>
-        {loading && <RenderLoader />}
+        {loading && <MultimediaLoader />}
         <iframe
           src={`${src}#view=FitH&toolbar=0&navpanes=0&scrollbar=0&zoom=150`}
           className={cn('scroll-hidden absolute h-full w-full border-0', className)}
@@ -33,15 +33,15 @@ export function OtherMediaRender({ src, interact = false, className }: OtherRend
 
   return (
     <>
-      {loading && <RenderLoader />}
+      {loading && <MultimediaLoader />}
       <Document
         file={src}
         onLoadSuccess={() => setLoading(false)}
         onLoadError={() => setLoading(false)}
       >
         <Page
-          pageNumber={1}
           width={400}
+          pageNumber={1}
           renderAnnotationLayer={false}
           renderTextLayer={false}
         />

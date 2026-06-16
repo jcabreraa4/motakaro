@@ -11,44 +11,50 @@ import { Button } from '@workspace/ui/components/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table';
 
-import { RemoveDialog } from '@/components/whiteboards/remove-dialog';
-import { UpdateDialog } from '@/components/whiteboards/update-dialog';
+import { WhiteboardsRemove } from '@/components/whiteboards/whiteboards-remove';
+import { WhiteboardsUpdate } from '@/components/whiteboards/whiteboards-update';
 
 function WhiteboardRow({ whiteboard }: { whiteboard: Whiteboard }) {
   const router = useRouter();
   const updateWhiteboard = useMutation(api.whiteboards.update);
 
-  function openWhiteboard() {
+  function openInternally() {
     router.push(`/whiteboards/${whiteboard._id}`);
   }
 
-  function openExternal() {
+  function openExternally() {
     window.open(`/whiteboards/${whiteboard._id}`, '_blank');
+  }
+
+  function handleUpdate() {
+    updateWhiteboard({ id: whiteboard._id, starred: !whiteboard.starred })
+      .then(() => toast.success(whiteboard.starred ? 'Whiteboard starred successfully.' : 'Whiteboard unstarred successfully.'))
+      .catch(() => toast.error('An internal error has occurred.'));
   }
 
   return (
     <TableRow className="h-12 cursor-pointer p-20">
       <TableCell
-        onClick={openWhiteboard}
+        onClick={openInternally}
         className="w-12.5 p-4"
       >
         {whiteboard.starred ? <StarIcon className="text-yellow-500" /> : <PencilRulerIcon />}
       </TableCell>
       <TableCell
-        onClick={openWhiteboard}
+        onClick={openInternally}
         className="font-medium"
       >
         <div className="w-35 max-w-120 truncate md:w-fit">{whiteboard.name || 'Untitled Whiteboard'}</div>
       </TableCell>
       <TableCell
-        onClick={openWhiteboard}
-        className="hidden text-muted-foreground md:table-cell"
+        onClick={openInternally}
+        className="hidden text-muted-foreground lg:table-cell"
       >
         {format(new Date(whiteboard._creationTime), 'MMM dd, yyyy')}
       </TableCell>
       <TableCell
-        onClick={openWhiteboard}
-        className="hidden text-muted-foreground lg:table-cell"
+        onClick={openInternally}
+        className="hidden text-muted-foreground md:table-cell"
       >
         {format(new Date(whiteboard.updated), 'MMM dd, yyyy')}
       </TableCell>
@@ -68,7 +74,7 @@ function WhiteboardRow({ whiteboard }: { whiteboard: Whiteboard }) {
             align="end"
             className="w-fit"
           >
-            <UpdateDialog whiteboard={whiteboard}>
+            <WhiteboardsUpdate whiteboard={whiteboard}>
               <DropdownMenuItem
                 className="cursor-pointer"
                 onSelect={(e) => e.preventDefault()}
@@ -76,28 +82,26 @@ function WhiteboardRow({ whiteboard }: { whiteboard: Whiteboard }) {
                 <SquarePenIcon />
                 Update Whiteboard
               </DropdownMenuItem>
-            </UpdateDialog>
+            </WhiteboardsUpdate>
             <DropdownMenuItem
               className="cursor-pointer"
               onSelect={(e) => {
                 e.preventDefault();
-                updateWhiteboard({ id: whiteboard._id, starred: !whiteboard.starred }).finally(() => {
-                  toast.success(whiteboard.starred ? 'Whiteboard removed from starred successfully.' : 'Whiteboard added to starred successfully.');
-                });
+                handleUpdate();
               }}
             >
               {whiteboard.starred ? <StarOffIcon /> : <StarIcon />}
               {whiteboard.starred ? 'Quit from Favorites' : 'Add to Favorites'}
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={openExternal}
+              onClick={openExternally}
               className="cursor-pointer"
             >
               <ExternalLinkIcon />
               Open in a new Tab
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <RemoveDialog id={whiteboard._id}>
+            <WhiteboardsRemove id={whiteboard._id}>
               <DropdownMenuItem
                 className="cursor-pointer"
                 onSelect={(e) => e.preventDefault()}
@@ -105,7 +109,7 @@ function WhiteboardRow({ whiteboard }: { whiteboard: Whiteboard }) {
                 <TrashIcon />
                 Delete Whiteboard
               </DropdownMenuItem>
-            </RemoveDialog>
+            </WhiteboardsRemove>
           </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>
@@ -124,8 +128,8 @@ export function WhiteboardsTable({ whiteboards }: { whiteboards: Whiteboard[] })
           <TableRow className="border-none hover:bg-transparent">
             <TableHead>Name</TableHead>
             <TableHead>&nbsp;</TableHead>
-            <TableHead className="hidden md:table-cell">Created</TableHead>
-            <TableHead className="hidden lg:table-cell">Updated</TableHead>
+            <TableHead className="hidden lg:table-cell">Created</TableHead>
+            <TableHead className="hidden md:table-cell">Updated</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>

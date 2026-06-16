@@ -1,11 +1,10 @@
 import { useState } from 'react';
 
 import { useMutation } from 'convex/react';
-import { CopyIcon, LinkIcon, RotateCcwIcon, SaveIcon } from 'lucide-react';
+import { CopyIcon, LinkIcon, PlusIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
-import type { Resource } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 import { Input } from '@workspace/ui/components/input';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
@@ -14,7 +13,6 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { Separator } from '@workspace/ui/components/separator';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
 import { Textarea } from '@workspace/ui/components/textarea';
-import { cn } from '@workspace/ui/lib/utils';
 
 import { copyText } from '@/utils/copy-text';
 
@@ -30,26 +28,26 @@ function CopyLinkButton({ link }: { link: string }) {
   );
 }
 
-interface UpdateDialogProps {
-  resource: Resource;
+interface ResourcesCreateProps {
+  onSuccess?: () => void;
   children: React.ReactNode;
 }
 
-export function UpdateDialog({ resource, children }: UpdateDialogProps) {
+export function ResourcesCreate({ onSuccess, children }: ResourcesCreateProps) {
+  const createResource = useMutation(api.resources.create);
+
   const [open, setOpen] = useState(false);
-  const [info, setInfo] = useState({ name: resource.name, note: resource.note, starred: resource.starred.toString(), link: resource.link, embed: resource.embed, thumbnail: resource.thumbnail, published: resource.published.toString() });
+  const [info, setInfo] = useState({ name: '', note: '', starred: 'false', link: '', embed: '', thumbnail: '', published: 'false' });
 
-  const updateResource = useMutation(api.resources.update);
-
-  function handleUpdate() {
-    updateResource({ id: resource._id, name: info.name, note: info.note, starred: info.starred === 'true', link: info.link, embed: info.embed, thumbnail: info.thumbnail, published: info.published === 'true' }).finally(() => {
-      toast.success('Resource updated successfully.');
-      setOpen(false);
-    });
-  }
-
-  function handleReset() {
-    setInfo({ name: resource.name, note: resource.note, starred: resource.starred.toString(), link: resource.link, embed: resource.embed, thumbnail: resource.thumbnail, published: resource.published.toString() });
+  function handleCreate() {
+    createResource({ name: info.name, note: info.note, starred: info.starred === 'true', link: info.link, embed: info.embed, thumbnail: info.thumbnail, published: info.published === 'true' })
+      .then(() => {
+        setOpen(false);
+        toast.success('Resource created successfully.');
+        setInfo({ name: '', note: '', starred: 'false', link: '', embed: '', thumbnail: '', published: 'false' });
+        onSuccess?.();
+      })
+      .catch(() => toast.error('An internal error has ocurred.'));
   }
 
   return (
@@ -60,9 +58,9 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <SheetHeader>
-          <SheetTitle>Update Resource</SheetTitle>
-          <SheetDescription className="md:hidden">Update resource information.</SheetDescription>
-          <SheetDescription className="hidden md:block">Update selected resource&apos;s information.</SheetDescription>
+          <SheetTitle>Create Resource</SheetTitle>
+          <SheetDescription className="md:hidden">Specify resource information.</SheetDescription>
+          <SheetDescription className="hidden md:block">Specify new resource&apos;s information.</SheetDescription>
         </SheetHeader>
         <div className="grid flex-1 auto-rows-min gap-4 px-4 lg:gap-5">
           <div className="flex flex-col gap-2">
@@ -72,16 +70,15 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
               placeholder="Untitled Resource"
               value={info.name}
               onChange={(e) => setInfo({ ...info, name: e.target.value })}
-              className={cn(info.name !== resource.name && 'border-red-500')}
             />
           </div>
           <div className="hidden flex-col gap-2 xl:flex">
             <Label htmlFor="note">Note</Label>
             <Textarea
               id="note"
+              className="h-20"
               value={info.note}
               onChange={(e) => setInfo({ ...info, note: e.target.value })}
-              className={cn('h-20', info.note !== resource.note && 'border-red-500')}
             />
           </div>
           <div className="hidden flex-col gap-2 xl:flex">
@@ -90,7 +87,7 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
               value={info.starred}
               onValueChange={(value) => setInfo({ ...info, starred: value })}
             >
-              <SelectTrigger className={cn('w-full cursor-pointer', info.starred !== resource.starred.toString() && 'border-red-500')}>
+              <SelectTrigger className="w-full cursor-pointer">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -104,7 +101,7 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
           <Separator className="hidden xl:flex" />
           <div className="flex flex-col gap-2">
             <Label htmlFor="link">Video</Label>
-            <InputGroup className={cn(info.link !== resource.link && 'border-red-500')}>
+            <InputGroup>
               <InputGroupInput
                 id="link"
                 placeholder="https://www.video.com"
@@ -123,7 +120,7 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="embed">Embed</Label>
-            <InputGroup className={cn(info.embed !== resource.embed && 'border-red-500')}>
+            <InputGroup>
               <InputGroupInput
                 id="embed"
                 placeholder="https://www.embed.com"
@@ -142,7 +139,7 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
           </div>
           <div className="flex flex-col gap-2">
             <Label htmlFor="thumbnail">Thumbnail</Label>
-            <InputGroup className={cn(info.thumbnail !== resource.thumbnail && 'border-red-500')}>
+            <InputGroup>
               <InputGroupInput
                 id="thumbnail"
                 placeholder="https://www.thumbnail.com"
@@ -165,7 +162,7 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
               value={info.published}
               onValueChange={(value) => setInfo({ ...info, published: value })}
             >
-              <SelectTrigger className={cn('w-full cursor-pointer', info.published !== resource.published.toString() && 'border-red-500')}>
+              <SelectTrigger className="w-full cursor-pointer">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -179,19 +176,12 @@ export function UpdateDialog({ resource, children }: UpdateDialogProps) {
         </div>
         <SheetFooter>
           <Button
-            variant="outline"
+            type="submit"
             className="cursor-pointer"
-            onClick={handleReset}
+            onClick={handleCreate}
           >
-            <RotateCcwIcon />
-            Clear Changes
-          </Button>
-          <Button
-            className="cursor-pointer"
-            onClick={handleUpdate}
-          >
-            <SaveIcon />
-            Update Resource
+            <PlusIcon />
+            Create Resource
           </Button>
         </SheetFooter>
       </SheetContent>

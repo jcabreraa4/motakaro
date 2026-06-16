@@ -1,0 +1,138 @@
+import { useState } from 'react';
+
+import { useMutation } from 'convex/react';
+import { LinkIcon, RotateCcwIcon, SaveIcon } from 'lucide-react';
+import { toast } from 'sonner';
+
+import { api } from '@workspace/backend/_generated/api';
+import type { MediaFile } from '@workspace/backend/schema';
+import { Button } from '@workspace/ui/components/button';
+import { Input } from '@workspace/ui/components/input';
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
+import { Label } from '@workspace/ui/components/label';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
+import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
+import { Textarea } from '@workspace/ui/components/textarea';
+import { cn } from '@workspace/ui/lib/utils';
+
+import { copyText } from '@/utils/copy-text';
+
+interface MultimediaUpdateProps {
+  file: MediaFile;
+  onSuccess?: () => void;
+  children: React.ReactNode;
+}
+
+export function MultimediaUpdate({ file, onSuccess, children }: MultimediaUpdateProps) {
+  const updateFile = useMutation(api.multimedia.clientUpdate);
+
+  const [open, setOpen] = useState(false);
+  const [info, setInfo] = useState({ name: file.name, note: file.note, clientStarred: file.clientStarred.toString() });
+
+  function handleUpdate() {
+    updateFile({ id: file._id, name: info.name, note: info.note, clientStarred: info.clientStarred === 'true' })
+      .then(() => {
+        setOpen(false);
+        toast.success('File updated successfully.');
+        onSuccess?.();
+      })
+      .catch(() => toast.error('An internal error has ocurred.'));
+  }
+
+  function handleReset() {
+    setInfo({ name: file.name, note: file.note, clientStarred: file.clientStarred.toString() });
+  }
+
+  function disableReset() {
+    return (
+      JSON.stringify(info) ===
+      JSON.stringify({
+        name: file.name,
+        note: file.note,
+        clientStarred: file.clientStarred.toString()
+      })
+    );
+  }
+
+  return (
+    <Sheet
+      open={open}
+      onOpenChange={setOpen}
+    >
+      <SheetTrigger asChild>{children}</SheetTrigger>
+      <SheetContent onOpenAutoFocus={(e) => e.preventDefault()}>
+        <SheetHeader>
+          <SheetTitle>Update File</SheetTitle>
+          <SheetDescription className="md:hidden">Update file information.</SheetDescription>
+          <SheetDescription className="hidden md:block">Update selected file&apos;s information.</SheetDescription>
+        </SheetHeader>
+        <div className="grid flex-1 auto-rows-min gap-4 px-4 lg:gap-5">
+          <InputGroup onClick={() => copyText({ text: file.url!, type: 'link' })}>
+            <InputGroupInput
+              readOnly
+              value={file.url!}
+              className="cursor-pointer"
+            />
+            <InputGroupAddon className="cursor-pointer">
+              <LinkIcon />
+            </InputGroupAddon>
+          </InputGroup>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="name">Name</Label>
+            <Input
+              id="name"
+              placeholder="Untitled File"
+              value={info.name}
+              onChange={(e) => setInfo({ ...info, name: e.target.value })}
+              className={cn(info.name !== file.name && 'border-red-500')}
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="note">Note</Label>
+            <Textarea
+              id="note"
+              value={info.note}
+              onChange={(e) => setInfo({ ...info, note: e.target.value })}
+              className={cn('h-20', info.note !== file.note && 'border-red-500')}
+            />
+          </div>
+          <div className="hidden flex-col gap-2 xl:flex">
+            <Label>Starred</Label>
+            <Select
+              value={info.clientStarred}
+              onValueChange={(value) => setInfo({ ...info, clientStarred: value })}
+            >
+              <SelectTrigger className={cn('w-full cursor-pointer', info.clientStarred !== file.clientStarred.toString() && 'border-red-500')}>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="true">True</SelectItem>
+                  <SelectItem value="false">False</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        <SheetFooter className="gap-3">
+          <Button
+            disabled={disableReset()}
+            variant="outline"
+            className="hidden cursor-pointer xl:flex"
+            onClick={handleReset}
+          >
+            <RotateCcwIcon />
+            Clear Changes
+          </Button>
+          <Button
+            className="cursor-pointer"
+            onClick={handleUpdate}
+          >
+            <SaveIcon />
+            Update File
+          </Button>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+  );
+}

@@ -14,26 +14,41 @@ import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetT
 import { Textarea } from '@workspace/ui/components/textarea';
 import { cn } from '@workspace/ui/lib/utils';
 
-interface UpdateDialogProps {
+interface WhiteboardsUpdateProps {
   whiteboard: Whiteboard;
+  onSuccess?: () => void;
   children: React.ReactNode;
 }
 
-export function UpdateDialog({ whiteboard, children }: UpdateDialogProps) {
+export function WhiteboardsUpdate({ whiteboard, onSuccess, children }: WhiteboardsUpdateProps) {
+  const updateWhiteboard = useMutation(api.whiteboards.update);
+
   const [open, setOpen] = useState(false);
   const [info, setInfo] = useState({ name: whiteboard.name, note: whiteboard.note, starred: whiteboard.starred.toString() });
 
-  const updateWhiteboard = useMutation(api.whiteboards.update);
-
-  function updateInfo() {
-    updateWhiteboard({ id: whiteboard._id, name: info.name, note: info.note, starred: info.starred === 'true' }).finally(() => {
-      toast.success('Whiteboard updated successfully.');
-      setOpen(false);
-    });
+  function handleUpdate() {
+    updateWhiteboard({ id: whiteboard._id, name: info.name, note: info.note, starred: info.starred === 'true' })
+      .then(() => {
+        setOpen(false);
+        toast.success('Whiteboard updated successfully.');
+        onSuccess?.();
+      })
+      .catch(() => toast.error('An internal error has occurred.'));
   }
 
   function handleReset() {
     setInfo({ name: whiteboard.name, note: whiteboard.note, starred: whiteboard.starred.toString() });
+  }
+
+  function disableReset() {
+    return (
+      JSON.stringify(info) ===
+      JSON.stringify({
+        name: whiteboard.name,
+        note: whiteboard.note,
+        starred: whiteboard.starred.toString()
+      })
+    );
   }
 
   return (
@@ -88,8 +103,9 @@ export function UpdateDialog({ whiteboard, children }: UpdateDialogProps) {
         </div>
         <SheetFooter>
           <Button
+            disabled={disableReset()}
             variant="outline"
-            className="cursor-pointer"
+            className="hidden cursor-pointer xl:flex"
             onClick={handleReset}
           >
             <RotateCcwIcon />
@@ -97,7 +113,7 @@ export function UpdateDialog({ whiteboard, children }: UpdateDialogProps) {
           </Button>
           <Button
             className="cursor-pointer"
-            onClick={updateInfo}
+            onClick={handleUpdate}
           >
             <SaveIcon />
             Update Whiteboard

@@ -11,27 +11,27 @@ import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
 import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
-import { AudioRender, ImageRender, OtherRender, VideoRender } from '@/components/multimedia/multimedia-render';
+import { MultimediaAudio, MultimediaFile, MultimediaImage, MultimediaVideo } from '@/components/multimedia/multimedia-render';
 import { useHeader } from '@/hooks/use-header';
 import { mediaType } from '@/utils/media-type';
 
 interface MultimediaPageProps {
-  preloaded: Preloaded<typeof api.multimedia.get>;
+  preloaded: Preloaded<typeof api.multimedia.clientGet>;
 }
 
 export function MultimediaPage({ preloaded }: MultimediaPageProps) {
   const { isLoaded } = useAuth();
   if (!isLoaded) return <GenericLoader />;
-  return <MediaPageInner preloaded={preloaded} />;
+  return <MultimediaLoaded preloaded={preloaded} />;
 }
 
-function MediaPageInner({ preloaded }: MultimediaPageProps) {
+function MultimediaLoaded({ preloaded }: MultimediaPageProps) {
   const { setBreadcrumbs } = useHeader();
 
   const file = usePreloadedQuery(preloaded);
 
   useEffect(() => {
-    if (file) setBreadcrumbs([{ text: file.name }]);
+    if (file) setBreadcrumbs([{ text: file.name || 'Untitled File' }]);
     return () => setBreadcrumbs([]);
   }, [file, setBreadcrumbs]);
 
@@ -56,18 +56,17 @@ function MediaPageInner({ preloaded }: MultimediaPageProps) {
 
   return (
     <main className="flex w-full flex-1 justify-center p-3 lg:p-5">
-      <section className="flex w-full max-w-5xl flex-col justify-center gap-6 select-none md:px-5">
+      <section className="flex w-full max-w-5xl flex-col justify-center select-none md:px-5">
         {type === 'image' ? (
-          <ImageRender
+          <MultimediaImage
             src={file.url}
-            alt={file.name}
             width={file.width}
             height={file.height}
             className="max-h-[80vh] rounded-lg border"
           />
         ) : type === 'video' ? (
           <div className="relative overflow-hidden">
-            <VideoRender
+            <MultimediaVideo
               interact
               src={file.url}
               width={file.width}
@@ -77,14 +76,14 @@ function MediaPageInner({ preloaded }: MultimediaPageProps) {
           </div>
         ) : type === 'audio' ? (
           <div className="relative aspect-video overflow-hidden rounded-md border">
-            <AudioRender
+            <MultimediaAudio
               interact
               src={file.url}
             />
           </div>
         ) : (
           <div className="relative h-[80vh] overflow-hidden rounded-md border">
-            <OtherRender
+            <MultimediaFile
               interact
               src={file.url}
             />

@@ -5,25 +5,29 @@ import { TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Id } from '@workspace/backend/_generated/dataModel';
+import type { Id } from '@workspace/backend/_generated/dataModel';
 import { Button } from '@workspace/ui/components/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
 
-interface RemoveDialogProps {
+interface ResourcesRemoveProps {
   id: Id<'resources'>;
+  onSuccess?: () => void;
   children: React.ReactNode;
 }
 
-export function RemoveDialog({ id, children }: RemoveDialogProps) {
-  const [open, setOpen] = useState(false);
-
+export function ResourcesRemove({ id, onSuccess, children }: ResourcesRemoveProps) {
   const removeResource = useMutation(api.resources.remove);
 
-  function handleDelete() {
-    removeResource({ id }).finally(() => {
-      toast.success('Resource deleted successfully.');
-      setOpen(false);
-    });
+  const [open, setOpen] = useState(false);
+
+  function handleRemove() {
+    removeResource({ id })
+      .then(() => {
+        setOpen(false);
+        toast.success('Resource deleted successfully.');
+        onSuccess?.();
+      })
+      .catch(() => toast.error('An internal error has occurred.'));
   }
 
   return (
@@ -31,9 +35,7 @@ export function RemoveDialog({ id, children }: RemoveDialogProps) {
       open={open}
       onOpenChange={setOpen}
     >
-      <DialogTrigger asChild>
-        <DialogTrigger asChild>{children}</DialogTrigger>
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Delete Resource</DialogTitle>
@@ -44,7 +46,7 @@ export function RemoveDialog({ id, children }: RemoveDialogProps) {
           <Button
             variant="destructive"
             className="w-full cursor-pointer"
-            onClick={handleDelete}
+            onClick={handleRemove}
           >
             <TrashIcon />
             Delete Resource
