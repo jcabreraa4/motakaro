@@ -14,7 +14,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { WhiteboardsRemove } from '@/components/whiteboards/whiteboards-remove';
 import { WhiteboardsUpdate } from '@/components/whiteboards/whiteboards-update';
 
-function WhiteboardRow({ whiteboard }: { whiteboard: Whiteboard }) {
+function WhiteboardsRow({ whiteboard }: { whiteboard: Whiteboard }) {
   const router = useRouter();
   const updateWhiteboard = useMutation(api.whiteboards.update);
 
@@ -28,7 +28,7 @@ function WhiteboardRow({ whiteboard }: { whiteboard: Whiteboard }) {
 
   function handleUpdate() {
     updateWhiteboard({ id: whiteboard._id, starred: !whiteboard.starred })
-      .then(() => toast.success(whiteboard.starred ? 'Whiteboard starred successfully.' : 'Whiteboard unstarred successfully.'))
+      .then(() => toast.success(whiteboard.starred ? 'Whiteboard unstarred successfully.' : 'Whiteboard starred successfully.'))
       .catch(() => toast.error('An internal error has occurred.'));
   }
 
@@ -135,13 +135,13 @@ export function WhiteboardsTable({ whiteboards }: { whiteboards: Whiteboard[] })
         </TableHeader>
         <TableBody>
           {starredWhiteboards.map((whiteboard) => (
-            <WhiteboardRow
+            <WhiteboardsRow
               key={whiteboard._id}
               whiteboard={whiteboard}
             />
           ))}
           {nonStarredWhiteboards.map((whiteboard) => (
-            <WhiteboardRow
+            <WhiteboardsRow
               key={whiteboard._id}
               whiteboard={whiteboard}
             />

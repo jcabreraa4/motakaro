@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export type Tool = 'select' | 'pencil' | 'rectangle' | 'ellipse' | 'eraser' | 'text';
+export type Tool = 'select' | 'hand' | 'pencil' | 'rectangle' | 'ellipse' | 'eraser' | 'text';
 
 interface CanvasStore {
   activeTool: Tool;
@@ -11,7 +11,9 @@ interface CanvasStore {
   setCanRedo: (v: boolean) => void;
   undo: () => void;
   redo: () => void;
-  registerActions: (undo: () => void, redo: () => void) => void;
+  zoomIn: () => void;
+  zoomOut: () => void;
+  registerActions: (undo: () => void, redo: () => void, zoomIn: () => void, zoomOut: () => void) => void;
 }
 
 export const useCanvasStore = create<CanvasStore>((set) => ({
@@ -23,5 +25,7 @@ export const useCanvasStore = create<CanvasStore>((set) => ({
   setCanRedo: (canRedo) => set({ canRedo }),
   undo: () => {},
   redo: () => {},
-  registerActions: (undo, redo) => set({ undo, redo })
+  zoomIn: () => {},
+  zoomOut: () => {},
+  registerActions: (undo, redo, zoomIn, zoomOut) => set({ redo, undo, zoomIn, zoomOut })
 }));

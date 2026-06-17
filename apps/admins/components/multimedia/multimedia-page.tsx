@@ -11,9 +11,9 @@ import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
 import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
-import { MultimediaAudio, MultimediaFile, MultimediaImage, MultimediaVideo } from '@/components/multimedia/multimedia-render';
+import { MultimediaToolbar } from '@/components/multimedia/multimedia-toolbar';
+import { MultimediaViewer } from '@/components/multimedia/multimedia-viewer';
 import { useHeader } from '@/hooks/use-header';
-import { mediaType } from '@/utils/media-type';
 
 interface MultimediaPageProps {
   preloaded: Preloaded<typeof api.multimedia.get>;
@@ -52,44 +52,10 @@ function MultimediaLoaded({ preloaded }: MultimediaPageProps) {
     );
   }
 
-  const type = mediaType(file.type);
-
   return (
-    <main className="flex w-full flex-1 justify-center p-3 lg:p-5">
-      <section className="flex w-full max-w-5xl flex-col justify-center select-none md:px-5">
-        {type === 'image' ? (
-          <MultimediaImage
-            src={file.url}
-            width={file.width}
-            height={file.height}
-            className="max-h-[80vh] rounded-lg border"
-          />
-        ) : type === 'video' ? (
-          <div className="relative overflow-hidden">
-            <MultimediaVideo
-              interact
-              src={file.url}
-              width={file.width}
-              height={file.height}
-              className="max-h-[80vh] w-full rounded-lg border"
-            />
-          </div>
-        ) : type === 'audio' ? (
-          <div className="relative aspect-video overflow-hidden rounded-md border">
-            <MultimediaAudio
-              interact
-              src={file.url}
-            />
-          </div>
-        ) : (
-          <div className="relative h-[80vh] overflow-hidden rounded-md border">
-            <MultimediaFile
-              interact
-              src={file.url}
-            />
-          </div>
-        )}
-      </section>
+    <main className="flex w-full flex-col gap-2 p-3 lg:gap-3 lg:p-5">
+      <MultimediaToolbar file={file} />
+      <MultimediaViewer file={file} />
     </main>
   );
 }

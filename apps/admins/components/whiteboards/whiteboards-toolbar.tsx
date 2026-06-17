@@ -1,4 +1,4 @@
-import { CircleIcon, EraserIcon, type LucideIcon, MousePointer2Icon, PencilIcon, Redo2Icon, SquareIcon, TypeIcon, Undo2Icon } from 'lucide-react';
+import { CircleIcon, EraserIcon, HandIcon, type LucideIcon, MousePointer2Icon, PencilIcon, Redo2Icon, SquareIcon, TypeIcon, Undo2Icon, ZoomInIcon, ZoomOutIcon } from 'lucide-react';
 
 import { Button } from '@workspace/ui/components/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip';
@@ -44,6 +44,11 @@ const tools: { label: string; icon: LucideIcon; tool: Tool }[] = [
     tool: 'select'
   },
   {
+    label: 'Hand',
+    icon: HandIcon,
+    tool: 'hand'
+  },
+  {
     label: 'Pencil',
     icon: PencilIcon,
     tool: 'pencil'
@@ -72,7 +77,7 @@ const tools: { label: string; icon: LucideIcon; tool: Tool }[] = [
 
 export function WhiteboardsToolbar() {
   const { chatbot } = useLayout();
-  const { activeTool, setActiveTool, canUndo, canRedo, undo, redo } = useCanvasStore();
+  const { activeTool, setActiveTool, canUndo, canRedo, undo, redo, zoomIn, zoomOut } = useCanvasStore();
 
   return (
     <div className={cn('absolute top-[50%] z-10 flex -translate-y-[50%] flex-col gap-4', chatbot ? 'left-4' : 'right-4')}>
@@ -102,6 +107,20 @@ export function WhiteboardsToolbar() {
           showChatbot={chatbot}
           isDisabled={!canRedo}
           onClick={redo}
+        />
+      </div>
+      <div className="flex flex-col items-center gap-1 rounded-md border bg-sidebar p-0.5 shadow-md">
+        <ToolbarButton
+          label="Zoom in"
+          icon={ZoomInIcon}
+          showChatbot={chatbot}
+          onClick={zoomIn}
+        />
+        <ToolbarButton
+          label="Zoom out"
+          icon={ZoomOutIcon}
+          showChatbot={chatbot}
+          onClick={zoomOut}
         />
       </div>
     </div>

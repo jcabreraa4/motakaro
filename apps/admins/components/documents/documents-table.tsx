@@ -14,7 +14,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { DocumentsRemove } from '@/components/documents/documents-remove';
 import { DocumentsUpdate } from '@/components/documents/documents-update';
 
-function DocumentRow({ document }: { document: Document }) {
+function DocumentsRow({ document }: { document: Document }) {
   const router = useRouter();
   const updateDocument = useMutation(api.documents.update);
 
@@ -28,7 +28,7 @@ function DocumentRow({ document }: { document: Document }) {
 
   function handleUpdate() {
     updateDocument({ id: document._id, starred: !document.starred })
-      .then(() => toast.success(document.starred ? 'Document starred successfully.' : 'Document unstarred successfully.'))
+      .then(() => toast.success(document.starred ? 'Document unstarred successfully.' : 'Document starred successfully.'))
       .catch(() => toast.error('An internal error has occurred.'));
   }
 
@@ -135,13 +135,13 @@ export function DocumentsTable({ documents }: { documents: Document[] }) {
         </TableHeader>
         <TableBody>
           {starredDocuments.map((document) => (
-            <DocumentRow
+            <DocumentsRow
               key={document._id}
               document={document}
             />
           ))}
           {nonStarredDocuments.map((document) => (
-            <DocumentRow
+            <DocumentsRow
               key={document._id}
               document={document}
             />

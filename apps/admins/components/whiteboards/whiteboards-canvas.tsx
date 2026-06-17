@@ -8,9 +8,12 @@ export function WhiteboardsEditor({ whiteboard }: { whiteboard: Whiteboard }) {
   return (
     <section
       ref={mainRef}
-      className="h-full w-full"
+      className="h-full w-full overflow-hidden bg-white dark:bg-primary"
     >
-      <canvas ref={canvasElRef} />
+      <canvas
+        ref={canvasElRef}
+        className="block"
+      />
     </section>
   );
 }

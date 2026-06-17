@@ -5,13 +5,14 @@ import { useEffect } from 'react';
 
 import { useAuth } from '@clerk/nextjs';
 import { Preloaded, usePreloadedQuery } from 'convex/react';
-import { ListVideoIcon, TriangleAlertIcon, VideoOffIcon } from 'lucide-react';
+import { ListVideoIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
 import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
-import { MultimediaThumbnail, MultimediaVideo } from '@/components/multimedia/multimedia-render';
+import { ResourcesToolbar } from '@/components/resources/resources-toolbar';
+import { ResourcesViewer } from '@/components/resources/resources-viewer';
 import { useHeader } from '@/hooks/use-header';
 
 interface ResourcesPageProps {
@@ -51,33 +52,10 @@ function ResourcesLoaded({ preloaded }: ResourcesPageProps) {
     );
   }
 
-  const invalidEmbed = resource.embed && !resource.embed.startsWith('http');
-
   return (
-    <main className="flex w-full flex-1 justify-center p-3 lg:p-5">
-      <section className="flex w-full max-w-5xl flex-col justify-center md:px-5">
-        {!resource.embed ? (
-          <MultimediaThumbnail
-            icon={VideoOffIcon}
-            text="No Video Attached"
-            className="aspect-video border"
-          />
-        ) : invalidEmbed ? (
-          <MultimediaThumbnail
-            icon={TriangleAlertIcon}
-            text="Invalid Video Embed"
-            className="aspect-video border"
-          />
-        ) : (
-          <div className="relative">
-            <MultimediaVideo
-              external
-              src={resource.embed}
-              className="aspect-video max-h-[80vh] w-full rounded-lg border"
-            />
-          </div>
-        )}
-      </section>
+    <main className="flex w-full flex-col gap-2 p-3 lg:gap-3 lg:p-5">
+      <ResourcesToolbar resource={resource} />
+      <ResourcesViewer resource={resource} />
     </main>
   );
 }
