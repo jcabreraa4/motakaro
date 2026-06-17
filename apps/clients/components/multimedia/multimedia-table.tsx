@@ -12,31 +12,15 @@ import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
 import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
 import { MultimediaRemove } from '@/components/multimedia/multimedia-remove';
 import { MultimediaUpdate } from '@/components/multimedia/multimedia-update';
+import { downloadFile } from '@/utils/download-file';
 
-async function downloadFile(url: string, name: string) {
-  const toastId = toast.loading('Preparing the download of the file...');
-  try {
-    const blob = await fetch(url).then((r) => r.blob());
-    const link = Object.assign(document.createElement('a'), {
-      href: URL.createObjectURL(blob),
-      download: name || 'download'
-    });
-    link.click();
-    URL.revokeObjectURL(link.href);
-    toast.success('The file is ready to be downloaded.', { id: toastId });
-  } catch (error) {
-    console.error('Download error:', error);
-    toast.error('An error occurred downloading the file.', { id: toastId });
-  }
-}
-
-interface RowButtonProps {
+interface ItemButtonProps {
   icon: LucideIcon;
   onClick?: () => void;
   isActive?: boolean;
 }
 
-function RowButton({ icon: Icon, onClick, isActive }: RowButtonProps) {
+function ItemButton({ icon: Icon, onClick, isActive }: ItemButtonProps) {
   return (
     <Button
       onClick={onClick}
@@ -48,7 +32,7 @@ function RowButton({ icon: Icon, onClick, isActive }: RowButtonProps) {
   );
 }
 
-function MultimediaRow({ file }: { file: MediaFile }) {
+function MultimediaItem({ file }: { file: MediaFile }) {
   const updateFile = useMutation(api.multimedia.clientUpdate);
 
   function handleUpdate() {
@@ -66,7 +50,6 @@ function MultimediaRow({ file }: { file: MediaFile }) {
         <MultimediaPreview
           src={file.url!}
           type={file.type}
-          className="cursor-pointer"
         />
       </Link>
       <MultimediaInfo
@@ -75,23 +58,23 @@ function MultimediaRow({ file }: { file: MediaFile }) {
         type={file.type}
       />
       <div className="flex gap-3">
-        <RowButton
+        <ItemButton
           icon={StarIcon}
           onClick={handleUpdate}
           isActive={file.clientStarred}
         />
-        <RowButton
+        <ItemButton
           icon={DownloadIcon}
           onClick={() => downloadFile(file.url!, file.name)}
         />
         <MultimediaUpdate file={file}>
-          <RowButton icon={PenIcon} />
+          <ItemButton icon={PenIcon} />
         </MultimediaUpdate>
         <MultimediaRemove id={file._id}>
-          <RowButton icon={TrashIcon} />
+          <ItemButton icon={TrashIcon} />
         </MultimediaRemove>
         <Link href={`/multimedia/${file._id}`}>
-          <RowButton icon={ExpandIcon} />
+          <ItemButton icon={ExpandIcon} />
         </Link>
       </div>
     </div>
@@ -107,7 +90,7 @@ export function MultimediaTable({ multimedia }: { multimedia: MediaFile[] }) {
       {starredFiles.length != 0 && (
         <div className="grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {starredFiles.map((file) => (
-            <MultimediaRow
+            <MultimediaItem
               key={file._id}
               file={file}
             />
@@ -117,7 +100,7 @@ export function MultimediaTable({ multimedia }: { multimedia: MediaFile[] }) {
       {nonStarredFiles.length != 0 && (
         <div className="grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {nonStarredFiles.map((file) => (
-            <MultimediaRow
+            <MultimediaItem
               key={file._id}
               file={file}
             />

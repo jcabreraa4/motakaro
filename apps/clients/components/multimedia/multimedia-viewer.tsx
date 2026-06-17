@@ -1,4 +1,4 @@
-import { MediaFile } from '@workspace/backend/schema';
+import type { MediaFile } from '@workspace/backend/schema';
 
 import { MultimediaAudio, MultimediaFile, MultimediaImage, MultimediaVideo } from '@/components/multimedia/multimedia-render';
 import { mediaType } from '@/utils/media-type';

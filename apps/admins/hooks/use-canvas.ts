@@ -23,7 +23,7 @@ const DARK_TEXT_COLOR = '#ffffff';
 
 const SHAPE_STYLES = {
   fill: 'rgba(99, 149, 237, 0.15)',
-  stroke: '#2563eb',
+  stroke: '#007fd8',
   strokeWidth: 2
 };
 

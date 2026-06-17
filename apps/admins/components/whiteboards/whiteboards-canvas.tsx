@@ -1,4 +1,4 @@
-import { Whiteboard } from '@workspace/backend/schema';
+import type { Whiteboard } from '@workspace/backend/schema';
 
 import { useCanvas } from '@/hooks/use-canvas';
 

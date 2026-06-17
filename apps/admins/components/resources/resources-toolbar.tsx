@@ -1,4 +1,4 @@
-import { Resource } from '@workspace/backend/schema';
+import type { Resource } from '@workspace/backend/schema';
 
 export function ResourcesToolbar({ resource }: { resource: Resource }) {
   return (

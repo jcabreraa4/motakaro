@@ -1,6 +1,6 @@
 import { TriangleAlertIcon, VideoOffIcon } from 'lucide-react';
 
-import { Resource } from '@workspace/backend/schema';
+import type { Resource } from '@workspace/backend/schema';
 
 import { MultimediaThumbnail, MultimediaVideo } from '@/components/multimedia/multimedia-render';
 

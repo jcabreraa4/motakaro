@@ -5,24 +5,24 @@ import { EditorContent, useEditor as useTiptap } from '@tiptap/react';
 import { Loader2 } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
-import type { Id } from '@workspace/backend/_generated/dataModel';
+import type { Document } from '@workspace/backend/schema';
 
 import { useEditor } from '@/hooks/use-editor';
 import { tiptapExtensions } from '@/lib/documents/tiptap';
 
-export function DocumentsEditor({ id }: { id: Id<'documents'> }) {
+export function DocumentsEditor({ document }: { document: Document }) {
   const { setEditor } = useEditor();
 
-  const sync = useTiptapSync(api.prosemirror, id);
+  const realtime = useTiptapSync(api.prosemirror, document._id);
 
   useEffect(() => {
-    if (sync.isLoading || sync.initialContent !== null || !sync.create) return;
-    void sync.create({ type: 'doc', content: [] });
-  }, [sync.isLoading, sync.initialContent, sync.create, sync]);
+    if (realtime.isLoading || realtime.initialContent !== null || !realtime.create) return;
+    void realtime.create({ type: 'doc', content: [] });
+  }, [realtime.isLoading, realtime.initialContent, realtime.create, realtime]);
 
   const editor = useTiptap(
     {
-      content: sync.initialContent ?? undefined,
+      content: realtime.initialContent ?? undefined,
       onCreate({ editor }) {
         setEditor(editor);
       },
@@ -52,14 +52,14 @@ export function DocumentsEditor({ id }: { id: Id<'documents'> }) {
           class: 'focus:outline-none bg-white dark:bg-primary rounded-md xl:border border-[#C7C7C7] min-h-[1054px] xl:px-[56px] xl:pt-10 xl:pb-10 print:bg-white print:dark:bg-white'
         }
       },
-      extensions: [...tiptapExtensions, ...(sync.extension ? [sync.extension] : [])],
+      extensions: [...tiptapExtensions, ...(realtime.extension ? [realtime.extension] : [])],
       immediatelyRender: false,
-      editable: !sync.isLoading && sync.initialContent !== null
+      editable: !realtime.isLoading && realtime.initialContent !== null
     },
-    [id, sync.extension, sync.initialContent]
+    [document._id, realtime.extension, realtime.initialContent]
   );
 
-  if (sync.isLoading || sync.initialContent === null || !sync.extension) {
+  if (realtime.isLoading || realtime.initialContent === null || !realtime.extension) {
     return (
       <div className="w-full flex-1 overflow-y-scroll">
         <div className="mx-auto my-4 flex min-h-[70vh] w-full max-w-204 items-center justify-center rounded-lg border border-[#C7C7C7] bg-white px-4 md:px-0">

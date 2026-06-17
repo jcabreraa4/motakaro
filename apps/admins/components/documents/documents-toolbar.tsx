@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { CirclePicker, ColorResult } from 'react-color';
 
 import { AlignCenterIcon, AlignJustifyIcon, AlignLeftIcon, AlignRightIcon, BoldIcon, ChevronDownIcon, DownloadIcon, FileBracesCorner, FileCodeCorner, FilePenIcon, FileTextIcon, GlobeIcon, HighlighterIcon, ImageIcon, ItalicIcon, Link2Icon, ListCollapseIcon, ListIcon, ListOrderedIcon, ListTodoIcon, LucideIcon, MinusIcon, PlusIcon, PrinterIcon, Redo2Icon, RemoveFormattingIcon, SearchIcon, SpellCheckIcon, StrikethroughIcon, TableIcon, TextIcon, UnderlineIcon, Undo2Icon, UploadIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
-import { Document } from '@workspace/backend/schema';
+import type { Document } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@workspace/ui/components/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
@@ -381,16 +380,27 @@ function LinkButton() {
   );
 }
 
+function ColorSwatch({ color, selected, onClick }: { color: string; selected: boolean; onClick: () => void }) {
+  return (
+    <Button
+      onClick={onClick}
+      className="size-6 cursor-pointer rounded-full transition-transform hover:scale-110"
+      style={{
+        backgroundColor: color,
+        border: '1.5px solid rgba(0,0,0,0.25)',
+        outline: selected ? '2px solid black' : 'none',
+        outlineOffset: '2px'
+      }}
+    />
+  );
+}
+
 function HighlightColorButton() {
   const { editor } = useEditor();
 
-  const colors = ['#FFEB3B', '#FFD54F', '#AED581', '#81C784', '#4FC3F7', '#64B5F6', '#FF8A65', '#FFAB91', '#F48FB1', '#CE93D8', '#E0E0E0', '#BCAAA4'];
+  const colors = ['#FFFFFF', '#FFD54F', '#AED581', '#81C784', '#4FC3F7', '#64B5F6', '#FF8A65', '#FFAB91', '#F48FB1', '#CE93D8', '#E0E0E0', '#BCAAA4'];
 
   const value = editor?.getAttributes('highlight').color || '#FFFFFF';
-
-  function onChange(color: ColorResult) {
-    editor?.chain().focus().setHighlight({ color: color.hex }).run();
-  }
 
   return (
     <DropdownMenu>
@@ -404,11 +414,16 @@ function HighlightColorButton() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-fit p-2">
-        <CirclePicker
-          colors={colors}
-          color={value}
-          onChangeComplete={onChange}
-        />
+        <div className="grid grid-cols-6 gap-1.5">
+          {colors.map((color) => (
+            <ColorSwatch
+              key={color}
+              color={color}
+              selected={value === color}
+              onClick={() => editor?.chain().focus().setHighlight({ color }).run()}
+            />
+          ))}
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -420,10 +435,6 @@ function TextColorButton() {
   const colors = ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#FFA500', '#800080', '#808080', '#FFC0CB', '#A52A2A'];
 
   const value = editor?.getAttributes('textStyle').color || '#000000';
-
-  function onChange(color: ColorResult) {
-    editor?.chain().focus().setColor(color.hex).run();
-  }
 
   return (
     <DropdownMenu>
@@ -442,11 +453,16 @@ function TextColorButton() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-fit p-2">
-        <CirclePicker
-          colors={colors}
-          color={value}
-          onChangeComplete={onChange}
-        />
+        <div className="grid grid-cols-6 gap-1.5">
+          {colors.map((color) => (
+            <ColorSwatch
+              key={color}
+              color={color}
+              selected={value === color}
+              onClick={() => editor?.chain().focus().setColor(color).run()}
+            />
+          ))}
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   );

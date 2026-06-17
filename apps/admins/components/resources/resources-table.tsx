@@ -15,13 +15,13 @@ import { ResourcesRemove } from '@/components/resources/resources-remove';
 import { ResourcesUpdate } from '@/components/resources/resources-update';
 import { useLayout } from '@/hooks/use-layout';
 
-interface RowButtonProps {
+interface ItemButtonProps {
   icon: LucideIcon;
   onClick?: () => void;
   isActive?: boolean;
 }
 
-function RowButton({ icon: Icon, onClick, isActive }: RowButtonProps) {
+function ItemButton({ icon: Icon, onClick, isActive }: ItemButtonProps) {
   return (
     <Button
       onClick={onClick}
@@ -33,7 +33,7 @@ function RowButton({ icon: Icon, onClick, isActive }: RowButtonProps) {
   );
 }
 
-function ResourcesRow({ resource }: { resource: Resource }) {
+function ResourcesItem({ resource }: { resource: Resource }) {
   const updateResource = useMutation(api.resources.update);
 
   function handleUpdate() {
@@ -60,23 +60,23 @@ function ResourcesRow({ resource }: { resource: Resource }) {
         published={resource.published}
       />
       <div className="flex gap-3">
-        <RowButton
+        <ItemButton
           icon={StarIcon}
           onClick={handleUpdate}
           isActive={resource.starred}
         />
-        <RowButton
+        <ItemButton
           icon={ExternalLinkIcon}
           onClick={openLink}
         />
         <ResourcesUpdate resource={resource}>
-          <RowButton icon={PenIcon} />
+          <ItemButton icon={PenIcon} />
         </ResourcesUpdate>
         <ResourcesRemove id={resource._id}>
-          <RowButton icon={TrashIcon} />
+          <ItemButton icon={TrashIcon} />
         </ResourcesRemove>
         <Link href={`/resources/${resource._id}`}>
-          <RowButton icon={ExpandIcon} />
+          <ItemButton icon={ExpandIcon} />
         </Link>
       </div>
     </div>
@@ -94,7 +94,7 @@ export function ResourcesTable({ resources }: { resources: Resource[] }) {
       {starredResources.length != 0 && (
         <div className={cn('grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3', chatbot ? '2xl:grid-cols-3' : '2xl:grid-cols-4')}>
           {starredResources.map((resource) => (
-            <ResourcesRow
+            <ResourcesItem
               key={resource._id}
               resource={resource}
             />
@@ -104,7 +104,7 @@ export function ResourcesTable({ resources }: { resources: Resource[] }) {
       {nonStarredResources.length != 0 && (
         <div className={cn('grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3', chatbot ? '2xl:grid-cols-3' : '2xl:grid-cols-4')}>
           {nonStarredResources.map((resource) => (
-            <ResourcesRow
+            <ResourcesItem
               key={resource._id}
               resource={resource}
             />

@@ -1,4 +1,4 @@
-import { MediaFile } from '@workspace/backend/schema';
+import type { MediaFile } from '@workspace/backend/schema';
 
 export function MultimediaToolbar({ file }: { file: MediaFile }) {
   return (

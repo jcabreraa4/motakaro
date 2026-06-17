@@ -1,6 +1,5 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useEffect } from 'react';
 
@@ -12,10 +11,9 @@ import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
 import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
+import { DocumentsEditor } from '@/components/documents/documents-editor';
 import { DocumentsToolbar } from '@/components/documents/documents-toolbar';
 import { useHeader } from '@/hooks/use-header';
-
-const DocumentsEditor = dynamic(() => import('@/components/documents/documents-editor').then((m) => ({ default: m.DocumentsEditor })), { ssr: false });
 
 interface DocumentsPageProps {
   preloaded: Preloaded<typeof api.documents.get>;
@@ -57,7 +55,7 @@ function DocumentsPageLoaded({ preloaded }: DocumentsPageProps) {
   return (
     <main className="flex w-full flex-col gap-2 p-3 lg:gap-3 lg:p-5">
       <DocumentsToolbar document={document} />
-      <DocumentsEditor id={document._id} />
+      <DocumentsEditor document={document} />
     </main>
   );
 }
