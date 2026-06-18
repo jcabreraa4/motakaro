@@ -59,6 +59,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.18",
+    "@types/lodash": "^4.17.24",
     "@types/node": "^25.1.0",
     "@types/pdf-parse": "^1.1.5",
     "@types/react": "^19.2.10",

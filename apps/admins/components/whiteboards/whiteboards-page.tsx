@@ -11,8 +11,7 @@ import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
 import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
-import { WhiteboardsEditor } from '@/components/whiteboards/whiteboards-canvas';
-import { WhiteboardsToolbar } from '@/components/whiteboards/whiteboards-toolbar';
+import { WhiteboardsCanvas } from '@/components/whiteboards/whiteboards-canvas';
 import { useHeader } from '@/hooks/use-header';
 
 interface WhiteboardsPageProps {
@@ -53,9 +52,8 @@ function WhiteboardsLoaded({ preloaded }: WhiteboardsPageProps) {
   }
 
   return (
-    <main className="relative flex min-h-0 flex-1 touch-none overflow-hidden">
-      <WhiteboardsToolbar whiteboard={whiteboard} />
-      <WhiteboardsEditor whiteboard={whiteboard} />
+    <main className="w-full">
+      <WhiteboardsCanvas whiteboard={whiteboard} />
     </main>
   );
 }

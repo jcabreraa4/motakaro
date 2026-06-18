@@ -1,61 +1,77 @@
 'use client';
 
-import { useLayoutEffect, useMemo, useState } from 'react';
+import { useTheme } from 'next-themes';
+import { useEffect, useRef, useState } from 'react';
 
-import { useMutation } from 'convex/react';
+import { useMutation, useQuery } from 'convex/react';
 import { throttle } from 'lodash';
-import { DefaultSpinner, Tldraw, createTLStore, getSnapshot, loadSnapshot } from 'tldraw';
-import 'tldraw/tldraw.css';
+import { Tldraw, createTLStore, getSnapshot, loadSnapshot } from 'tldraw';
 
 import { api } from '@workspace/backend/_generated/api';
 import type { Whiteboard } from '@workspace/backend/schema';
 
-export function WhiteboardsEditor({ whiteboard }: { whiteboard: Whiteboard }) {
-  const update = useMutation(api.whiteboards.update);
+export function WhiteboardsCanvas({ whiteboard }: { whiteboard: Whiteboard }) {
+  const { theme } = useTheme();
 
-  // [1] Store creado fuera del render, estable
-  const store = useMemo(() => createTLStore(), []);
+  const updateWhiteboard = useMutation(api.whiteboards.update);
+  const remoteWhiteboard = useQuery(api.whiteboards.get, { id: whiteboard._id });
 
-  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
-
-  useLayoutEffect(() => {
-    setStatus('loading');
-
-    // [2] Cargar snapshot de Convex al montar
-    if (whiteboard.content) {
-      try {
-        loadSnapshot(store, JSON.parse(whiteboard.content));
-      } catch {
-        // content corrupto o vacío, canvas en blanco
-      }
+  const [canvas] = useState(() => {
+    const store = createTLStore();
+    if (!whiteboard.content) return { store, content: '' };
+    try {
+      loadSnapshot(store, JSON.parse(whiteboard.content));
+      return { store, content: whiteboard.content };
+    } catch {
+      return { store, content: '' };
     }
-    setStatus('ready');
+  });
 
-    // [3] Escuchar cambios y guardar solo document en Convex
-    const unsub = store.listen(
-      throttle(() => {
-        const { document } = getSnapshot(store);
-        update({
-          id: whiteboard._id,
-          content: JSON.stringify({ document })
-        });
-      }, 500)
-    );
+  const store = canvas.store;
+  const lastContent = useRef(canvas.content);
+  const pendingContent = useRef<string | null>(null);
 
-    return () => unsub();
-  }, [store]); // solo store, estable
+  useEffect(() => {
+    const save = throttle(() => {
+      const { document } = getSnapshot(store);
+      const content = JSON.stringify({ document });
 
-  if (status === 'loading') {
-    return (
-      <div className="flex h-full w-full items-center justify-center">
-        <DefaultSpinner />
-      </div>
-    );
-  }
+      lastContent.current = content;
+      pendingContent.current = content;
+      void updateWhiteboard({ id: whiteboard._id, content });
+    }, 500);
+
+    const unsub = store.listen(save, {
+      scope: 'document',
+      source: 'user'
+    });
+
+    return () => {
+      save.cancel();
+      unsub();
+    };
+  }, [store, updateWhiteboard, whiteboard._id]);
+
+  useEffect(() => {
+    if (!remoteWhiteboard?.content) return;
+    if (remoteWhiteboard.content === pendingContent.current) {
+      pendingContent.current = null;
+      return;
+    }
+    if (remoteWhiteboard.content === lastContent.current) return;
+    try {
+      const { document } = JSON.parse(remoteWhiteboard.content);
+      store.mergeRemoteChanges(() => loadSnapshot(store, { document }));
+      lastContent.current = remoteWhiteboard.content;
+    } catch {
+      return;
+    }
+  }, [store, remoteWhiteboard?.content]);
 
   return (
-    <div className="h-full w-full">
-      <Tldraw store={store} />
-    </div>
+    <Tldraw
+      store={store}
+      colorScheme={theme === 'dark' ? 'dark' : 'light'}
+    />
   );
 }
