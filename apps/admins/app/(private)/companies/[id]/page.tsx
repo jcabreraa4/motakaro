@@ -1,12 +1,15 @@
+import { preloadQuery } from 'convex/nextjs';
+
+import { api } from '@workspace/backend/_generated/api';
+
+import { CompaniesPage } from '@/components/companies/companies-page';
+import { runConvex } from '@/server/run-convex';
+
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
-  return (
-    <main className="w-full overflow-hidden p-3 lg:p-5">
-      <p>
-        <span className="font-semibold">Company: </span>
-        {id}
-      </p>
-    </main>
-  );
+  const { token } = await runConvex();
+  const company = await preloadQuery(api.companies.get, { id }, { token });
+
+  return <CompaniesPage preloaded={company} />;
 }
