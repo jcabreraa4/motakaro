@@ -17,11 +17,11 @@ import { ChatbotAttachments } from '@/components/chatbot/chatbot-attachments';
 import { ChatbotInput } from '@/components/chatbot/chatbot-input';
 import { ChatbotMessages } from '@/components/chatbot/chatbot-messages';
 import { ChatbotSuggestions } from '@/components/chatbot/chatbot-suggestions';
-import { useLayout } from '@/hooks/use-layout';
+import { useChatbot } from '@/hooks/use-chatbot';
 
 export function AppChatbot() {
   const { isLoaded } = useAuth();
-  const { chatbot } = useLayout();
+  const { chatbot } = useChatbot();
 
   const router = useRouter();
   const pathname = usePathname();

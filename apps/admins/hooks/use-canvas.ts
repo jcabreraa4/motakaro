@@ -8,7 +8,7 @@ import { api } from '@workspace/backend/_generated/api';
 import type { Whiteboard } from '@workspace/backend/schema';
 
 import { type Tool, useCanvasStore } from '@/store/canvas-store';
-import { useLayoutStore } from '@/store/layout-store';
+import { useChatbotStore } from '@/store/chatbot-store';
 
 const SAVE_DELAY_MS = 1500;
 const MAX_HISTORY = 50;
@@ -83,7 +83,7 @@ function syncThemeColor(canvas: FabricCanvas, nextColor: string, previousColor: 
 export function useCanvas(whiteboard: Whiteboard | null) {
   const updateWhiteboard = useMutation(api.whiteboards.update);
   const { resolvedTheme } = useTheme();
-  const chatbot = useLayoutStore((state) => state.chatbot);
+  const chatbot = useChatbotStore((state) => state.chatbot);
   const activeTool = useCanvasStore((state) => state.activeTool);
 
   const mainRef = useRef<HTMLElement>(null);

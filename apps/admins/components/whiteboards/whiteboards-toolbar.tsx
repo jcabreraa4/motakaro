@@ -5,7 +5,7 @@ import { Button } from '@workspace/ui/components/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { useLayout } from '@/hooks/use-layout';
+import { useChatbot } from '@/hooks/use-chatbot';
 import { useCanvasStore } from '@/store/canvas-store';
 
 interface ToolbarButtonProps {
@@ -17,7 +17,7 @@ interface ToolbarButtonProps {
 }
 
 function ToolbarButton({ label, icon: Icon, onClick, isActive, isDisabled }: ToolbarButtonProps) {
-  const { chatbot } = useLayout();
+  const { chatbot } = useChatbot();
 
   return (
     <Tooltip>
@@ -44,7 +44,7 @@ function ToolbarSection({ children }: { children: React.ReactNode }) {
 }
 
 export function WhiteboardsToolbar({ whiteboard }: { whiteboard: Whiteboard }) {
-  const { chatbot } = useLayout();
+  const { chatbot } = useChatbot();
   const { activeTool, setActiveTool, canUndo, canRedo, undo, redo, zoomIn, zoomOut } = useCanvasStore();
 
   return (

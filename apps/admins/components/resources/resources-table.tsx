@@ -13,7 +13,7 @@ import { ResourcesInfo } from '@/components/resources/resources-info';
 import { ResourcesPreview } from '@/components/resources/resources-preview';
 import { ResourcesRemove } from '@/components/resources/resources-remove';
 import { ResourcesUpdate } from '@/components/resources/resources-update';
-import { useLayout } from '@/hooks/use-layout';
+import { useChatbot } from '@/hooks/use-chatbot';
 
 interface ItemButtonProps {
   icon: LucideIcon;
@@ -84,7 +84,7 @@ function ResourcesItem({ resource }: { resource: Resource }) {
 }
 
 export function ResourcesTable({ resources }: { resources: Resource[] }) {
-  const { chatbot } = useLayout();
+  const { chatbot } = useChatbot();
 
   const starredResources = resources.filter((file) => file.starred);
   const nonStarredResources = resources.filter((file) => !file.starred);

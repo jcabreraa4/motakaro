@@ -7,7 +7,7 @@ import { Building2Icon, ChartColumnBigIcon, FileTextIcon, HeadsetIcon, ImageIcon
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { useLayout } from '@/hooks/use-layout';
+import { useChatbot } from '@/hooks/use-chatbot';
 import { useLocation } from '@/hooks/use-location';
 
 type Section = {
@@ -89,7 +89,7 @@ const sections: Section[] = [
 
 export function NavMain() {
   const { section } = useLocation();
-  const { closeMobileChatbot } = useLayout();
+  const { handleChatbot } = useChatbot();
 
   function isActive(url: string) {
     if (`/${section}` === url) return true;
@@ -108,7 +108,7 @@ export function NavMain() {
                   <SidebarMenuButton
                     asChild
                     tooltip={item.title}
-                    onClick={closeMobileChatbot}
+                    onClick={handleChatbot}
                     className={cn(isActive(item.url) ? 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground active:bg-primary active:text-primary-foreground' : 'text-primary/85')}
                   >
                     <Link href={item.url}>

@@ -13,7 +13,7 @@ import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
 import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
 import { MultimediaRemove } from '@/components/multimedia/multimedia-remove';
 import { MultimediaUpdate } from '@/components/multimedia/multimedia-update';
-import { useLayout } from '@/hooks/use-layout';
+import { useChatbot } from '@/hooks/use-chatbot';
 import { downloadFile } from '@/utils/download-file';
 
 interface ItemButtonProps {
@@ -84,7 +84,7 @@ function MultimediaItem({ file }: { file: MediaFile }) {
 }
 
 export function MultimediaTable({ multimedia }: { multimedia: MediaFile[] }) {
-  const { chatbot } = useLayout();
+  const { chatbot } = useChatbot();
 
   const starredFiles = multimedia.filter((file) => file.starred);
   const nonStarredFiles = multimedia!.filter((file) => !file.starred);

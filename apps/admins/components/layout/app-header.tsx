@@ -1,31 +1,32 @@
 'use client';
 
+import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { Fragment } from 'react';
 
 import { useAuth } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 import { GhostIcon } from 'lucide-react';
+import { MoonIcon, SunIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
+import { Button } from '@workspace/ui/components/button';
 import { Separator } from '@workspace/ui/components/separator';
 import { SidebarTrigger } from '@workspace/ui/components/sidebar';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip';
-import { HeaderButton } from '@workspace/ui/custom/header-button';
-import { ThemeButton } from '@workspace/ui/custom/theme-button';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { NotificationsPopover } from '@/components/notifications/notifications-popover';
+import { useChatbot } from '@/hooks/use-chatbot';
 import { useHeader } from '@/hooks/use-header';
-import { useLayout } from '@/hooks/use-layout';
 import { useLocation } from '@/hooks/use-location';
 
 function HeaderBreadcrumb() {
   const { section } = useLocation();
   const { breadcrumbs } = useHeader();
-  const { closeMobileChatbot } = useLayout();
+  const { handleChatbot } = useChatbot();
 
   return (
     <Breadcrumb>
@@ -33,7 +34,7 @@ function HeaderBreadcrumb() {
         <BreadcrumbItem>
           <Link
             href={`/${section}`}
-            onClick={closeMobileChatbot}
+            onClick={handleChatbot}
           >
             <BreadcrumbPage className="font-medium capitalize select-none">{section}</BreadcrumbPage>
           </Link>
@@ -45,7 +46,7 @@ function HeaderBreadcrumb() {
               {item.href ? (
                 <Link
                   href={item.href}
-                  onClick={closeMobileChatbot}
+                  onClick={handleChatbot}
                 >
                   <BreadcrumbPage>{item.text}</BreadcrumbPage>
                 </Link>
@@ -96,15 +97,48 @@ function UserPresence({ className }: { className?: string }) {
   );
 }
 
-function ChatbotButton() {
-  const { chatbot, toggleChatbot } = useLayout();
+interface HeaderButtonProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+  className?: string;
+}
+
+function HeaderButton({ children, onClick, className }: HeaderButtonProps) {
+  return (
+    <Button
+      size="icon-sm"
+      variant="ghost"
+      className={cn('cursor-pointer bg-transparent! text-primary/85 hover:bg-transparent! dark:hover:text-white', className)}
+      onClick={onClick}
+    >
+      {children}
+    </Button>
+  );
+}
+
+function ChatbotButton({ className }: { className?: string }) {
+  const { chatbot, setChatbot } = useChatbot();
 
   return (
     <HeaderButton
-      onClick={toggleChatbot}
-      className={cn(chatbot && 'text-black dark:text-white')}
+      onClick={() => setChatbot(!chatbot)}
+      className={cn(chatbot && 'text-black dark:text-white', className)}
     >
       <GhostIcon className="size-5" />
+    </HeaderButton>
+  );
+}
+
+export function ThemeButton({ className }: { className?: string }) {
+  const { theme, setTheme } = useTheme();
+
+  return (
+    <HeaderButton
+      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+      className={className}
+    >
+      <SunIcon className="hidden size-5 dark:block" />
+      <MoonIcon className="size-5 dark:hidden" />
     </HeaderButton>
   );
 }

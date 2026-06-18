@@ -1,5 +1,4 @@
 import { cookies } from 'next/headers';
-import { Suspense } from 'react';
 
 import { SidebarInset, SidebarProvider } from '@workspace/ui/components/sidebar';
 
@@ -19,9 +18,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
       <AppSidebar />
       <SidebarInset className="h-svh overflow-hidden bg-sidebar md:py-2 md:pr-2">
         <AppHeader />
-        <div className="flex min-h-0 flex-1 overflow-hidden rounded-b-md border bg-white dark:bg-[#0A0A0A]">
-          <Suspense>{children}</Suspense>
-        </div>
+        <div className="flex min-h-0 flex-1 overflow-hidden rounded-b-md border bg-white dark:bg-[#0A0A0A]">{children}</div>
       </SidebarInset>
       <AppOnboard />
     </SidebarProvider>

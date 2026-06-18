@@ -1,12 +1,15 @@
 'use client';
 
+import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { Fragment } from 'react';
 
+import { MoonIcon, SunIcon } from 'lucide-react';
+
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
+import { Button } from '@workspace/ui/components/button';
 import { Separator } from '@workspace/ui/components/separator';
 import { SidebarTrigger } from '@workspace/ui/components/sidebar';
-import { ThemeButton } from '@workspace/ui/custom/theme-button';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { NotificationsPopover } from '@/components/notifications/notifications-popover';
@@ -41,6 +44,39 @@ function HeaderBreadcrumb() {
         ))}
       </BreadcrumbList>
     </Breadcrumb>
+  );
+}
+
+interface HeaderButtonProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+  className?: string;
+}
+
+function HeaderButton({ children, onClick, className }: HeaderButtonProps) {
+  return (
+    <Button
+      size="icon-sm"
+      variant="ghost"
+      className={cn('cursor-pointer bg-transparent! text-primary/85 hover:bg-transparent! dark:hover:text-white', className)}
+      onClick={onClick}
+    >
+      {children}
+    </Button>
+  );
+}
+
+export function ThemeButton({ className }: { className?: string }) {
+  const { theme, setTheme } = useTheme();
+
+  return (
+    <HeaderButton
+      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+      className={className}
+    >
+      <SunIcon className="hidden size-5 dark:block" />
+      <MoonIcon className="size-5 dark:hidden" />
+    </HeaderButton>
   );
 }
 

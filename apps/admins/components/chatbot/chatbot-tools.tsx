@@ -7,7 +7,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import type { CompaniesGetPart, CompaniesListPart, ContactsGetPart, ContactsListPart, DocumentsGetPart, DocumentsListPart, MeetingsGetPart, MeetingsListPart, MultimediaGetPart, MultimediaListPart, NotificationsGetPart, NotificationsListPart, ResourcesGetPart, ResourcesListPart, ToolParts, WhiteboardsGetPart, WhiteboardsListPart } from '@/app/api/chatbot/tools';
 import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
 import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
-import { useLayout } from '@/hooks/use-layout';
+import { useChatbot } from '@/hooks/use-chatbot';
 
 interface ToolCodeBlockProps {
   part: ToolParts;
@@ -164,7 +164,7 @@ export function WhiteboardsGet({ part }: { part: WhiteboardsGetPart }) {
 
 // Multimedia Tools
 export function MultimediaList({ part }: { part: MultimediaListPart }) {
-  const { closeMobileChatbot } = useLayout();
+  const { handleChatbot } = useChatbot();
 
   return (
     <div>
@@ -180,7 +180,7 @@ export function MultimediaList({ part }: { part: MultimediaListPart }) {
                 <CarouselItem key={index}>
                   <div className="flex flex-col gap-5">
                     <Link
-                      onClick={closeMobileChatbot}
+                      onClick={handleChatbot}
                       href={`/multimedia/${file._id}`}
                     >
                       <MultimediaPreview
@@ -208,7 +208,7 @@ export function MultimediaList({ part }: { part: MultimediaListPart }) {
 }
 
 export function MultimediaGet({ part }: { part: MultimediaGetPart }) {
-  const { closeMobileChatbot } = useLayout();
+  const { handleChatbot } = useChatbot();
 
   return (
     <div>
@@ -220,7 +220,7 @@ export function MultimediaGet({ part }: { part: MultimediaGetPart }) {
       {part.state === 'output-available' && typeof part.output.content === 'object' && (
         <div className="flex flex-col gap-5">
           <Link
-            onClick={closeMobileChatbot}
+            onClick={handleChatbot}
             href={`/multimedia/${part.output.content._id}`}
           >
             <MultimediaPreview

@@ -11,12 +11,9 @@ import { Button } from '@workspace/ui/components/button';
 import { Popover, PopoverContent, PopoverHeader, PopoverTitle, PopoverTrigger } from '@workspace/ui/components/popover';
 import { Separator } from '@workspace/ui/components/separator';
 import { Spinner } from '@workspace/ui/components/spinner';
-import { HeaderButton } from '@workspace/ui/custom/header-button';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { useLayout } from '@/hooks/use-layout';
-
-function Notification({ notification }: { notification: Notification }) {
+function NotificationsItem({ notification }: { notification: Notification }) {
   return (
     <div className={cn('relative flex h-20 cursor-pointer flex-col justify-between border-t p-4 hover:bg-secondary', notification.starred && 'bg-primary text-white hover:bg-primary/85 dark:text-black')}>
       {!notification.read && <span className="absolute top-2 right-2 size-2 rounded-full bg-red-600" />}
@@ -31,17 +28,11 @@ function Notification({ notification }: { notification: Notification }) {
 
 export function NotificationsPopover() {
   const { isLoaded } = useAuth();
-  const { closeMobileChatbot } = useLayout();
 
   const [open, setOpen] = useState(false);
 
   const notifications = useQuery(api.notifications.list, isLoaded ? { limit: 8 } : 'skip');
   const hasUnread = notifications?.some((notification) => notification.read === false);
-
-  function handleClick() {
-    closeMobileChatbot();
-    setOpen(false);
-  }
 
   return (
     <Popover
@@ -49,10 +40,14 @@ export function NotificationsPopover() {
       onOpenChange={setOpen}
     >
       <PopoverTrigger asChild>
-        <HeaderButton className={cn('relative', open && 'dark:text-white')}>
+        <Button
+          size="icon"
+          variant="ghost"
+          className={cn('relative cursor-pointer bg-transparent! text-primary/85 hover:bg-transparent! dark:hover:text-white', open && 'dark:text-white')}
+        >
           <BellIcon className="size-5" />
           {hasUnread && <span className="absolute top-0 right-0 size-2 rounded-full bg-primary" />}
-        </HeaderButton>
+        </Button>
       </PopoverTrigger>
       <PopoverContent
         align="end"
@@ -65,7 +60,7 @@ export function NotificationsPopover() {
               <Button
                 variant="link"
                 className="h-fit cursor-pointer"
-                onClick={handleClick}
+                onClick={() => setOpen(false)}
               >
                 View all
               </Button>
@@ -87,10 +82,10 @@ export function NotificationsPopover() {
             {notifications?.map((notification) => (
               <Link
                 key={notification._id}
-                onClick={handleClick}
+                onClick={() => setOpen(false)}
                 href={`/notifications?search=${notification._id}`}
               >
-                <Notification notification={notification} />
+                <NotificationsItem notification={notification} />
               </Link>
             ))}
           </div>

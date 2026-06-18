@@ -11,10 +11,9 @@ import { Button } from '@workspace/ui/components/button';
 import { Popover, PopoverContent, PopoverHeader, PopoverTitle, PopoverTrigger } from '@workspace/ui/components/popover';
 import { Separator } from '@workspace/ui/components/separator';
 import { Spinner } from '@workspace/ui/components/spinner';
-import { HeaderButton } from '@workspace/ui/custom/header-button';
 import { cn } from '@workspace/ui/lib/utils';
 
-function Notification({ notification }: { notification: Notification }) {
+function NotificationsItem({ notification }: { notification: Notification }) {
   return (
     <div className={cn('relative flex h-20 cursor-pointer flex-col justify-between border-t p-4 hover:bg-secondary', notification.starred && 'bg-primary text-white hover:bg-primary/85 dark:text-black')}>
       {!notification.read && <span className="absolute top-2 right-2 size-2 rounded-full bg-red-600" />}
@@ -41,10 +40,14 @@ export function NotificationsPopover() {
       onOpenChange={setOpen}
     >
       <PopoverTrigger asChild>
-        <HeaderButton className={cn('relative', open && 'dark:text-white')}>
+        <Button
+          size="icon"
+          variant="ghost"
+          className={cn('relative cursor-pointer bg-transparent! text-primary/85 hover:bg-transparent! dark:hover:text-white', open && 'dark:text-white')}
+        >
           <BellIcon className="size-5" />
           {hasUnread && <span className="absolute top-0 right-0 size-2 rounded-full bg-primary" />}
-        </HeaderButton>
+        </Button>
       </PopoverTrigger>
       <PopoverContent
         align="end"
@@ -82,7 +85,7 @@ export function NotificationsPopover() {
                 onClick={() => setOpen(false)}
                 href={`/notifications?search=${notification._id}`}
               >
-                <Notification notification={notification} />
+                <NotificationsItem notification={notification} />
               </Link>
             ))}
           </div>
