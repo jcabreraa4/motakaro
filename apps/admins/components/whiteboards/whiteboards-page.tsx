@@ -51,9 +51,5 @@ function WhiteboardsLoaded({ preloaded }: WhiteboardsPageProps) {
     );
   }
 
-  return (
-    <main className="w-full">
-      <WhiteboardsCanvas whiteboard={whiteboard} />
-    </main>
-  );
+  return <WhiteboardsCanvas whiteboard={whiteboard} />;
 }

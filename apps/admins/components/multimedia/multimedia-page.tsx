@@ -53,7 +53,7 @@ function MultimediaLoaded({ preloaded }: MultimediaPageProps) {
   }
 
   return (
-    <main className="flex w-full flex-col gap-2 p-3 lg:gap-3 lg:p-5">
+    <main className="flex w-full flex-col gap-3 p-3 lg:gap-5 lg:p-5">
       <MultimediaToolbar file={file} />
       <MultimediaViewer file={file} />
     </main>

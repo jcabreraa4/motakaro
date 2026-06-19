@@ -11,6 +11,7 @@ import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import '@workspace/ui/globals.css';
 import { cn } from '@workspace/ui/lib/utils';
 import '@workspace/ui/tiptap.css';
+import '@workspace/ui/tldraw.css';
 
 import { ConvexProvider } from '@/components/providers/convex-provider';
 import { ThemeProvider } from '@/components/providers/theme-provider';

@@ -10,6 +10,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Input } from '@workspace/ui/components/input';
 import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger } from '@workspace/ui/components/menubar';
 import { Separator } from '@workspace/ui/components/separator';
+import { cn } from '@workspace/ui/lib/utils';
 
 import { DocumentsUpdate } from '@/components/documents/documents-update';
 import { useEditor } from '@/hooks/use-editor';
@@ -380,17 +381,12 @@ function LinkButton() {
   );
 }
 
-function ColorSwatch({ color, selected, onClick }: { color: string; selected: boolean; onClick: () => void }) {
+function ColorSwatch({ color, active, onClick }: { color?: string; active: boolean; onClick: () => void }) {
   return (
     <Button
       onClick={onClick}
-      className="size-6 cursor-pointer rounded-full transition-transform hover:scale-110"
-      style={{
-        backgroundColor: color,
-        border: '1.5px solid rgba(0,0,0,0.25)',
-        outline: selected ? '2px solid black' : 'none',
-        outlineOffset: '2px'
-      }}
+      style={color ? { backgroundColor: color } : undefined}
+      className={cn('size-6 cursor-pointer rounded-full border border-black/25 transition-transform hover:scale-110', !color && 'bg-black dark:bg-white', active && 'outline-2 outline-offset-2 outline-black dark:outline-white')}
     />
   );
 }
@@ -398,9 +394,9 @@ function ColorSwatch({ color, selected, onClick }: { color: string; selected: bo
 function HighlightColorButton() {
   const { editor } = useEditor();
 
-  const colors = ['#FFFFFF', '#FFD54F', '#AED581', '#81C784', '#4FC3F7', '#64B5F6', '#FF8A65', '#FFAB91', '#F48FB1', '#CE93D8', '#E0E0E0', '#BCAAA4'];
+  const colors = ['#FFD54F', '#AED581', '#81C784', '#4FC3F7', '#64B5F6', '#FF8A65', '#FFAB91', '#F48FB1', '#CE93D8', '#E0E0E0', '#BCAAA4'];
 
-  const value = editor?.getAttributes('highlight').color || '#FFFFFF';
+  const value = editor?.getAttributes('highlight').color;
 
   return (
     <DropdownMenu>
@@ -415,11 +411,15 @@ function HighlightColorButton() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-fit p-2">
         <div className="grid grid-cols-6 gap-1.5">
+          <ColorSwatch
+            active={!value}
+            onClick={() => editor?.chain().focus().unsetHighlight().run()}
+          />
           {colors.map((color) => (
             <ColorSwatch
               key={color}
               color={color}
-              selected={value === color}
+              active={value === color}
               onClick={() => editor?.chain().focus().setHighlight({ color }).run()}
             />
           ))}
@@ -432,9 +432,9 @@ function HighlightColorButton() {
 function TextColorButton() {
   const { editor } = useEditor();
 
-  const colors = ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#FFA500', '#800080', '#808080', '#FFC0CB', '#A52A2A'];
+  const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#FFA500', '#800080', '#808080', '#FFC0CB', '#A52A2A'];
 
-  const value = editor?.getAttributes('textStyle').color || '#000000';
+  const value = editor?.getAttributes('textStyle').color;
 
   return (
     <DropdownMenu>
@@ -454,11 +454,15 @@ function TextColorButton() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-fit p-2">
         <div className="grid grid-cols-6 gap-1.5">
+          <ColorSwatch
+            active={!value}
+            onClick={() => editor?.chain().focus().unsetColor().run()}
+          />
           {colors.map((color) => (
             <ColorSwatch
               key={color}
               color={color}
-              selected={value === color}
+              active={value === color}
               onClick={() => editor?.chain().focus().setColor(color).run()}
             />
           ))}

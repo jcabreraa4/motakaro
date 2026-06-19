@@ -151,17 +151,10 @@
 }
 
 /* Custom: Selection */
+
 ::selection {
   background-color: #007fd8;
   color: #ffffff;
-}
-
-/* Custom: Theme Animation */
-
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
 }
 
 /* Custom: Improve Printing */

@@ -64,6 +64,7 @@
   "exports": {
     "./globals.css": "./src/styles/globals.css",
     "./tiptap.css": "./src/styles/tiptap.css",
+    "./tldraw.css": "./src/styles/tldraw.css",
     "./postcss.config": "./postcss.config.mjs",
     "./lib/*": "./src/lib/*.ts",
     "./components/*": "./src/components/*.tsx",
