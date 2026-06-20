@@ -7,7 +7,7 @@ import { getClientAuth, verifyAdminAuth, verifyClientAuth } from './auth';
 export const list = query({
   args: {
     limit: v.optional(v.number()),
-    companyId: v.optional(v.id('companies'))
+    organizationId: v.optional(v.id('organizations'))
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -16,7 +16,7 @@ export const list = query({
     // Return Notifications
     const query = ctx.db
       .query('notifications')
-      .withIndex('by_companyId', (q) => q.eq('companyId', args.companyId))
+      .withIndex('by_organizationId', (q) => q.eq('organizationId', args.organizationId))
       .order('desc');
     return args.limit ? await query.take(args.limit) : await query.collect();
   }
@@ -71,20 +71,20 @@ export const clientList = query({
     const identity = await getClientAuth(ctx);
     if (!identity) return null;
 
-    // Obtain Company
+    // Obtain Organization
     const clerkId = identity.org_id as string;
     if (!clerkId) throw new ConvexError('Organization not found');
 
-    const company = await ctx.db
-      .query('companies')
+    const organization = await ctx.db
+      .query('organizations')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
       .first();
-    if (!company) throw new ConvexError('Company not found');
+    if (!organization) throw new ConvexError('Organization not found');
 
     // Return Notifications
     const query = ctx.db
       .query('notifications')
-      .withIndex('by_companyId', (q) => q.eq('companyId', company._id))
+      .withIndex('by_organizationId', (q) => q.eq('organizationId', organization._id))
       .order('desc');
     return args.limit ? await query.take(args.limit) : await query.collect();
   }
@@ -99,22 +99,22 @@ export const clientUpdate = mutation({
     // Obtain Identity
     const identity = await verifyClientAuth(ctx);
 
-    // Obtain Company
+    // Obtain Organization
     const clerkId = identity.org_id as string;
     if (!clerkId) throw new ConvexError('Organization not found');
 
-    const company = await ctx.db
-      .query('companies')
+    const organization = await ctx.db
+      .query('organizations')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
       .first();
-    if (!company) throw new ConvexError('Company not found');
+    if (!organization) throw new ConvexError('Organization not found');
 
     // Obtain Notification
     const notification = await ctx.db.get(args.id);
     if (!notification) throw new ConvexError('Notification not found');
 
     // Check Ownership
-    if (notification.companyId !== company._id) {
+    if (notification.organizationId !== organization._id) {
       throw new ConvexError('Unauthorized');
     }
 

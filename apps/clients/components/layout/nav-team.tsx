@@ -10,7 +10,7 @@ import { BuildingIcon, ChevronsUpDown } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Company } from '@workspace/backend/schema';
+import { Organization } from '@workspace/backend/schema';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@workspace/ui/components/sidebar';
@@ -99,21 +99,21 @@ function TeamSettings({ name, plan, logo }: TeamSettingsProps) {
 }
 
 interface TeamSelectorProps {
-  companies: Company[];
-  activeCompany: Company;
-  setActiveCompany: (company: Company) => void;
+  organizations: Organization[];
+  activeOrganization: Organization;
+  setActiveOrganization: (organization: Organization) => void;
 }
 
-function TeamSelector({ companies, activeCompany, setActiveCompany }: TeamSelectorProps) {
+function TeamSelector({ organizations, activeOrganization, setActiveOrganization }: TeamSelectorProps) {
   const { isMobile } = useSidebar();
   const { setActive } = useOrganizationList();
 
-  const otherCompanies = companies.filter((company) => company._id !== activeCompany._id);
+  const otherOrganizations = organizations.filter((organization) => organization._id !== activeOrganization._id);
 
-  async function handleSwitch(company: Company) {
-    setActiveCompany(company);
+  async function handleSwitch(organization: Organization) {
+    setActiveOrganization(organization);
     if (setActive) {
-      await setActive({ organization: company.clerkId }).finally(() => {
+      await setActive({ organization: organization.clerkId }).finally(() => {
         toast.success('Organization switched successfully.');
       });
     }
@@ -130,9 +130,9 @@ function TeamSelector({ companies, activeCompany, setActiveCompany }: TeamSelect
               className="cursor-pointer bg-sidebar data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <TeamData
-                name={activeCompany.name}
-                plan={activeCompany.plan}
-                logo={activeCompany.logo}
+                name={activeOrganization.name}
+                plan={activeOrganization.plan}
+                logo={activeOrganization.logo}
                 className="select-none"
               />
               <ChevronsUpDown className="ml-auto" />
@@ -145,16 +145,16 @@ function TeamSelector({ companies, activeCompany, setActiveCompany }: TeamSelect
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
           >
             <DropdownMenuLabel className="text-xs text-muted-foreground select-none">Other Organizations</DropdownMenuLabel>
-            {otherCompanies.map((company) => (
+            {otherOrganizations.map((organization) => (
               <DropdownMenuItem
-                key={company._id}
-                onClick={() => handleSwitch(company)}
+                key={organization._id}
+                onClick={() => handleSwitch(organization)}
                 className="cursor-pointer gap-2 p-2"
               >
                 <TeamData
-                  name={company.name}
-                  plan={company.plan}
-                  logo={company.logo}
+                  name={organization.name}
+                  plan={organization.plan}
+                  logo={organization.logo}
                 />
               </DropdownMenuItem>
             ))}
@@ -165,21 +165,21 @@ function TeamSelector({ companies, activeCompany, setActiveCompany }: TeamSelect
   );
 }
 
-export function NavTeam({ teams }: { teams: Company[] }) {
+export function NavTeam({ teams }: { teams: Organization[] }) {
   const { organization } = useOrganization();
 
-  const companies = useQuery(api.companies.clientList);
+  const organizations = useQuery(api.organizations.clientList);
 
-  const [activeCompany, setActiveCompany] = useState<Company | null>(null);
+  const [activeOrganization, setActiveOrganization] = useState<Organization | null>(null);
 
   useEffect(() => {
-    if (organization?.id && companies && companies[0]) {
-      const active = companies.find((company) => company.clerkId === organization.id);
-      if (active) setActiveCompany(active);
+    if (organization?.id && organizations && organizations[0]) {
+      const active = organizations.find((org) => org.clerkId === organization.id);
+      if (active) setActiveOrganization(active);
     }
-  }, [organization?.id, companies]);
+  }, [organization?.id, organizations]);
 
-  if (!activeCompany && teams.length === 1) {
+  if (!activeOrganization && teams.length === 1) {
     return (
       <TeamSettings
         name={teams[0]!.name}
@@ -189,23 +189,23 @@ export function NavTeam({ teams }: { teams: Company[] }) {
     );
   }
 
-  if (!activeCompany) return <TeamSkeleton />;
+  if (!activeOrganization) return <TeamSkeleton />;
 
-  if (!companies || companies.length === 1) {
+  if (!organizations || organizations.length === 1) {
     return (
       <TeamSettings
-        name={activeCompany.name}
-        plan={activeCompany.plan}
-        logo={activeCompany.logo}
+        name={activeOrganization.name}
+        plan={activeOrganization.plan}
+        logo={activeOrganization.logo}
       />
     );
   }
 
   return (
     <TeamSelector
-      companies={companies}
-      activeCompany={activeCompany}
-      setActiveCompany={setActiveCompany}
+      organizations={organizations}
+      activeOrganization={activeOrganization}
+      setActiveOrganization={setActiveOrganization}
     />
   );
 }

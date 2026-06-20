@@ -29,11 +29,6 @@ const sections: Section[] = [
         icon: LayoutDashboardIcon
       },
       {
-        title: 'Analytics',
-        url: '/analytics',
-        icon: ChartColumnBigIcon
-      },
-      {
         title: 'Meetings',
         url: '/meetings',
         icon: HeadsetIcon
@@ -69,6 +64,11 @@ const sections: Section[] = [
     title: 'Database',
     items: [
       {
+        title: 'Analytics',
+        url: '/analytics',
+        icon: ChartColumnBigIcon
+      },
+      {
         title: 'Contacts',
         url: '/contacts',
         icon: UsersIcon
@@ -100,7 +100,7 @@ export function NavMain() {
     <>
       {sections.map((section, index) => (
         <SidebarGroup key={index}>
-          <SidebarGroupLabel className="pointer-events-none select-none">{section.title}</SidebarGroupLabel>
+          <SidebarGroupLabel className="select-none">{section.title}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {section.items.map((item) => (

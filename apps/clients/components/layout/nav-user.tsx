@@ -51,21 +51,20 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
   const { theme, setTheme } = useTheme();
   const { signOut, openUserProfile, openOrganizationProfile } = useClerk();
 
-  const contact = useQuery(api.contacts.clientGet, isLoaded ? {} : 'skip');
-  const updateContact = useMutation(api.contacts.clientUpdate);
+  const client = useQuery(api.clients.clientGet, isLoaded ? {} : 'skip');
+  const updateClient = useMutation(api.clients.clientUpdate);
 
   // Indicate Presence
   useEffect(() => {
     if (!isLoaded) return;
-    updateContact({});
-    const interval = setInterval(() => updateContact({}), 50000);
+    updateClient({});
+    const interval = setInterval(() => updateClient({}), 50000);
     return () => clearInterval(interval);
-  }, [isLoaded, updateContact]);
+  }, [isLoaded, updateClient]);
 
-  // Select Data
-  const displayName = contact ? `${contact.name} ${contact.surname}` : name;
-  const displayEmail = contact?.email ?? email;
-  const displayAvatar = contact?.avatar ?? avatar;
+  const displayName = client ? `${client.name} ${client.surname}` : name;
+  const displayEmail = client?.email ?? email;
+  const displayAvatar = client?.avatar ?? avatar;
 
   return (
     <SidebarMenu>

@@ -52,8 +52,8 @@ export function AppChatbot() {
   const [lastInput, setLastInput] = useState('');
 
   // Request Data
-  const employee = useQuery(api.employees.get, isLoaded ? {} : 'skip');
-  const system = `User's name is: ${employee?.name} ${employee?.surname}. User's role within Motakaro is: ${employee?.role}. Current location within the app: ${pathname}.`;
+  const admin = useQuery(api.admins.get, isLoaded ? {} : 'skip');
+  const system = `User's name is: ${admin?.name} ${admin?.surname}. User's role within Motakaro is: ${admin?.role}. Current location within the app: ${pathname}.`;
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   function handleSubmit() {

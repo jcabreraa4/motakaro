@@ -64,27 +64,27 @@ function HeaderBreadcrumb() {
 function UserPresence({ className }: { className?: string }) {
   const { userId, isLoaded } = useAuth();
 
-  const employees = useQuery(api.employees.list, isLoaded ? { filter: 'actives' } : 'skip');
-  const filteredEmployees = employees?.filter((employee) => employee.clerkId !== userId);
+  const admins = useQuery(api.admins.list, isLoaded ? { filter: 'actives' } : 'skip');
+  const filteredAdmins = admins?.filter((admin) => admin.clerkId !== userId);
 
-  if (!filteredEmployees || filteredEmployees.length === 0) return null;
+  if (!filteredAdmins || filteredAdmins.length === 0) return null;
 
   return (
     <>
       <div className={cn('flex items-center gap-2', className)}>
-        {filteredEmployees.map((employee) => (
-          <Tooltip key={employee._id}>
+        {filteredAdmins.map((admin) => (
+          <Tooltip key={admin._id}>
             <TooltipTrigger asChild>
               <div className="relative cursor-default">
                 <Avatar className="size-6">
-                  <AvatarImage src={employee.avatar} />
-                  <AvatarFallback className="text-xs">{employee.name?.[0]?.toUpperCase() ?? '?'}</AvatarFallback>
+                  <AvatarImage src={admin.avatar} />
+                  <AvatarFallback className="text-xs">{admin.name?.[0]?.toUpperCase() ?? '?'}</AvatarFallback>
                 </Avatar>
                 <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full border border-background bg-green-500" />
               </div>
             </TooltipTrigger>
             <TooltipContent side="bottom">
-              <p>{`${employee.name ?? ''} ${employee.surname ?? ''}`.trim()}</p>
+              <p>{`${admin.name ?? ''} ${admin.surname ?? ''}`.trim()}</p>
             </TooltipContent>
           </Tooltip>
         ))}

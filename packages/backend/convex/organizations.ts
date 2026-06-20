@@ -14,8 +14,8 @@ export const list = query({
     // Check Identity
     await verifyAdminAuth(ctx);
 
-    // Return Companies
-    const query = ctx.db.query('companies').order('desc');
+    // Return Organizations
+    const query = ctx.db.query('organizations').order('desc');
     return args.limit ? await query.take(args.limit) : await query.collect();
   }
 });
@@ -30,12 +30,12 @@ export const get = query({
     await verifyAdminAuth(ctx);
 
     try {
-      // Return Company
+      // Return Organization
       if (args.id) {
-        return await ctx.db.get(args.id as Id<'companies'>);
+        return await ctx.db.get(args.id as Id<'organizations'>);
       } else if (args.clerkId) {
         return await ctx.db
-          .query('companies')
+          .query('organizations')
           .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId!))
           .first();
       }
@@ -53,22 +53,22 @@ export const clientList = query({
     const identity = await getClientAuth(ctx);
     if (!identity) return null;
 
-    // Obtain Contact
-    const contact = await ctx.db
-      .query('contacts')
+    // Obtain Client
+    const client = await ctx.db
+      .query('clients')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', identity.subject))
       .first();
-    if (!contact) throw new ConvexError('Contact not found');
+    if (!client) throw new ConvexError('Client not found');
 
     // Obtain Memberships
     const memberships = await ctx.db
       .query('memberships')
-      .withIndex('by_contactId', (q) => q.eq('contactId', contact._id))
+      .withIndex('by_clientId', (q) => q.eq('clientId', client._id))
       .collect();
 
-    // Return Companies
-    const companies = await Promise.all(memberships.map((membership) => ctx.db.get(membership.companyId)));
-    return companies.filter((company) => company !== null);
+    // Return Organizations
+    const organizations = await Promise.all(memberships.map((membership) => ctx.db.get(membership.organizationId)));
+    return organizations.filter((organization) => organization !== null);
   }
 });
 
@@ -81,18 +81,18 @@ export const internalUpsert = internalMutation({
     logo: v.string()
   },
   handler: async (ctx, args) => {
-    // Obtain Company
-    const company = await ctx.db
-      .query('companies')
+    // Obtain Organization
+    const organization = await ctx.db
+      .query('organizations')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
 
-    if (company) {
-      // Update Company
-      await ctx.db.patch(company._id, { ...args, updated: Date.now() });
+    if (organization) {
+      // Update Organization
+      await ctx.db.patch(organization._id, { ...args, updated: Date.now() });
     } else {
-      // Create Company
-      await ctx.db.insert('companies', {
+      // Create Organization
+      await ctx.db.insert('organizations', {
         clerkId: args.clerkId,
         name: args.name,
         logo: args.logo,
@@ -111,22 +111,22 @@ export const internalRemove = internalMutation({
     clerkId: v.string()
   },
   handler: async (ctx, args) => {
-    // Obtain Company
-    const company = await ctx.db
-      .query('companies')
+    // Obtain Organization
+    const organization = await ctx.db
+      .query('organizations')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
-    if (!company) throw new ConvexError('Company not found');
+    if (!organization) throw new ConvexError('Organization not found');
 
     // Remove Memberships
     const memberships = await ctx.db
       .query('memberships')
-      .withIndex('by_companyId', (q) => q.eq('companyId', company._id))
+      .withIndex('by_organizationId', (q) => q.eq('organizationId', organization._id))
       .collect();
     await Promise.all(memberships.map((m) => ctx.db.delete(m._id)));
 
-    // Remove Company
-    await ctx.db.delete(company._id);
+    // Remove Organization
+    await ctx.db.delete(organization._id);
   }
 });
 
@@ -136,15 +136,15 @@ export const internalUpdate = internalMutation({
     plan: v.union(v.literal('onboarding'), v.literal('rollout'), v.literal('scaling'))
   },
   handler: async (ctx, args) => {
-    // Obtain Company
-    const company = await ctx.db
-      .query('companies')
+    // Obtain Organization
+    const organization = await ctx.db
+      .query('organizations')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
-    if (!company) throw new ConvexError('Company not found');
+    if (!organization) throw new ConvexError('Organization not found');
 
-    // Update Company
-    await ctx.db.patch(company._id, { ...args, updated: Date.now() });
+    // Update Organization
+    await ctx.db.patch(organization._id, { ...args, updated: Date.now() });
   }
 });
 

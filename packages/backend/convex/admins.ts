@@ -16,14 +16,14 @@ export const list = query({
     if (args.filter) {
       const threshold = Date.now() - 60000;
       const query = ctx.db
-        .query('employees')
+        .query('admins')
         .filter((q) => q.gte(q.field('seen'), threshold))
         .order('desc');
       return args.limit ? await query.take(args.limit) : await query.collect();
     }
 
-    // Return Employees
-    const query = ctx.db.query('employees').order('desc');
+    // Return Admins
+    const query = ctx.db.query('admins').order('desc');
     return args.limit ? await query.take(args.limit) : await query.collect();
   }
 });
@@ -34,9 +34,9 @@ export const get = query({
     const identity = await verifyAdminAuth(ctx);
 
     try {
-      // Return Employee
+      // Return Admin
       return await ctx.db
-        .query('employees')
+        .query('admins')
         .withIndex('by_clerkId', (q) => q.eq('clerkId', identity.subject))
         .first();
     } catch {
@@ -53,15 +53,15 @@ export const update = mutation({
     // Obtain Identity
     const identity = await verifyAdminAuth(ctx);
 
-    // Obtain Employee
-    const employee = await ctx.db
-      .query('employees')
+    // Obtain Admin
+    const admin = await ctx.db
+      .query('admins')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', identity.subject))
       .first();
-    if (!employee) throw new ConvexError('Employee not found');
+    if (!admin) throw new ConvexError('Admin not found');
 
-    // Update Employee
-    await ctx.db.patch(employee._id, {
+    // Update Admin
+    await ctx.db.patch(admin._id, {
       ...(args.onboarded !== undefined ? { onboarded: args.onboarded } : {}),
       updated: Date.now(),
       seen: Date.now()
@@ -80,18 +80,18 @@ export const internalUpsert = internalMutation({
     avatar: v.string()
   },
   handler: async (ctx, args) => {
-    // Obtain Employee
-    const employee = await ctx.db
-      .query('employees')
+    // Obtain Admin
+    const admin = await ctx.db
+      .query('admins')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
 
-    if (employee) {
-      // Update Employee
-      await ctx.db.patch(employee._id, { ...args, updated: Date.now() });
+    if (admin) {
+      // Update Admin
+      await ctx.db.patch(admin._id, { ...args, updated: Date.now() });
     } else {
-      // Create Employee
-      await ctx.db.insert('employees', {
+      // Create Admin
+      await ctx.db.insert('admins', {
         clerkId: args.clerkId,
         email: args.email,
         name: args.name,
@@ -110,14 +110,14 @@ export const internalRemove = internalMutation({
     clerkId: v.string()
   },
   handler: async (ctx, args) => {
-    // Obtain Employee
-    const employee = await ctx.db
-      .query('employees')
+    // Obtain Admin
+    const admin = await ctx.db
+      .query('admins')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
-    if (!employee) throw new ConvexError('Employee not found');
+    if (!admin) throw new ConvexError('Admin not found');
 
-    // Remove Employee
-    await ctx.db.delete(employee._id);
+    // Remove Admin
+    await ctx.db.delete(admin._id);
   }
 });

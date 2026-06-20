@@ -1,8 +1,3 @@
-'use client';
-
-import { Tldraw } from 'tldraw';
-import 'tldraw/tldraw.css';
-
-export default function Whiteboard() {
-  return <Tldraw />;
+export default function Page() {
+  return <main>Company Documents</main>;
 }

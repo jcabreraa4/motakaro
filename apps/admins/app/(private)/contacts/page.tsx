@@ -11,7 +11,7 @@ import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 export default function Page() {
   const { isLoaded } = useAuth();
-  const contacts = useQuery(api.contacts.list, isLoaded ? {} : 'skip');
+  const contacts = useQuery(api.clients.list, isLoaded ? {} : 'skip');
 
   if (!contacts) return <GenericLoader />;
 

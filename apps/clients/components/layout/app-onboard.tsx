@@ -12,19 +12,19 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 export function AppOnboard() {
   const { isLoaded } = useAuth();
 
-  const contact = useQuery(api.contacts.clientGet, isLoaded ? {} : 'skip');
-  const updateContact = useMutation(api.contacts.clientUpdate);
+  const client = useQuery(api.clients.clientGet, isLoaded ? {} : 'skip');
+  const updateClient = useMutation(api.clients.clientUpdate);
 
   function completeOnboarding() {
-    updateContact({ onboarded: true }).finally(() => {
+    updateClient({ onboarded: true }).finally(() => {
       toast.success('Onboarding completed successfully!');
     });
   }
 
-  if (!contact) return null;
+  if (!client) return null;
 
   return (
-    <Dialog open={!contact.onboarded}>
+    <Dialog open={!client.onboarded}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Onboarding</DialogTitle>

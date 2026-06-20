@@ -7,7 +7,7 @@ import { verifyAdminAuth } from './auth';
 export const list = query({
   args: {
     limit: v.optional(v.number()),
-    companyId: v.optional(v.id('companies'))
+    organizationId: v.optional(v.id('organizations'))
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -16,7 +16,7 @@ export const list = query({
     // Return Whiteboards
     const query = ctx.db
       .query('whiteboards')
-      .withIndex('by_companyId_updated', (q) => q.eq('companyId', args.companyId))
+      .withIndex('by_organizationId_updated', (q) => q.eq('organizationId', args.organizationId))
       .order('desc');
     return args.limit ? await query.take(args.limit) : await query.collect();
   }

@@ -17,14 +17,14 @@ export const list = query({
     if (args.filter) {
       const threshold = Date.now() - 60000;
       const query = ctx.db
-        .query('contacts')
+        .query('clients')
         .filter((q) => q.gte(q.field('seen'), threshold))
         .order('desc');
       return args.limit ? await query.take(args.limit) : await query.collect();
     }
 
-    // Return Contacts
-    const query = ctx.db.query('contacts').order('desc');
+    // Return Clients
+    const query = ctx.db.query('clients').order('desc');
     return args.limit ? await query.take(args.limit) : await query.collect();
   }
 });
@@ -39,12 +39,12 @@ export const get = query({
     await verifyAdminAuth(ctx);
 
     try {
-      // Return Contact
+      // Return Client
       if (args.id) {
-        return await ctx.db.get(args.id as Id<'contacts'>);
+        return await ctx.db.get(args.id as Id<'clients'>);
       } else if (args.clerkId) {
         return await ctx.db
-          .query('contacts')
+          .query('clients')
           .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId!))
           .first();
       }
@@ -63,9 +63,9 @@ export const clientGet = query({
     if (!identity) return null;
 
     try {
-      // Return Contact
+      // Return Client
       return await ctx.db
-        .query('contacts')
+        .query('clients')
         .withIndex('by_clerkId', (q) => q.eq('clerkId', identity.subject))
         .first();
     } catch {
@@ -82,15 +82,15 @@ export const clientUpdate = mutation({
     // Obtain Identity
     const identity = await verifyClientAuth(ctx);
 
-    // Obtain Contact
-    const contact = await ctx.db
-      .query('contacts')
+    // Obtain Client
+    const client = await ctx.db
+      .query('clients')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', identity.subject))
       .first();
-    if (!contact) throw new ConvexError('Contact not found');
+    if (!client) throw new ConvexError('Client not found');
 
-    // Update Contact
-    await ctx.db.patch(contact._id, {
+    // Update Client
+    await ctx.db.patch(client._id, {
       ...(args.onboarded !== undefined ? { onboarded: args.onboarded } : {}),
       updated: Date.now(),
       seen: Date.now()
@@ -109,18 +109,18 @@ export const internalUpsert = internalMutation({
     avatar: v.string()
   },
   handler: async (ctx, args) => {
-    // Obtain Contact
-    const contact = await ctx.db
-      .query('contacts')
+    // Obtain Client
+    const client = await ctx.db
+      .query('clients')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
 
-    if (contact) {
-      // Update Contact
-      await ctx.db.patch(contact._id, { ...args, updated: Date.now() });
+    if (client) {
+      // Update Client
+      await ctx.db.patch(client._id, { ...args, updated: Date.now() });
     } else {
-      // Create Contact
-      await ctx.db.insert('contacts', {
+      // Create Client
+      await ctx.db.insert('clients', {
         clerkId: args.clerkId,
         email: args.email,
         name: args.name,
@@ -139,21 +139,21 @@ export const internalRemove = internalMutation({
     clerkId: v.string()
   },
   handler: async (ctx, args) => {
-    // Obtain Contact
-    const contact = await ctx.db
-      .query('contacts')
+    // Obtain Client
+    const client = await ctx.db
+      .query('clients')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clerkId))
       .first();
-    if (!contact) throw new ConvexError('Contact not found');
+    if (!client) throw new ConvexError('Client not found');
 
     // Remove Memberships
     const memberships = await ctx.db
       .query('memberships')
-      .withIndex('by_contactId', (q) => q.eq('contactId', contact._id))
+      .withIndex('by_clientId', (q) => q.eq('clientId', client._id))
       .collect();
     await Promise.all(memberships.map((m) => ctx.db.delete(m._id)));
 
-    // Remove Contact
-    await ctx.db.delete(contact._id);
+    // Remove Client
+    await ctx.db.delete(client._id);
   }
 });

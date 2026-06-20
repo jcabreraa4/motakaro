@@ -5,7 +5,7 @@ import { Doc } from './_generated/dataModel';
 
 export default defineSchema({
   // Motakaro Admins
-  employees: defineTable({
+  admins: defineTable({
     // Primary Columns
     clerkId: v.string(),
     email: v.string(),
@@ -28,7 +28,7 @@ export default defineSchema({
   }).index('by_clerkId', ['clerkId']),
 
   // Motakaro Clients
-  contacts: defineTable({
+  clients: defineTable({
     // Primary Columns
     clerkId: v.string(),
     email: v.string(),
@@ -50,8 +50,8 @@ export default defineSchema({
     linkedin: v.optional(v.string())
   }).index('by_clerkId', ['clerkId']),
 
-  // Motakaro Companies
-  companies: defineTable({
+  // Motakaro Organizations
+  organizations: defineTable({
     // Primary Columns
     clerkId: v.string(),
     name: v.string(),
@@ -86,21 +86,21 @@ export default defineSchema({
     link: v.optional(v.string()),
 
     // Relationship Columns
-    companyId: v.id('companies')
+    organizationId: v.id('organizations')
   }),
 
-  // Contacts Companies Relationships
+  // Clients Organizations Relationships
   memberships: defineTable({
     // Primary Columns
-    contactId: v.id('contacts'),
-    companyId: v.id('companies'),
+    clientId: v.id('clients'),
+    organizationId: v.id('organizations'),
     orgRole: v.union(v.literal('org:member'), v.literal('org:admin')),
 
     updated: v.number()
   })
-    .index('by_contactId', ['contactId'])
-    .index('by_companyId', ['companyId'])
-    .index('by_contactId_companyId', ['contactId', 'companyId']),
+    .index('by_clientId', ['clientId'])
+    .index('by_organizationId', ['organizationId'])
+    .index('by_clientId_organizationId', ['clientId', 'organizationId']),
 
   // Users Notifications
   notifications: defineTable({
@@ -117,8 +117,8 @@ export default defineSchema({
     link: v.optional(v.string()),
 
     // Relationship Columns
-    companyId: v.optional(v.id('companies'))
-  }).index('by_companyId', ['companyId']),
+    organizationId: v.optional(v.id('organizations'))
+  }).index('by_organizationId', ['organizationId']),
 
   // Calcom Meetings
   meetings: defineTable({
@@ -159,8 +159,8 @@ export default defineSchema({
     updated: v.number(),
 
     // Relationship Columns
-    companyId: v.optional(v.id('companies'))
-  }).index('by_companyId_updated', ['companyId', 'updated']),
+    organizationId: v.optional(v.id('organizations'))
+  }).index('by_organizationId_updated', ['organizationId', 'updated']),
 
   // Company Whiteboards
   whiteboards: defineTable({
@@ -173,8 +173,8 @@ export default defineSchema({
     updated: v.number(),
 
     // Relationship Columns
-    companyId: v.optional(v.id('companies'))
-  }).index('by_companyId_updated', ['companyId', 'updated']),
+    organizationId: v.optional(v.id('organizations'))
+  }).index('by_organizationId_updated', ['organizationId', 'updated']),
 
   // Company Multimedia
   multimedia: defineTable({
@@ -196,10 +196,10 @@ export default defineSchema({
     height: v.optional(v.number()),
 
     // Relationship Columns
-    companyId: v.optional(v.id('companies'))
+    organizationId: v.optional(v.id('organizations'))
   })
-    .index('by_companyId_updated', ['companyId', 'updated'])
-    .index('by_companyId_clientVisible', ['companyId', 'clientVisible']),
+    .index('by_organizationId_updated', ['organizationId', 'updated'])
+    .index('by_organizationId_clientVisible', ['organizationId', 'clientVisible']),
 
   // Website Resources
   resources: defineTable({
@@ -218,9 +218,9 @@ export default defineSchema({
     .index('by_published', ['published'])
 });
 
-export type Employee = Doc<'employees'>;
-export type Contact = Doc<'contacts'>;
-export type Company = Doc<'companies'>;
+export type Admin = Doc<'admins'>;
+export type Client = Doc<'clients'>;
+export type Organization = Doc<'organizations'>;
 export type Invoice = Doc<'invoices'>;
 export type Membership = Doc<'memberships'>;
 export type Notification = Doc<'notifications'>;

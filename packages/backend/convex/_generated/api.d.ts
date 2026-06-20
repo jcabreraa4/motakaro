@@ -8,17 +8,17 @@
  * @module
  */
 
+import type * as admins from "../admins.js";
 import type * as auth from "../auth.js";
-import type * as companies from "../companies.js";
-import type * as contacts from "../contacts.js";
+import type * as clients from "../clients.js";
 import type * as documents from "../documents.js";
-import type * as employees from "../employees.js";
 import type * as env from "../env.js";
 import type * as http from "../http.js";
 import type * as meetings from "../meetings.js";
 import type * as memberships from "../memberships.js";
 import type * as multimedia from "../multimedia.js";
 import type * as notifications from "../notifications.js";
+import type * as organizations from "../organizations.js";
 import type * as prosemirror from "../prosemirror.js";
 import type * as resources from "../resources.js";
 import type * as whiteboards from "../whiteboards.js";
@@ -30,17 +30,17 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  admins: typeof admins;
   auth: typeof auth;
-  companies: typeof companies;
-  contacts: typeof contacts;
+  clients: typeof clients;
   documents: typeof documents;
-  employees: typeof employees;
   env: typeof env;
   http: typeof http;
   meetings: typeof meetings;
   memberships: typeof memberships;
   multimedia: typeof multimedia;
   notifications: typeof notifications;
+  organizations: typeof organizations;
   prosemirror: typeof prosemirror;
   resources: typeof resources;
   whiteboards: typeof whiteboards;

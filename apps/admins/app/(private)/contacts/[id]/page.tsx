@@ -9,7 +9,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   const { id } = await params;
 
   const { token } = await runConvex();
-  const contact = await preloadQuery(api.contacts.get, { id }, { token });
+  const contact = await preloadQuery(api.clients.get, { id }, { token });
 
   return <ContactsPage preloaded={contact} />;
 }

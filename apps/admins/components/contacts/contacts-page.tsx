@@ -14,7 +14,7 @@ import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 import { useHeader } from '@/hooks/use-header';
 
 interface ContactsPageProps {
-  preloaded: Preloaded<typeof api.contacts.get>;
+  preloaded: Preloaded<typeof api.clients.get>;
 }
 
 export function ContactsPage({ preloaded }: ContactsPageProps) {

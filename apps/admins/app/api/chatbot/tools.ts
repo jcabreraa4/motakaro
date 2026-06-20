@@ -75,7 +75,7 @@ export function chatbotTools(convex: ConvexHttpClient) {
       async execute() {
         try {
           // Obtain Contacts
-          const contacts = await convex.query(api.contacts.list, {});
+          const contacts = await convex.query(api.clients.list, {});
 
           // Return Contacts
           if (!contacts || contacts.length === 0) {
@@ -104,7 +104,7 @@ export function chatbotTools(convex: ConvexHttpClient) {
       async execute({ id }) {
         try {
           // Obtain Contact
-          const contact = await convex.query(api.contacts.get, { id });
+          const contact = await convex.query(api.clients.get, { id });
 
           // Return Contact
           if (!contact) {
@@ -126,59 +126,59 @@ export function chatbotTools(convex: ConvexHttpClient) {
       }
     }),
 
-    // Companies Tools
-    companiesList: tool({
-      description: 'List all companies.',
+    // Organizations Tools
+    organizationsList: tool({
+      description: 'List all organizations.',
       inputSchema: z.object(),
       async execute() {
         try {
-          // Obtain Companies
-          const companies = await convex.query(api.companies.list, {});
+          // Obtain Organizations
+          const organizations = await convex.query(api.organizations.list, {});
 
-          // Return Companies
-          if (!companies || companies.length === 0) {
+          // Return Organizations
+          if (!organizations || organizations.length === 0) {
             return {
               status: 200,
-              content: 'No companies found.'
+              content: 'No organizations found.'
             };
           }
           return {
             status: 200,
-            content: companies
+            content: organizations
           };
         } catch (error) {
           return {
             status: 500,
-            message: `Error loading companies: ${error}`
+            message: `Error loading organizations: ${error}`
           };
         }
       }
     }),
-    companiesGet: tool({
-      description: 'Get an specific company.',
+    organizationsGet: tool({
+      description: 'Get an specific organization.',
       inputSchema: z.object({
-        id: z.string().describe('The ID of the company.')
+        id: z.string().describe('The ID of the organization.')
       }),
       async execute({ id }) {
         try {
-          // Obtain Company
-          const company = await convex.query(api.companies.get, { id });
+          // Obtain Organization
+          const organization = await convex.query(api.organizations.get, { id });
 
-          // Return Company
-          if (!company) {
+          // Return Organization
+          if (!organization) {
             return {
               status: 200,
-              content: 'No company found.'
+              content: 'No organization found.'
             };
           }
           return {
             status: 200,
-            content: company
+            content: organization
           };
         } catch (error) {
           return {
             status: 500,
-            message: `Error loading company: ${error}`
+            message: `Error loading organization: ${error}`
           };
         }
       }
@@ -193,7 +193,7 @@ export function chatbotTools(convex: ConvexHttpClient) {
       async execute({ company }) {
         try {
           // Obtain Documents
-          const documents = await convex.query(api.documents.list, { companyId: company === 'motakaro' ? undefined : (company as Id<'companies'>) });
+          const documents = await convex.query(api.documents.list, { organizationId: company === 'motakaro' ? undefined : (company as Id<'organizations'>) });
 
           // Return Documents
           if (!documents || documents.length === 0) {
@@ -256,7 +256,7 @@ export function chatbotTools(convex: ConvexHttpClient) {
       async execute({ company }) {
         try {
           // Obtain Whiteboards
-          const whiteboards = await convex.query(api.whiteboards.list, { companyId: company === 'motakaro' ? undefined : (company as Id<'companies'>) });
+          const whiteboards = await convex.query(api.whiteboards.list, { organizationId: company === 'motakaro' ? undefined : (company as Id<'organizations'>) });
 
           // Return Whiteboards
           if (!whiteboards || whiteboards.length === 0) {
@@ -316,7 +316,7 @@ export function chatbotTools(convex: ConvexHttpClient) {
       async execute({ company }) {
         try {
           // Obtain Multimedia
-          const multimedia = await convex.query(api.multimedia.list, { companyId: company === 'motakaro' ? undefined : (company as Id<'companies'>) });
+          const multimedia = await convex.query(api.multimedia.list, { organizationId: company === 'motakaro' ? undefined : (company as Id<'organizations'>) });
 
           // Return Multimedia
           if (!multimedia || multimedia.length === 0) {

@@ -6,29 +6,29 @@ import { internalMutation } from './_generated/server';
 
 export const internalUpsert = internalMutation({
   args: {
-    contactClerkId: v.string(),
-    companyClerkId: v.string(),
+    clientClerkId: v.string(),
+    organizationClerkId: v.string(),
     orgRole: v.union(v.literal('org:admin'), v.literal('org:member'))
   },
   handler: async (ctx, args) => {
-    // Obtain Contact
-    const contact = await ctx.db
-      .query('contacts')
-      .withIndex('by_clerkId', (q) => q.eq('clerkId', args.contactClerkId))
+    // Obtain Client
+    const client = await ctx.db
+      .query('clients')
+      .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clientClerkId))
       .first();
-    if (!contact) throw new ConvexError('Contact not found');
+    if (!client) throw new ConvexError('Client not found');
 
-    // Obtain Company
-    const company = await ctx.db
-      .query('companies')
-      .withIndex('by_clerkId', (q) => q.eq('clerkId', args.companyClerkId))
+    // Obtain Organization
+    const organization = await ctx.db
+      .query('organizations')
+      .withIndex('by_clerkId', (q) => q.eq('clerkId', args.organizationClerkId))
       .first();
-    if (!company) throw new ConvexError('Company not found');
+    if (!organization) throw new ConvexError('Organization not found');
 
     // Obtain Membership
     const membership = await ctx.db
       .query('memberships')
-      .withIndex('by_contactId_companyId', (q) => q.eq('contactId', contact._id).eq('companyId', company._id))
+      .withIndex('by_clientId_organizationId', (q) => q.eq('clientId', client._id).eq('organizationId', organization._id))
       .first();
 
     if (membership) {
@@ -40,8 +40,8 @@ export const internalUpsert = internalMutation({
     } else {
       // Create Membership
       await ctx.db.insert('memberships', {
-        contactId: contact._id,
-        companyId: company._id,
+        clientId: client._id,
+        organizationId: organization._id,
         orgRole: args.orgRole,
         updated: Date.now()
       });
@@ -51,28 +51,28 @@ export const internalUpsert = internalMutation({
 
 export const internalRemove = internalMutation({
   args: {
-    contactClerkId: v.string(),
-    companyClerkId: v.string()
+    clientClerkId: v.string(),
+    organizationClerkId: v.string()
   },
   handler: async (ctx, args) => {
-    // Obtain Contact
-    const contact = await ctx.db
-      .query('contacts')
-      .withIndex('by_clerkId', (q) => q.eq('clerkId', args.contactClerkId))
+    // Obtain Client
+    const client = await ctx.db
+      .query('clients')
+      .withIndex('by_clerkId', (q) => q.eq('clerkId', args.clientClerkId))
       .first();
-    if (!contact) return; // If contact already deleted, race condition
+    if (!client) return; // If client already deleted, race condition
 
-    // Obtain Company
-    const company = await ctx.db
-      .query('companies')
-      .withIndex('by_clerkId', (q) => q.eq('clerkId', args.companyClerkId))
+    // Obtain Organization
+    const organization = await ctx.db
+      .query('organizations')
+      .withIndex('by_clerkId', (q) => q.eq('clerkId', args.organizationClerkId))
       .first();
-    if (!company) return; // If company already deleted, race condition
+    if (!organization) return; // If organization already deleted, race condition
 
     // Obtain Membership
     const membership = await ctx.db
       .query('memberships')
-      .withIndex('by_contactId_companyId', (q) => q.eq('contactId', contact._id).eq('companyId', company._id))
+      .withIndex('by_clientId_organizationId', (q) => q.eq('clientId', client._id).eq('organizationId', organization._id))
       .first();
     if (!membership) throw new ConvexError('Membership not found');
 

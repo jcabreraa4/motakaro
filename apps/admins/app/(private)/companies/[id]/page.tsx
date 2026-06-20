@@ -9,7 +9,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
   const { id } = await params;
 
   const { token } = await runConvex();
-  const company = await preloadQuery(api.companies.get, { id }, { token });
+  const company = await preloadQuery(api.organizations.get, { id }, { token });
 
   return <CompaniesPage preloaded={company} />;
 }

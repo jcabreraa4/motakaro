@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { ChartColumnBigIcon, FileTextIcon, HeadsetIcon, ImageIcon, LayoutDashboardIcon, type LucideIcon, MessageSquareIcon, UsersIcon } from 'lucide-react';
+import { Building2Icon, ChartColumnBigIcon, FileTextIcon, HeadsetIcon, ImageIcon, LayoutDashboardIcon, type LucideIcon, MessageSquareIcon, UsersIcon } from 'lucide-react';
 
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
 import { cn } from '@workspace/ui/lib/utils';
@@ -20,7 +20,7 @@ type Section = {
 
 const sections: Section[] = [
   {
-    title: 'Dashboard',
+    title: 'Internal',
     items: [
       {
         title: 'Overview',
@@ -31,11 +31,6 @@ const sections: Section[] = [
         title: 'Meetings',
         url: '/meetings',
         icon: HeadsetIcon
-      },
-      {
-        title: 'Messages',
-        url: '/messages',
-        icon: MessageSquareIcon
       }
     ]
   },
@@ -63,9 +58,14 @@ const sections: Section[] = [
         icon: ChartColumnBigIcon
       },
       {
-        title: 'Prospects',
-        url: '/prospects',
+        title: 'Contacts',
+        url: '/contacts',
         icon: UsersIcon
+      },
+      {
+        title: 'Companies',
+        url: '/companies',
+        icon: Building2Icon
       }
     ]
   }
@@ -83,7 +83,7 @@ export function NavMain() {
     <>
       {sections.map((section, index) => (
         <SidebarGroup key={index}>
-          <SidebarGroupLabel className="pointer-events-none select-none">{section.title}</SidebarGroupLabel>
+          <SidebarGroupLabel className="select-none">{section.title}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {section.items.map((item) => (

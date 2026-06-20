@@ -20,8 +20,8 @@ http.route({
 
     // User Events
     if (event.type === 'user.created' || event.type === 'user.updated') {
-      // Upsert Employee
-      await ctx.runMutation(internal.employees.internalUpsert, {
+      // Upsert Admin
+      await ctx.runMutation(internal.admins.internalUpsert, {
         email: event.data.email_addresses[0]?.email_address,
         name: event.data.first_name ?? '',
         surname: event.data.last_name ?? '',
@@ -29,8 +29,8 @@ http.route({
         clerkId: event.data.id
       });
     } else if (event.type === 'user.deleted') {
-      // Remove Employee
-      await ctx.runMutation(internal.employees.internalRemove, {
+      // Remove Admin
+      await ctx.runMutation(internal.admins.internalRemove, {
         clerkId: event.data.id!
       });
     }
@@ -74,7 +74,7 @@ http.route({
     // User Events
     if (event.type === 'user.created' || event.type === 'user.updated') {
       // Upsert Contact
-      await ctx.runMutation(internal.contacts.internalUpsert, {
+      await ctx.runMutation(internal.clients.internalUpsert, {
         email: event.data.email_addresses[0].email_address,
         name: event.data.first_name ?? '',
         surname: event.data.last_name ?? '',
@@ -83,7 +83,7 @@ http.route({
       });
     } else if (event.type === 'user.deleted') {
       // Remove Contact
-      await ctx.runMutation(internal.contacts.internalRemove, {
+      await ctx.runMutation(internal.clients.internalRemove, {
         clerkId: event.data.id!
       });
     }
@@ -92,20 +92,20 @@ http.route({
     if (event.type === 'organization.created' || event.type === 'organization.updated') {
       // Disable Delete
       if (event.type === 'organization.created') {
-        await ctx.runAction(internal.companies.disableDelete, {
+        await ctx.runAction(internal.organizations.disableDelete, {
           clerkId: event.data.id
         });
       }
 
-      // Upsert Company
-      await ctx.runMutation(internal.companies.internalUpsert, {
+      // Upsert Organization
+      await ctx.runMutation(internal.organizations.internalUpsert, {
         name: event.data.name,
         logo: event.data.image_url ?? '',
         clerkId: event.data.id
       });
     } else if (event.type === 'organization.deleted') {
-      // Remove Company
-      await ctx.runMutation(internal.companies.internalRemove, {
+      // Remove Organization
+      await ctx.runMutation(internal.organizations.internalRemove, {
         clerkId: event.data.id!
       });
     }
@@ -114,15 +114,15 @@ http.route({
     if (event.type === 'organizationMembership.created' || event.type === 'organizationMembership.updated') {
       // Upsert Membership
       await ctx.runMutation(internal.memberships.internalUpsert, {
-        contactClerkId: event.data.public_user_data.user_id,
-        companyClerkId: event.data.organization.id,
+        clientClerkId: event.data.public_user_data.user_id,
+        organizationClerkId: event.data.organization.id,
         orgRole: event.data.role as OrgRole
       });
     } else if (event.type === 'organizationMembership.deleted') {
       // Remove Membership
       await ctx.runMutation(internal.memberships.internalRemove, {
-        contactClerkId: event.data.public_user_data.user_id,
-        companyClerkId: event.data.organization.id
+        clientClerkId: event.data.public_user_data.user_id,
+        organizationClerkId: event.data.organization.id
       });
     }
 
@@ -133,7 +133,7 @@ http.route({
 
       const plan = event.data.plan?.slug as OrgPlan;
 
-      await ctx.runMutation(internal.companies.internalUpdate, {
+      await ctx.runMutation(internal.organizations.internalUpdate, {
         plan: plan,
         clerkId: clerkId
       });

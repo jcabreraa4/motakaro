@@ -10,9 +10,5 @@ export function MeetingsCreate({ children }: { children: React.ReactElement }) {
     })();
   }, []);
 
-  return cloneElement(children as React.ReactElement, {
-    'data-cal-namespace': 'discovery',
-    'data-cal-link': 'jcabreraa4/discovery',
-    'data-cal-config': '{"layout":"month_view","useSlotsViewOnSmallScreen":"true","theme":"dark"}'
-  });
+  return cloneElement(children as React.ReactElement);
 }

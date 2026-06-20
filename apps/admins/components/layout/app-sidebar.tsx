@@ -2,10 +2,10 @@ import { Sidebar, SidebarContent, SidebarHeader } from '@workspace/ui/components
 
 import { NavMain } from '@/components/layout/nav-main';
 import { NavUser } from '@/components/layout/nav-user';
-import { getEmployee } from '@/server/get-employee';
+import { getUser } from '@/server/get-user';
 
 export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const employee = await getEmployee();
+  const user = await getUser();
 
   return (
     <Sidebar
@@ -15,9 +15,9 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
     >
       <SidebarHeader>
         <NavUser
-          name={`${employee!.name} ${employee!.surname}`}
-          email={employee!.email}
-          avatar={employee!.avatar}
+          name={`${user!.name} ${user!.surname}`}
+          email={user!.email}
+          avatar={user!.avatar}
         />
       </SidebarHeader>
       <SidebarContent>

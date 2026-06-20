@@ -7,7 +7,7 @@ import { getClientAuth, verifyAdminAuth, verifyClientAuth, verifyIdentity } from
 export const list = query({
   args: {
     limit: v.optional(v.number()),
-    companyId: v.optional(v.id('companies'))
+    organizationId: v.optional(v.id('organizations'))
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -16,7 +16,7 @@ export const list = query({
     // Return Multimedia
     const query = ctx.db
       .query('multimedia')
-      .withIndex('by_companyId_updated', (q) => q.eq('companyId', args.companyId))
+      .withIndex('by_organizationId_updated', (q) => q.eq('organizationId', args.organizationId))
       .order('desc');
     const multimedia = args.limit ? await query.take(args.limit) : await query.collect();
     return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await ctx.storage.getUrl(file.storageId) })));
@@ -56,7 +56,7 @@ export const create = mutation({
     width: v.optional(v.number()),
     height: v.optional(v.number()),
     storageId: v.id('_storage'),
-    companyId: v.optional(v.id('companies'))
+    organizationId: v.optional(v.id('organizations'))
   },
   handler: async (ctx, args) => {
     // Check Identity
@@ -73,7 +73,7 @@ export const create = mutation({
       starred: false,
       updated: Date.now(),
       storageId: args.storageId,
-      companyId: args.companyId,
+      organizationId: args.organizationId,
       clientVisible: false,
       clientStarred: false
     });
@@ -138,20 +138,20 @@ export const clientList = query({
     const identity = await getClientAuth(ctx);
     if (!identity) return null;
 
-    // Obtain Company
+    // Obtain Organization
     const clerkId = identity.org_id as string;
     if (!clerkId) throw new ConvexError('Organization not found');
 
-    const company = await ctx.db
-      .query('companies')
+    const organization = await ctx.db
+      .query('organizations')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
       .first();
-    if (!company) throw new ConvexError('Company not found');
+    if (!organization) throw new ConvexError('Organization not found');
 
     // Return Multimedia
     const query = ctx.db
       .query('multimedia')
-      .withIndex('by_companyId_clientVisible', (q) => q.eq('companyId', company._id).eq('clientVisible', true))
+      .withIndex('by_organizationId_clientVisible', (q) => q.eq('organizationId', organization._id).eq('clientVisible', true))
       .order('desc');
     const multimedia = args.limit ? await query.take(args.limit) : await query.collect();
     return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await ctx.storage.getUrl(file.storageId) })));
@@ -167,15 +167,15 @@ export const clientGet = query({
     const identity = await getClientAuth(ctx);
     if (!identity) return null;
 
-    // Obtain Company
+    // Obtain Organization
     const clerkId = identity.org_id as string;
     if (!clerkId) throw new ConvexError('Organization not found');
 
-    const company = await ctx.db
-      .query('companies')
+    const organization = await ctx.db
+      .query('organizations')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
       .first();
-    if (!company) throw new ConvexError('Company not found');
+    if (!organization) throw new ConvexError('Organization not found');
 
     try {
       // Obtain File
@@ -183,7 +183,7 @@ export const clientGet = query({
       if (!file) return null;
 
       // Check Ownership
-      if (file.companyId !== company._id) return null;
+      if (file.organizationId !== organization._id) return null;
 
       // Obtain Storage
       const url = await ctx.storage.getUrl(file.storageId);
@@ -210,15 +210,15 @@ export const clientCreate = mutation({
     // Obtain Identity
     const identity = await verifyClientAuth(ctx);
 
-    // Obtain Company
+    // Obtain Organization
     const clerkId = identity.org_id as string;
     if (!clerkId) throw new ConvexError('Organization not found');
 
-    const company = await ctx.db
-      .query('companies')
+    const organization = await ctx.db
+      .query('organizations')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
       .first();
-    if (!company) throw new ConvexError('Company not found');
+    if (!organization) throw new ConvexError('Organization not found');
 
     // Create File
     return await ctx.db.insert('multimedia', {
@@ -231,7 +231,7 @@ export const clientCreate = mutation({
       starred: false,
       updated: Date.now(),
       storageId: args.storageId,
-      companyId: company._id,
+      organizationId: organization._id,
       clientVisible: true,
       clientStarred: false
     });
@@ -246,22 +246,22 @@ export const clientRemove = mutation({
     // Obtain Identity
     const identity = await verifyClientAuth(ctx);
 
-    // Obtain Company
+    // Obtain Organization
     const clerkId = identity.org_id as string;
     if (!clerkId) throw new ConvexError('Organization not found');
 
-    const company = await ctx.db
-      .query('companies')
+    const organization = await ctx.db
+      .query('organizations')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
       .first();
-    if (!company) throw new ConvexError('Company not found');
+    if (!organization) throw new ConvexError('Organization not found');
 
     // Obtain File
     const file = await ctx.db.get(args.id);
     if (!file) throw new ConvexError('Media file not found');
 
     // Check Ownership
-    if (file.companyId !== company._id) {
+    if (file.organizationId !== organization._id) {
       throw new ConvexError('Unauthorized');
     }
 
@@ -282,22 +282,22 @@ export const clientUpdate = mutation({
     // Obtain Identity
     const identity = await verifyClientAuth(ctx);
 
-    // Obtain Company
+    // Obtain Organization
     const clerkId = identity.org_id as string;
     if (!clerkId) throw new ConvexError('Organization not found');
 
-    const company = await ctx.db
-      .query('companies')
+    const organization = await ctx.db
+      .query('organizations')
       .withIndex('by_clerkId', (q) => q.eq('clerkId', clerkId))
       .first();
-    if (!company) throw new ConvexError('Company not found');
+    if (!organization) throw new ConvexError('Organization not found');
 
     // Obtain File
     const file = await ctx.db.get(args.id);
     if (!file) throw new ConvexError('Media file not found');
 
     // Check Ownership
-    if (file.companyId !== company._id) {
+    if (file.organizationId !== organization._id) {
       throw new ConvexError('Unauthorized');
     }
 
