@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { HeadsetIcon, ImageIcon, LayoutDashboardIcon, type LucideIcon, MessageSquareIcon } from 'lucide-react';
+import { ChartColumnBigIcon, FileTextIcon, HeadsetIcon, ImageIcon, LayoutDashboardIcon, type LucideIcon, MessageSquareIcon, UsersIcon } from 'lucide-react';
 
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
 import { cn } from '@workspace/ui/lib/utils';
@@ -28,16 +28,6 @@ const sections: Section[] = [
         icon: LayoutDashboardIcon
       },
       {
-        title: 'Multimedia',
-        url: '/multimedia',
-        icon: ImageIcon
-      }
-    ]
-  },
-  {
-    title: 'Contact',
-    items: [
-      {
         title: 'Meetings',
         url: '/meetings',
         icon: HeadsetIcon
@@ -46,6 +36,36 @@ const sections: Section[] = [
         title: 'Messages',
         url: '/messages',
         icon: MessageSquareIcon
+      }
+    ]
+  },
+  {
+    title: 'Storage',
+    items: [
+      {
+        title: 'Multimedia',
+        url: '/multimedia',
+        icon: ImageIcon
+      },
+      {
+        title: 'Documents',
+        url: '/documents',
+        icon: FileTextIcon
+      }
+    ]
+  },
+  {
+    title: 'Database',
+    items: [
+      {
+        title: 'Analytics',
+        url: '/analytics',
+        icon: ChartColumnBigIcon
+      },
+      {
+        title: 'Prospects',
+        url: '/prospects',
+        icon: UsersIcon
       }
     ]
   }
