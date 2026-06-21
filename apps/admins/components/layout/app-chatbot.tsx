@@ -1,26 +1,30 @@
 'use client';
 
-import { FormEvent, MouseEvent, useEffect, useRef, useState } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 
 import { useAuth } from '@clerk/nextjs';
 import { useUIMessages } from '@convex-dev/agent/react';
 import { useMutation, usePaginatedQuery } from 'convex/react';
-import { Loader2Icon, PlusIcon, SendIcon, XIcon } from 'lucide-react';
+import { Loader2Icon, PlusIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
-import { ScrollArea } from '@workspace/ui/components/scroll-area';
-import { Textarea } from '@workspace/ui/components/textarea';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { useChatbot } from '@/hooks/use-chatbot';
-import { suggestions } from '@/lib/chatbot/suggestions';
+
+import { ChatbotAttachments } from '../chatbot/chatbot-attachments';
+import { ChatbotInput } from '../chatbot/chatbot-input';
+import { ChatbotMessages } from '../chatbot/chatbot-messages';
+import { ChatbotSuggestions } from '../chatbot/chatbot-suggestions';
 
 export function AppChatbot() {
   const { isLoaded } = useAuth();
   const { chatbot } = useChatbot();
 
   const [input, setInput] = useState('');
+  const [files, setFiles] = useState<File[]>([]);
+
   const [threadId, setThreadId] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
   const [creatingThread, setCreatingThread] = useState(false);
@@ -61,9 +65,7 @@ export function AppChatbot() {
     viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'smooth' });
   }, [messages.length]);
 
-  async function handleSubmit(event?: FormEvent<HTMLFormElement>) {
-    event?.preventDefault();
-
+  async function handleSubmit() {
     const message = input.trim();
     if (!message || !threadId || sending) return;
 
@@ -119,43 +121,20 @@ export function AppChatbot() {
   const disabled = loading || sending || creatingThread;
 
   return (
-    <section className="flex h-full w-full flex-col border-t bg-background xl:w-120 xl:border-t-0 xl:border-l print:hidden">
-      <header className="flex h-14 shrink-0 items-center gap-2 border-b px-3">
-        <div className="flex min-w-0 flex-1 gap-1 overflow-x-auto">
-          {threadsStatus === 'LoadingFirstPage' ? (
-            <div className="flex h-8 items-center gap-2 rounded-md bg-muted px-2.5 text-xs text-muted-foreground">
-              <Loader2Icon className="size-3 animate-spin" />
-              Loading...
-            </div>
-          ) : (
-            threads.map((thread) => (
-              <div
-                key={thread._id}
-                className="group/thread relative max-w-36 shrink-0"
-              >
-                <button
-                  type="button"
-                  className={cn('flex h-8 w-full cursor-pointer items-center rounded-md border px-2 pr-6 text-sm transition', thread._id === threadId ? 'border-primary bg-primary text-primary-foreground' : 'border-transparent bg-muted/50 hover:bg-muted')}
-                  onClick={() => setThreadId(thread._id)}
-                >
-                  <span className="truncate">{getThreadLabel(thread)}</span>
-                </button>
-                <button
-                  type="button"
-                  aria-label="Delete thread"
-                  className="absolute top-1/2 right-1 flex size-5 -translate-y-1/2 cursor-pointer items-center justify-center rounded-sm opacity-0 transition group-hover/thread:opacity-100 hover:bg-background/60"
-                  onClick={(event) => void handleRemoveThread(event, thread._id)}
-                >
-                  <XIcon className="size-3.5" />
-                </button>
-              </div>
-            ))
-          )}
+    <section className="flex w-full flex-col items-center gap-2 pb-2 lg:pb-5 xl:w-120 xl:border-l print:hidden">
+      <header className="flex h-14 w-full items-center gap-2 border-b px-3">
+        <div className="flex w-full gap-2 overflow-x-scroll">
+          {threads.map((thread) => (
+            <Button
+              key={thread._id}
+              onClick={() => setThreadId(thread._id)}
+            >
+              {thread.title}
+            </Button>
+          ))}
         </div>
         <Button
-          type="button"
           variant="ghost"
-          size="icon-sm"
           disabled={!isLoaded || creatingThread}
           onClick={handleReset}
           aria-label="New thread"
@@ -164,73 +143,31 @@ export function AppChatbot() {
           {creatingThread ? <Loader2Icon className="animate-spin" /> : <PlusIcon />}
         </Button>
       </header>
-
-      <ScrollArea className="min-h-0 flex-1">
-        <div
-          ref={viewportRef}
-          className="flex h-full flex-col gap-3 overflow-y-auto p-3"
-        >
-          {loading ? (
-            <div className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
-              <Loader2Icon className="mr-2 size-4 animate-spin" />
-              Loading chat...
-            </div>
-          ) : messages.length === 0 ? (
-            <div className="flex flex-1 flex-col justify-end gap-2">
-              {suggestions.slice(0, 4).map((suggestion) => (
-                <button
-                  key={suggestion}
-                  type="button"
-                  className="rounded-md border bg-muted/30 px-3 py-2 text-left text-sm transition hover:bg-muted"
-                  onClick={() => setInput(suggestion)}
-                >
-                  {suggestion}
-                </button>
-              ))}
-            </div>
+      <div className={cn('flex w-full flex-1 justify-center', messages.length !== 0 && 'overflow-y-scroll')}>
+        <div className="w-full">
+          <ChatbotMessages messages={messages} />
+        </div>
+      </div>
+      {(messages.length === 0 || files.length !== 0) && (
+        <div className="h-9 w-full px-2 lg:px-5">
+          {messages.length === 0 && !input.trim() && files.length === 0 ? (
+            <ChatbotSuggestions handleSubmit={() => setInput('')} />
           ) : (
-            messages.map((message) => (
-              <article
-                key={message.key}
-                className={cn('flex', message.role === 'user' ? 'justify-end' : 'justify-start')}
-              >
-                <div className={cn('max-w-[85%] rounded-md px-3 py-2 text-sm', message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted text-foreground')}>
-                  <p className="break-words whitespace-pre-wrap">{message.text || (message.status === 'streaming' ? '...' : '')}</p>
-                </div>
-              </article>
-            ))
+            <ChatbotAttachments
+              files={files}
+              setFiles={setFiles}
+            />
           )}
         </div>
-      </ScrollArea>
-
-      <form
-        className="flex shrink-0 gap-2 border-t p-3"
-        onSubmit={handleSubmit}
-      >
-        <Textarea
-          value={input}
-          disabled={disabled}
-          placeholder="Ask anything..."
-          rows={1}
-          className="max-h-32 min-h-10 resize-none"
-          onChange={(event) => setInput(event.target.value)}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter' && !event.shiftKey) {
-              event.preventDefault();
-              void handleSubmit();
-            }
-          }}
-        />
-        <Button
-          type="submit"
-          size="icon"
-          disabled={disabled || input.trim().length === 0}
-          aria-label="Send message"
-          className="cursor-pointer self-end"
-        >
-          {sending ? <Loader2Icon className="animate-spin" /> : <SendIcon />}
-        </Button>
-      </form>
+      )}
+      <ChatbotInput
+        input={input}
+        setInput={setInput}
+        files={files}
+        setFiles={setFiles}
+        handleSubmit={handleSubmit}
+        className="w-full px-2 lg:px-5"
+      />
     </section>
   );
 }
