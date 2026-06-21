@@ -1,6 +1,7 @@
 import { ConvexError, v } from 'convex/values';
 
 import { internalMutation } from './_generated/server';
+import { organizationRole } from './schema';
 
 // Internal Mutations
 
@@ -8,7 +9,7 @@ export const internalUpsert = internalMutation({
   args: {
     clientClerkId: v.string(),
     organizationClerkId: v.string(),
-    orgRole: v.union(v.literal('org:admin'), v.literal('org:member'))
+    organizationRole: organizationRole
   },
   handler: async (ctx, args) => {
     // Obtain Client
@@ -34,7 +35,7 @@ export const internalUpsert = internalMutation({
     if (membership) {
       // Update Membership
       await ctx.db.patch(membership._id, {
-        orgRole: args.orgRole,
+        organizationRole: args.organizationRole,
         updated: Date.now()
       });
     } else {
@@ -42,7 +43,7 @@ export const internalUpsert = internalMutation({
       await ctx.db.insert('memberships', {
         clientId: client._id,
         organizationId: organization._id,
-        orgRole: args.orgRole,
+        organizationRole: args.organizationRole,
         updated: Date.now()
       });
     }

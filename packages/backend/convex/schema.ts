@@ -3,6 +3,12 @@ import { v } from 'convex/values';
 
 import { Doc } from './_generated/dataModel';
 
+export const organizationPlan = v.union(v.literal('onboarding'), v.literal('rollout'), v.literal('scaling'));
+export const organizationRole = v.union(v.literal('org:member'), v.literal('org:admin'));
+export const organizationStatus = v.union(v.literal('active'), v.literal('inactive'));
+
+export const meetingStatus = v.union(v.literal('scheduled'), v.literal('cancelled'), v.literal('rejected'), v.literal('ongoing'), v.literal('finished'));
+
 export default defineSchema({
   // Motakaro Admins
   admins: defineTable({
@@ -56,10 +62,10 @@ export default defineSchema({
     clerkId: v.string(),
     name: v.string(),
     logo: v.string(),
-    plan: v.union(v.literal('onboarding'), v.literal('rollout'), v.literal('scaling')),
+    plan: organizationPlan,
 
     onboarded: v.boolean(),
-    status: v.union(v.literal('active'), v.literal('inactive')),
+    status: organizationStatus,
 
     starred: v.boolean(),
     updated: v.number(),
@@ -72,7 +78,7 @@ export default defineSchema({
     language: v.optional(v.string())
   }).index('by_clerkId', ['clerkId']),
 
-  // Motakaro Clients Payments
+  // Motakaro Invoices
   invoices: defineTable({
     // Primary Columns
     name: v.string(),
@@ -89,12 +95,12 @@ export default defineSchema({
     organizationId: v.id('organizations')
   }),
 
-  // Clients Organizations Relationships
+  // Clients Organizations
   memberships: defineTable({
     // Primary Columns
     clientId: v.id('clients'),
     organizationId: v.id('organizations'),
-    orgRole: v.union(v.literal('org:member'), v.literal('org:admin')),
+    organizationRole: organizationRole,
 
     updated: v.number()
   })
@@ -102,7 +108,7 @@ export default defineSchema({
     .index('by_organizationId', ['organizationId'])
     .index('by_clientId_organizationId', ['clientId', 'organizationId']),
 
-  // Users Notifications
+  // Organization Notifications
   notifications: defineTable({
     // Primary Columns
     name: v.string(),
@@ -120,7 +126,7 @@ export default defineSchema({
     organizationId: v.optional(v.id('organizations'))
   }).index('by_organizationId', ['organizationId']),
 
-  // Calcom Meetings
+  // Organization Meetings
   meetings: defineTable({
     // Primary Columns
     calcomId: v.string(),
@@ -130,7 +136,7 @@ export default defineSchema({
     end: v.number(),
     organizer: v.string(),
     attendees: v.array(v.string()),
-    status: v.union(v.literal('scheduled'), v.literal('cancelled'), v.literal('rejected'), v.literal('ongoing'), v.literal('finished')),
+    status: meetingStatus,
 
     starred: v.boolean(),
     updated: v.number(),
@@ -148,7 +154,7 @@ export default defineSchema({
     recording: v.optional(v.string())
   }).index('by_calcomId', ['calcomId']),
 
-  // Company Documents
+  // Organization Documents
   documents: defineTable({
     // Primary Columns
     name: v.string(),
@@ -162,7 +168,7 @@ export default defineSchema({
     organizationId: v.optional(v.id('organizations'))
   }).index('by_organizationId_updated', ['organizationId', 'updated']),
 
-  // Company Whiteboards
+  // Organization Whiteboards
   whiteboards: defineTable({
     // Primary Columns
     name: v.string(),
@@ -176,7 +182,7 @@ export default defineSchema({
     organizationId: v.optional(v.id('organizations'))
   }).index('by_organizationId_updated', ['organizationId', 'updated']),
 
-  // Company Multimedia
+  // Organization Multimedia
   multimedia: defineTable({
     // Primary Columns
     name: v.string(),
@@ -201,7 +207,7 @@ export default defineSchema({
     .index('by_organizationId_updated', ['organizationId', 'updated'])
     .index('by_organizationId_clientVisible', ['organizationId', 'clientVisible']),
 
-  // Website Resources
+  // Motakaro Resources
   resources: defineTable({
     // Primary Columns
     name: v.string(),

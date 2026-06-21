@@ -6,7 +6,6 @@ import { verifyAdminAuth } from './auth';
 
 export const list = query({
   args: {
-    limit: v.optional(v.number()),
     organizationId: v.optional(v.id('organizations'))
   },
   handler: async (ctx, args) => {
@@ -14,11 +13,11 @@ export const list = query({
     await verifyAdminAuth(ctx);
 
     // Return Whiteboards
-    const query = ctx.db
+    return await ctx.db
       .query('whiteboards')
       .withIndex('by_organizationId_updated', (q) => q.eq('organizationId', args.organizationId))
-      .order('desc');
-    return args.limit ? await query.take(args.limit) : await query.collect();
+      .order('desc')
+      .collect();
   }
 });
 
@@ -40,7 +39,10 @@ export const get = query({
 });
 
 export const create = mutation({
-  handler: async (ctx) => {
+  args: {
+    organizationId: v.optional(v.id('organizations'))
+  },
+  handler: async (ctx, args) => {
     // Check Identity
     await verifyAdminAuth(ctx);
 
@@ -50,7 +52,8 @@ export const create = mutation({
       note: '',
       content: '',
       starred: false,
-      updated: Date.now()
+      updated: Date.now(),
+      organizationId: args.organizationId
     });
   }
 });

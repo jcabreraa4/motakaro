@@ -5,7 +5,6 @@ import { verifyAdminAuth } from './auth';
 
 export const list = query({
   args: {
-    limit: v.optional(v.number()),
     filter: v.optional(v.literal('actives'))
   },
   handler: async (ctx, args) => {
@@ -15,16 +14,15 @@ export const list = query({
     // Return Actives
     if (args.filter) {
       const threshold = Date.now() - 60000;
-      const query = ctx.db
+      return await ctx.db
         .query('admins')
         .filter((q) => q.gte(q.field('seen'), threshold))
-        .order('desc');
-      return args.limit ? await query.take(args.limit) : await query.collect();
+        .order('desc')
+        .collect();
     }
 
     // Return Admins
-    const query = ctx.db.query('admins').order('desc');
-    return args.limit ? await query.take(args.limit) : await query.collect();
+    return await ctx.db.query('admins').order('desc').collect();
   }
 });
 

@@ -7,15 +7,16 @@ import { api } from '@workspace/backend/_generated/api';
 import type { Id } from '@workspace/backend/_generated/dataModel';
 
 interface WhiteboardsCreateProps {
+  organizationId?: Id<'organizations'>;
   onSuccess?: (id: Id<'whiteboards'>) => void;
   children: React.ReactNode;
 }
 
-export function WhiteboardsCreate({ onSuccess, children }: WhiteboardsCreateProps) {
+export function WhiteboardsCreate({ organizationId, onSuccess, children }: WhiteboardsCreateProps) {
   const createWhiteboard = useMutation(api.whiteboards.create);
 
   function handleCreate() {
-    createWhiteboard({})
+    createWhiteboard({ organizationId })
       .then((id) => {
         toast.success('Whiteboard created successfully.');
         onSuccess?.(id);

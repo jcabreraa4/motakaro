@@ -1,10 +1,12 @@
 import type { WebhookEvent } from '@clerk/backend';
 import { httpRouter } from 'convex/server';
+import { Infer } from 'convex/values';
 import { Webhook } from 'svix';
 
 import { internal } from './_generated/api';
 import { httpAction } from './_generated/server';
 import { env } from './env';
+import { organizationPlan, organizationRole } from './schema';
 
 const http = httpRouter();
 
@@ -60,8 +62,8 @@ async function validateClerkAdminsRequest(req: Request): Promise<WebhookEvent | 
 
 // Clerk Clients Webhook
 
-type OrgRole = 'org:admin' | 'org:member';
-type OrgPlan = 'onboarding' | 'rollout' | 'scaling';
+type OrganizationRole = Infer<typeof organizationRole>;
+type OrganizationPlan = Infer<typeof organizationPlan>;
 
 http.route({
   path: '/clerk-clients-webhook',
@@ -116,7 +118,7 @@ http.route({
       await ctx.runMutation(internal.memberships.internalUpsert, {
         clientClerkId: event.data.public_user_data.user_id,
         organizationClerkId: event.data.organization.id,
-        orgRole: event.data.role as OrgRole
+        organizationRole: event.data.role as OrganizationRole
       });
     } else if (event.type === 'organizationMembership.deleted') {
       // Remove Membership
@@ -131,7 +133,7 @@ http.route({
       const clerkId = event.data.payer?.organization_id;
       if (!clerkId) return new Response(null, { status: 200 });
 
-      const plan = event.data.plan?.slug as OrgPlan;
+      const plan = event.data.plan?.slug as OrganizationPlan;
 
       await ctx.runMutation(internal.organizations.internalUpdate, {
         plan: plan,

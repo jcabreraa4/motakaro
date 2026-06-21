@@ -40,7 +40,10 @@ export const get = query({
 });
 
 export const create = mutation({
-  handler: async (ctx) => {
+  args: {
+    organizationId: v.optional(v.id('organizations'))
+  },
+  handler: async (ctx, args) => {
     // Check Identity
     await verifyAdminAuth(ctx);
 
@@ -50,7 +53,8 @@ export const create = mutation({
       note: '',
       content: '',
       starred: false,
-      updated: Date.now()
+      updated: Date.now(),
+      organizationId: args.organizationId
     });
   }
 });

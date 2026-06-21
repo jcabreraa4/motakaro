@@ -5,18 +5,15 @@ import type { Id } from './_generated/dataModel';
 import { internalAction, internalMutation, query } from './_generated/server';
 import { getClientAuth, verifyAdminAuth } from './auth';
 import { env } from './env';
+import { organizationPlan } from './schema';
 
 export const list = query({
-  args: {
-    limit: v.optional(v.number())
-  },
-  handler: async (ctx, args) => {
+  handler: async (ctx) => {
     // Check Identity
     await verifyAdminAuth(ctx);
 
     // Return Organizations
-    const query = ctx.db.query('organizations').order('desc');
-    return args.limit ? await query.take(args.limit) : await query.collect();
+    return await ctx.db.query('organizations').order('desc').collect();
   }
 });
 
@@ -123,7 +120,7 @@ export const internalRemove = internalMutation({
       .query('memberships')
       .withIndex('by_organizationId', (q) => q.eq('organizationId', organization._id))
       .collect();
-    await Promise.all(memberships.map((m) => ctx.db.delete(m._id)));
+    await Promise.all(memberships.map((membership) => ctx.db.delete(membership._id)));
 
     // Remove Organization
     await ctx.db.delete(organization._id);
@@ -133,7 +130,7 @@ export const internalRemove = internalMutation({
 export const internalUpdate = internalMutation({
   args: {
     clerkId: v.string(),
-    plan: v.union(v.literal('onboarding'), v.literal('rollout'), v.literal('scaling'))
+    plan: organizationPlan
   },
   handler: async (ctx, args) => {
     // Obtain Organization

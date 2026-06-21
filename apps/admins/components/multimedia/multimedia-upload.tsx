@@ -6,6 +6,7 @@ import { Loader2Icon, PlusIcon, TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
+import { Id } from '@workspace/backend/_generated/dataModel';
 import { Button } from '@workspace/ui/components/button';
 import { Carousel, CarouselContent, CarouselItem } from '@workspace/ui/components/carousel';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
@@ -18,11 +19,12 @@ import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
 const validTypes = ['image', 'video', 'pdf', 'audio'];
 
 interface MultimediaUploadProps {
+  organizationId?: Id<'organizations'>;
   onSuccess?: () => void;
   children: React.ReactNode;
 }
 
-export function MultimediaUpload({ onSuccess, children }: MultimediaUploadProps) {
+export function MultimediaUpload({ organizationId, onSuccess, children }: MultimediaUploadProps) {
   const uploadFile = useMutation(api.multimedia.sharedUpload);
   const createFile = useMutation(api.multimedia.create);
 
@@ -72,7 +74,7 @@ export function MultimediaUpload({ onSuccess, children }: MultimediaUploadProps)
         const fetchUrl = await uploadFile();
         const response = await fetch(fetchUrl, { method: 'POST', headers: { 'Content-Type': fileType }, body: file });
         const { storageId } = await response.json();
-        await createFile({ name: file.name, type: fileType, size: file.size, storageId, width, height });
+        await createFile({ organizationId, name: file.name, type: fileType, size: file.size, storageId, width, height });
       })
     );
 

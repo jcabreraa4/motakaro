@@ -6,28 +6,27 @@ import { verifyAdminAuth } from './auth';
 
 export const list = query({
   args: {
-    limit: v.optional(v.number()),
     filter: v.optional(v.literal('published'))
   },
   handler: async (ctx, args) => {
     // Return Published
     if (args.filter) {
-      const query = ctx.db
+      return await ctx.db
         .query('resources')
         .withIndex('by_published', (q) => q.eq('published', true))
-        .order('desc');
-      return args.limit ? await query.take(args.limit) : await query.collect();
+        .order('desc')
+        .collect();
     }
 
     // Check Identity
     await verifyAdminAuth(ctx);
 
     // Return Resources
-    const query = ctx.db
+    return await ctx.db
       .query('resources')
       .withIndex('by_updated', (q) => q)
-      .order('desc');
-    return args.limit ? await query.take(args.limit) : await query.collect();
+      .order('desc')
+      .collect();
   }
 });
 
@@ -64,7 +63,7 @@ export const create = mutation({
 
     // Create Resource
     return await ctx.db.insert('resources', {
-      name: args.name ?? 'Untitled Resource',
+      name: args.name || 'Untitled Resource',
       note: args.note,
       link: args.link,
       embed: args.embed,

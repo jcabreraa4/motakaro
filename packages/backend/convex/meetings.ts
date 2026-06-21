@@ -3,18 +3,15 @@ import { ConvexError, v } from 'convex/values';
 import type { Id } from './_generated/dataModel';
 import { internalMutation, mutation, query } from './_generated/server';
 import { verifyAdminAuth } from './auth';
+import { meetingStatus } from './schema';
 
 export const list = query({
-  args: {
-    limit: v.optional(v.number())
-  },
-  handler: async (ctx, args) => {
+  handler: async (ctx) => {
     // Check Identity
     await verifyAdminAuth(ctx);
 
     // Return Meetings
-    const query = ctx.db.query('meetings').order('desc');
-    return args.limit ? await query.take(args.limit) : await query.collect();
+    return await ctx.db.query('meetings').order('desc').collect();
   }
 });
 
@@ -74,7 +71,7 @@ export const internalUpsert = internalMutation({
     end: v.number(),
     organizer: v.string(),
     attendees: v.array(v.string()),
-    status: v.union(v.literal('scheduled'), v.literal('cancelled'), v.literal('rejected'), v.literal('ongoing'), v.literal('finished')),
+    status: meetingStatus,
     note: v.optional(v.string()),
     website: v.optional(v.string()),
     attribution: v.optional(v.string())
@@ -113,7 +110,7 @@ export const internalUpsert = internalMutation({
 export const internalUpdate = internalMutation({
   args: {
     calcomId: v.string(),
-    status: v.union(v.literal('scheduled'), v.literal('cancelled'), v.literal('rejected'), v.literal('ongoing'), v.literal('finished')),
+    status: meetingStatus,
     rescheduling: v.optional(v.string()),
     cancellation: v.optional(v.string()),
     rejection: v.optional(v.string()),
