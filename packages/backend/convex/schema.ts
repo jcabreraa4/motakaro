@@ -208,6 +208,9 @@ export default defineSchema({
     starred: v.boolean(),
     updated: v.number(),
 
+    clientVisible: v.boolean(),
+    clientStarred: v.boolean(),
+
     // Relationship Columns
     organizationId: v.optional(v.id('organizations'))
   }).index('by_organizationId_updated', ['organizationId', 'updated']),

@@ -10,6 +10,7 @@ import { Button } from '@workspace/ui/components/button';
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
+import { Separator } from '@workspace/ui/components/separator';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { cn } from '@workspace/ui/lib/utils';
@@ -24,10 +25,10 @@ export function WhiteboardsUpdate({ whiteboard, onSuccess, children }: Whiteboar
   const updateWhiteboard = useMutation(api.whiteboards.update);
 
   const [open, setOpen] = useState(false);
-  const [info, setInfo] = useState({ name: whiteboard.name, note: whiteboard.note, starred: whiteboard.starred.toString() });
+  const [info, setInfo] = useState({ name: whiteboard.name, note: whiteboard.note, starred: whiteboard.starred.toString(), clientVisible: whiteboard.clientVisible.toString(), clientStarred: whiteboard.clientStarred.toString() });
 
   function handleUpdate() {
-    updateWhiteboard({ id: whiteboard._id, name: info.name, note: info.note, starred: info.starred === 'true' })
+    updateWhiteboard({ id: whiteboard._id, name: info.name, note: info.note, starred: info.starred === 'true', clientVisible: info.clientVisible === 'true', clientStarred: info.clientStarred === 'true' })
       .then(() => {
         setOpen(false);
         toast.success('Whiteboard updated successfully.');
@@ -37,7 +38,7 @@ export function WhiteboardsUpdate({ whiteboard, onSuccess, children }: Whiteboar
   }
 
   function handleReset() {
-    setInfo({ name: whiteboard.name, note: whiteboard.note, starred: whiteboard.starred.toString() });
+    setInfo({ name: whiteboard.name, note: whiteboard.note, starred: whiteboard.starred.toString(), clientVisible: whiteboard.clientVisible.toString(), clientStarred: whiteboard.clientStarred.toString() });
   }
 
   function disableReset() {
@@ -46,7 +47,9 @@ export function WhiteboardsUpdate({ whiteboard, onSuccess, children }: Whiteboar
       JSON.stringify({
         name: whiteboard.name,
         note: whiteboard.note,
-        starred: whiteboard.starred.toString()
+        starred: whiteboard.starred.toString(),
+        clientVisible: whiteboard.clientVisible.toString(),
+        clientStarred: whiteboard.clientStarred.toString()
       })
     );
   }
@@ -101,6 +104,45 @@ export function WhiteboardsUpdate({ whiteboard, onSuccess, children }: Whiteboar
             </Select>
           </div>
         </div>
+        {whiteboard.organizationId && (
+          <>
+            <Separator />
+            <div className="flex flex-col gap-2">
+              <Label>Clients Visible</Label>
+              <Select
+                value={info.clientVisible}
+                onValueChange={(value) => setInfo({ ...info, clientVisible: value })}
+              >
+                <SelectTrigger className={cn('w-full cursor-pointer', info.clientVisible !== whiteboard.clientVisible.toString() && 'border-red-500')}>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="true">True</SelectItem>
+                    <SelectItem value="false">False</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label>Clients Starred</Label>
+              <Select
+                value={info.clientStarred}
+                onValueChange={(value) => setInfo({ ...info, clientStarred: value })}
+              >
+                <SelectTrigger className={cn('w-full cursor-pointer', info.clientStarred !== whiteboard.clientStarred.toString() && 'border-red-500')}>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="true">True</SelectItem>
+                    <SelectItem value="false">False</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+          </>
+        )}
         <SheetFooter>
           <Button
             disabled={disableReset()}

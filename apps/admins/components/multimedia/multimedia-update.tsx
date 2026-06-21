@@ -116,7 +116,7 @@ export function MultimediaUpdate({ file, onSuccess, children }: MultimediaUpdate
               </SelectContent>
             </Select>
           </div>
-          {file.companyId && (
+          {file.organizationId && (
             <>
               <Separator />
               <div className="flex flex-col gap-2">

@@ -9,6 +9,7 @@
  */
 
 import type * as admins from "../admins.js";
+import type * as agents from "../agents.js";
 import type * as auth from "../auth.js";
 import type * as clients from "../clients.js";
 import type * as documents from "../documents.js";
@@ -16,11 +17,13 @@ import type * as env from "../env.js";
 import type * as http from "../http.js";
 import type * as meetings from "../meetings.js";
 import type * as memberships from "../memberships.js";
+import type * as messages from "../messages.js";
 import type * as multimedia from "../multimedia.js";
 import type * as notifications from "../notifications.js";
 import type * as organizations from "../organizations.js";
 import type * as prosemirror from "../prosemirror.js";
 import type * as resources from "../resources.js";
+import type * as threads from "../threads.js";
 import type * as whiteboards from "../whiteboards.js";
 
 import type {
@@ -31,6 +34,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   admins: typeof admins;
+  agents: typeof agents;
   auth: typeof auth;
   clients: typeof clients;
   documents: typeof documents;
@@ -38,11 +42,13 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   meetings: typeof meetings;
   memberships: typeof memberships;
+  messages: typeof messages;
   multimedia: typeof multimedia;
   notifications: typeof notifications;
   organizations: typeof organizations;
   prosemirror: typeof prosemirror;
   resources: typeof resources;
+  threads: typeof threads;
   whiteboards: typeof whiteboards;
 }>;
 

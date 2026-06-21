@@ -10,6 +10,7 @@ import { Button } from '@workspace/ui/components/button';
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
+import { Separator } from '@workspace/ui/components/separator';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { cn } from '@workspace/ui/lib/utils';
@@ -24,10 +25,10 @@ export function DocumentsUpdate({ document, onSuccess, children }: DocumentsUpda
   const updateDocument = useMutation(api.documents.update);
 
   const [open, setOpen] = useState(false);
-  const [info, setInfo] = useState({ name: document.name, note: document.note, starred: document.starred.toString() });
+  const [info, setInfo] = useState({ name: document.name, note: document.note, starred: document.starred.toString(), clientVisible: document.clientVisible.toString(), clientStarred: document.clientStarred.toString() });
 
   function handleUpdate() {
-    updateDocument({ id: document._id, name: info.name, note: info.note, starred: info.starred === 'true' })
+    updateDocument({ id: document._id, name: info.name, note: info.note, starred: info.starred === 'true', clientVisible: info.clientVisible === 'true', clientStarred: info.clientStarred === 'true' })
       .then(() => {
         setOpen(false);
         toast.success('Document updated successfully.');
@@ -37,7 +38,7 @@ export function DocumentsUpdate({ document, onSuccess, children }: DocumentsUpda
   }
 
   function handleReset() {
-    setInfo({ name: document.name, note: document.note, starred: document.starred.toString() });
+    setInfo({ name: document.name, note: document.note, starred: document.starred.toString(), clientVisible: document.clientVisible.toString(), clientStarred: document.clientStarred.toString() });
   }
 
   function disableReset() {
@@ -46,7 +47,9 @@ export function DocumentsUpdate({ document, onSuccess, children }: DocumentsUpda
       JSON.stringify({
         name: document.name,
         note: document.note,
-        starred: document.starred.toString()
+        starred: document.starred.toString(),
+        clientVisible: document.clientVisible.toString(),
+        clientStarred: document.clientStarred.toString()
       })
     );
   }
@@ -101,6 +104,45 @@ export function DocumentsUpdate({ document, onSuccess, children }: DocumentsUpda
             </Select>
           </div>
         </div>
+        {document.organizationId && (
+          <>
+            <Separator />
+            <div className="flex flex-col gap-2">
+              <Label>Clients Visible</Label>
+              <Select
+                value={info.clientVisible}
+                onValueChange={(value) => setInfo({ ...info, clientVisible: value })}
+              >
+                <SelectTrigger className={cn('w-full cursor-pointer', info.clientVisible !== document.clientVisible.toString() && 'border-red-500')}>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="true">True</SelectItem>
+                    <SelectItem value="false">False</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label>Clients Starred</Label>
+              <Select
+                value={info.clientStarred}
+                onValueChange={(value) => setInfo({ ...info, clientStarred: value })}
+              >
+                <SelectTrigger className={cn('w-full cursor-pointer', info.clientStarred !== document.clientStarred.toString() && 'border-red-500')}>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="true">True</SelectItem>
+                    <SelectItem value="false">False</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+          </>
+        )}
         <SheetFooter>
           <Button
             disabled={disableReset()}

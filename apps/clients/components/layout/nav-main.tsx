@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { Building2Icon, ChartColumnBigIcon, FileTextIcon, HeadsetIcon, ImageIcon, LayoutDashboardIcon, type LucideIcon, MessageSquareIcon, UsersIcon } from 'lucide-react';
+import { Building2Icon, ChartColumnBigIcon, FileTextIcon, HeadsetIcon, ImageIcon, LayoutDashboardIcon, type LucideIcon, UsersIcon } from 'lucide-react';
 
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
 import { cn } from '@workspace/ui/lib/utils';

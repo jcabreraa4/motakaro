@@ -84,7 +84,9 @@ export const update = mutation({
     name: v.optional(v.string()),
     note: v.optional(v.string()),
     content: v.optional(v.string()),
-    starred: v.optional(v.boolean())
+    starred: v.optional(v.boolean()),
+    clientVisible: v.optional(v.boolean()),
+    clientStarred: v.optional(v.boolean())
   },
   handler: async (ctx, args) => {
     // Verify Identity
@@ -100,6 +102,8 @@ export const update = mutation({
       ...(args.note !== undefined ? { note: args.note } : {}),
       ...(args.content !== undefined ? { content: args.content } : {}),
       ...(args.starred !== undefined ? { starred: args.starred } : {}),
+      ...(args.clientVisible !== undefined ? { clientVisible: args.clientVisible } : {}),
+      ...(args.clientStarred !== undefined ? { clientStarred: args.clientStarred } : {}),
       updated: Date.now()
     });
   }
