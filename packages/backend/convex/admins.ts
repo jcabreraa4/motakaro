@@ -8,7 +8,7 @@ export const list = query({
     filter: v.optional(v.literal('actives'))
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     // Return Actives
@@ -28,7 +28,7 @@ export const list = query({
 
 export const get = query({
   handler: async (ctx) => {
-    // Obtain Identity
+    // Verify Identity
     const identity = await verifyAdminAuth(ctx);
 
     try {
@@ -48,7 +48,7 @@ export const update = mutation({
     onboarded: v.optional(v.boolean())
   },
   handler: async (ctx, args) => {
-    // Obtain Identity
+    // Verify Identity
     const identity = await verifyAdminAuth(ctx);
 
     // Obtain Admin

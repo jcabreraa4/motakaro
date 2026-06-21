@@ -18,7 +18,7 @@ export const list = query({
         .collect();
     }
 
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     // Return Resources
@@ -35,7 +35,7 @@ export const get = query({
     id: v.string()
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     try {
@@ -58,7 +58,7 @@ export const create = mutation({
     starred: v.boolean()
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     // Create Resource
@@ -80,7 +80,7 @@ export const remove = mutation({
     id: v.id('resources')
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     // Obtain Resource
@@ -104,7 +104,7 @@ export const update = mutation({
     starred: v.optional(v.boolean())
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     // Obtain Resource

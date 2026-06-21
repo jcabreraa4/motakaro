@@ -6,19 +6,18 @@ import { getClientAuth, verifyAdminAuth, verifyClientAuth, verifyIdentity } from
 
 export const list = query({
   args: {
-    limit: v.optional(v.number()),
     organizationId: v.optional(v.id('organizations'))
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     // Return Multimedia
-    const query = ctx.db
+    const multimedia = await ctx.db
       .query('multimedia')
       .withIndex('by_organizationId_updated', (q) => q.eq('organizationId', args.organizationId))
-      .order('desc');
-    const multimedia = args.limit ? await query.take(args.limit) : await query.collect();
+      .order('desc')
+      .collect();
     return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await ctx.storage.getUrl(file.storageId) })));
   }
 });
@@ -28,7 +27,7 @@ export const get = query({
     id: v.string()
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     try {
@@ -36,7 +35,7 @@ export const get = query({
       const file = await ctx.db.get(args.id as Id<'multimedia'>);
       if (!file) return null;
 
-      // Obtain Storage
+      // Obtain Url
       const url = await ctx.storage.getUrl(file.storageId);
       if (!url) return null;
 
@@ -59,7 +58,7 @@ export const create = mutation({
     organizationId: v.optional(v.id('organizations'))
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     // Create File
@@ -73,9 +72,9 @@ export const create = mutation({
       starred: false,
       updated: Date.now(),
       storageId: args.storageId,
-      organizationId: args.organizationId,
       clientVisible: false,
-      clientStarred: false
+      clientStarred: false,
+      organizationId: args.organizationId
     });
   }
 });
@@ -85,7 +84,7 @@ export const remove = mutation({
     id: v.id('multimedia')
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     // Obtain File
@@ -108,7 +107,7 @@ export const update = mutation({
     clientStarred: v.optional(v.boolean())
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     // Obtain File
@@ -130,10 +129,7 @@ export const update = mutation({
 // Client Functions
 
 export const clientList = query({
-  args: {
-    limit: v.optional(v.number())
-  },
-  handler: async (ctx, args) => {
+  handler: async (ctx) => {
     // Obtain Identity
     const identity = await getClientAuth(ctx);
     if (!identity) return null;
@@ -149,11 +145,11 @@ export const clientList = query({
     if (!organization) throw new ConvexError('Organization not found');
 
     // Return Multimedia
-    const query = ctx.db
+    const multimedia = await ctx.db
       .query('multimedia')
       .withIndex('by_organizationId_clientVisible', (q) => q.eq('organizationId', organization._id).eq('clientVisible', true))
-      .order('desc');
-    const multimedia = args.limit ? await query.take(args.limit) : await query.collect();
+      .order('desc')
+      .collect();
     return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await ctx.storage.getUrl(file.storageId) })));
   }
 });
@@ -185,7 +181,7 @@ export const clientGet = query({
       // Check Ownership
       if (file.organizationId !== organization._id) return null;
 
-      // Obtain Storage
+      // Obtain Url
       const url = await ctx.storage.getUrl(file.storageId);
       if (!url) return null;
 
@@ -207,7 +203,7 @@ export const clientCreate = mutation({
     storageId: v.id('_storage')
   },
   handler: async (ctx, args) => {
-    // Obtain Identity
+    // Verify Identity
     const identity = await verifyClientAuth(ctx);
 
     // Obtain Organization
@@ -222,7 +218,7 @@ export const clientCreate = mutation({
 
     // Create File
     return await ctx.db.insert('multimedia', {
-      name: args.name ?? 'Untitled File',
+      name: args.name || 'Untitled File',
       note: '',
       type: args.type,
       size: args.size,
@@ -231,9 +227,9 @@ export const clientCreate = mutation({
       starred: false,
       updated: Date.now(),
       storageId: args.storageId,
-      organizationId: organization._id,
       clientVisible: true,
-      clientStarred: false
+      clientStarred: false,
+      organizationId: organization._id
     });
   }
 });
@@ -243,7 +239,7 @@ export const clientRemove = mutation({
     id: v.id('multimedia')
   },
   handler: async (ctx, args) => {
-    // Obtain Identity
+    // Verify Identity
     const identity = await verifyClientAuth(ctx);
 
     // Obtain Organization
@@ -258,7 +254,7 @@ export const clientRemove = mutation({
 
     // Obtain File
     const file = await ctx.db.get(args.id);
-    if (!file) throw new ConvexError('Media file not found');
+    if (!file) throw new ConvexError('File not found');
 
     // Check Ownership
     if (file.organizationId !== organization._id) {
@@ -279,7 +275,7 @@ export const clientUpdate = mutation({
     clientStarred: v.optional(v.boolean())
   },
   handler: async (ctx, args) => {
-    // Obtain Identity
+    // Verify Identity
     const identity = await verifyClientAuth(ctx);
 
     // Obtain Organization
@@ -294,7 +290,7 @@ export const clientUpdate = mutation({
 
     // Obtain File
     const file = await ctx.db.get(args.id);
-    if (!file) throw new ConvexError('Media file not found');
+    if (!file) throw new ConvexError('File not found');
 
     // Check Ownership
     if (file.organizationId !== organization._id) {
@@ -315,10 +311,10 @@ export const clientUpdate = mutation({
 
 export const sharedUpload = mutation({
   handler: async (ctx) => {
-    // Check Identity
+    // Verify Identity
     await verifyIdentity(ctx);
 
-    // Return Storage Url
+    // Return Url
     return await ctx.storage.generateUploadUrl();
   }
 });

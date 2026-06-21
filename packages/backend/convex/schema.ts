@@ -154,34 +154,6 @@ export default defineSchema({
     recording: v.optional(v.string())
   }).index('by_calcomId', ['calcomId']),
 
-  // Organization Documents
-  documents: defineTable({
-    // Primary Columns
-    name: v.string(),
-    note: v.string(),
-    content: v.string(),
-
-    starred: v.boolean(),
-    updated: v.number(),
-
-    // Relationship Columns
-    organizationId: v.optional(v.id('organizations'))
-  }).index('by_organizationId_updated', ['organizationId', 'updated']),
-
-  // Organization Whiteboards
-  whiteboards: defineTable({
-    // Primary Columns
-    name: v.string(),
-    note: v.string(),
-    content: v.string(),
-
-    starred: v.boolean(),
-    updated: v.number(),
-
-    // Relationship Columns
-    organizationId: v.optional(v.id('organizations'))
-  }).index('by_organizationId_updated', ['organizationId', 'updated']),
-
   // Organization Multimedia
   multimedia: defineTable({
     // Primary Columns
@@ -207,6 +179,39 @@ export default defineSchema({
     .index('by_organizationId_updated', ['organizationId', 'updated'])
     .index('by_organizationId_clientVisible', ['organizationId', 'clientVisible']),
 
+  // Organization Documents
+  documents: defineTable({
+    // Primary Columns
+    name: v.string(),
+    note: v.string(),
+    content: v.string(),
+
+    starred: v.boolean(),
+    updated: v.number(),
+
+    clientVisible: v.boolean(),
+    clientStarred: v.boolean(),
+
+    // Relationship Columns
+    organizationId: v.optional(v.id('organizations'))
+  })
+    .index('by_organizationId_updated', ['organizationId', 'updated'])
+    .index('by_organizationId_clientVisible', ['organizationId', 'clientVisible']),
+
+  // Organization Whiteboards
+  whiteboards: defineTable({
+    // Primary Columns
+    name: v.string(),
+    note: v.string(),
+    content: v.string(),
+
+    starred: v.boolean(),
+    updated: v.number(),
+
+    // Relationship Columns
+    organizationId: v.optional(v.id('organizations'))
+  }).index('by_organizationId_updated', ['organizationId', 'updated']),
+
   // Motakaro Resources
   resources: defineTable({
     // Primary Columns
@@ -231,7 +236,7 @@ export type Invoice = Doc<'invoices'>;
 export type Membership = Doc<'memberships'>;
 export type Notification = Doc<'notifications'>;
 export type Meeting = Doc<'meetings'>;
-export type Document = Doc<'documents'>;
 export type MediaFile = Doc<'multimedia'> & { url: string | null };
+export type Document = Doc<'documents'>;
 export type Whiteboard = Doc<'whiteboards'>;
 export type Resource = Doc<'resources'>;

@@ -9,7 +9,7 @@ import { organizationPlan } from './schema';
 
 export const list = query({
   handler: async (ctx) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     // Return Organizations
@@ -23,7 +23,7 @@ export const get = query({
     clerkId: v.optional(v.string())
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     try {

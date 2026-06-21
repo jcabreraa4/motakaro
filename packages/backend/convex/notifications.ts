@@ -10,7 +10,7 @@ export const list = query({
     organizationId: v.optional(v.id('organizations'))
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     // Return Notifications
@@ -27,7 +27,7 @@ export const get = query({
     id: v.string()
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     try {
@@ -45,7 +45,7 @@ export const update = mutation({
     read: v.optional(v.boolean())
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     // Obtain Notification
@@ -96,7 +96,7 @@ export const clientUpdate = mutation({
     read: v.optional(v.boolean())
   },
   handler: async (ctx, args) => {
-    // Obtain Identity
+    // Verify Identity
     const identity = await verifyClientAuth(ctx);
 
     // Obtain Organization

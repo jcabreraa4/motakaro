@@ -9,7 +9,7 @@ export const list = query({
     filter: v.optional(v.literal('actives'))
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     // Return Actives
@@ -33,7 +33,7 @@ export const get = query({
     clerkId: v.optional(v.string())
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     try {
@@ -77,7 +77,7 @@ export const clientUpdate = mutation({
     onboarded: v.optional(v.boolean())
   },
   handler: async (ctx, args) => {
-    // Obtain Identity
+    // Verify Identity
     const identity = await verifyClientAuth(ctx);
 
     // Obtain Client

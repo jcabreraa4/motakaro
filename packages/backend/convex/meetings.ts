@@ -7,7 +7,7 @@ import { meetingStatus } from './schema';
 
 export const list = query({
   handler: async (ctx) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     // Return Meetings
@@ -21,7 +21,7 @@ export const get = query({
     calcomId: v.optional(v.string())
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     try {
@@ -46,7 +46,7 @@ export const update = mutation({
     starred: v.optional(v.boolean())
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     // Obtain Meeting

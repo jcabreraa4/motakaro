@@ -9,7 +9,7 @@ export const list = query({
     organizationId: v.optional(v.id('organizations'))
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     // Return Whiteboards
@@ -26,7 +26,7 @@ export const get = query({
     id: v.string()
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     try {
@@ -43,7 +43,7 @@ export const create = mutation({
     organizationId: v.optional(v.id('organizations'))
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     // Create Whiteboard
@@ -63,7 +63,7 @@ export const remove = mutation({
     id: v.id('whiteboards')
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     // Obtain Whiteboard
@@ -84,7 +84,7 @@ export const update = mutation({
     starred: v.optional(v.boolean())
   },
   handler: async (ctx, args) => {
-    // Check Identity
+    // Verify Identity
     await verifyAdminAuth(ctx);
 
     // Obtain Whiteboard
