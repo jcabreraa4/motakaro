@@ -1,11 +1,16 @@
+import { type UIMessage } from '@convex-dev/agent';
 import { create } from 'zustand';
 
 interface ChatbotStore {
-  chatbot: boolean;
-  setChatbot: (chatbot: boolean) => void;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  messages: UIMessage[];
+  setMessages: (messages: UIMessage[]) => void;
 }
 
 export const useChatbotStore = create<ChatbotStore>((set) => ({
-  chatbot: false,
-  setChatbot: (chatbot: boolean) => set({ chatbot })
+  open: false,
+  setOpen: (open: boolean) => set({ open }),
+  messages: [],
+  setMessages: (messages: UIMessage[]) => set({ messages })
 }));

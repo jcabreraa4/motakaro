@@ -16,6 +16,7 @@ import { Button } from '@workspace/ui/components/button';
 import { Separator } from '@workspace/ui/components/separator';
 import { SidebarTrigger } from '@workspace/ui/components/sidebar';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip';
+import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { NotificationsPopover } from '@/components/notifications/notifications-popover';
@@ -26,7 +27,13 @@ import { useLocation } from '@/hooks/use-location';
 function HeaderBreadcrumb() {
   const { section } = useLocation();
   const { breadcrumbs } = useHeader();
-  const { handleChatbot } = useChatbot();
+  const { setOpen } = useChatbot();
+
+  const isMobile = useIsMobile();
+
+  function closeChatbotInMobile() {
+    if (isMobile) setOpen(false);
+  }
 
   return (
     <Breadcrumb>
@@ -34,7 +41,7 @@ function HeaderBreadcrumb() {
         <BreadcrumbItem>
           <Link
             href={`/${section}`}
-            onClick={handleChatbot}
+            onClick={closeChatbotInMobile}
           >
             <BreadcrumbPage className="font-medium capitalize select-none">{section}</BreadcrumbPage>
           </Link>
@@ -46,7 +53,7 @@ function HeaderBreadcrumb() {
               {item.href ? (
                 <Link
                   href={item.href}
-                  onClick={handleChatbot}
+                  onClick={closeChatbotInMobile}
                 >
                   <BreadcrumbPage>{item.text}</BreadcrumbPage>
                 </Link>
@@ -117,12 +124,12 @@ function HeaderButton({ children, onClick, className }: HeaderButtonProps) {
 }
 
 function ChatbotButton({ className }: { className?: string }) {
-  const { chatbot, setChatbot } = useChatbot();
+  const { open, setOpen } = useChatbot();
 
   return (
     <HeaderButton
-      onClick={() => setChatbot(!chatbot)}
-      className={cn(chatbot && 'text-black dark:text-white', className)}
+      onClick={() => setOpen(!open)}
+      className={cn(open && 'text-black dark:text-white', className)}
     >
       <GhostIcon className="size-5" />
     </HeaderButton>

@@ -18,6 +18,7 @@ async function verifyThreadAccess(ctx: Parameters<typeof verifyAdminAuth>[0], th
   return { identity, thread };
 }
 
+// Verified Query
 export const list = query({
   args: {
     threadId: v.string(),
@@ -28,17 +29,27 @@ export const list = query({
     // Verify Identity
     await verifyThreadAccess(ctx, args.threadId);
 
-    // Return Messages
-    const paginated = await listUIMessages(ctx, components.agent, args);
-    const streams = await syncStreams(ctx, components.agent, args);
-    return { ...paginated, streams };
+    // Obtain Messages
+    const messages = await listUIMessages(ctx, components.agent, {
+      threadId: args.threadId,
+      paginationOpts: args.paginationOpts
+    });
+
+    // Obtain Streams
+    const streams = await syncStreams(ctx, components.agent, {
+      threadId: args.threadId,
+      streamArgs: args.streamArgs
+    });
+
+    // Return Result
+    return { ...messages, streams };
   }
 });
 
 export const create = mutation({
   args: {
     threadId: v.string(),
-    message: v.string()
+    prompt: v.string()
   },
   handler: async (ctx, args) => {
     // Verify Identity
@@ -47,8 +58,7 @@ export const create = mutation({
     // Save Message
     const { messageId } = await saveMessage(ctx, components.agent, {
       threadId: args.threadId,
-      userId: identity.subject,
-      message: { role: 'user', content: args.message }
+      prompt: args.prompt
     });
 
     // Generate Response

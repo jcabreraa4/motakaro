@@ -84,7 +84,7 @@ function ResourcesItem({ resource }: { resource: Resource }) {
 }
 
 export function ResourcesTable({ resources }: { resources: Resource[] }) {
-  const { chatbot } = useChatbot();
+  const { open } = useChatbot();
 
   const starredResources = resources.filter((file) => file.starred);
   const nonStarredResources = resources.filter((file) => !file.starred);
@@ -92,7 +92,7 @@ export function ResourcesTable({ resources }: { resources: Resource[] }) {
   return (
     <section className="flex min-h-0 flex-1 flex-col gap-8 overflow-y-scroll lg:pe-3">
       {starredResources.length != 0 && (
-        <div className={cn('grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3', chatbot ? '2xl:grid-cols-3' : '2xl:grid-cols-4')}>
+        <div className={cn('grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3', open ? '2xl:grid-cols-3' : '2xl:grid-cols-4')}>
           {starredResources.map((resource) => (
             <ResourcesItem
               key={resource._id}
@@ -102,7 +102,7 @@ export function ResourcesTable({ resources }: { resources: Resource[] }) {
         </div>
       )}
       {nonStarredResources.length != 0 && (
-        <div className={cn('grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3', chatbot ? '2xl:grid-cols-3' : '2xl:grid-cols-4')}>
+        <div className={cn('grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3', open ? '2xl:grid-cols-3' : '2xl:grid-cols-4')}>
           {nonStarredResources.map((resource) => (
             <ResourcesItem
               key={resource._id}

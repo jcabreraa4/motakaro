@@ -14,7 +14,7 @@ import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 import { useHeader } from '@/hooks/use-header';
 
 interface CompaniesPageProps {
-  preloaded: Preloaded<typeof api.companies.get>;
+  preloaded: Preloaded<typeof api.organizations.get>;
 }
 
 export function CompaniesPage({ preloaded }: CompaniesPageProps) {

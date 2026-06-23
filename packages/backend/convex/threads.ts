@@ -6,6 +6,7 @@ import { mutation, query } from './_generated/server';
 import { chatbot } from './agents';
 import { verifyAdminAuth } from './auth';
 
+// Verified
 export const list = query({
   args: {
     paginationOpts: paginationOptsValidator
@@ -33,6 +34,7 @@ export const create = mutation({
       title: 'Motakaro Assistant'
     });
 
+    // Return Thread
     return threadId;
   }
 });
@@ -45,16 +47,18 @@ export const remove = mutation({
     // Verify Identity
     const identity = await verifyAdminAuth(ctx);
 
-    // Verify Thread Ownership
+    // Obtain Thread
     const thread = await ctx.runQuery(components.agent.threads.getThread, {
       threadId: args.threadId
     });
+    if (!thread) throw new ConvexError('Thread not found');
 
-    if (!thread || thread.userId !== identity.subject) {
-      throw new ConvexError('Thread not found');
+    // Check Ownership
+    if (thread.userId !== identity.subject) {
+      throw new ConvexError('Unauthorized');
     }
 
-    // Delete Thread
+    // Remove Thread
     await chatbot.deleteThreadAsync(ctx, {
       threadId: args.threadId
     });
