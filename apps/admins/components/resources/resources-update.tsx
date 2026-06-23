@@ -16,14 +16,14 @@ import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetT
 import { Textarea } from '@workspace/ui/components/textarea';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { copyText } from '@/utils/copy-text';
+import { copyString } from '@/utils/copy-string';
 
 function CopyLinkButton({ link }: { link: string }) {
   return (
     <InputGroupButton
       size="icon-sm"
       className="cursor-pointer"
-      onClick={() => copyText({ text: link, type: 'link' })}
+      onClick={() => copyString({ text: link, type: 'link' })}
     >
       <CopyIcon />
     </InputGroupButton>

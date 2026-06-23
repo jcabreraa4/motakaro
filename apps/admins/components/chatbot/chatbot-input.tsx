@@ -36,7 +36,7 @@ export function ChatbotInput({ threadId }: { threadId: string }) {
         multiple
         globalDrop
         onSubmit={handleSubmit}
-        className={cn('w-full px-2 lg:px-5', !input && 'select-none')}
+        className={cn('w-full px-3 lg:px-5', !input && 'select-none')}
       >
         <PromptInputBody>
           <PromptInputTextarea

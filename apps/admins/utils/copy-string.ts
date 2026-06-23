@@ -1,16 +1,12 @@
 import { toast } from 'sonner';
 
-type Device = 'mobile' | 'tablet' | 'computer';
-
-interface CopyTextProps {
+interface CopyStringProps {
   text: string;
   type: 'message' | 'code' | 'link' | 'text';
 }
 
-export async function copyText({ text, type }: CopyTextProps) {
+export async function copyString({ text, type }: CopyStringProps) {
   if (!text) return;
-
-  const device: Device = window.innerWidth <= 767 ? 'mobile' : window.innerWidth <= 1024 ? 'tablet' : 'computer';
 
   function capitalize(word: string) {
     return word.charAt(0).toUpperCase() + word.slice(1);
@@ -26,6 +22,6 @@ export async function copyText({ text, type }: CopyTextProps) {
     document.execCommand('copy');
     document.body.removeChild(textarea);
   } finally {
-    toast.success(device === 'computer' ? `${capitalize(type)} copied to clipboard successfully.` : `${capitalize(type)} copied to clipboard.`);
+    toast.success(`${capitalize(type)} copied successfully.`);
   }
 }

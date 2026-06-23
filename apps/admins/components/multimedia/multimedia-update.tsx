@@ -16,7 +16,7 @@ import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetT
 import { Textarea } from '@workspace/ui/components/textarea';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { copyText } from '@/utils/copy-text';
+import { copyString } from '@/utils/copy-string';
 
 interface MultimediaUpdateProps {
   file: MediaFile;
@@ -70,7 +70,7 @@ export function MultimediaUpdate({ file, onSuccess, children }: MultimediaUpdate
           <SheetDescription className="hidden md:block">Update selected file&apos;s information.</SheetDescription>
         </SheetHeader>
         <div className="grid flex-1 auto-rows-min gap-4 px-4 lg:gap-5">
-          <InputGroup onClick={() => copyText({ text: file.url!, type: 'link' })}>
+          <InputGroup onClick={() => copyString({ text: file.url!, type: 'link' })}>
             <InputGroupInput
               readOnly
               value={file.url!}

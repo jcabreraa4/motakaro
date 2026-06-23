@@ -1,14 +1,16 @@
 import { useUser } from '@clerk/nextjs';
 import { type UIMessage, useUIMessages } from '@convex-dev/agent/react';
-import { MessageSquareIcon } from 'lucide-react';
+import { CopyIcon, MessageSquareIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Conversation, ConversationContent, ConversationEmptyState, ConversationScrollButton } from '@workspace/ui/chatbot/conversation';
-import { Message, MessageContent, MessageResponse } from '@workspace/ui/chatbot/message';
+import { Message, MessageAction, MessageActions, MessageContent, MessageResponse } from '@workspace/ui/chatbot/message';
 import { Button } from '@workspace/ui/components/button';
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 import { cn } from '@workspace/ui/lib/utils';
+
+import { copyString } from '@/utils/copy-string';
 
 export function ChatbotMessages({ threadId }: { threadId: string }) {
   const { user } = useUser();
@@ -18,7 +20,7 @@ export function ChatbotMessages({ threadId }: { threadId: string }) {
     <div className={cn('flex w-full flex-1 justify-center', messages.length !== 0 && 'overflow-y-scroll')}>
       <div className="w-full">
         <Conversation className={cn(messages.length === 0 && 'h-full')}>
-          <ConversationContent className={cn(messages.length === 0 ? 'h-full px-0' : 'px-2')}>
+          <ConversationContent className={cn(messages.length === 0 ? 'h-full px-0' : 'px-1 lg:px-3')}>
             {status === 'LoadingFirstPage' ? (
               <GenericLoader />
             ) : messages.length === 0 ? (
@@ -60,16 +62,35 @@ export function ChatbotMessages({ threadId }: { threadId: string }) {
 function MessagesLoaded({ messages }: { messages: UIMessage[] }) {
   return (
     <>
-      {messages.map((message) => (
-        <Message
-          key={message.key}
-          from={message.role}
-        >
-          <MessageContent className="text-md lg:text-lg">
-            <MessageResponse>{message.text}</MessageResponse>
-          </MessageContent>
-        </Message>
-      ))}
+      {messages.map((message, index) => {
+        const isLastMessage = index === messages.length - 1;
+
+        if (!message.text) return <p key={message.key}>Loading...</p>;
+
+        return (
+          <div
+            key={message.key}
+            className="flex flex-col gap-3"
+          >
+            <Message from={message.role}>
+              <MessageContent className="text-md lg:text-lg">
+                <MessageResponse>{message.text}</MessageResponse>
+              </MessageContent>
+            </Message>
+            {message.role === 'assistant' && isLastMessage && (
+              <MessageActions className="-ml-2">
+                <MessageAction
+                  label="Copy"
+                  className="cursor-pointer"
+                  onClick={() => copyString({ text: message.text, type: 'message' })}
+                >
+                  <CopyIcon />
+                </MessageAction>
+              </MessageActions>
+            )}
+          </div>
+        );
+      })}
     </>
   );
 }
