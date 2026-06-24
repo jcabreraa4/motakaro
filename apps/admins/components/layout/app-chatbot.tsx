@@ -4,10 +4,12 @@ import { useState } from 'react';
 
 import { useAuth } from '@clerk/nextjs';
 import { useMutation, usePaginatedQuery } from 'convex/react';
-import { ArrowLeftIcon, PlusIcon } from 'lucide-react';
+import { ArrowLeftIcon, GhostIcon, PlusIcon, TrashIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
+import { Separator } from '@workspace/ui/components/separator';
+import { cn } from '@workspace/ui/lib/utils';
 
 import { ChatbotInput } from '@/components/chatbot/chatbot-input';
 import { ChatbotMessages } from '@/components/chatbot/chatbot-messages';
@@ -20,15 +22,13 @@ export function AppChatbot() {
   const createThread = useMutation(api.threads.create);
   const removeThread = useMutation(api.threads.remove);
 
-  const { results: threads, status, loadMore } = usePaginatedQuery(api.threads.list, isLoaded ? {} : 'skip', { initialNumItems: 20 });
+  const { results: threads } = usePaginatedQuery(api.threads.list, isLoaded ? {} : 'skip', { initialNumItems: 20 });
 
   const [threadId, setThreadId] = useState<string | undefined>(undefined);
   const thread = threads.find((thread) => thread._id === threadId);
 
-  if (!open) return null;
-
   return (
-    <section className="w-full xl:max-w-120 xl:border-l print:hidden">
+    <section className={cn('w-full xl:max-w-120 xl:border-l print:hidden', !open && 'hidden')}>
       {!threadId ? (
         <div className="flex h-full flex-col gap-3 p-3 lg:gap-5 lg:p-5">
           <Button
@@ -41,33 +41,38 @@ export function AppChatbot() {
           </Button>
           <div className="flex flex-col gap-2">
             {threads.map((thread) => (
-              <Button
+              <div
                 key={thread._id}
-                variant="outline"
-                className="w-full cursor-pointer"
-                onClick={() => setThreadId(thread._id)}
+                className="flex"
               >
-                {thread.title}
-              </Button>
+                <Button
+                  variant="outline"
+                  className="flex-1 cursor-pointer rounded-r-none"
+                  onClick={() => setThreadId(thread._id)}
+                >
+                  {thread.title}
+                </Button>
+                <Button
+                  variant="outline"
+                  className="cursor-pointer rounded-l-none border-l-0"
+                  onClick={() => removeThread({ threadId: thread._id })}
+                >
+                  <TrashIcon />
+                </Button>
+              </div>
             ))}
           </div>
         </div>
       ) : (
-        <div className="flex h-full flex-col gap-3 py-3 lg:py-5">
-          <div className="flex w-full gap-3 px-3 lg:px-5">
-            <Button
-              variant="secondary"
-              className="cursor-pointer"
-              onClick={() => setThreadId(undefined)}
-            >
-              <ArrowLeftIcon />
-              Threads
-            </Button>
+        <div className="flex h-full flex-col gap-2 py-3 lg:gap-3 lg:py-5">
+          <div className="px-3 lg:px-5">
             <Button
               variant="outline"
-              className="pointer-events-none flex-1 justify-start truncate"
+              className="w-full cursor-pointer justify-start gap-2 truncate"
+              onClick={() => setThreadId(undefined)}
             >
-              <span className="truncate">{thread?.title}</span>
+              <GhostIcon className="hidden lg:block" />
+              <span className="truncate">{thread?.title || 'Untitled Thread'}</span>
             </Button>
           </div>
           <ChatbotMessages threadId={threadId} />

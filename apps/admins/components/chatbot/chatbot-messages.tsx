@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import { useUser } from '@clerk/nextjs';
 import { type UIMessage, useUIMessages } from '@convex-dev/agent/react';
 import { CopyIcon, MessageSquareIcon } from 'lucide-react';
@@ -14,13 +16,24 @@ import { copyString } from '@/utils/copy-string';
 
 export function ChatbotMessages({ threadId }: { threadId: string }) {
   const { user } = useUser();
-  const { results: messages, status, loadMore } = useUIMessages(api.messages.list, { threadId }, { initialNumItems: 4, stream: true });
+  const { results: messages, status, loadMore } = useUIMessages(api.messages.list, { threadId }, { initialNumItems: 30, stream: true });
+
+  const messagesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = messagesRef.current;
+    if (!container) return;
+    container.scrollTop = container.scrollHeight;
+  }, [messages.length]);
 
   return (
-    <div className={cn('flex w-full flex-1 justify-center', messages.length !== 0 && 'overflow-y-scroll')}>
+    <div
+      ref={messagesRef}
+      className={cn('flex w-full flex-1 justify-center', messages.length !== 0 && 'overflow-y-scroll')}
+    >
       <div className="w-full">
         <Conversation className={cn(messages.length === 0 && 'h-full')}>
-          <ConversationContent className={cn(messages.length === 0 ? 'h-full px-0' : 'px-1 lg:px-3')}>
+          <ConversationContent className={cn(messages.length === 0 ? 'h-full px-0' : 'px-1 lg:px-0 lg:pl-3')}>
             {status === 'LoadingFirstPage' ? (
               <GenericLoader />
             ) : messages.length === 0 ? (

@@ -25,7 +25,7 @@ export function ChatbotInput({ threadId }: { threadId: string }) {
   return (
     <>
       {files.length !== 0 && (
-        <div className="h-9 w-full px-2 lg:px-5">
+        <div className="h-9 w-full px-3 lg:px-5">
           <ChatbotAttachments
             files={files}
             setFiles={setFiles}
