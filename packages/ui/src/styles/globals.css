@@ -132,22 +132,6 @@
     scrollbar-width: thin;
     scrollbar-color: #171717 transparent;
   }
-  ::-webkit-scrollbar-thumb {
-    background: #171717;
-    border-radius: 999px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #444444;
-  }
-}
-
-@media print {
-  * {
-    scrollbar-width: none !important;
-  }
-  ::-webkit-scrollbar {
-    display: none !important;
-  }
 }
 
 /* Custom: Selection */
@@ -160,6 +144,10 @@
 /* Custom: Improve Printing */
 
 @media print {
+  * {
+    scrollbar-width: none !important;
+  }
+
   @page {
     margin: 0;
   }

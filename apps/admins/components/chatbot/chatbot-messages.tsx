@@ -29,11 +29,11 @@ export function ChatbotMessages({ threadId }: { threadId: string }) {
   return (
     <div
       ref={messagesRef}
-      className={cn('flex w-full flex-1 justify-center', messages.length !== 0 && 'overflow-y-scroll')}
+      className={cn('flex min-h-0 w-full flex-1 justify-center', messages.length !== 0 && 'overflow-y-scroll')}
     >
       <div className="w-full">
         <Conversation className={cn(messages.length === 0 && 'h-full')}>
-          <ConversationContent className={cn(messages.length === 0 ? 'h-full px-0' : 'px-1 lg:px-0 lg:pl-3')}>
+          <ConversationContent className={cn(messages.length === 0 ? 'h-full px-0' : 'px-3 lg:px-5')}>
             {status === 'LoadingFirstPage' ? (
               <GenericLoader />
             ) : messages.length === 0 ? (
@@ -78,7 +78,15 @@ function MessagesLoaded({ messages }: { messages: UIMessage[] }) {
       {messages.map((message, index) => {
         const isLastMessage = index === messages.length - 1;
 
-        if (!message.text) return <p key={message.key}>Loading...</p>;
+        if (!message.text)
+          return (
+            <p
+              key={message.key}
+              className="animate-pulse"
+            >
+              Loading...
+            </p>
+          );
 
         return (
           <div

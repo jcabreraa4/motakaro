@@ -70,7 +70,7 @@ export function DocumentsEditor({ document }: { document: Document }) {
   }
 
   return (
-    <section className="w-full flex-1 overflow-y-scroll">
+    <section className="w-full flex-1 overflow-y-auto">
       <div className="mx-auto max-w-204 p-2 lg:my-5 lg:p-0">
         <EditorContent editor={editor} />
       </div>

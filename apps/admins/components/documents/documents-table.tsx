@@ -122,7 +122,7 @@ export function DocumentsTable({ documents }: { documents: Document[] }) {
   const nonStarredDocuments = documents.filter((document) => !document.starred);
 
   return (
-    <section className="h-0 flex-1 overflow-y-scroll lg:pe-3">
+    <section className="h-0 flex-1 overflow-y-auto">
       <Table>
         <TableHeader>
           <TableRow className="border-none hover:bg-transparent">

@@ -30,7 +30,7 @@ export function MeetingsTable({ meetings }: { meetings: Meeting[] }) {
   }
 
   return (
-    <section className="flex w-full flex-col gap-5 overflow-y-scroll p-0.5 lg:pe-3">
+    <section className="flex w-full flex-col gap-5 overflow-y-auto">
       {meetings.map((meeting) => (
         <Card
           key={meeting._id}
