@@ -43,7 +43,7 @@ export function NotificationsPopover() {
         <Button
           size="icon"
           variant="ghost"
-          className={cn('relative cursor-pointer bg-transparent! text-primary/85 hover:bg-transparent! dark:hover:text-white', open && 'dark:text-white')}
+          className={cn('relative cursor-pointer bg-transparent! text-primary/80 hover:bg-transparent! dark:hover:text-white', open && 'dark:text-white')}
         >
           <BellIcon className="size-5" />
           {hasUnread && <span className="absolute top-0 right-0 size-2 rounded-full bg-primary" />}

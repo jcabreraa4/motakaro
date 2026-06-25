@@ -115,7 +115,7 @@ function HeaderButton({ children, onClick, className }: HeaderButtonProps) {
     <Button
       size="icon-sm"
       variant="ghost"
-      className={cn('cursor-pointer bg-transparent! text-primary/85 hover:bg-transparent! dark:hover:text-white', className)}
+      className={cn('cursor-pointer bg-transparent! text-primary/80 hover:bg-transparent! dark:hover:text-white', className)}
       onClick={onClick}
     >
       {children}

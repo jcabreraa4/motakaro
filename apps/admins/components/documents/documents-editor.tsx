@@ -49,7 +49,7 @@ export function DocumentsEditor({ document }: { document: Document }) {
       },
       editorProps: {
         attributes: {
-          class: 'focus:outline-none rounded-md xl:border min-h-[1054px] xl:px-[56px] xl:py-10'
+          class: 'focus:outline-none rounded-md xl:border min-h-263.5 xl:px-14 xl:py-10'
         }
       },
       extensions: [...tiptapExtensions, ...(realtime.extension ? [realtime.extension] : [])],
@@ -62,7 +62,7 @@ export function DocumentsEditor({ document }: { document: Document }) {
   if (realtime.isLoading || realtime.initialContent === null || !realtime.extension) {
     return (
       <section className="w-full flex-1 overflow-y-scroll">
-        <div className="mx-auto my-4 flex min-h-[70vh] w-full max-w-204 items-center justify-center rounded-lg border border-[#C7C7C7] bg-white px-4 md:px-0">
+        <div className="mx-auto flex h-50 min-h-263.5 w-full max-w-204 items-center justify-center gap-3 rounded-md border p-2 lg:p-0">
           <Loader2 className="animate-spin text-muted-foreground" />
         </div>
       </section>
@@ -71,7 +71,7 @@ export function DocumentsEditor({ document }: { document: Document }) {
 
   return (
     <section className="w-full flex-1 overflow-y-auto">
-      <div className="mx-auto max-w-204 p-2 lg:my-5 lg:p-0">
+      <div className="mx-auto max-w-204 p-2 lg:p-0">
         <EditorContent editor={editor} />
       </div>
     </section>

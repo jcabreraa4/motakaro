@@ -51,5 +51,9 @@ function WhiteboardsLoaded({ preloaded }: WhiteboardsPageProps) {
     );
   }
 
-  return <WhiteboardsCanvas whiteboard={whiteboard} />;
+  return (
+    <main className="relative isolate w-full">
+      <WhiteboardsCanvas whiteboard={whiteboard} />
+    </main>
+  );
 }

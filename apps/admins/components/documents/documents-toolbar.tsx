@@ -742,7 +742,7 @@ function LineHeightDropdown() {
 }
 
 function ListDropdown() {
-  const { editor, toggleBulletList, toggleOrderedList } = useEditor();
+  const { editor, toggleBulletList, toggleOrderedList, toggleTaskList } = useEditor();
 
   const lists = [
     {
@@ -756,6 +756,12 @@ function ListDropdown() {
       icon: ListOrderedIcon,
       isActive: editor?.isActive('orderedList'),
       onClick: toggleOrderedList
+    },
+    {
+      label: 'Task List',
+      icon: ListTodoIcon,
+      isActive: editor?.isActive('taskList'),
+      onClick: toggleTaskList
     }
   ];
 
@@ -815,7 +821,7 @@ function ToolbarSeparator() {
 }
 
 export function DocumentsToolbar({ document }: { document: Document }) {
-  const { editor, undo, redo, toggleBold, toggleItalic, toggleUnderline, toggleTaskList, unsetAllMarks, toggleSpellcheck } = useEditor();
+  const { editor, undo, redo, toggleBold, toggleItalic, toggleUnderline, unsetAllMarks, toggleSpellcheck } = useEditor();
 
   return (
     <>
@@ -868,11 +874,6 @@ export function DocumentsToolbar({ document }: { document: Document }) {
           <AlignDropdown />
           <LineHeightDropdown />
           <ListDropdown />
-          <ToolbarButton
-            icon={ListTodoIcon}
-            isActive={editor?.isActive('taskList')}
-            onClick={toggleTaskList}
-          />
           <ToolbarButton
             icon={RemoveFormattingIcon}
             onClick={unsetAllMarks}

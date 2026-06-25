@@ -116,7 +116,7 @@ export function NavMain() {
                     asChild
                     tooltip={item.title}
                     onClick={closeChatbotInMobile}
-                    className={cn(isActive(item.url) ? 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground active:bg-primary active:text-primary-foreground' : 'text-primary/85')}
+                    className={cn(isActive(item.url) ? 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground active:bg-primary active:text-primary-foreground' : 'text-primary/80')}
                   >
                     <Link href={item.url}>
                       <item.icon className="size-4" />
