@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import { useUser } from '@clerk/nextjs';
 import { type UIMessage, useUIMessages } from '@convex-dev/agent/react';
-import { CopyIcon, MessageSquareIcon } from 'lucide-react';
+import { CopyIcon, Loader2Icon, LoaderCircle, LoaderIcon, MessageSquareIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Conversation, ConversationContent, ConversationEmptyState, ConversationScrollButton } from '@workspace/ui/chatbot/conversation';
@@ -83,12 +83,13 @@ function MessagesLoaded({ messages }: { messages: UIMessage[] }) {
       {messages.map((message, index) => {
         const isLastMessage = index === messages.length - 1;
 
-        if (!message.text)
+        if (isLastMessage && !message.text)
           return (
             <p
               key={message.key}
               className="animate-pulse"
             >
+              <LoaderCircle />
               Loading...
             </p>
           );

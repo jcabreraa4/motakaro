@@ -69,9 +69,11 @@ export function WhiteboardsCanvas({ whiteboard }: { whiteboard: Whiteboard }) {
   }, [store, remoteWhiteboard?.content]);
 
   return (
-    <Tldraw
-      store={store}
-      colorScheme={theme === 'dark' ? 'dark' : 'light'}
-    />
+    <div className="relative isolate h-full w-full">
+      <Tldraw
+        store={store}
+        colorScheme={theme === 'dark' ? 'dark' : 'light'}
+      />
+    </div>
   );
 }
