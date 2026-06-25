@@ -11,12 +11,13 @@ import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 export default function Page() {
   const { isLoaded } = useAuth();
+
   const companies = useQuery(api.organizations.list, isLoaded ? {} : 'skip');
 
   if (!companies) return <GenericLoader />;
 
   return (
-    <main className="flex w-full flex-col gap-2 overflow-hidden p-3 lg:p-5">
+    <main className="flex w-full flex-col gap-3 overflow-hidden p-3 md:p-5">
       {companies.map((company) => (
         <Link
           key={company._id}

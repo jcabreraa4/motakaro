@@ -6,11 +6,15 @@ import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
 import { PromptInput, PromptInputBody, PromptInputButton, PromptInputFooter, PromptInputSubmit, PromptInputTextarea, PromptInputTools } from '@workspace/ui/chatbot/prompt-input';
-import { cn } from '@workspace/ui/lib/utils';
 
 import { ChatbotAttachments } from '@/components/chatbot/chatbot-attachments';
 
-export function ChatbotInput({ threadId }: { threadId: string }) {
+interface ChatbotInputProps {
+  threadId: string;
+  className?: string;
+}
+
+export function ChatbotInput({ threadId, className }: ChatbotInputProps) {
   const createMessage = useMutation(api.messages.create);
 
   const [input, setInput] = useState('');
@@ -25,10 +29,11 @@ export function ChatbotInput({ threadId }: { threadId: string }) {
   return (
     <>
       {files.length !== 0 && (
-        <div className="h-9 w-full px-3 lg:px-5">
+        <div className="h-9 w-full">
           <ChatbotAttachments
             files={files}
             setFiles={setFiles}
+            className={className}
           />
         </div>
       )}
@@ -36,7 +41,7 @@ export function ChatbotInput({ threadId }: { threadId: string }) {
         multiple
         globalDrop
         onSubmit={handleSubmit}
-        className={cn('w-full px-3 lg:px-5', !input && 'select-none')}
+        className={className}
       >
         <PromptInputBody>
           <PromptInputTextarea
@@ -46,25 +51,23 @@ export function ChatbotInput({ threadId }: { threadId: string }) {
           />
         </PromptInputBody>
         <PromptInputFooter>
-          <PromptInputTools className="items-between flex w-full justify-between pe-3">
-            <div className="flex gap-2">
-              <input
-                multiple
-                id="file-upload"
-                type="file"
-                className="hidden"
-                onChange={(e) => e.target.files && setFiles([...files, ...Array.from(e.target.files)])}
-              />
-              <PromptInputButton
-                asChild
-                variant="outline"
-                className="cursor-pointer"
-              >
-                <label htmlFor="file-upload">
-                  <PaperclipIcon />
-                </label>
-              </PromptInputButton>
-            </div>
+          <PromptInputTools>
+            <input
+              multiple
+              id="file-upload"
+              type="file"
+              className="hidden"
+              onChange={(e) => e.target.files && setFiles([...files, ...Array.from(e.target.files)])}
+            />
+            <PromptInputButton
+              asChild
+              variant="outline"
+              className="cursor-pointer"
+            >
+              <label htmlFor="file-upload">
+                <PaperclipIcon />
+              </label>
+            </PromptInputButton>
           </PromptInputTools>
           <PromptInputSubmit
             disabled={!(input.trim() || files.length > 0)}

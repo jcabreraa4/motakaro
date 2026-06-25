@@ -11,12 +11,13 @@ import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 export default function Page() {
   const { isLoaded } = useAuth();
+
   const contacts = useQuery(api.clients.list, isLoaded ? {} : 'skip');
 
   if (!contacts) return <GenericLoader />;
 
   return (
-    <main className="flex w-full flex-col gap-2 overflow-hidden p-3 lg:p-5">
+    <main className="flex w-full flex-col gap-3 overflow-hidden p-3 md:p-5">
       {contacts.map((contact) => (
         <Link
           key={contact._id}

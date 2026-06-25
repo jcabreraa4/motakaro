@@ -26,7 +26,7 @@ export default function Page() {
   const filteredBoards = whiteboards?.filter((whiteboard) => searchFilter === '' || whiteboard.name.toLowerCase().includes(searchFilter.toLowerCase()) || whiteboard._id.toLowerCase().includes(searchFilter.toLowerCase()));
 
   return (
-    <main className="flex w-full flex-col gap-3 overflow-hidden p-3 lg:gap-5 lg:p-5">
+    <main className="flex w-full flex-col gap-3 overflow-hidden p-3 md:gap-5 md:p-5">
       <section className="flex flex-col gap-3 lg:flex-row xl:gap-5">
         <InputGroup className="flex-1">
           <InputGroupInput

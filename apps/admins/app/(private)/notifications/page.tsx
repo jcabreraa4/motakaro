@@ -27,7 +27,7 @@ export default function Page() {
   });
 
   return (
-    <main className="flex w-full flex-col items-center overflow-hidden p-3 lg:p-5">
+    <main className="flex w-full flex-col items-center overflow-hidden p-3 md:p-5">
       <div className="flex h-full w-full max-w-5xl flex-col gap-5">
         <h2 className="hidden pt-5 text-2xl font-semibold select-none xl:block">Notifications</h2>
         <section className="flex flex-col gap-3 lg:flex-row lg:gap-5">

@@ -35,7 +35,7 @@ function MeetingsLoaded({ preloaded }: MeetingsPageProps) {
 
   if (!meeting) {
     return (
-      <main className="flex w-full flex-col items-center justify-center gap-5 select-none">
+      <main className="flex w-full flex-col items-center justify-center gap-5 p-3 select-none md:p-5">
         <div className="flex flex-col items-center gap-3">
           <p className="text-xl font-semibold">404 Not Found</p>
           <p>The meeting you are looking for could not be found.</p>
@@ -51,7 +51,7 @@ function MeetingsLoaded({ preloaded }: MeetingsPageProps) {
   }
 
   return (
-    <main className="flex w-full flex-1 justify-center p-3 lg:p-5">
+    <main className="flex w-full flex-1 justify-center p-3 md:p-5">
       <section className="flex w-full max-w-5xl flex-col justify-center gap-6 md:px-5">
         <h1 className="text-3xl font-semibold">{meeting.name}</h1>
         <p>{meeting.note}</p>

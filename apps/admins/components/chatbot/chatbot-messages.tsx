@@ -14,7 +14,12 @@ import { cn } from '@workspace/ui/lib/utils';
 
 import { copyString } from '@/utils/copy-string';
 
-export function ChatbotMessages({ threadId }: { threadId: string }) {
+interface ChatbotMessagesProps {
+  threadId: string;
+  className?: string;
+}
+
+export function ChatbotMessages({ threadId, className }: ChatbotMessagesProps) {
   const { user } = useUser();
   const { results: messages, status, loadMore } = useUIMessages(api.messages.list, { threadId }, { initialNumItems: 30, stream: true });
 
@@ -29,11 +34,11 @@ export function ChatbotMessages({ threadId }: { threadId: string }) {
   return (
     <div
       ref={messagesRef}
-      className={cn('flex min-h-0 w-full flex-1 justify-center', messages.length !== 0 && 'overflow-y-scroll')}
+      className={cn('flex min-h-0 w-full flex-1 justify-center overflow-y-auto', className)}
     >
       <div className="w-full">
         <Conversation className={cn(messages.length === 0 && 'h-full')}>
-          <ConversationContent className={cn(messages.length === 0 ? 'h-full px-0' : 'px-3 lg:px-5')}>
+          <ConversationContent className={cn('px-0', messages.length === 0 && 'h-full')}>
             {status === 'LoadingFirstPage' ? (
               <GenericLoader />
             ) : messages.length === 0 ? (

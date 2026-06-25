@@ -35,7 +35,7 @@ export function ContactsLoaded({ preloaded }: ContactsPageProps) {
 
   if (!contact) {
     return (
-      <section className="flex w-full flex-col items-center justify-center gap-5 select-none">
+      <section className="flex w-full flex-col items-center justify-center gap-5 p-3 select-none md:p-5">
         <div className="flex flex-col items-center gap-3">
           <p className="text-xl font-semibold">404 Not Found</p>
           <p>The document you are looking for could not be found.</p>
@@ -51,12 +51,10 @@ export function ContactsLoaded({ preloaded }: ContactsPageProps) {
   }
 
   return (
-    <main>
-      <section>
-        <p>
-          {contact.name} {contact.surname}
-        </p>
-      </section>
+    <main className="p-3 md:p-5">
+      <p>
+        {contact.name} {contact.surname}
+      </p>
     </main>
   );
 }
