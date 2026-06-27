@@ -22,12 +22,13 @@ interface UserDataProps extends NavUserProps {
 function UserData({ name, email, avatar, className }: UserDataProps) {
   return (
     <>
-      <Avatar className="h-8 w-8 rounded-lg">
+      <Avatar>
         <AvatarImage
           src={avatar}
           alt={name}
+          className="overflow-hidden"
         />
-        <AvatarFallback className="rounded-lg">
+        <AvatarFallback className="overflow-hidden">
           <UserRoundIcon />
         </AvatarFallback>
       </Avatar>

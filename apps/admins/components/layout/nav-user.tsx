@@ -22,12 +22,13 @@ interface UserDataProps extends NavUserProps {
 function UserData({ name, email, avatar, className }: UserDataProps) {
   return (
     <>
-      <Avatar className="h-8 w-8 rounded-lg">
+      <Avatar>
         <AvatarImage
           src={avatar}
           alt={name}
+          className="overflow-hidden"
         />
-        <AvatarFallback className="rounded-lg">
+        <AvatarFallback className="overflow-hidden">
           <UserRoundIcon />
         </AvatarFallback>
       </Avatar>
@@ -62,7 +63,6 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
     return () => clearInterval(interval);
   }, [isLoaded, updateAdmin]);
 
-  // Select Data
   const displayName = admin ? `${admin.name} ${admin.surname}` : name;
   const displayEmail = admin?.email ?? email;
   const displayAvatar = admin?.avatar ?? avatar;

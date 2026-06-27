@@ -6,11 +6,11 @@ import { Fragment } from 'react';
 
 import { useAuth } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
-import { GhostIcon } from 'lucide-react';
+import { GhostIcon, UserRoundIcon } from 'lucide-react';
 import { MoonIcon, SunIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
+import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
 import { Button } from '@workspace/ui/components/button';
 import { Separator } from '@workspace/ui/components/separator';
@@ -82,16 +82,20 @@ function UserPresence({ className }: { className?: string }) {
         {filteredAdmins.map((admin) => (
           <Tooltip key={admin._id}>
             <TooltipTrigger asChild>
-              <div className="relative cursor-default">
-                <Avatar className="size-6">
-                  <AvatarImage src={admin.avatar} />
-                  <AvatarFallback className="text-xs">{admin.name?.[0]?.toUpperCase() ?? '?'}</AvatarFallback>
-                </Avatar>
-                <span className="absolute right-0 bottom-0 h-2 w-2 rounded-full border border-background bg-green-500" />
-              </div>
+              <Avatar size="sm">
+                <AvatarImage
+                  src={admin.avatar}
+                  alt={admin.name}
+                  className="overflow-hidden"
+                />
+                <AvatarFallback className="overflow-hidden">
+                  <UserRoundIcon className="size-5" />
+                </AvatarFallback>
+                <AvatarBadge className="bg-green-600" />
+              </Avatar>
             </TooltipTrigger>
             <TooltipContent side="bottom">
-              <p>{`${admin.name ?? ''} ${admin.surname ?? ''}`.trim()}</p>
+              <p>{`${admin.name} ${admin.surname}`}</p>
             </TooltipContent>
           </Tooltip>
         ))}

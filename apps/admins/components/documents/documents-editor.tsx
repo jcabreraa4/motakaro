@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 
 import { useTiptapSync } from '@convex-dev/prosemirror-sync/tiptap';
 import { EditorContent, useEditor as useTiptap } from '@tiptap/react';
-import { Loader2 } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import type { Document } from '@workspace/backend/schema';
+import { Spinner } from '@workspace/ui/components/spinner';
 
 import { useEditor } from '@/hooks/use-editor';
 import { tiptapExtensions } from '@/lib/documents/tiptap';
@@ -63,7 +63,7 @@ export function DocumentsEditor({ document }: { document: Document }) {
     return (
       <section className="w-full flex-1 overflow-y-scroll">
         <div className="mx-auto flex h-50 min-h-263.5 w-full max-w-204 items-center justify-center rounded-md p-2 lg:p-0 xl:border">
-          <Loader2 className="animate-spin text-muted-foreground" />
+          <Spinner className="size-8" />
         </div>
       </section>
     );
