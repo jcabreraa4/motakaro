@@ -31,7 +31,7 @@ export const create = mutation({
     // Create Thread
     const { threadId } = await chatbot.createThread(ctx, {
       userId: identity.subject,
-      title: 'Motakaro Assistant'
+      title: 'Untitled Thread'
     });
 
     // Return Thread
@@ -41,7 +41,7 @@ export const create = mutation({
 
 export const remove = mutation({
   args: {
-    threadId: v.string()
+    id: v.string()
   },
   handler: async (ctx, args) => {
     // Verify Identity
@@ -49,7 +49,7 @@ export const remove = mutation({
 
     // Obtain Thread
     const thread = await ctx.runQuery(components.agent.threads.getThread, {
-      threadId: args.threadId
+      threadId: args.id
     });
     if (!thread) throw new ConvexError('Thread not found');
 
@@ -60,7 +60,7 @@ export const remove = mutation({
 
     // Remove Thread
     await chatbot.deleteThreadAsync(ctx, {
-      threadId: args.threadId
+      threadId: args.id
     });
   }
 });

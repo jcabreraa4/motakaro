@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import { useUser } from '@clerk/nextjs';
 import { type UIMessage, useUIMessages } from '@convex-dev/agent/react';
-import { CopyIcon, Loader2Icon, LoaderCircle, LoaderIcon, MessageSquareIcon } from 'lucide-react';
+import { CopyIcon, LoaderCircle, MessageSquareIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Conversation, ConversationContent, ConversationEmptyState, ConversationScrollButton } from '@workspace/ui/chatbot/conversation';
@@ -34,7 +34,7 @@ export function ChatbotMessages({ threadId, className }: ChatbotMessagesProps) {
   return (
     <div
       ref={messagesRef}
-      className={cn('flex min-h-0 w-full flex-1 justify-center overflow-y-auto', className)}
+      className={cn('flex min-h-0 w-full flex-1 justify-center overflow-y-auto')}
     >
       <div className="w-full">
         <Conversation className={cn(messages.length === 0 && 'h-full')}>
@@ -66,7 +66,10 @@ export function ChatbotMessages({ threadId, className }: ChatbotMessagesProps) {
                     </Button>
                   </div>
                 )}
-                <MessagesLoaded messages={messages} />
+                <MessagesLoaded
+                  messages={messages}
+                  className={className}
+                />
               </>
             )}
           </ConversationContent>
@@ -77,7 +80,12 @@ export function ChatbotMessages({ threadId, className }: ChatbotMessagesProps) {
   );
 }
 
-function MessagesLoaded({ messages }: { messages: UIMessage[] }) {
+interface MessagesLoadedProps {
+  messages: UIMessage[];
+  className?: string;
+}
+
+function MessagesLoaded({ messages, className }: MessagesLoadedProps) {
   return (
     <>
       {messages.map((message, index) => {
@@ -97,7 +105,7 @@ function MessagesLoaded({ messages }: { messages: UIMessage[] }) {
         return (
           <div
             key={message.key}
-            className="flex flex-col gap-3"
+            className={cn('flex flex-col gap-3', className)}
           >
             <Message from={message.role}>
               <MessageContent className="text-md lg:text-lg">

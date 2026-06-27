@@ -12,47 +12,51 @@ interface SetLineHeightProps {
 export function useEditor() {
   const { editor, setEditor } = useEditorStore();
 
-  // Primary Functions
-  function undo() {
-    editor?.chain().focus().undo().run();
-  }
+  const actions = {
+    undo: {
+      execute: () => editor?.chain().focus().undo().run(),
+      canExecute: editor?.can().undo()
+    },
+    redo: {
+      execute: () => editor?.chain().focus().redo().run(),
+      canExecute: editor?.can().redo()
+    },
+    unsetAllMarks: () => editor?.chain().focus().unsetAllMarks().run(),
+    toggleSpellcheck: () => {
+      const current = editor?.view.dom.getAttribute('spellcheck');
+      editor?.view.dom.setAttribute('spellcheck', current === 'false' ? 'true' : 'false');
+    }
+  };
 
-  function redo() {
-    editor?.chain().focus().redo().run();
-  }
+  const format = {
+    bold: {
+      toggle: () => editor?.chain().focus().toggleBold().run(),
+      isActive: editor?.isActive('bold')
+    },
+    italic: {
+      toggle: () => editor?.chain().focus().toggleItalic().run(),
+      isActive: editor?.isActive('italic')
+    },
+    underline: {
+      toggle: () => editor?.chain().focus().toggleUnderline().run(),
+      isActive: editor?.isActive('underline')
+    }
+  };
 
-  function toggleBold() {
-    editor?.chain().focus().toggleBold().run();
-  }
-
-  function toggleItalic() {
-    editor?.chain().focus().toggleItalic().run();
-  }
-
-  function toggleUnderline() {
-    editor?.chain().focus().toggleUnderline().run();
-  }
-
-  function toggleTaskList() {
-    editor?.chain().focus().toggleTaskList().run();
-  }
-
-  function toggleBulletList() {
-    editor?.chain().focus().toggleBulletList().run();
-  }
-
-  function toggleOrderedList() {
-    editor?.chain().focus().toggleOrderedList().run();
-  }
-
-  function unsetAllMarks() {
-    editor?.chain().focus().unsetAllMarks().run();
-  }
-
-  function toggleSpellcheck() {
-    const current = editor?.view.dom.getAttribute('spellcheck');
-    editor?.view.dom.setAttribute('spellcheck', current === 'false' ? 'true' : 'false');
-  }
+  const structure = {
+    bulletList: {
+      toggle: () => editor?.chain().focus().toggleBulletList().run(),
+      isActive: editor?.isActive('bulletList')
+    },
+    orderedList: {
+      toggle: () => editor?.chain().focus().toggleOrderedList().run(),
+      isActive: editor?.isActive('orderedList')
+    },
+    taskList: {
+      toggle: () => editor?.chain().focus().toggleTaskList().run(),
+      isActive: editor?.isActive('taskList')
+    }
+  };
 
   // Advanced Functions
   function insertTable({ rows, cols }: InsertTableProps) {
@@ -63,5 +67,5 @@ export function useEditor() {
     editor?.chain().focus().toggleTextStyle({ lineHeight: height }).run();
   }
 
-  return { editor, setEditor, undo, redo, toggleBold, toggleItalic, toggleUnderline, toggleTaskList, toggleBulletList, toggleOrderedList, unsetAllMarks, toggleSpellcheck, insertTable, setLineHeight };
+  return { editor, setEditor, actions, format, structure, insertTable, setLineHeight };
 }

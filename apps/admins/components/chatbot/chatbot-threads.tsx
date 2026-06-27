@@ -22,15 +22,15 @@ export function ChatbotThreads({ threads, setThreadId }: ChatbotThreadsProps) {
         >
           <Button
             variant="outline"
-            className="flex-1 cursor-pointer rounded-r-none"
+            className="flex-1 cursor-pointer justify-start truncate rounded-r-none"
             onClick={() => setThreadId(thread._id)}
           >
-            {thread.title}
+            <span className="truncate">{thread.title}</span>
           </Button>
           <Button
             variant="outline"
             className="cursor-pointer rounded-l-none border-l-0"
-            onClick={() => removeThread({ threadId: thread._id })}
+            onClick={() => removeThread({ id: thread._id })}
           >
             <TrashIcon />
           </Button>

@@ -742,26 +742,26 @@ function LineHeightDropdown() {
 }
 
 function ListDropdown() {
-  const { editor, toggleBulletList, toggleOrderedList, toggleTaskList } = useEditor();
+  const { structure } = useEditor();
 
   const lists = [
     {
       label: 'Bullet List',
       icon: ListIcon,
-      isActive: editor?.isActive('bulletList'),
-      onClick: toggleBulletList
+      isActive: structure.bulletList.isActive,
+      onClick: structure.bulletList.toggle
     },
     {
       label: 'Ordered List',
       icon: ListOrderedIcon,
-      isActive: editor?.isActive('orderedList'),
-      onClick: toggleOrderedList
+      isActive: structure.orderedList.isActive,
+      onClick: structure.orderedList.toggle
     },
     {
       label: 'Task List',
       icon: ListTodoIcon,
-      isActive: editor?.isActive('taskList'),
-      onClick: toggleTaskList
+      isActive: structure.taskList.isActive,
+      onClick: structure.taskList.toggle
     }
   ];
 
@@ -796,15 +796,17 @@ interface ToolbarButtonProps {
   icon: LucideIcon;
   onClick?: () => void;
   isActive?: boolean;
+  disabled?: boolean;
 }
 
-function ToolbarButton({ icon: Icon, onClick, isActive }: ToolbarButtonProps) {
+function ToolbarButton({ icon: Icon, onClick, isActive, disabled }: ToolbarButtonProps) {
   return (
     <Button
       size="icon"
       variant={isActive ? 'secondary' : 'ghost'}
       className="dark:hover:bg-secondary"
       onClick={onClick}
+      disabled={disabled}
     >
       <Icon />
     </Button>
@@ -821,7 +823,7 @@ function ToolbarSeparator() {
 }
 
 export function DocumentsToolbar({ document }: { document: Document }) {
-  const { editor, undo, redo, toggleBold, toggleItalic, toggleUnderline, unsetAllMarks, toggleSpellcheck } = useEditor();
+  const { actions, format } = useEditor();
 
   return (
     <>
@@ -830,15 +832,15 @@ export function DocumentsToolbar({ document }: { document: Document }) {
         <div className="flex items-center gap-1">
           <ToolbarButton
             icon={Undo2Icon}
-            onClick={undo}
+            onClick={actions.undo.execute}
           />
           <ToolbarButton
             icon={Redo2Icon}
-            onClick={redo}
+            onClick={actions.redo.execute}
           />
           <ToolbarButton
             icon={SpellCheckIcon}
-            onClick={toggleSpellcheck}
+            onClick={actions.toggleSpellcheck}
           />
           <DownloadMenubar title={document.name} />
         </div>
@@ -850,18 +852,18 @@ export function DocumentsToolbar({ document }: { document: Document }) {
         <div className="flex items-center gap-1">
           <ToolbarButton
             icon={BoldIcon}
-            isActive={editor?.isActive('bold')}
-            onClick={toggleBold}
+            isActive={format.bold.isActive}
+            onClick={format.bold.toggle}
           />
           <ToolbarButton
             icon={ItalicIcon}
-            isActive={editor?.isActive('italic')}
-            onClick={toggleItalic}
+            isActive={format.italic.isActive}
+            onClick={format.italic.toggle}
           />
           <ToolbarButton
             icon={UnderlineIcon}
-            isActive={editor?.isActive('underline')}
-            onClick={toggleUnderline}
+            isActive={format.underline.isActive}
+            onClick={format.underline.toggle}
           />
           <TextColorButton />
           <HighlightColorButton />
@@ -876,7 +878,7 @@ export function DocumentsToolbar({ document }: { document: Document }) {
           <ListDropdown />
           <ToolbarButton
             icon={RemoveFormattingIcon}
-            onClick={unsetAllMarks}
+            onClick={actions.unsetAllMarks}
           />
         </div>
       </section>
