@@ -83,7 +83,7 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
                 avatar={displayAvatar}
                 className="select-none"
               />
-              <ChevronsUpDown className="ml-auto size-4" />
+              <ChevronsUpDown className="ml-auto size-4.5" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent

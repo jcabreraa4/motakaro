@@ -47,36 +47,19 @@ function HeaderBreadcrumb() {
   );
 }
 
-interface HeaderButtonProps {
-  children: React.ReactNode;
-  onClick?: () => void;
-  className?: string;
-}
-
-function HeaderButton({ children, onClick, className }: HeaderButtonProps) {
-  return (
-    <Button
-      size="icon-sm"
-      variant="ghost"
-      className={cn('cursor-pointer bg-transparent! text-primary/80 hover:bg-transparent! dark:hover:text-white', className)}
-      onClick={onClick}
-    >
-      {children}
-    </Button>
-  );
-}
-
 export function ThemeButton({ className }: { className?: string }) {
   const { theme, setTheme } = useTheme();
 
   return (
-    <HeaderButton
+    <Button
+      size="icon-sm"
+      variant="ghost"
+      className={cn('cursor-pointer', className)}
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-      className={className}
     >
       <SunIcon className="hidden size-5 dark:block" />
       <MoonIcon className="size-5 dark:hidden" />
-    </HeaderButton>
+    </Button>
   );
 }
 

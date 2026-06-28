@@ -91,7 +91,7 @@ function TeamSettings({ name, plan, logo }: TeamSettingsProps) {
             logo={logo}
             className="select-none"
           />
-          <ChevronsUpDown className="ml-auto" />
+          <ChevronsUpDown className="ml-auto size-4.5" />
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>
@@ -113,9 +113,9 @@ function TeamSelector({ organizations, activeOrganization, setActiveOrganization
   async function handleSwitch(organization: Organization) {
     setActiveOrganization(organization);
     if (setActive) {
-      await setActive({ organization: organization.clerkId }).finally(() => {
-        toast.success('Organization switched successfully.');
-      });
+      await setActive({ organization: organization.clerkId })
+        .then(() => toast.success('Organization switched successfully.'))
+        .catch(() => toast.error('An internal error has ocurred.'));
     }
   }
 

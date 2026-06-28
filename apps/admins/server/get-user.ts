@@ -4,7 +4,7 @@ import { runConvex } from '@/server/run-convex';
 import { verifyAuth } from '@/server/verify-auth';
 
 export async function getUser() {
-  // Check Identity
+  // Verify Identity
   await verifyAuth();
 
   // Obtain Convex

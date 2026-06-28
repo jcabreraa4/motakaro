@@ -14,7 +14,7 @@ import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from '@workspace/ui/
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
 import { Button } from '@workspace/ui/components/button';
 import { Separator } from '@workspace/ui/components/separator';
-import { SidebarTrigger } from '@workspace/ui/components/sidebar';
+import { SidebarTrigger, useSidebar } from '@workspace/ui/components/sidebar';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip';
 import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { cn } from '@workspace/ui/lib/utils';
@@ -108,35 +108,18 @@ function UserPresence({ className }: { className?: string }) {
   );
 }
 
-interface HeaderButtonProps {
-  children: React.ReactNode;
-  onClick?: () => void;
-  className?: string;
-}
-
-function HeaderButton({ children, onClick, className }: HeaderButtonProps) {
-  return (
-    <Button
-      size="icon-sm"
-      variant="ghost"
-      className={cn('cursor-pointer bg-transparent! text-primary/80 hover:bg-transparent! dark:hover:text-white', className)}
-      onClick={onClick}
-    >
-      {children}
-    </Button>
-  );
-}
-
 function ChatbotButton({ className }: { className?: string }) {
   const { open, setOpen } = useChatbot();
 
   return (
-    <HeaderButton
+    <Button
+      size="icon-sm"
+      variant={open ? 'secondary' : 'ghost'}
+      className={cn('cursor-pointer', className)}
       onClick={() => setOpen(!open)}
-      className={cn(open && 'text-black dark:text-white', className)}
     >
       <GhostIcon className="size-5" />
-    </HeaderButton>
+    </Button>
   );
 }
 
@@ -144,13 +127,15 @@ export function ThemeButton({ className }: { className?: string }) {
   const { theme, setTheme } = useTheme();
 
   return (
-    <HeaderButton
+    <Button
+      size="icon-sm"
+      variant="ghost"
+      className={cn('cursor-pointer', className)}
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-      className={className}
     >
       <SunIcon className="hidden size-5 dark:block" />
       <MoonIcon className="size-5 dark:hidden" />
-    </HeaderButton>
+    </Button>
   );
 }
 

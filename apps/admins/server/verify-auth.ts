@@ -1,7 +1,7 @@
 import { auth } from '@clerk/nextjs/server';
 
 export async function verifyAuth() {
-  // Check Identity
+  // Verify Identity
   const { userId } = await auth();
   if (!userId) throw new Error('Unauthorized');
 
