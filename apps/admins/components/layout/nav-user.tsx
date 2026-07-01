@@ -8,6 +8,7 @@ import { useAuth, useClerk } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
 import { useMutation, useQuery } from 'convex/react';
 import { BellIcon, ChevronsUpDown, CircleUserIcon, LogOutIcon, MoonIcon, SunIcon, UserRoundIcon } from 'lucide-react';
+import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
@@ -66,6 +67,12 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
   const displayName = admin ? `${admin.name} ${admin.surname}` : name;
   const displayEmail = admin?.email ?? email;
   const displayAvatar = admin?.avatar ?? avatar;
+
+  function handleSignOut() {
+    signOut()
+      .then(() => toast.success('Signed out successfully.'))
+      .catch(() => toast.error('An internal error has ocurred.'));
+  }
 
   return (
     <SidebarMenu>
@@ -135,7 +142,7 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => signOut()}
+              onClick={handleSignOut}
             >
               <LogOutIcon />
               Sign Out
