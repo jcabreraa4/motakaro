@@ -21,7 +21,8 @@
     "build": "turbo build",
     "lint": "turbo lint",
     "format": "turbo format",
-    "typecheck": "turbo typecheck"
+    "typecheck": "turbo typecheck",
+    "deploy": "turbo deploy"
   },
   "workspaces": [
     "apps/*",

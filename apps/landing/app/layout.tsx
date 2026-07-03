@@ -10,7 +10,6 @@ import '@workspace/ui/globals.css';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { ConvexProvider } from '@/components/providers/convex-provider';
-import { ThemeProvider } from '@/components/providers/theme-provider';
 
 const fontSans = Geist({
   subsets: ['latin'],
@@ -38,20 +37,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       className={cn('antialiased', fontMono.variable, 'font-sans', fontSans.variable)}
     >
       <body suppressHydrationWarning>
-        <ThemeProvider
-          enableSystem
-          attribute="class"
-          defaultTheme="light"
-        >
-          <ConvexProvider>
-            <TooltipProvider>
-              {children}
-              <Toaster />
-              <SpeedInsights />
-              <Analytics />
-            </TooltipProvider>
-          </ConvexProvider>
-        </ThemeProvider>
+        <ConvexProvider>
+          <TooltipProvider>
+            {children}
+            <Toaster />
+            <SpeedInsights />
+            <Analytics />
+          </TooltipProvider>
+        </ConvexProvider>
       </body>
     </html>
   );

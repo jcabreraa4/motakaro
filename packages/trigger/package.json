@@ -3,9 +3,9 @@
   "type": "module",
   "scripts": {
     "dev": "trigger dev",
-    "deploy": "trigger deploy",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "deploy": "trigger deploy"
   },
   "exports": {
     ".": "./src/index.ts"
