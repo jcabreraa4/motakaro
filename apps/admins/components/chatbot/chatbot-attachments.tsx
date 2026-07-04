@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { TrashIcon } from 'lucide-react';
 
-import { Suggestions } from '@workspace/ui/chatbot/suggestion';
+import { Suggestions } from '@workspace/ui/components/aisdk/suggestion';
 import { Button } from '@workspace/ui/components/button';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@workspace/ui/components/hover-card';
 import { cn } from '@workspace/ui/lib/utils';

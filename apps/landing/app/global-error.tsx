@@ -2,7 +2,7 @@
 
 import { Geist, Geist_Mono } from 'next/font/google';
 
-import { GenericError } from '@workspace/ui/custom/generic-error';
+import { GenericError } from '@workspace/ui/components/custom/generic-error';
 import '@workspace/ui/globals.css';
 import { cn } from '@workspace/ui/lib/utils';
 

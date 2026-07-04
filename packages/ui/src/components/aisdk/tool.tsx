@@ -6,7 +6,7 @@ import { isValidElement } from 'react';
 import type { DynamicToolUIPart, ToolUIPart } from 'ai';
 import { CheckCircleIcon, ChevronDownIcon, CircleIcon, ClockIcon, WrenchIcon, XCircleIcon } from 'lucide-react';
 
-import { CodeBlock } from '@workspace/ui/chatbot/code-block';
+import { CodeBlock } from '@workspace/ui/components/aisdk/code-block';
 import { Badge } from '@workspace/ui/components/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@workspace/ui/components/collapsible';
 import { cn } from '@workspace/ui/lib/utils';

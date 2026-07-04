@@ -5,7 +5,7 @@ import { PaperclipIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
-import { PromptInput, PromptInputBody, PromptInputButton, PromptInputFooter, PromptInputSubmit, PromptInputTextarea, PromptInputTools } from '@workspace/ui/chatbot/prompt-input';
+import { PromptInput, PromptInputBody, PromptInputButton, PromptInputFooter, PromptInputSubmit, PromptInputTextarea, PromptInputTools } from '@workspace/ui/components/aisdk/prompt-input';
 
 import { ChatbotAttachments } from '@/components/chatbot/chatbot-attachments';
 

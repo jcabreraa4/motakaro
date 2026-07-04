@@ -62,16 +62,13 @@
     "typescript": "^5.9.3"
   },
   "exports": {
+    "./components/*": "./src/components/*.tsx",
+    "./hooks/*": "./src/hooks/*.ts",
+    "./lib/*": "./src/lib/*.ts",
     "./globals.css": "./src/styles/globals.css",
     "./tiptap.css": "./src/styles/tiptap.css",
     "./tldraw.css": "./src/styles/tldraw.css",
-    "./postcss.config": "./postcss.config.mjs",
-    "./lib/*": "./src/lib/*.ts",
-    "./components/*": "./src/components/*.tsx",
-    "./hooks/*": "./src/hooks/*.ts",
-    "./chatbot/*": "./src/chatbot/*.tsx",
-    "./custom/*": "./src/custom/*.tsx",
-    "./magicui/*": "./src/magicui/*.tsx",
-    "./types/*": "./src/types/*.ts"
+    "./types/*": "./src/types/*.ts",
+    "./postcss.config": "./postcss.config.mjs"
   }
 }

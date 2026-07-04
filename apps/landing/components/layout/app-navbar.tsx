@@ -1,14 +1,12 @@
 'use client';
 
-import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
-import { MenuIcon, MoonIcon, SunIcon, XIcon } from 'lucide-react';
+import { MenuIcon, XIcon } from 'lucide-react';
 import { motion } from 'motion/react';
 
-import { Button } from '@workspace/ui/components/button';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { ActionButton } from '@/components/motakaro/action-button';
@@ -40,22 +38,6 @@ const sections: Section[] = [
   }
 ];
 
-export function ThemeButton({ className }: { className?: string }) {
-  const { theme, setTheme } = useTheme();
-
-  return (
-    <Button
-      size="icon"
-      variant="outline"
-      className={cn('cursor-pointer', className)}
-      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-    >
-      <SunIcon className="hidden dark:block" />
-      <MoonIcon className="dark:hidden" />
-    </Button>
-  );
-}
-
 export function AppNavbar() {
   const pathname = usePathname();
 
@@ -84,7 +66,6 @@ export function AppNavbar() {
             </a>
           </div>
           <div className="flex items-center gap-3 md:gap-3">
-            <ThemeButton className="border-[#262626] bg-[#0B0B0B] text-white hover:bg-[#131313] hover:text-white" />
             <div className="hidden xl:block">
               <ActionButton />
             </div>

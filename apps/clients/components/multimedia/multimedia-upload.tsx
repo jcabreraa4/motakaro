@@ -8,8 +8,8 @@ import { toast } from 'sonner';
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
 import { Carousel, CarouselContent, CarouselItem } from '@workspace/ui/components/carousel';
+import { FileDropzone } from '@workspace/ui/components/custom/file-dropzone';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
-import { FileDropzone } from '@workspace/ui/custom/file-dropzone';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { MultimediaInfo } from '@/components/multimedia/multimedia-info';

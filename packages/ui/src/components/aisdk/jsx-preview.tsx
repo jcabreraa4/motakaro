@@ -1,6 +1,6 @@
 'use client';
 
-import type { ComponentProps, ReactNode } from 'react';
+import type { ComponentProps, ComponentType, ReactNode } from 'react';
 import { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { TProps as JsxParserProps } from 'react-jsx-parser';
 import JsxParser from 'react-jsx-parser';
@@ -8,6 +8,10 @@ import JsxParser from 'react-jsx-parser';
 import { AlertCircle } from 'lucide-react';
 
 import { cn } from '@workspace/ui/lib/utils';
+
+// react-jsx-parser@2.4.1 no tiene tipos actualizados para React 19,
+// así que hay que castear el componente para que TS lo acepte como JSX.ElementType.
+const JsxParserComponent = JsxParser as unknown as ComponentType<JsxParserProps>;
 
 interface JSXPreviewContextValue {
   jsx: string;
@@ -56,11 +60,11 @@ const matchJsxTag = (code: string) => {
   }
 
   return {
-    attributes: attributes.trim(),
+    attributes: attributes!.trim(),
     endIndex: match.index + fullMatch.length,
     startIndex: match.index,
     tag: fullMatch,
-    tagName,
+    tagName: tagName!, // el grupo 1 del regex es obligatorio, siempre matchea si match existe
     type
   };
 };
@@ -110,7 +114,8 @@ const completeJsxTag = (code: string) => {
   return (
     result +
     stack
-      .toReversed()
+      .slice()
+      .reverse()
       .map((tag) => `</${tag}>`)
       .join('')
   );
@@ -216,7 +221,7 @@ export const JSXPreviewContent = memo(({ className, ...props }: JSXPreviewConten
       className={cn('jsx-preview-content', className)}
       {...props}
     >
-      <JsxParser
+      <JsxParserComponent
         bindings={bindings}
         components={components}
         jsx={displayJsx}

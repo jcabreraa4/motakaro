@@ -8,9 +8,9 @@ import { FileTextIcon, PlusIcon, SearchIcon, XIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
+import { EmptySection } from '@workspace/ui/components/custom/empty-section';
+import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
-import { EmptySection } from '@workspace/ui/custom/empty-section';
-import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 import { DocumentsCreate } from '@/components/documents/documents-create';
 import { DocumentsTable } from '@/components/documents/documents-table';

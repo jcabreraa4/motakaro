@@ -7,9 +7,9 @@ import { CalendarPlusIcon, HeadsetIcon, SearchIcon, XIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
+import { EmptySection } from '@workspace/ui/components/custom/empty-section';
+import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
-import { EmptySection } from '@workspace/ui/custom/empty-section';
-import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 import { MeetingsCreate } from '@/components/meetings/meetings-create';
 import { MeetingsTable } from '@/components/meetings/meetings-table';

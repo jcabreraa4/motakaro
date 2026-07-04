@@ -1,4 +1,4 @@
-import { GenericLoader } from '@workspace/ui/custom/generic-loader';
+import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
 export default function Loading() {
   return <GenericLoader />;

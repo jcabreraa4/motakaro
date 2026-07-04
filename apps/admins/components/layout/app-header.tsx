@@ -14,7 +14,7 @@ import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from '@workspace/ui/
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
 import { Button } from '@workspace/ui/components/button';
 import { Separator } from '@workspace/ui/components/separator';
-import { SidebarTrigger, useSidebar } from '@workspace/ui/components/sidebar';
+import { SidebarTrigger } from '@workspace/ui/components/sidebar';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip';
 import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { cn } from '@workspace/ui/lib/utils';

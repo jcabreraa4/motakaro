@@ -5,11 +5,11 @@ import { type UIMessage, useUIMessages } from '@convex-dev/agent/react';
 import { CopyIcon, LoaderCircle, MessageSquareIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Conversation, ConversationContent, ConversationEmptyState, ConversationScrollButton } from '@workspace/ui/chatbot/conversation';
-import { Message, MessageAction, MessageActions, MessageContent, MessageResponse } from '@workspace/ui/chatbot/message';
+import { Conversation, ConversationContent, ConversationEmptyState, ConversationScrollButton } from '@workspace/ui/components/aisdk/conversation';
+import { Message, MessageAction, MessageActions, MessageContent, MessageResponse } from '@workspace/ui/components/aisdk/message';
 import { Button } from '@workspace/ui/components/button';
+import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
-import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { copyString } from '@/utils/copy-string';

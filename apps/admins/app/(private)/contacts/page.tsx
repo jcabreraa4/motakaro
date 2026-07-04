@@ -7,7 +7,7 @@ import { useQuery } from 'convex/react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
-import { GenericLoader } from '@workspace/ui/custom/generic-loader';
+import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
 export default function Page() {
   const { isLoaded } = useAuth();

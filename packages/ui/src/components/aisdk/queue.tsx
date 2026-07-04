@@ -55,7 +55,7 @@ export type QueueItemContentProps = ComponentProps<'span'> & {
 
 export const QueueItemContent = ({ completed = false, className, ...props }: QueueItemContentProps) => (
   <span
-    className={cn('line-clamp-1 grow break-words', completed ? 'text-muted-foreground/50 line-through' : 'text-muted-foreground', className)}
+    className={cn('line-clamp-1 grow wrap-break-word', completed ? 'text-muted-foreground/50 line-through' : 'text-muted-foreground', className)}
     {...props}
   />
 );
@@ -121,7 +121,7 @@ export const QueueItemFile = ({ children, className, ...props }: QueueItemFilePr
     {...props}
   >
     <PaperclipIcon size={12} />
-    <span className="max-w-[100px] truncate">{children}</span>
+    <span className="max-w-25 truncate">{children}</span>
   </span>
 );
 
@@ -153,16 +153,14 @@ export const QueueSection = ({ className, defaultOpen = true, ...props }: QueueS
 export type QueueSectionTriggerProps = ComponentProps<'button'>;
 
 export const QueueSectionTrigger = ({ children, className, ...props }: QueueSectionTriggerProps) => (
-  <CollapsibleTrigger
-    render={
-      <button
-        className={cn('group flex w-full items-center justify-between rounded-md bg-muted/40 px-3 py-2 text-left text-sm font-medium text-muted-foreground transition-colors hover:bg-muted', className)}
-        type="button"
-        {...props}
-      />
-    }
-  >
-    {children}
+  <CollapsibleTrigger asChild>
+    <button
+      className={cn('group flex w-full items-center justify-between rounded-md bg-muted/40 px-3 py-2 text-left text-sm font-medium text-muted-foreground transition-colors hover:bg-muted', className)}
+      type="button"
+      {...props}
+    >
+      {children}
+    </button>
   </CollapsibleTrigger>
 );
 

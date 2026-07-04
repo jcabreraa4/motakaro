@@ -983,15 +983,13 @@ export const PromptInputActionMenu = (props: PromptInputActionMenuProps) => <Dro
 export type PromptInputActionMenuTriggerProps = PromptInputButtonProps;
 
 export const PromptInputActionMenuTrigger = ({ className, children, ...props }: PromptInputActionMenuTriggerProps) => (
-  <DropdownMenuTrigger
-    render={
-      <PromptInputButton
-        className={className}
-        {...props}
-      />
-    }
-  >
-    {children ?? <PlusIcon className="size-4" />}
+  <DropdownMenuTrigger asChild>
+    <PromptInputButton
+      className={className}
+      {...props}
+    >
+      {children ?? <PlusIcon className="size-4" />}
+    </PromptInputButton>
   </DropdownMenuTrigger>
 );
 

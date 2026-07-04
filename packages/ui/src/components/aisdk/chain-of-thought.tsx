@@ -152,7 +152,7 @@ export const ChainOfThoughtImage = memo(({ className, children, caption, ...prop
     className={cn('mt-2 space-y-2', className)}
     {...props}
   >
-    <div className="relative flex max-h-[22rem] items-center justify-center overflow-hidden rounded-lg bg-muted p-3">{children}</div>
+    <div className="relative flex max-h-88 items-center justify-center overflow-hidden rounded-lg bg-muted p-3">{children}</div>
     {caption && <p className="text-xs text-muted-foreground">{caption}</p>}
   </div>
 ));

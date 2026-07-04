@@ -1,4 +1,4 @@
-import { VelocityScroll } from '@workspace/ui/magicui/velocity-scroll';
+import { VelocityScroll } from '@workspace/ui/components/magicui/velocity-scroll';
 
 const industries: string[] = ['DATAOPS', 'B2B CONSULTING', 'FINTECH', 'CYBERSECURITY', 'REVOPS', 'MARTECH', 'FINOPS', 'ENTERPRISE IT', 'MEDTECH'];
 

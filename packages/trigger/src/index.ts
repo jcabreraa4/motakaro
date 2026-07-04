@@ -1,1 +1,1 @@
-export type { helloFunction } from './trigger/index.js';
+export type { helloFunction } from '@workspace/trigger/trigger/index.js';

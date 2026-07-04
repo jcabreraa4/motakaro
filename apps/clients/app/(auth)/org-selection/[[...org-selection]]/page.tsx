@@ -10,8 +10,8 @@ import { toast } from 'sonner';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Button } from '@workspace/ui/components/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 import { Label } from '@workspace/ui/components/label';
-import { GenericLoader } from '@workspace/ui/custom/generic-loader';
 
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
 

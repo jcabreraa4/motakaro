@@ -9,7 +9,7 @@ import { ListVideoIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
-import { GenericLoader } from '@workspace/ui/custom/generic-loader';
+import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
 import { ResourcesToolbar } from '@/components/resources/resources-toolbar';
 import { ResourcesViewer } from '@/components/resources/resources-viewer';

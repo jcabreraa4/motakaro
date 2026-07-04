@@ -11,7 +11,7 @@ import { mermaid } from '@streamdown/mermaid';
 import { BrainIcon, ChevronDownIcon } from 'lucide-react';
 import { Streamdown } from 'streamdown';
 
-import { Shimmer } from '@workspace/ui/chatbot/shimmer';
+import { Shimmer } from '@workspace/ui/components/aisdk/shimmer';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@workspace/ui/components/collapsible';
 import { cn } from '@workspace/ui/lib/utils';
 

@@ -9,7 +9,7 @@ import { FileTextIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
-import { GenericLoader } from '@workspace/ui/custom/generic-loader';
+import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
 import { MultimediaToolbar } from '@/components/multimedia/multimedia-toolbar';
 import { MultimediaViewer } from '@/components/multimedia/multimedia-viewer';

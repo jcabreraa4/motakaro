@@ -3,9 +3,9 @@
 import { useQuery } from 'convex/react';
 
 import { api } from '@workspace/backend/_generated/api';
+import { VideoDialog } from '@workspace/ui/components/magicui/video-dialog';
 import { Skeleton } from '@workspace/ui/components/skeleton';
 import { cn } from '@workspace/ui/lib/utils';
-import { VideoDialog } from '@workspace/ui/magicui/video-dialog';
 
 export default function Page() {
   const resources = useQuery(api.resources.list, { filter: 'published' });

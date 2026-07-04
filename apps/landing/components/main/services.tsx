@@ -1,9 +1,9 @@
 import { type LucideIcon, MegaphoneIcon, SearchIcon, TrendingUpIcon, VideoIcon } from 'lucide-react';
 
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
-import { BoxReveal } from '@workspace/ui/magicui/box-reveal';
-import { DotPattern } from '@workspace/ui/magicui/dot-pattern';
-import { WordRotate } from '@workspace/ui/magicui/word-rotate';
+import { BoxReveal } from '@workspace/ui/components/magicui/box-reveal';
+import { DotPattern } from '@workspace/ui/components/magicui/dot-pattern';
+import { WordRotate } from '@workspace/ui/components/magicui/word-rotate';
 
 import { ActionButton } from '@/components/motakaro/action-button';
 

@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
 import { Button } from '@workspace/ui/components/button';
+import { DotPattern } from '@workspace/ui/components/magicui/dot-pattern';
 import { cn } from '@workspace/ui/lib/utils';
-import { DotPattern } from '@workspace/ui/magicui/dot-pattern';
 
 import { Branding } from '@/components/motakaro/branding';
 

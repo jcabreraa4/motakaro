@@ -1,4 +1,4 @@
-import { GenericError } from '@workspace/ui/custom/generic-error';
+import { GenericError } from '@workspace/ui/components/custom/generic-error';
 
 import { Branding } from '@/components/motakaro/branding';
 
