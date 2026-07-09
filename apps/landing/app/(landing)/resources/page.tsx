@@ -7,6 +7,12 @@ import { VideoDialog } from '@workspace/ui/components/magicui/video-dialog';
 import { Skeleton } from '@workspace/ui/components/skeleton';
 import { cn } from '@workspace/ui/lib/utils';
 
+import { SectionContent, SectionInner, SectionTitle, SectionWrapper } from '@/components/layout/app-section';
+
+function ResourcesTable({ children }: { children: React.ReactNode }) {
+  return <div className="grid flex-1 grid-flow-row grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">{children}</div>;
+}
+
 export default function Page() {
   const resources = useQuery(api.resources.list, { filter: 'published' });
   const filteredResources = resources?.filter((resource) => resource.embed.startsWith('http'));
@@ -17,43 +23,47 @@ export default function Page() {
   }
 
   return (
-    <main className="container mx-auto flex flex-1 flex-col px-3 py-25 xl:px-5">
-      <div className="flex flex-col gap-10">
-        <h1 className="text-4xl font-black select-none xl:text-5xl">Video Resources</h1>
-        {resources ? (
-          <div className="grid grid-flow-row grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-            {filteredResources?.map((resource) => (
-              <div
-                key={resource._id}
-                className="flex flex-col gap-2"
-              >
-                <VideoDialog
-                  video={resource.embed}
-                  thumbnail={resource.thumbnail?.startsWith('http') || resource.thumbnail?.startsWith('/') ? resource.thumbnail : '/header.webp'}
-                />
-                <p
-                  className={cn(`truncate text-xl font-bold transition select-none xl:text-xl`, resource.link && 'cursor-pointer hover:underline')}
-                  onClick={() => openLink(resource.link)}
+    <SectionWrapper className="flex flex-1">
+      <SectionInner className="flex flex-1">
+        <SectionContent>
+          <SectionTitle>Video Resources</SectionTitle>
+        </SectionContent>
+        <SectionContent className="flex flex-1">
+          {resources ? (
+            <ResourcesTable>
+              {filteredResources?.map((resource) => (
+                <div
+                  key={resource._id}
+                  className="flex flex-col gap-2"
                 >
-                  {resource.name}
-                </p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-flow-row grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <div
-                key={i}
-                className="flex flex-col gap-2"
-              >
-                <Skeleton className="aspect-video w-full border dark:border-none" />
-                <Skeleton className="h-9 w-full border dark:border-none" />
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </main>
+                  <VideoDialog
+                    video={resource.embed}
+                    thumbnail={resource.thumbnail?.startsWith('http') || resource.thumbnail?.startsWith('/') ? resource.thumbnail : '/header.webp'}
+                  />
+                  <p
+                    className={cn(`truncate text-xl font-bold transition select-none xl:text-xl`, resource.link && 'cursor-pointer hover:underline')}
+                    onClick={() => openLink(resource.link)}
+                  >
+                    {resource.name}
+                  </p>
+                </div>
+              ))}
+            </ResourcesTable>
+          ) : (
+            <ResourcesTable>
+              {Array.from({ length: 2 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col gap-2"
+                >
+                  <Skeleton className="aspect-video w-full border dark:border-none" />
+                  <Skeleton className="h-9 w-full border dark:border-none" />
+                </div>
+              ))}
+            </ResourcesTable>
+          )}
+        </SectionContent>
+      </SectionInner>
+    </SectionWrapper>
   );
 }

@@ -1,14 +1,20 @@
-const playbookUrl = 'https://gamma.app/embed/fuh749h0yorr3wm';
+import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
+
+const playbook = process.env.NEXT_PUBLIC_GAMMA_URL!;
 
 export default function Page() {
   return (
-    <main className="container mx-auto flex flex-1 flex-col px-3 py-8 xl:px-5">
-      <iframe
-        src={playbookUrl}
-        allow="fullscreen"
-        title="Motakaro Playbook"
-        className="w-full flex-1 rounded-md bg-black select-none"
-      />
-    </main>
+    <SectionWrapper className="flex flex-1">
+      <SectionInner className="flex flex-1">
+        <SectionContent className="flex flex-1">
+          <iframe
+            src={playbook}
+            allow="fullscreen"
+            title="Motakaro Playbook"
+            className="h-full w-full rounded-md border shadow select-none"
+          />
+        </SectionContent>
+      </SectionInner>
+    </SectionWrapper>
   );
 }

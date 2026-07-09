@@ -4,8 +4,6 @@ import { CSSProperties, ReactElement, useEffect, useState } from 'react';
 
 import { motion } from 'motion/react';
 
-import { cn } from '@workspace/ui/lib/utils';
-
 interface Sparkle {
   id: string;
   x: string;
@@ -85,7 +83,7 @@ interface SparklesTextProps {
   };
 }
 
-export const SparklesText: React.FC<SparklesTextProps> = ({ children, colors = { first: '#9E7AFF', second: '#FE8BBB' }, className, sparklesCount = 10, ...props }) => {
+export const SparklesText: React.FC<SparklesTextProps> = ({ children, colors = { first: '#007fd8', second: '#007fd8' }, className, sparklesCount = 10, ...props }) => {
   const [sparkles, setSparkles] = useState<Sparkle[]>([]);
 
   useEffect(() => {
@@ -125,7 +123,7 @@ export const SparklesText: React.FC<SparklesTextProps> = ({ children, colors = {
 
   return (
     <div
-      className={cn('text-6xl font-bold', className)}
+      className={className}
       {...props}
       style={
         {

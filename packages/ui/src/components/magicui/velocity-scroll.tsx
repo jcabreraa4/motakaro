@@ -98,7 +98,7 @@ function ParallaxText({ children, baseVelocity = 100, ...props }: ParallaxProps)
 export function VelocityScroll({ defaultVelocity = 1, numRows = 2, children, className, ...props }: VelocityScrollProps) {
   return (
     <div
-      className={cn('relative w-full text-4xl font-bold tracking-[-0.02em] md:text-7xl md:leading-20', className)}
+      className={cn('relative w-full tracking-[-0.02em] md:leading-20', className)}
       {...props}
     >
       {Array.from({ length: numRows }).map((_, i) => (

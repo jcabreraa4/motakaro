@@ -149,3 +149,16 @@ export function DotPattern({ width = 16, height = 16, x = 0, y = 0, cx = 1, cy =
     </svg>
   );
 }
+
+export function DotBackground() {
+  return (
+    <DotPattern
+      width={25}
+      height={25}
+      cx={3}
+      cy={3}
+      cr={1.5}
+      className="pointer-events-none absolute inset-0 opacity-30"
+    />
+  );
+}

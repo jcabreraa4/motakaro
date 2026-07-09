@@ -1,21 +1,19 @@
-import { Differentiation } from '@/components/main/differentiation';
-import { Header } from '@/components/main/header';
-import { Industries } from '@/components/main/industries';
-import { Pricing } from '@/components/main/pricing';
-import { Questions } from '@/components/main/questions';
-import { Reveal } from '@/components/main/reveal';
-import { Services } from '@/components/main/services';
+import { MainDoubts } from '@/components/main/main-doubts';
+import { MainHeader } from '@/components/main/main-header';
+import { MainHybrid } from '@/components/main/main-hybrid';
+import { MainPricing } from '@/components/main/main-pricing';
+import { MainReveal } from '@/components/main/main-reveal';
+import { MainService } from '@/components/main/main-service';
 
 export default function Page() {
   return (
-    <main>
-      <Header />
-      <Industries />
-      <Differentiation />
-      <Reveal />
-      <Services />
-      <Pricing />
-      <Questions />
-    </main>
+    <>
+      <MainHeader />
+      <MainHybrid />
+      <MainReveal />
+      <MainService />
+      <MainPricing />
+      <MainDoubts />
+    </>
   );
 }

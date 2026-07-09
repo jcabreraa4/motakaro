@@ -1,40 +1,30 @@
 import Link from 'next/link';
 
 import { Button } from '@workspace/ui/components/button';
-import { DotPattern } from '@workspace/ui/components/magicui/dot-pattern';
-import { cn } from '@workspace/ui/lib/utils';
 
+import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
 import { Branding } from '@/components/motakaro/branding';
 
 export function AppFooter() {
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="relative flex h-55 min-h-55 w-full flex-col items-center justify-center overflow-hidden bg-black text-white select-none">
-      <section className="container mx-auto h-full px-3 py-8 xl:px-5">
-        <div className="flex h-full w-full flex-col justify-between">
+    <SectionWrapper>
+      <SectionInner className="lg:py-5">
+        <SectionContent>
           <Branding />
-          <div className="flex justify-between">
-            <div className="flex flex-col gap-2 text-lg font-semibold md:flex-row md:items-center">
-              <p>All Rights Reserved © {new Date().getFullYear()} Motakaro</p>
-              <span className="hidden md:inline">|</span>
-              <Button
-                variant="link"
-                className="w-fit p-0 text-lg font-semibold text-white"
-              >
-                <Link href="/privacy">Privacy Policy</Link>
-              </Button>
-            </div>
-            <div className="hidden items-center gap-3"></div>
-          </div>
-        </div>
-      </section>
-      <DotPattern
-        width={20}
-        height={20}
-        cx={1}
-        cy={1}
-        cr={1}
-        className={cn('mask-[linear-gradient(to_bottom_right,white,transparent,transparent)]')}
-      />
-    </footer>
+        </SectionContent>
+        <SectionContent className="flex flex-col gap-2 md:flex-row md:items-center">
+          <p className="text-lg font-semibold">All Rights Reserved © {year} Motakaro</p>
+          <span className="hidden text-lg font-semibold md:inline">|</span>
+          <Button
+            variant="link"
+            className="w-fit p-0 text-lg font-semibold"
+          >
+            <Link href="/privacy">Privacy Policy</Link>
+          </Button>
+        </SectionContent>
+      </SectionInner>
+    </SectionWrapper>
   );
 }

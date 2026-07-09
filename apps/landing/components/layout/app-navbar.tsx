@@ -1,108 +1,157 @@
 'use client';
-
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 import { MenuIcon, XIcon } from 'lucide-react';
 import { motion } from 'motion/react';
 
+import { Button } from '@workspace/ui/components/button';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { ActionButton } from '@/components/motakaro/action-button';
+import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
 import { Branding } from '@/components/motakaro/branding';
+import { ContactLink } from '@/components/motakaro/contact-link';
+import { useLocation } from '@/hooks/use-location';
 
-const clientsApp = 'https://clients.motakaro.com';
+const clients = process.env.NEXT_PUBLIC_CLIENTS_URL!;
 
-interface Section {
+interface Item {
   url: string;
-  name: string;
+  title: string;
 }
 
-const sections: Section[] = [
+const items: Item[] = [
   {
     url: '/',
-    name: 'Home'
+    title: 'Home'
   },
   {
     url: '/contact',
-    name: 'Contact'
+    title: 'Contact'
   },
   {
     url: '/playbook',
-    name: 'Playbook'
+    title: 'Playbook'
   },
   {
     url: '/resources',
-    name: 'Resources'
+    title: 'Resources'
   }
 ];
 
-export function AppNavbar() {
-  const pathname = usePathname();
+interface TableItemProps {
+  text: string;
+  isActive?: boolean;
+  onClick?: () => void;
+}
 
-  const [openNavbar, setOpenNavbar] = useState(false);
+function TableItem({ text, isActive, onClick }: TableItemProps) {
+  return (
+    <span
+      onClick={onClick}
+      className={cn('cursor-pointer text-lg font-semibold', isActive && 'text-motakaro')}
+    >
+      {text}
+    </span>
+  );
+}
+
+interface TableProps {
+  isActive: (url: string) => boolean;
+  className?: string;
+}
+
+function DesktopTable({ isActive, className }: TableProps) {
+  return (
+    <div className={cn('items-center gap-5', className)}>
+      {items.map((item) => (
+        <Link
+          key={item.url}
+          href={item.url}
+        >
+          <TableItem
+            text={item.title}
+            isActive={isActive(item.url)}
+          />
+        </Link>
+      ))}
+      <TableItem
+        text="Clients"
+        onClick={() => window.open(clients, '_blank')}
+      />
+    </div>
+  );
+}
+
+function MobileTable({ isActive, className }: TableProps) {
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className="pb-14 xl:pb-18">
-      <nav className="fixed top-0 left-0 z-50 flex h-18 w-full items-center bg-black text-white shadow-md">
-        <section className="container mx-auto flex items-center justify-between px-3 md:px-5">
-          <Branding />
-          <div className="hidden items-center gap-5 select-none md:flex">
-            {sections.map((section, index) => (
-              <Link
-                key={index}
-                href={section.url}
-                className={cn('relative text-lg font-semibold transition-colors after:absolute after:right-0 after:-bottom-1 after:left-0 after:block after:h-0.75 after:origin-left after:rounded after:bg-motakaro after:transition-transform after:duration-200 after:content-[""]', pathname == section.url ? 'text-motakaro' : 'after:scale-x-0 hover:text-motakaro hover:after:scale-x-100')}
-              >
-                {section.name}
-              </Link>
-            ))}
-            <a
-              className="relative cursor-pointer text-lg font-semibold transition-colors after:absolute after:right-0 after:-bottom-1 after:left-0 after:block after:h-0.75 after:origin-left after:scale-x-0 after:rounded after:bg-motakaro after:transition-transform after:duration-200 after:content-[''] hover:text-motakaro hover:after:scale-x-100"
-              onClick={() => window.open(clientsApp, '_blank')}
+    <div className={cn('relative', className)}>
+      <Button
+        variant="ghost"
+        className="cursor-pointer"
+        onClick={() => setOpen(!open)}
+      >
+        {open ? <XIcon /> : <MenuIcon />}
+      </Button>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          className="absolute top-full flex w-full flex-col gap-4 border bg-background p-5 shadow-lg"
+        >
+          {items.map((item) => (
+            <Link
+              key={item.url}
+              href={item.url}
             >
-              Clients
-            </a>
-          </div>
-          <div className="flex items-center gap-3 md:gap-3">
-            <div className="hidden xl:block">
-              <ActionButton />
-            </div>
-            <button
-              className="cursor-pointer md:hidden"
-              onClick={() => setOpenNavbar(!openNavbar)}
-            >
-              {openNavbar ? <XIcon size={30} /> : <MenuIcon size={30} />}
-            </button>
-          </div>
-        </section>
-        {openNavbar && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full left-0 flex w-full flex-col items-center space-y-4 bg-black py-5 text-white shadow-md md:hidden"
-          >
-            {sections.map((section, index) => (
-              <Link
-                key={index}
-                onClick={() => setOpenNavbar(false)}
-                href={section.url}
-                className={cn(`text-lg font-semibold transition hover:text-motakaro`, pathname == section.url && 'text-motakaro')}
-              >
-                {section.name}
-              </Link>
-            ))}
-            <a
-              className="cursor-pointer text-lg font-semibold transition hover:text-motakaro"
-              onClick={() => window.open(clientsApp, '_blank')}
-            >
-              Clients
-            </a>
-          </motion.div>
-        )}
-      </nav>
+              <TableItem
+                text={item.title}
+                isActive={isActive(item.url)}
+                onClick={() => setOpen(false)}
+              />
+            </Link>
+          ))}
+          <TableItem
+            text="Clients"
+            onClick={() => {
+              window.open(clients, '_blank');
+              setOpen(false);
+            }}
+          />
+        </motion.div>
+      )}
     </div>
+  );
+}
+
+export function AppNavbar() {
+  const { section } = useLocation();
+
+  function isActive(url: string) {
+    if (!section && '/' === url) return true;
+    else if (`/${section}` === url) return true;
+    return false;
+  }
+
+  return (
+    <SectionWrapper>
+      <SectionInner className="lg:py-5">
+        <SectionContent className="flex items-center justify-between">
+          <Branding />
+          <DesktopTable
+            isActive={isActive}
+            className="hidden lg:flex"
+          />
+          <MobileTable
+            isActive={isActive}
+            className="lg:hidden"
+          />
+          <ContactLink className="hidden lg:flex" />
+        </SectionContent>
+      </SectionInner>
+    </SectionWrapper>
   );
 }
