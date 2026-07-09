@@ -35,7 +35,7 @@
     "@workspace/backend": "workspace:*",
     "@workspace/trigger": "workspace:*",
     "@workspace/ui": "workspace:*",
-    "convex": "^1.32.0",
+    "convex": "^1.42.1",
     "date-fns": "^4.1.0",
     "fabric": "^7.2.0",
     "lodash": "^4.18.1",

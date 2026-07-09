@@ -1,11 +1,12 @@
 'use client';
+
 import Link from 'next/link';
 import { useState } from 'react';
 
-import { MenuIcon, XIcon } from 'lucide-react';
-import { motion } from 'motion/react';
+import { MenuIcon } from 'lucide-react';
 
 import { Button } from '@workspace/ui/components/button';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
@@ -43,16 +44,17 @@ interface TableItemProps {
   text: string;
   isActive?: boolean;
   onClick?: () => void;
+  className?: string;
 }
 
-function TableItem({ text, isActive, onClick }: TableItemProps) {
+function TableItem({ text, isActive, onClick, className }: TableItemProps) {
   return (
-    <span
+    <div
       onClick={onClick}
-      className={cn('cursor-pointer text-lg font-semibold', isActive && 'text-motakaro')}
+      className={cn('cursor-pointer text-lg font-semibold', isActive && 'text-motakaro', className)}
     >
       {text}
-    </span>
+    </div>
   );
 }
 
@@ -88,41 +90,47 @@ function MobileTable({ isActive, className }: TableProps) {
 
   return (
     <div className={cn('relative', className)}>
-      <Button
-        variant="ghost"
-        className="cursor-pointer"
-        onClick={() => setOpen(!open)}
+      <Sheet
+        open={open}
+        onOpenChange={setOpen}
       >
-        {open ? <XIcon /> : <MenuIcon />}
-      </Button>
-      {open && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          className="absolute top-full flex w-full flex-col gap-4 border bg-background p-5 shadow-lg"
-        >
-          {items.map((item) => (
-            <Link
-              key={item.url}
-              href={item.url}
-            >
-              <TableItem
-                text={item.title}
-                isActive={isActive(item.url)}
-                onClick={() => setOpen(false)}
-              />
-            </Link>
-          ))}
-          <TableItem
-            text="Clients"
-            onClick={() => {
-              window.open(clients, '_blank');
-              setOpen(false);
-            }}
-          />
-        </motion.div>
-      )}
+        <SheetTrigger asChild>
+          <Button
+            asChild
+            size="icon"
+            variant="ghost"
+            className="cursor-pointer"
+          >
+            <MenuIcon />
+          </Button>
+        </SheetTrigger>
+        <SheetContent side="left">
+          <SheetHeader>
+            <SheetTitle></SheetTitle>
+          </SheetHeader>
+          <div className="flex flex-col gap-5 px-5 py-2">
+            {items.map((item) => (
+              <Link
+                key={item.url}
+                href={item.url}
+              >
+                <TableItem
+                  text={item.title}
+                  isActive={isActive(item.url)}
+                  onClick={() => setOpen(false)}
+                />
+              </Link>
+            ))}
+            <TableItem
+              text="Clients"
+              onClick={() => {
+                window.open(clients, '_blank');
+                setOpen(false);
+              }}
+            />
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }

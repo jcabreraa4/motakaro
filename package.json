@@ -5,11 +5,11 @@
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
-    "convex": "^1.35.1",
+    "convex": "^1.42.1",
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "turbo": "^2.8.8",
-    "typescript": "5.9.3"
+    "typescript": "^5.9.3"
   },
   "engines": {
     "node": ">=20"
