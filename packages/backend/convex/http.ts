@@ -24,7 +24,7 @@ http.route({
     if (event.type === 'user.created' || event.type === 'user.updated') {
       // Upsert Admin
       await ctx.runMutation(internal.admins.internalUpsert, {
-        email: event.data.email_addresses[0]?.email_address,
+        email: event.data.email_addresses[0]!.email_address!,
         name: event.data.first_name ?? '',
         surname: event.data.last_name ?? '',
         avatar: event.data.image_url ?? '',
@@ -77,7 +77,7 @@ http.route({
     if (event.type === 'user.created' || event.type === 'user.updated') {
       // Upsert Contact
       await ctx.runMutation(internal.clients.internalUpsert, {
-        email: event.data.email_addresses[0].email_address,
+        email: event.data.email_addresses[0]!.email_address!,
         name: event.data.first_name ?? '',
         surname: event.data.last_name ?? '',
         avatar: event.data.image_url ?? '',

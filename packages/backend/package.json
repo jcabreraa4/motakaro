@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "convex dev",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit -p convex/tsconfig.json",
     "deploy": "convex deploy"
   },
   "exports": {
