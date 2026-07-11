@@ -3,7 +3,8 @@ import { DotBackground } from '@workspace/ui/components/magicui/dot-pattern';
 import { SparklesText } from '@workspace/ui/components/magicui/sparkles-text';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { SectionContent, SectionInner, SectionTitle, SectionWrapper } from '@/components/layout/app-section';
+import { Heading2, Heading3, Paragraph } from '@/components/layout/app-heading';
+import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
 import { ContactLink } from '@/components/motakaro/contact-link';
 
 interface Section {
@@ -27,9 +28,9 @@ export function MainHybrid() {
     <SectionWrapper>
       <SectionInner>
         <SectionContent>
-          <SectionTitle className="text-center">
+          <Heading2 className="text-center">
             <SparklesText>Hybrid Demand</SparklesText>
-          </SectionTitle>
+          </Heading2>
         </SectionContent>
         <SectionContent className="flex flex-col gap-5 lg:flex-row">
           {sections.map((section, index) => (
@@ -39,17 +40,17 @@ export function MainHybrid() {
             >
               <CardHeader>
                 <CardTitle>
-                  <span className="text-xl font-bold text-motakaro">{section.title}</span>
+                  <Heading3 className="text-motakaro">{section.title}</Heading3>
                 </CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col gap-8">
                 {section.points.map((point, index) => (
                   <div
                     key={index}
-                    className="flex items-start gap-2 text-lg font-medium text-white"
+                    className="flex items-start gap-2"
                   >
-                    <span>•</span>
-                    <span>{point}</span>
+                    <Paragraph className="text-white">•</Paragraph>
+                    <Paragraph className="text-white">{point}</Paragraph>
                   </div>
                 ))}
               </CardContent>

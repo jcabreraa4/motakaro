@@ -4,7 +4,8 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@works
 import { DotBackground } from '@workspace/ui/components/magicui/dot-pattern';
 import { HyperText } from '@workspace/ui/components/magicui/hyper-text';
 
-import { SectionContent, SectionInner, SectionTitle, SectionWrapper } from '@/components/layout/app-section';
+import { Heading2, Heading3, Paragraph } from '@/components/layout/app-heading';
+import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
 import { ContactLink } from '@/components/motakaro/contact-link';
 
 interface Service {
@@ -41,9 +42,9 @@ export function MainService() {
     <SectionWrapper>
       <SectionInner>
         <SectionContent>
-          <SectionTitle>
+          <Heading2>
             <HyperText>Our Service</HyperText>
-          </SectionTitle>
+          </Heading2>
         </SectionContent>
         <SectionContent className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-2">
           {services.map(({ title, description, icon: Icon }, index) => (
@@ -54,11 +55,13 @@ export function MainService() {
               <CardHeader className="gap-2">
                 <CardTitle className="flex items-center gap-3">
                   <Icon className="size-6 text-white" />
-                  <span className="text-xl font-bold text-motakaro">
+                  <Heading3 className="text-motakaro">
                     Step {index + 1}: {title}
-                  </span>
+                  </Heading3>
                 </CardTitle>
-                <CardDescription className="text-lg text-white">{description}</CardDescription>
+                <CardDescription>
+                  <Paragraph className="text-white">{description}</Paragraph>
+                </CardDescription>
               </CardHeader>
               <CardFooter>
                 <ContactLink />

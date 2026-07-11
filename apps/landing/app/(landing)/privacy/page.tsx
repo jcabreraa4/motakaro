@@ -1,6 +1,7 @@
 import { Separator } from '@workspace/ui/components/separator';
 
-import { SectionContent, SectionInner, SectionSubtitle, SectionTitle, SectionWrapper } from '@/components/layout/app-section';
+import { Heading2, Heading3, Paragraph } from '@/components/layout/app-heading';
+import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
 
 interface Section {
   title: string;
@@ -43,8 +44,8 @@ export default function Page() {
     <SectionWrapper>
       <SectionInner>
         <SectionContent className="flex flex-col gap-5">
-          <SectionTitle>Privacy Policy</SectionTitle>
-          <SectionSubtitle>Here we explain how we collect, use, and protect your personal information when you interact with our website and services.</SectionSubtitle>
+          <Heading2>Privacy Policy</Heading2>
+          <Heading3>Here we explain how we collect, use, and protect your personal information when you interact with our website and services.</Heading3>
         </SectionContent>
         <SectionContent className="flex flex-col gap-6 lg:gap-8">
           {sections.map((section, index) => (
@@ -54,15 +55,12 @@ export default function Page() {
             >
               <Separator />
               <div className="flex flex-col gap-3">
-                <h3 className="text-xl font-bold">
+                <Heading3>
                   [ {index + 1} ] {section.title}
-                </h3>
-                <div className="text-lg font-medium">
+                </Heading3>
+                <div>
                   {section.description.split('\n').map((line, i) => (
-                    <span key={i}>
-                      {line}
-                      <br />
-                    </span>
+                    <Paragraph key={i}>{line}</Paragraph>
                   ))}
                 </div>
               </div>

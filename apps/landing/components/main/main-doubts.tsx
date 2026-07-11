@@ -1,5 +1,6 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@workspace/ui/components/accordion';
 
+import { Heading3, Paragraph } from '@/components/layout/app-heading';
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
 
 interface Question {
@@ -46,8 +47,12 @@ export function MainDoubts() {
                 value={index.toString()}
                 className="border-black py-2"
               >
-                <AccordionTrigger className="cursor-pointer text-xl font-bold">{question.title}</AccordionTrigger>
-                <AccordionContent className="text-lg font-medium">{question.description}</AccordionContent>
+                <AccordionTrigger>
+                  <Heading3 className="cursor-pointer">{question.title}</Heading3>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <Paragraph>{question.description}</Paragraph>
+                </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>

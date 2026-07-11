@@ -7,7 +7,8 @@ import { VideoDialog } from '@workspace/ui/components/magicui/video-dialog';
 import { Skeleton } from '@workspace/ui/components/skeleton';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { SectionContent, SectionInner, SectionTitle, SectionWrapper } from '@/components/layout/app-section';
+import { Heading2 } from '@/components/layout/app-heading';
+import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
 
 function ResourcesTable({ children }: { children: React.ReactNode }) {
   return <div className="grid flex-1 grid-flow-row grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">{children}</div>;
@@ -26,7 +27,7 @@ export default function Page() {
     <SectionWrapper className="flex flex-1">
       <SectionInner className="flex flex-1">
         <SectionContent>
-          <SectionTitle>Video Resources</SectionTitle>
+          <Heading2>Video Resources</Heading2>
         </SectionContent>
         <SectionContent className="flex flex-1">
           {resources ? (

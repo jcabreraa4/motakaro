@@ -16,11 +16,3 @@ export function SectionInner({ children, className }: AppSectionProps) {
 export function SectionContent({ children, className }: AppSectionProps) {
   return <div className={cn('px-3 lg:px-10', className)}>{children}</div>;
 }
-
-export function SectionTitle({ children, className }: AppSectionProps) {
-  return <h2 className={cn('text-3xl font-black select-none lg:text-4xl', className)}>{children}</h2>;
-}
-
-export function SectionSubtitle({ children, className }: AppSectionProps) {
-  return <h3 className={cn('text-xl font-semibold select-none lg:text-2xl', className)}>{children}</h3>;
-}

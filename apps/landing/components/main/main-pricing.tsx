@@ -4,7 +4,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { DotBackground } from '@workspace/ui/components/magicui/dot-pattern';
 import { HyperText } from '@workspace/ui/components/magicui/hyper-text';
 
-import { SectionContent, SectionInner, SectionTitle, SectionWrapper } from '@/components/layout/app-section';
+import { Heading2, Heading3, Paragraph } from '@/components/layout/app-heading';
+import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
 import { ContactLink } from '@/components/motakaro/contact-link';
 
 interface Plan {
@@ -71,9 +72,9 @@ export function MainPricing() {
     <SectionWrapper>
       <SectionInner>
         <SectionContent>
-          <SectionTitle>
+          <Heading2>
             <HyperText>Pricing Plans</HyperText>
-          </SectionTitle>
+          </Heading2>
         </SectionContent>
         <SectionContent className="flex flex-col gap-5 lg:flex-row">
           {plans.map(({ name, price, features, icon: Icon }, index) => (
@@ -84,20 +85,22 @@ export function MainPricing() {
               <CardHeader className="gap-2">
                 <CardTitle className="flex items-center gap-3">
                   <Icon className="size-6 text-white" />
-                  <span className="text-xl font-bold text-motakaro">{name}</span>
+                  <Heading3 className="text-motakaro">{name}</Heading3>
                 </CardTitle>
-                <CardDescription className="text-lg text-white">{price}</CardDescription>
+                <CardDescription>
+                  <Paragraph className="text-white">{price}</Paragraph>
+                </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col gap-8">
                 {features.map((feature, index) => (
                   <div
                     key={index}
-                    className="flex items-start gap-2 text-lg font-medium text-white"
+                    className="flex items-start gap-2"
                   >
-                    <span>•</span>
-                    <span>
+                    <Paragraph className="text-white">•</Paragraph>
+                    <Paragraph className="text-white">
                       {feature.name}: {feature.description}
-                    </span>
+                    </Paragraph>
                   </div>
                 ))}
               </CardContent>
