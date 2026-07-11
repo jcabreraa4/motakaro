@@ -9,6 +9,7 @@ import { Button } from '@workspace/ui/components/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
 import { cn } from '@workspace/ui/lib/utils';
 
+import { Paragraph } from '@/components/layout/app-heading';
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
 import { Branding } from '@/components/motakaro/branding';
 import { ContactLink } from '@/components/motakaro/contact-link';
@@ -49,11 +50,8 @@ interface TableItemProps {
 
 function TableItem({ text, isActive, onClick, className }: TableItemProps) {
   return (
-    <div
-      onClick={onClick}
-      className={cn('cursor-pointer text-lg font-semibold', isActive && 'text-motakaro', className)}
-    >
-      {text}
+    <div onClick={onClick}>
+      <Paragraph className={cn('cursor-pointer', isActive && 'text-motakaro', className)}>{text}</Paragraph>
     </div>
   );
 }

@@ -8,7 +8,7 @@ import { PlaybookLink } from '@/components/motakaro/playbook-link';
 
 const video = process.env.NEXT_PUBLIC_VIDEO_URL;
 
-const industries = ['DATAOPS', 'B2B CONSULTING', 'FINTECH', 'CYBERSECURITY', 'REVOPS', 'MARTECH', 'FINOPS', 'ENTERPRISE IT'];
+const industries = ['DataOps', 'B2B Consulting', 'Fintech', 'Cyber Security', 'RevOps', 'MarTech', 'FinOps', 'Enterprise IT'];
 
 export function MainHeader() {
   return (
@@ -33,12 +33,12 @@ export function MainHeader() {
         </SectionContent>
         <VelocityScroll>
           {industries.map((industry, index) => (
-            <span
+            <Heading2
               key={index}
-              className="mx-2 cursor-default text-4xl font-black transition select-none hover:text-motakaro"
+              className="mx-2 cursor-default uppercase transition select-none hover:text-motakaro"
             >
               {industry}
-            </span>
+            </Heading2>
           ))}
         </VelocityScroll>
       </SectionInner>
