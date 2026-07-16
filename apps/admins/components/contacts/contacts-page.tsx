@@ -30,6 +30,7 @@ export function ContactsLoaded({ preloaded }: ContactsPageProps) {
 
   useEffect(() => {
     if (contact) setBreadcrumbs([{ text: `${contact.name} ${contact.surname}` }]);
+    else setBreadcrumbs([{ text: '404 Not Found' }]);
     return () => setBreadcrumbs([]);
   }, [contact, setBreadcrumbs]);
 

@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import { useUser } from '@clerk/nextjs';
 import { type UIMessage, useUIMessages } from '@convex-dev/agent/react';
-import { CopyIcon, LoaderCircle, MessageSquareIcon } from 'lucide-react';
+import { CopyIcon, MessageSquareIcon, ThumbsDownIcon, ThumbsUpIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Conversation, ConversationContent, ConversationEmptyState, ConversationScrollButton } from '@workspace/ui/components/aisdk/conversation';
@@ -93,13 +93,14 @@ function MessagesLoaded({ messages, className }: MessagesLoadedProps) {
 
         if (isLastMessage && !message.text)
           return (
-            <p
+            <Message
               key={message.key}
-              className="animate-pulse"
+              from={message.role}
             >
-              <LoaderCircle />
-              Loading...
-            </p>
+              <MessageContent className="text-md lg:text-lg">
+                <MessageResponse>Thinking...</MessageResponse>
+              </MessageContent>
+            </Message>
           );
 
         return (
@@ -120,6 +121,12 @@ function MessagesLoaded({ messages, className }: MessagesLoadedProps) {
                   onClick={() => copyString({ text: message.text, type: 'message' })}
                 >
                   <CopyIcon />
+                </MessageAction>
+                <MessageAction className="cursor-pointer">
+                  <ThumbsUpIcon />
+                </MessageAction>
+                <MessageAction className="cursor-pointer">
+                  <ThumbsDownIcon />
                 </MessageAction>
               </MessageActions>
             )}

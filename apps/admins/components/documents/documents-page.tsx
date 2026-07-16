@@ -32,6 +32,7 @@ function DocumentsPageLoaded({ preloaded }: DocumentsPageProps) {
 
   useEffect(() => {
     if (document) setBreadcrumbs([{ text: document.name || 'Untitled Document' }]);
+    else setBreadcrumbs([{ text: '404 Not Found' }]);
     return () => setBreadcrumbs([]);
   }, [document, setBreadcrumbs]);
 

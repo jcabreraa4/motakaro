@@ -15,9 +15,9 @@ export default async function Layout({ children }: { children: React.ReactNode }
       className="bg-sidebar"
       defaultOpen={defaultOpen}
     >
-      <AppSidebar />
+      <AppSidebar className="print:hidden" />
       <SidebarInset className="h-svh overflow-hidden bg-sidebar md:py-2 md:pr-2">
-        <AppHeader />
+        <AppHeader className="print:hidden" />
         <div className="flex min-h-0 flex-1 overflow-hidden rounded-b-md border bg-white dark:bg-[#0A0A0A]">{children}</div>
       </SidebarInset>
       <AppOnboard />

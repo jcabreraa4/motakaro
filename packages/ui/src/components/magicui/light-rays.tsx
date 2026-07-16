@@ -52,7 +52,7 @@ const createRays = (count: number, cycle: number): LightRay[] => {
 const Ray = ({ left, rotate, width, swing, delay, duration, intensity, fromBottom }: LightRay & { fromBottom?: boolean }) => {
   return (
     <motion.div
-      className={cn('pointer-events-none absolute left-(--ray-left) h-(--light-rays-length) w-(--ray-width) -translate-x-1/2 rounded-full opacity-0 mix-blend-screen blur-(--light-rays-blur)', fromBottom ? 'bottom-[-12%] origin-bottom bg-linear-to-t from-[color-mix(in_srgb,var(--light-rays-color)_70%,transparent)] to-transparent' : '-top-[12%] origin-top bg-linear-to-b from-[color-mix(in_srgb,var(--light-rays-color)_70%,transparent)] to-transparent')}
+      className={cn('pointer-events-none absolute left-(--ray-left) h-(--light-rays-length) w-(--ray-width) -translate-x-1/2 rounded-full opacity-0 mix-blend-screen blur-(--light-rays-blur)', fromBottom ? 'bottom-[-12%] origin-bottom bg-linear-to-t from-[color-mix(in_srgb,var(--light-rays-color)_70%,transparent)] to-transparent' : 'top-[-12%] origin-top bg-linear-to-b from-[color-mix(in_srgb,var(--light-rays-color)_70%,transparent)] to-transparent')}
       style={
         {
           '--ray-left': `${left}%`,

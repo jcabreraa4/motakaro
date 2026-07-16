@@ -107,7 +107,6 @@ export function MultimediaUpload({ onSuccess, children }: MultimediaUploadProps)
                       <MultimediaPreview
                         src={URL.createObjectURL(file)}
                         type={file.type}
-                        interact={!loading}
                       />
                       <MultimediaInfo
                         name={file.name}

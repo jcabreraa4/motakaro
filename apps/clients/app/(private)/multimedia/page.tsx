@@ -11,6 +11,7 @@ import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 
+import { AppSection } from '@/components/layout/app-section';
 import { MultimediaTable } from '@/components/multimedia/multimedia-table';
 import { MultimediaUpload } from '@/components/multimedia/multimedia-upload';
 import { useParams } from '@/hooks/use-params';
@@ -30,8 +31,8 @@ export default function Page() {
   });
 
   return (
-    <main className="flex w-full flex-col gap-3 overflow-hidden p-3 md:gap-5 md:p-5">
-      <section className="flex flex-col gap-3 lg:flex-row xl:gap-5">
+    <AppSection className="flex flex-col gap-3 md:gap-5">
+      <section className="flex flex-col gap-3 lg:flex-row lg:gap-5">
         <Select
           value={effectiveTypeFilter}
           onValueChange={(value) => setTypeFilter(value === 'all' ? '' : value)}
@@ -108,6 +109,6 @@ export default function Page() {
       ) : (
         <MultimediaTable multimedia={filteredMultimedia || []} />
       )}
-    </main>
+    </AppSection>
   );
 }

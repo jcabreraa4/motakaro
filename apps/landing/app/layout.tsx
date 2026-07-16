@@ -39,10 +39,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <body suppressHydrationWarning>
         <ConvexProvider>
           <TooltipProvider>
-            {children}
             <Toaster />
-            <SpeedInsights />
+            {children}
             <Analytics />
+            <SpeedInsights />
           </TooltipProvider>
         </ConvexProvider>
       </body>

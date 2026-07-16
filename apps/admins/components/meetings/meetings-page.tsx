@@ -30,6 +30,7 @@ function MeetingsLoaded({ preloaded }: MeetingsPageProps) {
 
   useEffect(() => {
     if (meeting) setBreadcrumbs([{ text: meeting.name || 'Untitled Meeting' }]);
+    else setBreadcrumbs([{ text: '404 Not Found' }]);
     return () => setBreadcrumbs([]);
   }, [meeting, setBreadcrumbs]);
 

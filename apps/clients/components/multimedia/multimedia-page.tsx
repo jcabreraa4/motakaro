@@ -5,14 +5,16 @@ import { useEffect } from 'react';
 
 import { useAuth } from '@clerk/nextjs';
 import { Preloaded, usePreloadedQuery } from 'convex/react';
-import { FileTextIcon } from 'lucide-react';
+import { ImageIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
+import { EmptySection } from '@workspace/ui/components/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
+import { AppSection } from '@/components/layout/app-section';
+import { MultimediaRender } from '@/components/multimedia/multimedia-render';
 import { MultimediaToolbar } from '@/components/multimedia/multimedia-toolbar';
-import { MultimediaViewer } from '@/components/multimedia/multimedia-viewer';
 import { useHeader } from '@/hooks/use-header';
 
 interface MultimediaPageProps {
@@ -32,30 +34,33 @@ function MultimediaLoaded({ preloaded }: MultimediaPageProps) {
 
   useEffect(() => {
     if (file) setBreadcrumbs([{ text: file.name || 'Untitled File' }]);
+    else setBreadcrumbs([{ text: '404 Not Found' }]);
     return () => setBreadcrumbs([]);
   }, [file, setBreadcrumbs]);
 
   if (!file) {
     return (
-      <main className="flex w-full flex-col items-center justify-center gap-5 p-3 select-none md:p-5">
-        <div className="flex flex-col items-center gap-3">
-          <p className="text-xl font-semibold">404 Not Found</p>
-          <p>The file you are looking for could not be found.</p>
-        </div>
-        <Link href="/multimedia">
-          <Button className="cursor-pointer">
-            <FileTextIcon />
-            Check Multimedia
-          </Button>
-        </Link>
-      </main>
+      <AppSection>
+        <EmptySection
+          icon={ImageIcon}
+          title="404 Not Found"
+          description="The file record could not be found."
+        >
+          <Link href="/multimedia">
+            <Button className="cursor-pointer">
+              <ImageIcon />
+              Check Multimedia
+            </Button>
+          </Link>
+        </EmptySection>
+      </AppSection>
     );
   }
 
   return (
-    <main className="flex w-full flex-col gap-3 p-3 md:gap-5 md:p-5">
+    <AppSection className="flex flex-col gap-3 md:gap-5">
       <MultimediaToolbar file={file} />
-      <MultimediaViewer file={file} />
-    </main>
+      <MultimediaRender file={file} />
+    </AppSection>
   );
 }

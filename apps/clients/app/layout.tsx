@@ -53,8 +53,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             >
               <ConvexProvider>
                 <TooltipProvider>
-                  {children}
                   <Toaster />
+                  {children}
                   <Analytics />
                 </TooltipProvider>
               </ConvexProvider>

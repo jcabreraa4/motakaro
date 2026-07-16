@@ -32,7 +32,6 @@ function Attachment({ file }: { file: File }) {
         className="p-0.5"
       >
         <MultimediaPreview
-          preview
           src={URL.createObjectURL(file)}
           type={file.type}
         />

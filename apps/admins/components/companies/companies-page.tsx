@@ -30,6 +30,7 @@ export function CompaniesLoaded({ preloaded }: CompaniesPageProps) {
 
   useEffect(() => {
     if (company) setBreadcrumbs([{ text: company.name }]);
+    else setBreadcrumbs([{ text: '404 Not Found' }]);
     return () => setBreadcrumbs([]);
   }, [company, setBreadcrumbs]);
 

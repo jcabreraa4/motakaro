@@ -31,6 +31,7 @@ function WhiteboardsLoaded({ preloaded }: WhiteboardsPageProps) {
 
   useEffect(() => {
     if (whiteboard) setBreadcrumbs([{ text: whiteboard.name || 'Untitled Whiteboard' }]);
+    else setBreadcrumbs([{ text: '404 Not Found' }]);
     return () => setBreadcrumbs([]);
   }, [whiteboard, setBreadcrumbs]);
 

@@ -1,10 +1,12 @@
 import { SettingsIcon } from 'lucide-react';
 
+import { AppSection } from '@/components/layout/app-section';
+
 export default function Page() {
   return (
-    <main className="flex w-full flex-col items-center justify-center gap-3 p-3 md:p-5">
+    <AppSection className="flex flex-col items-center justify-center gap-3">
       <SettingsIcon className="size-14" />
       <p className="text-2xl font-semibold">Under Construction</p>
-    </main>
+    </AppSection>
   );
 }

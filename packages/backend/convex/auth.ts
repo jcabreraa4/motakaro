@@ -4,6 +4,7 @@ import { ActionCtx, MutationCtx, QueryCtx } from './_generated/server';
 import { env } from './env';
 
 type AnyCtx = QueryCtx | MutationCtx | ActionCtx;
+type Issuer = 'admins' | 'clients' | null;
 
 export const adminsIssuer = env.CLERK_ADMINS_JWT_DOMAIN;
 export const clientsIssuer = env.CLERK_CLIENTS_JWT_DOMAIN;
@@ -11,7 +12,7 @@ export const clientsIssuer = env.CLERK_CLIENTS_JWT_DOMAIN;
 // Admins Functions
 
 export async function getAdminAuth(ctx: AnyCtx) {
-  // Check Identity
+  // Obtain Identity
   const identity = await ctx.auth.getUserIdentity();
   if (!identity || identity.issuer !== adminsIssuer) {
     return null;
@@ -22,7 +23,7 @@ export async function getAdminAuth(ctx: AnyCtx) {
 }
 
 export async function verifyAdminAuth(ctx: AnyCtx) {
-  // Check Identity
+  // Obtain Identity
   const identity = await ctx.auth.getUserIdentity();
   if (!identity || identity.issuer !== adminsIssuer) {
     throw new ConvexError('Unauthorized');
@@ -35,7 +36,7 @@ export async function verifyAdminAuth(ctx: AnyCtx) {
 // Clients Functions
 
 export async function getClientAuth(ctx: AnyCtx) {
-  // Check Identity
+  // Obtain Identity
   const identity = await ctx.auth.getUserIdentity();
   if (!identity || identity.issuer !== clientsIssuer) {
     return null;
@@ -46,7 +47,7 @@ export async function getClientAuth(ctx: AnyCtx) {
 }
 
 export async function verifyClientAuth(ctx: AnyCtx) {
-  // Check Identity
+  // Obtain Identity
   const identity = await ctx.auth.getUserIdentity();
   if (!identity || identity.issuer !== clientsIssuer) {
     throw new ConvexError('Unauthorized');
@@ -59,10 +60,14 @@ export async function verifyClientAuth(ctx: AnyCtx) {
 // Shared Functions
 
 export async function verifyIdentity(ctx: AnyCtx) {
-  // Check Identity
+  // Obtain Identity
   const identity = await ctx.auth.getUserIdentity();
   if (!identity) throw new ConvexError('Unauthorized');
 
+  // Obtain Issuer
+  const issuer: Issuer = identity.issuer === clientsIssuer ? 'clients' : identity.issuer === adminsIssuer ? 'admins' : null;
+  if (!issuer) throw new ConvexError('Unauthorized');
+
   // Return Identity
-  return identity;
+  return { identity, issuer };
 }

@@ -11,8 +11,8 @@ import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
+import { ResourcesRender } from '@/components/resources/resources-render';
 import { ResourcesToolbar } from '@/components/resources/resources-toolbar';
-import { ResourcesViewer } from '@/components/resources/resources-viewer';
 import { useHeader } from '@/hooks/use-header';
 
 interface ResourcesPageProps {
@@ -32,6 +32,7 @@ function ResourcesLoaded({ preloaded }: ResourcesPageProps) {
 
   useEffect(() => {
     if (resource) setBreadcrumbs([{ text: resource.name || 'Untitled Resource' }]);
+    else setBreadcrumbs([{ text: '404 Not Found' }]);
     return () => setBreadcrumbs([]);
   }, [resource, setBreadcrumbs]);
 
@@ -55,7 +56,7 @@ function ResourcesLoaded({ preloaded }: ResourcesPageProps) {
   return (
     <main className="flex w-full flex-col gap-3 p-3 md:gap-5 md:p-5">
       <ResourcesToolbar resource={resource} />
-      <ResourcesViewer resource={resource} />
+      <ResourcesRender resource={resource} />
     </main>
   );
 }

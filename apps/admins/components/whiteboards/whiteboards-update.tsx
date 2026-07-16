@@ -103,46 +103,46 @@ export function WhiteboardsUpdate({ whiteboard, onSuccess, children }: Whiteboar
               </SelectContent>
             </Select>
           </div>
+          {whiteboard.organizationId && (
+            <>
+              <Separator />
+              <div className="flex flex-col gap-2">
+                <Label>Clients Visible</Label>
+                <Select
+                  value={info.clientVisible}
+                  onValueChange={(value) => setInfo({ ...info, clientVisible: value })}
+                >
+                  <SelectTrigger className={cn('w-full cursor-pointer', info.clientVisible !== whiteboard.clientVisible.toString() && 'border-red-500')}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="true">True</SelectItem>
+                      <SelectItem value="false">False</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label>Clients Starred</Label>
+                <Select
+                  value={info.clientStarred}
+                  onValueChange={(value) => setInfo({ ...info, clientStarred: value })}
+                >
+                  <SelectTrigger className={cn('w-full cursor-pointer', info.clientStarred !== whiteboard.clientStarred.toString() && 'border-red-500')}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="true">True</SelectItem>
+                      <SelectItem value="false">False</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </>
+          )}
         </div>
-        {whiteboard.organizationId && (
-          <>
-            <Separator />
-            <div className="flex flex-col gap-2">
-              <Label>Clients Visible</Label>
-              <Select
-                value={info.clientVisible}
-                onValueChange={(value) => setInfo({ ...info, clientVisible: value })}
-              >
-                <SelectTrigger className={cn('w-full cursor-pointer', info.clientVisible !== whiteboard.clientVisible.toString() && 'border-red-500')}>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="true">True</SelectItem>
-                    <SelectItem value="false">False</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label>Clients Starred</Label>
-              <Select
-                value={info.clientStarred}
-                onValueChange={(value) => setInfo({ ...info, clientStarred: value })}
-              >
-                <SelectTrigger className={cn('w-full cursor-pointer', info.clientStarred !== whiteboard.clientStarred.toString() && 'border-red-500')}>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="true">True</SelectItem>
-                    <SelectItem value="false">False</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-          </>
-        )}
         <SheetFooter>
           <Button
             disabled={disableReset()}

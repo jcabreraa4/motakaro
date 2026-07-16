@@ -1,19 +1,21 @@
 import type { LucideIcon } from 'lucide-react';
 
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
+import { cn } from '@workspace/ui/lib/utils';
 
 interface EmptySectionProps {
   icon?: LucideIcon;
   title?: string;
   description?: string;
+  className?: string;
   children?: React.ReactNode;
 }
 
-export function EmptySection({ icon: Icon, title, description, children }: EmptySectionProps) {
+export function EmptySection({ icon: Icon, title, description, className, children }: EmptySectionProps) {
   return (
-    <section className="flex min-h-0 flex-1 items-center justify-center select-none">
+    <section className={cn('flex h-full w-full items-center justify-center select-none', className)}>
       <Empty>
-        <EmptyHeader>
+        <EmptyHeader className="max-w-full">
           {Icon && (
             <EmptyMedia variant="icon">
               <Icon className="size-6" />

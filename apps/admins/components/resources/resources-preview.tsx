@@ -2,7 +2,8 @@ import { ImageOffIcon, TriangleAlertIcon } from 'lucide-react';
 
 import { cn } from '@workspace/ui/lib/utils';
 
-import { MultimediaImage, MultimediaThumbnail } from '@/components/multimedia/multimedia-render';
+import { RenderImage } from '@/components/multimedia/render/render-image';
+import { RenderPoster } from '@/components/multimedia/render/render-poster';
 
 interface ResourcesPreviewProps {
   src: string;
@@ -13,19 +14,19 @@ export function ResourcesPreview({ src, className }: ResourcesPreviewProps) {
   const invalidSrc = src && !src.startsWith('http') && !src.startsWith('/');
 
   return (
-    <div className={cn('relative aspect-video overflow-hidden rounded-md border select-none', className)}>
+    <div className={cn('relative aspect-video overflow-hidden rounded-md border', className)}>
       {!src ? (
-        <MultimediaThumbnail
+        <RenderPoster
           icon={ImageOffIcon}
           text="No Thumbnail"
         />
       ) : invalidSrc ? (
-        <MultimediaThumbnail
+        <RenderPoster
           icon={TriangleAlertIcon}
           text="Invalid Thumbnail"
         />
       ) : (
-        <MultimediaImage
+        <RenderImage
           fill
           src={src}
         />

@@ -103,46 +103,46 @@ export function DocumentsUpdate({ document, onSuccess, children }: DocumentsUpda
               </SelectContent>
             </Select>
           </div>
+          {document.organizationId && (
+            <>
+              <Separator />
+              <div className="flex flex-col gap-2">
+                <Label>Clients Visible</Label>
+                <Select
+                  value={info.clientVisible}
+                  onValueChange={(value) => setInfo({ ...info, clientVisible: value })}
+                >
+                  <SelectTrigger className={cn('w-full cursor-pointer', info.clientVisible !== document.clientVisible.toString() && 'border-red-500')}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="true">True</SelectItem>
+                      <SelectItem value="false">False</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label>Clients Starred</Label>
+                <Select
+                  value={info.clientStarred}
+                  onValueChange={(value) => setInfo({ ...info, clientStarred: value })}
+                >
+                  <SelectTrigger className={cn('w-full cursor-pointer', info.clientStarred !== document.clientStarred.toString() && 'border-red-500')}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="true">True</SelectItem>
+                      <SelectItem value="false">False</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </>
+          )}
         </div>
-        {document.organizationId && (
-          <>
-            <Separator />
-            <div className="flex flex-col gap-2">
-              <Label>Clients Visible</Label>
-              <Select
-                value={info.clientVisible}
-                onValueChange={(value) => setInfo({ ...info, clientVisible: value })}
-              >
-                <SelectTrigger className={cn('w-full cursor-pointer', info.clientVisible !== document.clientVisible.toString() && 'border-red-500')}>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="true">True</SelectItem>
-                    <SelectItem value="false">False</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label>Clients Starred</Label>
-              <Select
-                value={info.clientStarred}
-                onValueChange={(value) => setInfo({ ...info, clientStarred: value })}
-              >
-                <SelectTrigger className={cn('w-full cursor-pointer', info.clientStarred !== document.clientStarred.toString() && 'border-red-500')}>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="true">True</SelectItem>
-                    <SelectItem value="false">False</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-          </>
-        )}
         <SheetFooter>
           <Button
             disabled={disableReset()}

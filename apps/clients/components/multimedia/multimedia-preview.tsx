@@ -1,50 +1,49 @@
+import dynamic from 'next/dynamic';
+
 import { BanIcon } from 'lucide-react';
 
-import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { MultimediaAudio, MultimediaFile, MultimediaImage, MultimediaThumbnail, MultimediaVideo } from '@/components/multimedia/multimedia-render';
+import { RenderAudio } from '@/components/multimedia/render/render-audio';
+import { RenderImage } from '@/components/multimedia/render/render-image';
+import { RenderPoster } from '@/components/multimedia/render/render-poster';
+import { RenderVideo } from '@/components/multimedia/render/render-video';
 import { mediaType } from '@/utils/media-type';
+
+const RenderIframe = dynamic(() => import('@/components/multimedia/render/render-iframe').then((m) => m.RenderIframe), { ssr: false });
 
 interface MultimediaPreviewProps {
   src: string;
   type: string;
-  interact?: boolean;
-  preview?: boolean;
   className?: string;
 }
 
-export function MultimediaPreview({ src, type, interact, preview, className }: MultimediaPreviewProps) {
-  const isMobile = useIsMobile();
+export function MultimediaPreview({ src, type, className }: MultimediaPreviewProps) {
   const fileType = mediaType(type);
 
   return (
     <div className={cn('relative aspect-video overflow-hidden rounded-md border select-none', className)}>
       {fileType === 'image' ? (
-        <MultimediaImage
+        <RenderImage
           fill
           src={src}
         />
       ) : fileType === 'video' ? (
-        <MultimediaVideo
+        <RenderVideo
+          fill
           src={src}
-          preview={preview}
-          interact={interact || isMobile}
         />
       ) : fileType === 'audio' ? (
-        <MultimediaAudio
+        <RenderAudio
+          fill
           src={src}
-          interact={interact || isMobile}
         />
       ) : fileType === 'other' ? (
-        <MultimediaFile
-          src={src}
-          interact={interact || isMobile}
-        />
+        <RenderIframe src={src} />
       ) : (
-        <MultimediaThumbnail
+        <RenderPoster
           icon={BanIcon}
-          text="Type not Allowed"
+          text="Unknown Type"
         />
       )}
     </div>

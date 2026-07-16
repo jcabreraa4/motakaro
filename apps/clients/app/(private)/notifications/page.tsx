@@ -8,6 +8,7 @@ import { api } from '@workspace/backend/_generated/api';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 
+import { AppSection } from '@/components/layout/app-section';
 import { NotificationsLoader } from '@/components/notifications/notifications-loader';
 import { NotificationsTable } from '@/components/notifications/notifications-table';
 import { useParams } from '@/hooks/use-params';
@@ -27,7 +28,7 @@ export default function Page() {
   });
 
   return (
-    <main className="flex w-full flex-col items-center overflow-hidden p-3 md:p-5">
+    <AppSection className="flex flex-col items-center">
       <div className="flex h-full w-full max-w-5xl flex-col gap-5">
         <h2 className="hidden pt-5 text-2xl font-semibold select-none xl:block">Notifications</h2>
         <section className="flex flex-col gap-3 lg:flex-row lg:gap-5">
@@ -86,6 +87,6 @@ export default function Page() {
           <NotificationsTable notifications={filteredNotifications || []} />
         )}
       </div>
-    </main>
+    </AppSection>
   );
 }
