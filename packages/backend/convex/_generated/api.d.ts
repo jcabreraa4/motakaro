@@ -13,6 +13,8 @@ import type * as agents from "../agents.js";
 import type * as auth from "../auth.js";
 import type * as clients from "../clients.js";
 import type * as documents from "../documents.js";
+import type * as endpoints_calcom from "../endpoints/calcom.js";
+import type * as endpoints_clerk from "../endpoints/clerk.js";
 import type * as env from "../env.js";
 import type * as http from "../http.js";
 import type * as meetings from "../meetings.js";
@@ -38,6 +40,8 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   clients: typeof clients;
   documents: typeof documents;
+  "endpoints/calcom": typeof endpoints_calcom;
+  "endpoints/clerk": typeof endpoints_clerk;
   env: typeof env;
   http: typeof http;
   meetings: typeof meetings;

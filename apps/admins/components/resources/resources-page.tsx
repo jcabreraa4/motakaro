@@ -9,8 +9,10 @@ import { ListVideoIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
+import { EmptySection } from '@workspace/ui/components/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
+import { AppSection } from '@/components/layout/app-section';
 import { ResourcesRender } from '@/components/resources/resources-render';
 import { ResourcesToolbar } from '@/components/resources/resources-toolbar';
 import { useHeader } from '@/hooks/use-header';
@@ -38,25 +40,27 @@ function ResourcesLoaded({ preloaded }: ResourcesPageProps) {
 
   if (!resource) {
     return (
-      <main className="flex w-full flex-col items-center justify-center gap-5 p-3 select-none md:p-5">
-        <div className="flex flex-col items-center gap-3">
-          <p className="text-xl font-semibold">404 Not Found</p>
-          <p>The resource you are looking for could not be found.</p>
-        </div>
-        <Link href="/resources">
-          <Button className="cursor-pointer">
-            <ListVideoIcon />
-            Check Resources
-          </Button>
-        </Link>
-      </main>
+      <AppSection>
+        <EmptySection
+          icon={ListVideoIcon}
+          title="404 Not Found"
+          description="The resource record could not be found."
+        >
+          <Link href="/resources">
+            <Button className="cursor-pointer">
+              <ListVideoIcon />
+              Check Resources
+            </Button>
+          </Link>
+        </EmptySection>
+      </AppSection>
     );
   }
 
   return (
-    <main className="flex w-full flex-col gap-3 p-3 md:gap-5 md:p-5">
+    <AppSection className="flex flex-col gap-3 md:gap-5">
       <ResourcesToolbar resource={resource} />
       <ResourcesRender resource={resource} />
-    </main>
+    </AppSection>
   );
 }

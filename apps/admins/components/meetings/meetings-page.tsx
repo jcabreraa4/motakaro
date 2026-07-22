@@ -9,8 +9,10 @@ import { HeadsetIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
+import { EmptySection } from '@workspace/ui/components/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
+import { AppSection } from '@/components/layout/app-section';
 import { useHeader } from '@/hooks/use-header';
 
 interface MeetingsPageProps {
@@ -36,33 +38,33 @@ function MeetingsLoaded({ preloaded }: MeetingsPageProps) {
 
   if (!meeting) {
     return (
-      <main className="flex w-full flex-col items-center justify-center gap-5 p-3 select-none md:p-5">
-        <div className="flex flex-col items-center gap-3">
-          <p className="text-xl font-semibold">404 Not Found</p>
-          <p>The meeting you are looking for could not be found.</p>
-        </div>
-        <Link href="/meetings">
-          <Button className="cursor-pointer">
-            <HeadsetIcon />
-            Check Meetings
-          </Button>
-        </Link>
-      </main>
+      <AppSection>
+        <EmptySection
+          icon={HeadsetIcon}
+          title="404 Not Found"
+          description="The meeting record could not be found."
+        >
+          <Link href="/meetings">
+            <Button className="cursor-pointer">
+              <HeadsetIcon />
+              Check Meetings
+            </Button>
+          </Link>
+        </EmptySection>
+      </AppSection>
     );
   }
 
   return (
-    <main className="flex w-full flex-1 justify-center p-3 md:p-5">
-      <section className="flex w-full max-w-5xl flex-col justify-center gap-6 md:px-5">
-        <h1 className="text-3xl font-semibold">{meeting.name}</h1>
-        <p>{meeting.note}</p>
-        <p>{meeting.link}</p>
-        <p>{meeting.start}</p>
-        <p>{meeting.end}</p>
-        <p>{meeting.organizer}</p>
-        <p>{meeting.website}</p>
-        <p>{meeting.attribution}</p>
-      </section>
-    </main>
+    <AppSection className="flex flex-col">
+      <h1 className="text-2xl font-semibold">{meeting.name}</h1>
+      <p>{meeting.note}</p>
+      <p>{meeting.link}</p>
+      <p>{meeting.start}</p>
+      <p>{meeting.end}</p>
+      <p>{meeting.organizer}</p>
+      <p>{meeting.website}</p>
+      <p>{meeting.attribution}</p>
+    </AppSection>
   );
 }

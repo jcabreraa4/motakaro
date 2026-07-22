@@ -8,6 +8,7 @@ import { api } from '@workspace/backend/_generated/api';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 
+import { AppSection } from '@/components/layout/app-section';
 import { NotificationsLoader } from '@/components/notifications/notifications-loader';
 import { NotificationsTable } from '@/components/notifications/notifications-table';
 import { useParams } from '@/hooks/use-params';
@@ -20,14 +21,15 @@ export default function Page() {
   const effectiveTypeFilter = typeFilter || 'all';
 
   const notifications = useQuery(api.notifications.list, isLoaded ? {} : 'skip');
-  const filteredNotifications = notifications?.filter((file) => {
+
+  const filtered = notifications?.filter((file) => {
     const matchesSearch = searchFilter === '' || file.name.toLowerCase().includes(searchFilter.toLowerCase()) || file.content.toLowerCase().includes(searchFilter.toLowerCase()) || file._id.toLowerCase().includes(searchFilter.toLowerCase());
     const matchesType = effectiveTypeFilter === 'all' || (effectiveTypeFilter === 'unread' && file.read === false) || (effectiveTypeFilter === 'important' && file.starred === true);
     return matchesSearch && matchesType;
   });
 
   return (
-    <main className="flex w-full flex-col items-center overflow-hidden p-3 md:p-5">
+    <AppSection className="flex flex-col items-center">
       <div className="flex h-full w-full max-w-5xl flex-col gap-5">
         <h2 className="hidden pt-5 text-2xl font-semibold select-none xl:block">Notifications</h2>
         <section className="flex flex-col gap-3 lg:flex-row lg:gap-5">
@@ -78,14 +80,14 @@ export default function Page() {
           <div className="rounded-md border bg-sidebar p-5 select-none">
             <p className="font-medium">There are no notifications!</p>
           </div>
-        ) : filteredNotifications?.length === 0 ? (
+        ) : filtered?.length === 0 ? (
           <div className="rounded-md border bg-sidebar p-5 select-none">
             <p className="font-medium">No notifications match your search criteria.</p>
           </div>
         ) : (
-          <NotificationsTable notifications={filteredNotifications || []} />
+          <NotificationsTable notifications={filtered || []} />
         )}
       </div>
-    </main>
+    </AppSection>
   );
 }

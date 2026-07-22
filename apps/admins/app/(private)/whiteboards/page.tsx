@@ -12,6 +12,7 @@ import { EmptySection } from '@workspace/ui/components/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 
+import { AppSection } from '@/components/layout/app-section';
 import { WhiteboardsCreate } from '@/components/whiteboards/whiteboards-create';
 import { WhiteboardsTable } from '@/components/whiteboards/whiteboards-table';
 import { useParams } from '@/hooks/use-params';
@@ -23,11 +24,12 @@ export default function Page() {
   const [searchFilter, setSearchFilter] = useParams('search');
 
   const whiteboards = useQuery(api.whiteboards.list, isLoaded ? {} : 'skip');
-  const filteredBoards = whiteboards?.filter((whiteboard) => searchFilter === '' || whiteboard.name.toLowerCase().includes(searchFilter.toLowerCase()) || whiteboard._id.toLowerCase().includes(searchFilter.toLowerCase()));
+
+  const filtered = whiteboards?.filter((whiteboard) => searchFilter === '' || whiteboard.name.toLowerCase().includes(searchFilter.toLowerCase()) || whiteboard._id.toLowerCase().includes(searchFilter.toLowerCase()));
 
   return (
-    <main className="flex w-full flex-col gap-3 overflow-hidden p-3 md:gap-5 md:p-5">
-      <section className="flex flex-col gap-3 lg:flex-row xl:gap-5">
+    <AppSection className="flex flex-col gap-3 md:gap-5">
+      <section className="flex flex-col gap-3 lg:flex-row lg:gap-5">
         <InputGroup className="flex-1">
           <InputGroupInput
             disabled={!whiteboards || whiteboards.length === 0}
@@ -75,15 +77,15 @@ export default function Page() {
             </Button>
           </WhiteboardsCreate>
         </EmptySection>
-      ) : filteredBoards?.length === 0 ? (
+      ) : filtered?.length === 0 ? (
         <EmptySection
           icon={PencilRulerIcon}
           title="No Whiteboards Found"
           description="No whiteboards match your search criteria."
         />
       ) : (
-        <WhiteboardsTable whiteboards={filteredBoards || []} />
+        <WhiteboardsTable whiteboards={filtered || []} />
       )}
-    </main>
+    </AppSection>
   );
 }

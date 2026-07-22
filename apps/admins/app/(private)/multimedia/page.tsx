@@ -11,6 +11,7 @@ import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 
+import { AppSection } from '@/components/layout/app-section';
 import { MultimediaTable } from '@/components/multimedia/multimedia-table';
 import { MultimediaUpload } from '@/components/multimedia/multimedia-upload';
 import { useParams } from '@/hooks/use-params';
@@ -23,15 +24,16 @@ export default function Page() {
   const effectiveTypeFilter = typeFilter || 'all';
 
   const multimedia = useQuery(api.multimedia.list, isLoaded ? {} : 'skip');
-  const filteredMultimedia = multimedia?.filter((file) => {
+
+  const filtered = multimedia?.filter((file) => {
     const matchesSearch = searchFilter === '' || file.name.toLowerCase().includes(searchFilter.toLowerCase()) || file._id.toLowerCase().includes(searchFilter.toLowerCase());
     const matchesType = effectiveTypeFilter === 'all' || file.type.includes(effectiveTypeFilter);
     return matchesSearch && matchesType;
   });
 
   return (
-    <main className="flex w-full flex-col gap-3 overflow-hidden p-3 md:gap-5 md:p-5">
-      <section className="flex flex-col gap-3 lg:flex-row xl:gap-5">
+    <AppSection className="flex flex-col gap-3 md:gap-5">
+      <section className="flex flex-col gap-3 lg:flex-row lg:gap-5">
         <Select
           value={effectiveTypeFilter}
           onValueChange={(value) => setTypeFilter(value === 'all' ? '' : value)}
@@ -99,15 +101,15 @@ export default function Page() {
             </Button>
           </MultimediaUpload>
         </EmptySection>
-      ) : filteredMultimedia?.length === 0 ? (
+      ) : filtered?.length === 0 ? (
         <EmptySection
           icon={ImageIcon}
           title="No Multimedia Found"
           description="No files match your search criteria."
         />
       ) : (
-        <MultimediaTable multimedia={filteredMultimedia || []} />
+        <MultimediaTable multimedia={filtered || []} />
       )}
-    </main>
+    </AppSection>
   );
 }

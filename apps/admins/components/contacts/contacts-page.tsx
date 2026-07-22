@@ -5,12 +5,14 @@ import { useEffect } from 'react';
 
 import { useAuth } from '@clerk/nextjs';
 import { Preloaded, usePreloadedQuery } from 'convex/react';
-import { UserIcon } from 'lucide-react';
+import { UsersIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
+import { EmptySection } from '@workspace/ui/components/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
+import { AppSection } from '@/components/layout/app-section';
 import { useHeader } from '@/hooks/use-header';
 
 interface ContactsPageProps {
@@ -36,26 +38,28 @@ export function ContactsLoaded({ preloaded }: ContactsPageProps) {
 
   if (!contact) {
     return (
-      <section className="flex w-full flex-col items-center justify-center gap-5 p-3 select-none md:p-5">
-        <div className="flex flex-col items-center gap-3">
-          <p className="text-xl font-semibold">404 Not Found</p>
-          <p>The document you are looking for could not be found.</p>
-        </div>
-        <Link href="/contacts">
-          <Button className="cursor-pointer">
-            <UserIcon />
-            Check Documents
-          </Button>
-        </Link>
-      </section>
+      <AppSection>
+        <EmptySection
+          icon={UsersIcon}
+          title="404 Not Found"
+          description="The contact record could not be found."
+        >
+          <Link href="/contacts">
+            <Button className="cursor-pointer">
+              <UsersIcon />
+              Check Contacts
+            </Button>
+          </Link>
+        </EmptySection>
+      </AppSection>
     );
   }
 
   return (
-    <main className="p-3 md:p-5">
+    <AppSection>
       <p>
         {contact.name} {contact.surname}
       </p>
-    </main>
+    </AppSection>
   );
 }

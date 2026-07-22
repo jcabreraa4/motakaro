@@ -24,7 +24,8 @@ export default function Page() {
   const effectiveTypeFilter = typeFilter || 'all';
 
   const multimedia = useQuery(api.multimedia.clientList, isLoaded ? {} : 'skip');
-  const filteredMultimedia = multimedia?.filter((file) => {
+
+  const filtered = multimedia?.filter((file) => {
     const matchesSearch = searchFilter === '' || file.name.toLowerCase().includes(searchFilter.toLowerCase()) || file._id.toLowerCase().includes(searchFilter.toLowerCase());
     const matchesType = effectiveTypeFilter === 'all' || file.type.includes(effectiveTypeFilter);
     return matchesSearch && matchesType;
@@ -100,14 +101,14 @@ export default function Page() {
             </Button>
           </MultimediaUpload>
         </EmptySection>
-      ) : filteredMultimedia?.length === 0 ? (
+      ) : filtered?.length === 0 ? (
         <EmptySection
           icon={ImageIcon}
           title="No Multimedia Found"
           description="No files match your search criteria."
         />
       ) : (
-        <MultimediaTable multimedia={filteredMultimedia || []} />
+        <MultimediaTable multimedia={filtered || []} />
       )}
     </AppSection>
   );

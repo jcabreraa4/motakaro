@@ -24,7 +24,8 @@ export default function Page() {
   const [searchFilter, setSearchFilter] = useParams('search');
 
   const documents = useQuery(api.documents.clientList, isLoaded ? {} : 'skip');
-  const filteredDocuments = documents?.filter((document) => searchFilter === '' || document.name.toLowerCase().includes(searchFilter.toLowerCase()) || document._id.toLowerCase().includes(searchFilter.toLowerCase()));
+
+  const filtered = documents?.filter((document) => searchFilter === '' || document.name.toLowerCase().includes(searchFilter.toLowerCase()) || document._id.toLowerCase().includes(searchFilter.toLowerCase()));
 
   return (
     <AppSection className="flex flex-col gap-3 md:gap-5">
@@ -76,14 +77,14 @@ export default function Page() {
             </Button>
           </DocumentsCreate>
         </EmptySection>
-      ) : filteredDocuments?.length === 0 ? (
+      ) : filtered?.length === 0 ? (
         <EmptySection
           icon={FileTextIcon}
           title="No Documents Found"
           description="No documents match your search criteria."
         />
       ) : (
-        <DocumentsTable documents={filteredDocuments || []} />
+        <DocumentsTable documents={filtered || []} />
       )}
     </AppSection>
   );

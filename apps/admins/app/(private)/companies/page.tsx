@@ -9,23 +9,30 @@ import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
+import { AppSection } from '@/components/layout/app-section';
+
 export default function Page() {
   const { isLoaded } = useAuth();
 
-  const companies = useQuery(api.organizations.list, isLoaded ? {} : 'skip');
+  const organizations = useQuery(api.organizations.list, isLoaded ? {} : 'skip');
 
-  if (!companies) return <GenericLoader />;
+  if (!organizations) return <GenericLoader />;
 
   return (
-    <main className="flex w-full flex-col gap-3 overflow-hidden p-3 md:p-5">
-      {companies.map((company) => (
+    <AppSection className="flex flex-col gap-3">
+      {organizations.map((organization) => (
         <Link
-          key={company._id}
-          href={`/companies/${company._id}`}
+          key={organization._id}
+          href={`/companies/${organization._id}`}
         >
-          <Button variant="outline">{company.name}</Button>
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+          >
+            {organization.name}
+          </Button>
         </Link>
       ))}
-    </main>
+    </AppSection>
   );
 }

@@ -9,10 +9,12 @@ import { FileTextIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
+import { EmptySection } from '@workspace/ui/components/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
 import { DocumentsEditor } from '@/components/documents/documents-editor';
 import { DocumentsToolbar } from '@/components/documents/documents-toolbar';
+import { AppSection } from '@/components/layout/app-section';
 import { useHeader } from '@/hooks/use-header';
 
 interface DocumentsPageProps {
@@ -38,25 +40,27 @@ function DocumentsPageLoaded({ preloaded }: DocumentsPageProps) {
 
   if (!document) {
     return (
-      <section className="flex w-full flex-col items-center justify-center gap-5 p-3 select-none md:p-5">
-        <div className="flex flex-col items-center gap-3">
-          <p className="text-xl font-semibold">404 Not Found</p>
-          <p>The document you are looking for could not be found.</p>
-        </div>
-        <Link href="/documents">
-          <Button className="cursor-pointer">
-            <FileTextIcon />
-            Check Documents
-          </Button>
-        </Link>
-      </section>
+      <AppSection>
+        <EmptySection
+          icon={FileTextIcon}
+          title="404 Not Found"
+          description="The document record could not be found."
+        >
+          <Link href="/documents">
+            <Button className="cursor-pointer">
+              <FileTextIcon />
+              Check Documents
+            </Button>
+          </Link>
+        </EmptySection>
+      </AppSection>
     );
   }
 
   return (
-    <main className="flex w-full flex-col gap-3 p-3 md:gap-5 md:p-5">
+    <AppSection className="flex flex-col gap-3 md:gap-5">
       <DocumentsToolbar document={document} />
       <DocumentsEditor document={document} />
-    </main>
+    </AppSection>
   );
 }

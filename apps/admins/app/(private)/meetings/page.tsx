@@ -11,6 +11,7 @@ import { EmptySection } from '@workspace/ui/components/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 
+import { AppSection } from '@/components/layout/app-section';
 import { MeetingsCreate } from '@/components/meetings/meetings-create';
 import { MeetingsTable } from '@/components/meetings/meetings-table';
 import { useParams } from '@/hooks/use-params';
@@ -25,13 +26,7 @@ export default function Page() {
 
   const meetings = useQuery(api.meetings.list, isLoaded ? {} : 'skip');
 
-  const selectedDate = dateFilter ? new Date(dateFilter + 'T00:00:00') : undefined;
-
-  function handleDateSelect(day: Date | undefined) {
-    setDateFilter(day ? format(day, 'yyyy-MM-dd') : '');
-  }
-
-  const filteredMeetings = meetings?.filter((meeting) => {
+  const filtered = meetings?.filter((meeting) => {
     const matchesSearch = searchFilter === '' || meeting.name.toLowerCase().includes(searchFilter.toLowerCase()) || meeting._id.toLowerCase().includes(searchFilter.toLowerCase()) || meeting.organizer.toLowerCase().includes(searchFilter.toLowerCase());
     const matchesStatus = effectiveStatusFilter === 'all' || meeting.status.includes(effectiveStatusFilter);
     const matchesDate = !dateFilter || format(new Date(meeting.start), 'yyyy-MM-dd') === dateFilter;
@@ -39,8 +34,8 @@ export default function Page() {
   });
 
   return (
-    <main className="flex w-full flex-col gap-3 overflow-hidden p-3 md:gap-5 md:p-5">
-      <section className="flex flex-col gap-3 lg:flex-row xl:gap-5">
+    <AppSection className="flex flex-col gap-3 md:gap-5">
+      <section className="flex flex-col gap-3 lg:flex-row lg:gap-5">
         <InputGroup className="flex-1">
           <InputGroupInput
             disabled={!meetings || meetings.length === 0}
@@ -88,15 +83,15 @@ export default function Page() {
             </Button>
           </MeetingsCreate>
         </EmptySection>
-      ) : filteredMeetings?.length === 0 ? (
+      ) : filtered?.length === 0 ? (
         <EmptySection
           icon={HeadsetIcon}
           title="No Meetings Found"
           description="No meetings match your search criteria."
         />
       ) : (
-        <MeetingsTable meetings={filteredMeetings || []} />
+        <MeetingsTable meetings={filtered || []} />
       )}
-    </main>
+    </AppSection>
   );
 }

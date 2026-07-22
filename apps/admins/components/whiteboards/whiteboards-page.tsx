@@ -9,8 +9,10 @@ import { PencilRulerIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
+import { EmptySection } from '@workspace/ui/components/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
+import { AppSection } from '@/components/layout/app-section';
 import { WhiteboardsCanvas } from '@/components/whiteboards/whiteboards-canvas';
 import { useHeader } from '@/hooks/use-header';
 
@@ -37,18 +39,20 @@ function WhiteboardsLoaded({ preloaded }: WhiteboardsPageProps) {
 
   if (!whiteboard) {
     return (
-      <section className="flex w-full flex-col items-center justify-center gap-5 p-3 select-none md:p-5">
-        <div className="flex flex-col items-center gap-3">
-          <p className="text-xl font-semibold">404 Not Found</p>
-          <p>The whiteboard you are looking for could not be found.</p>
-        </div>
-        <Link href="/whiteboards">
-          <Button className="cursor-pointer">
-            <PencilRulerIcon />
-            Check Whiteboards
-          </Button>
-        </Link>
-      </section>
+      <AppSection>
+        <EmptySection
+          icon={PencilRulerIcon}
+          title="404 Not Found"
+          description="The whiteboard record could not be found."
+        >
+          <Link href="/whiteboards">
+            <Button className="cursor-pointer">
+              <PencilRulerIcon />
+              Check Whiteboards
+            </Button>
+          </Link>
+        </EmptySection>
+      </AppSection>
     );
   }
 

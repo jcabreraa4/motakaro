@@ -21,7 +21,8 @@ export default function Page() {
   const effectiveTypeFilter = typeFilter || 'all';
 
   const notifications = useQuery(api.notifications.clientList, isLoaded ? {} : 'skip');
-  const filteredNotifications = notifications?.filter((file) => {
+
+  const filtered = notifications?.filter((file) => {
     const matchesSearch = searchFilter === '' || file.name.toLowerCase().includes(searchFilter.toLowerCase()) || file.content.toLowerCase().includes(searchFilter.toLowerCase()) || file._id.toLowerCase().includes(searchFilter.toLowerCase());
     const matchesType = effectiveTypeFilter === 'all' || (effectiveTypeFilter === 'unread' && file.read === false) || (effectiveTypeFilter === 'important' && file.starred === true);
     return matchesSearch && matchesType;
@@ -79,12 +80,12 @@ export default function Page() {
           <div className="rounded-md border bg-sidebar p-5 select-none">
             <p className="font-medium">There are no notifications!</p>
           </div>
-        ) : filteredNotifications?.length === 0 ? (
+        ) : filtered?.length === 0 ? (
           <div className="rounded-md border bg-sidebar p-5 select-none">
             <p className="font-medium">No notifications match your search criteria.</p>
           </div>
         ) : (
-          <NotificationsTable notifications={filteredNotifications || []} />
+          <NotificationsTable notifications={filtered || []} />
         )}
       </div>
     </AppSection>

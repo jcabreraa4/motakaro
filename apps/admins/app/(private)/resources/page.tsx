@@ -11,6 +11,7 @@ import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 
+import { AppSection } from '@/components/layout/app-section';
 import { ResourcesCreate } from '@/components/resources/resources-create';
 import { ResourcesTable } from '@/components/resources/resources-table';
 import { useParams } from '@/hooks/use-params';
@@ -23,15 +24,16 @@ export default function Page() {
   const effectiveStatusFilter = statusFilter || 'all';
 
   const resources = useQuery(api.resources.list, isLoaded ? {} : 'skip');
-  const filteredResources = resources?.filter((resource) => {
+
+  const filtered = resources?.filter((resource) => {
     const matchesSearch = searchFilter === '' || resource.name.toLowerCase().includes(searchFilter.toLowerCase()) || resource._id.toLowerCase().includes(searchFilter.toLowerCase()) || resource.link.toLowerCase().includes(searchFilter.toLowerCase());
     const matchesStatus = effectiveStatusFilter === 'all' || resource.published === (effectiveStatusFilter === 'true');
     return matchesSearch && matchesStatus;
   });
 
   return (
-    <main className="flex w-full flex-col gap-3 overflow-hidden p-3 md:gap-5 md:p-5">
-      <section className="flex flex-col gap-3 lg:flex-row xl:gap-5">
+    <AppSection className="flex flex-col gap-3 md:gap-5">
+      <section className="flex flex-col gap-3 lg:flex-row lg:gap-5">
         <Select
           value={effectiveStatusFilter}
           onValueChange={(value) => setStatusFilter(value === 'all' ? '' : value)}
@@ -97,15 +99,15 @@ export default function Page() {
             </Button>
           </ResourcesCreate>
         </EmptySection>
-      ) : filteredResources?.length === 0 ? (
+      ) : filtered?.length === 0 ? (
         <EmptySection
           icon={ListVideoIcon}
           title="No Resources Found"
           description="No resources match your search criteria."
         />
       ) : (
-        <ResourcesTable resources={filteredResources || []} />
+        <ResourcesTable resources={filtered || []} />
       )}
-    </main>
+    </AppSection>
   );
 }

@@ -9,6 +9,8 @@ import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
+import { AppSection } from '@/components/layout/app-section';
+
 export default function Page() {
   const { isLoaded } = useAuth();
 
@@ -17,17 +19,20 @@ export default function Page() {
   if (!contacts) return <GenericLoader />;
 
   return (
-    <main className="flex w-full flex-col gap-3 overflow-hidden p-3 md:p-5">
+    <AppSection className="flex flex-col gap-3">
       {contacts.map((contact) => (
         <Link
           key={contact._id}
           href={`/contacts/${contact._id}`}
         >
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+          >
             {contact.name} {contact.surname}
           </Button>
         </Link>
       ))}
-    </main>
+    </AppSection>
   );
 }

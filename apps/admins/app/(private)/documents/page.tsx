@@ -14,6 +14,7 @@ import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '
 
 import { DocumentsCreate } from '@/components/documents/documents-create';
 import { DocumentsTable } from '@/components/documents/documents-table';
+import { AppSection } from '@/components/layout/app-section';
 import { useParams } from '@/hooks/use-params';
 
 export default function Page() {
@@ -23,11 +24,12 @@ export default function Page() {
   const [searchFilter, setSearchFilter] = useParams('search');
 
   const documents = useQuery(api.documents.list, isLoaded ? {} : 'skip');
-  const filteredDocuments = documents?.filter((document) => searchFilter === '' || document.name.toLowerCase().includes(searchFilter.toLowerCase()) || document._id.toLowerCase().includes(searchFilter.toLowerCase()));
+
+  const filtered = documents?.filter((document) => searchFilter === '' || document.name.toLowerCase().includes(searchFilter.toLowerCase()) || document._id.toLowerCase().includes(searchFilter.toLowerCase()));
 
   return (
-    <main className="flex w-full flex-col gap-3 overflow-hidden p-3 md:gap-5 md:p-5">
-      <section className="flex flex-col gap-3 lg:flex-row xl:gap-5">
+    <AppSection className="flex flex-col gap-3 md:gap-5">
+      <section className="flex flex-col gap-3 lg:flex-row lg:gap-5">
         <InputGroup className="flex-1">
           <InputGroupInput
             disabled={!documents || documents.length === 0}
@@ -75,15 +77,15 @@ export default function Page() {
             </Button>
           </DocumentsCreate>
         </EmptySection>
-      ) : filteredDocuments?.length === 0 ? (
+      ) : filtered?.length === 0 ? (
         <EmptySection
           icon={FileTextIcon}
           title="No Documents Found"
           description="No documents match your search criteria."
         />
       ) : (
-        <DocumentsTable documents={filteredDocuments || []} />
+        <DocumentsTable documents={filtered || []} />
       )}
-    </main>
+    </AppSection>
   );
 }
