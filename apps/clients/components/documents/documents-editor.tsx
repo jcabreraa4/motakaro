@@ -5,10 +5,10 @@ import { EditorContent, useEditor as useTiptap } from '@tiptap/react';
 
 import { api } from '@workspace/backend/_generated/api';
 import type { Document } from '@workspace/backend/schema';
+import { extensions } from '@workspace/tiptap/extensions';
 import { Spinner } from '@workspace/ui/components/spinner';
 
 import { useEditor } from '@/hooks/use-editor';
-import { extensions } from '@/lib/tiptap/extensions';
 
 export function DocumentsEditor({ document }: { document: Document }) {
   const { setEditor } = useEditor();

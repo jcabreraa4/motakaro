@@ -33,6 +33,7 @@
     "@trigger.dev/sdk": "^4.4.6",
     "@vercel/analytics": "^2.0.1",
     "@workspace/backend": "workspace:*",
+    "@workspace/tiptap": "workspace:*",
     "@workspace/trigger": "workspace:*",
     "@workspace/ui": "workspace:*",
     "convex": "^1.42.1",

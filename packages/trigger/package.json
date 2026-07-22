@@ -7,15 +7,15 @@
     "typecheck": "tsc --noEmit",
     "deploy": "trigger deploy"
   },
-  "exports": {
-    ".": "./src/index.ts"
+  "dependencies": {
+    "@trigger.dev/sdk": "^4.5.1"
   },
   "devDependencies": {
     "@workspace/typescript-config": "workspace:*",
     "trigger.dev": "^4.5.1",
     "typescript": "^5.9.3"
   },
-  "dependencies": {
-    "@trigger.dev/sdk": "^4.5.1"
+  "exports": {
+    ".": "./src/index.ts"
   }
 }

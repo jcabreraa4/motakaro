@@ -7,13 +7,6 @@
     "typecheck": "tsc --noEmit -p convex/tsconfig.json",
     "deploy": "convex deploy"
   },
-  "exports": {
-    "./convex": "./convex/*.ts"
-  },
-  "devDependencies": {
-    "@workspace/typescript-config": "workspace:*",
-    "typescript": "^5.9.3"
-  },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.68",
     "@clerk/backend": "^3.2.0",
@@ -22,5 +15,12 @@
     "@types/node": "^25.4.0",
     "convex": "^1.42.1",
     "svix": "^1.88.0"
+  },
+  "devDependencies": {
+    "@workspace/typescript-config": "workspace:*",
+    "typescript": "^5.9.3"
+  },
+  "exports": {
+    "./convex": "./convex/*"
   }
 }
