@@ -6,7 +6,7 @@ import { DataModel, type Id } from './_generated/dataModel';
 import { MutationCtx, QueryCtx } from './_generated/server';
 import { verifyIdentity } from './auth';
 
-export const prosemirrorSync = new ProsemirrorSync((components as any).prosemirrorSync);
+export const prosemirror = new ProsemirrorSync(components.prosemirrorSync);
 
 async function verifyAccess(ctx: QueryCtx | MutationCtx, id: string) {
   // Verify Identity
@@ -35,7 +35,7 @@ async function verifyAccess(ctx: QueryCtx | MutationCtx, id: string) {
   }
 }
 
-export const { getSnapshot, submitSnapshot, latestVersion, getSteps, submitSteps } = prosemirrorSync.syncApi<DataModel>({
+export const { getSnapshot, submitSnapshot, latestVersion, getSteps, submitSteps } = prosemirror.syncApi<DataModel>({
   checkRead: verifyAccess,
   checkWrite: verifyAccess,
   onSnapshot: async (ctx, id, snapshot) => {

@@ -29,9 +29,11 @@ export default function Page() {
   });
 
   return (
-    <AppSection className="flex flex-col items-center">
-      <div className="flex h-full w-full max-w-5xl flex-col gap-5">
-        <h2 className="hidden pt-5 text-2xl font-semibold select-none xl:block">Notifications</h2>
+    <AppSection className="flex justify-center">
+      <div className="flex w-full max-w-5xl flex-col gap-5">
+        <div className="hidden h-9 items-center lg:flex">
+          <h2 className="text-2xl font-semibold select-none">Notifications</h2>
+        </div>
         <section className="flex flex-col gap-3 lg:flex-row lg:gap-5">
           <InputGroup>
             <InputGroupInput

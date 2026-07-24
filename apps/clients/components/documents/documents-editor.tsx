@@ -6,7 +6,6 @@ import { EditorContent, useEditor as useTiptap } from '@tiptap/react';
 import { api } from '@workspace/backend/_generated/api';
 import type { Document } from '@workspace/backend/schema';
 import { extensions } from '@workspace/tiptap/extensions';
-import { Spinner } from '@workspace/ui/components/spinner';
 
 import { useEditor } from '@/hooks/use-editor';
 
@@ -49,31 +48,19 @@ export function DocumentsEditor({ document }: { document: Document }) {
       },
       editorProps: {
         attributes: {
-          class: 'focus:outline-none rounded-md xl:border min-h-263.5 xl:px-14 xl:py-10'
+          class: 'focus:outline-none min-h-263.5 xl:px-14 xl:py-10'
         }
       },
-      extensions: [...extensions, ...(realtime.extension ? [realtime.extension] : [])],
+      extensions: [...extensions, realtime.extension!],
       immediatelyRender: false,
       editable: !realtime.isLoading && realtime.initialContent !== null
     },
     [document._id, realtime.extension, realtime.initialContent]
   );
 
-  if (realtime.isLoading || realtime.initialContent === null || !realtime.extension) {
-    return (
-      <section className="w-full flex-1 overflow-y-scroll">
-        <div className="mx-auto flex h-50 min-h-263.5 w-full max-w-204 items-center justify-center rounded-md p-2 lg:p-0 xl:border">
-          <Spinner className="size-8" />
-        </div>
-      </section>
-    );
-  }
-
   return (
-    <section className="w-full flex-1 overflow-y-auto">
-      <div className="mx-auto max-w-204 p-2 lg:p-0">
-        <EditorContent editor={editor} />
-      </div>
+    <section className="h-full overflow-y-auto">
+      <div className="mx-auto min-h-263.5 w-full rounded-md p-2 xl:max-w-204 xl:border xl:p-0">{!realtime.isLoading && <EditorContent editor={editor} />}</div>
     </section>
   );
 }

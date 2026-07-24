@@ -53,11 +53,6 @@ const sections: Section[] = [
         title: 'Documents',
         url: '/documents',
         icon: FileTextIcon
-      },
-      {
-        title: 'Whiteboards',
-        url: '/whiteboards',
-        icon: PencilRulerIcon
       }
     ]
   },

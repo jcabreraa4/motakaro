@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useAuth } from '@clerk/nextjs';
 import { useMutation, usePaginatedQuery } from 'convex/react';
 import { ArrowLeftIcon, PlusIcon } from 'lucide-react';
+import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
@@ -26,6 +27,12 @@ export function AppChatbot() {
 
   const thread = threads.find((thread) => thread._id === threadId);
 
+  function handleCreate() {
+    createThread()
+      .then((id) => setThreadId(id))
+      .catch(() => toast.error('An internal error has ocurred.'));
+  }
+
   return (
     <section className={cn('w-full xl:max-w-120 xl:border-l print:hidden', !open && 'hidden')}>
       {!threadId ? (
@@ -33,7 +40,7 @@ export function AppChatbot() {
           <Button
             variant="outline"
             className="w-full cursor-pointer"
-            onClick={() => createThread().then((id) => setThreadId(id))}
+            onClick={handleCreate}
           >
             <PlusIcon />
             Create Thread
