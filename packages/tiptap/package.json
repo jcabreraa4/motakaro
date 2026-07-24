@@ -6,14 +6,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@tiptap/extension-highlight": "^3.20.2",
-    "@tiptap/extension-link": "^3.20.2",
-    "@tiptap/extension-list": "^3.20.2",
-    "@tiptap/extension-table": "^3.20.2",
-    "@tiptap/extension-text-align": "^3.20.2",
-    "@tiptap/extension-text-style": "^3.20.2",
-    "@tiptap/starter-kit": "^3.20.2",
-    "tiptap-extension-resize-image": "^1.3.3"
+    "@tiptap/extension-highlight": "^3.29.0",
+    "@tiptap/extension-link": "^3.29.0",
+    "@tiptap/extension-list": "^3.29.0",
+    "@tiptap/extension-table": "^3.29.0",
+    "@tiptap/extension-text-align": "^3.29.0",
+    "@tiptap/extension-text-style": "^3.29.0",
+    "@tiptap/starter-kit": "^3.29.0",
+    "tiptap-extension-resize-image": "^1.4.4"
   },
   "devDependencies": {
     "@workspace/typescript-config": "workspace:*",

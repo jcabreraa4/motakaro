@@ -57,7 +57,7 @@ export function DocumentsToolbar({ document }: { document: Document }) {
   const { actions, format } = useEditor();
 
   return (
-    <section className="flex w-full items-center overflow-x-auto print:hidden">
+    <section className="flex w-full items-center overflow-x-auto overflow-y-hidden print:hidden">
       <div className="hidden items-center gap-1 lg:flex">
         <DocumentsUpdate document={document}>
           <ToolbarButton icon={PenIcon} />
