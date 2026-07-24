@@ -7,16 +7,6 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true
   },
   transpilePackages: ['@workspace/ui', '@workspace/tiptap'],
-  turbopack: {
-    resolveAlias: {
-      'prosemirror-model': 'prosemirror-model',
-      'prosemirror-state': 'prosemirror-state',
-      'prosemirror-view': 'prosemirror-view',
-      'prosemirror-transform': 'prosemirror-transform',
-      'prosemirror-collab': 'prosemirror-collab'
-    }
-  },
-
   images: {
     remotePatterns: [
       {
