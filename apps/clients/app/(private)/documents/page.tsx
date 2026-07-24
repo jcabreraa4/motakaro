@@ -11,6 +11,7 @@ import { Button } from '@workspace/ui/components/button';
 import { EmptySection } from '@workspace/ui/components/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
+import { Kbd, KbdGroup } from '@workspace/ui/components/kbd';
 
 import { DocumentsCreate } from '@/components/documents/documents-create';
 import { DocumentsTable } from '@/components/documents/documents-table';
@@ -36,6 +37,11 @@ export default function Page() {
             placeholder="Search..."
             value={searchFilter}
             onChange={(e) => setSearchFilter(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') {
+                setSearchFilter('');
+              }
+            }}
           />
           <InputGroupAddon>
             <SearchIcon />
@@ -43,11 +49,15 @@ export default function Page() {
           {searchFilter && (
             <InputGroupAddon align="inline-end">
               <InputGroupButton
-                size="icon-sm"
-                className="cursor-pointer"
+                className="cursor-pointer hover:bg-transparent"
                 onClick={() => setSearchFilter('')}
               >
-                <XIcon />
+                <KbdGroup>
+                  <Kbd>
+                    <XIcon />
+                    ESC
+                  </Kbd>
+                </KbdGroup>
               </InputGroupButton>
             </InputGroupAddon>
           )}

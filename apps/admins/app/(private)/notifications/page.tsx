@@ -6,6 +6,7 @@ import { SearchIcon, XIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
+import { Kbd, KbdGroup } from '@workspace/ui/components/kbd';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 
 import { AppSection } from '@/components/layout/app-section';
@@ -41,6 +42,11 @@ export default function Page() {
               placeholder="Search..."
               value={searchFilter}
               onChange={(e) => setSearchFilter(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') {
+                  setSearchFilter('');
+                }
+              }}
             />
             <InputGroupAddon>
               <SearchIcon />
@@ -48,11 +54,15 @@ export default function Page() {
             {searchFilter && (
               <InputGroupAddon align="inline-end">
                 <InputGroupButton
-                  size="icon-sm"
-                  className="cursor-pointer"
+                  className="cursor-pointer hover:bg-transparent"
                   onClick={() => setSearchFilter('')}
                 >
-                  <XIcon />
+                  <KbdGroup>
+                    <Kbd>
+                      <XIcon />
+                      ESC
+                    </Kbd>
+                  </KbdGroup>
                 </InputGroupButton>
               </InputGroupAddon>
             )}
