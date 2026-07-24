@@ -9,12 +9,14 @@ const nextConfig: NextConfig = {
   transpilePackages: ['@workspace/ui', '@workspace/tiptap'],
   turbopack: {
     resolveAlias: {
-      'prosemirror-model': require.resolve('prosemirror-model'),
-      'prosemirror-state': require.resolve('prosemirror-state'),
-      'prosemirror-view': require.resolve('prosemirror-view'),
-      'prosemirror-transform': require.resolve('prosemirror-transform')
+      'prosemirror-model': 'prosemirror-model',
+      'prosemirror-state': 'prosemirror-state',
+      'prosemirror-view': 'prosemirror-view',
+      'prosemirror-transform': 'prosemirror-transform',
+      'prosemirror-collab': 'prosemirror-collab'
     }
   },
+
   images: {
     remotePatterns: [
       {
