@@ -1,12 +1,11 @@
 import { TableIcon } from 'lucide-react';
 
+import { useTiptap } from '@workspace/tiptap/hooks/use-tiptap';
 import { Button } from '@workspace/ui/components/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 
-import { useEditor } from '@/hooks/use-editor';
-
 export function EditorTable() {
-  const { insertTable } = useEditor();
+  const { insertTable } = useTiptap();
 
   const sizes = [
     {

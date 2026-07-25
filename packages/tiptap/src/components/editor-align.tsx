@@ -1,37 +1,36 @@
 import { AlignCenterIcon, AlignJustifyIcon, AlignLeftIcon, AlignRightIcon } from 'lucide-react';
 
+import { useTiptap } from '@workspace/tiptap/hooks/use-tiptap';
 import { Button } from '@workspace/ui/components/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 
-import { useEditor } from '@/hooks/use-editor';
-
 export function EditorAlign() {
-  const { editor } = useEditor();
+  const { tiptap } = useTiptap();
 
   const alignments = [
     {
       value: 'left',
       icon: AlignLeftIcon,
       label: 'Align Left',
-      isActive: editor?.isActive({ textAlign: 'left' })
+      isActive: tiptap?.isActive({ textAlign: 'left' })
     },
     {
       value: 'center',
       icon: AlignCenterIcon,
       label: 'Align Center',
-      isActive: editor?.isActive({ textAlign: 'center' })
+      isActive: tiptap?.isActive({ textAlign: 'center' })
     },
     {
       value: 'right',
       icon: AlignRightIcon,
       label: 'Align Right',
-      isActive: editor?.isActive({ textAlign: 'right' })
+      isActive: tiptap?.isActive({ textAlign: 'right' })
     },
     {
       value: 'justify',
       icon: AlignJustifyIcon,
       label: 'Align Justify',
-      isActive: editor?.isActive({ textAlign: 'justify' })
+      isActive: tiptap?.isActive({ textAlign: 'justify' })
     }
   ];
 
@@ -51,7 +50,7 @@ export function EditorAlign() {
           <Button
             key={value}
             variant={isActive ? 'secondary' : 'ghost'}
-            onClick={() => editor?.chain().focus().setTextAlign(value).run()}
+            onClick={() => tiptap?.chain().focus().setTextAlign(value).run()}
           >
             <Icon />
             {label}

@@ -2,24 +2,37 @@
   "name": "@workspace/tiptap",
   "type": "module",
   "scripts": {
+    "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@tiptap/core": "^3.29.0",
     "@tiptap/extension-highlight": "^3.29.0",
     "@tiptap/extension-link": "^3.29.0",
     "@tiptap/extension-list": "^3.29.0",
     "@tiptap/extension-table": "^3.29.0",
     "@tiptap/extension-text-align": "^3.29.0",
     "@tiptap/extension-text-style": "^3.29.0",
+    "@tiptap/react": "^3.29.0",
     "@tiptap/starter-kit": "^3.29.0",
-    "tiptap-extension-resize-image": "^1.4.4"
+    "@workspace/ui": "workspace:*",
+    "lucide-react": "^1.26.0",
+    "react": "^19.2.4",
+    "tiptap-extension-resize-image": "^1.4.4",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
+    "@types/react": "^19.2.10",
+    "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
+    "eslint": "^9.39.2",
     "typescript": "^5.9.3"
   },
   "exports": {
-    "./tiptap": "./src/*"
+    "./*": [
+      "./src/*.ts",
+      "./src/*.tsx"
+    ]
   }
 }

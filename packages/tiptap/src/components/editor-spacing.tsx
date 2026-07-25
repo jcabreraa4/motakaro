@@ -1,12 +1,11 @@
 import { ListCollapseIcon } from 'lucide-react';
 
+import { useTiptap } from '@workspace/tiptap/hooks/use-tiptap';
 import { Button } from '@workspace/ui/components/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 
-import { useEditor } from '@/hooks/use-editor';
-
 export function EditorSpacing() {
-  const { editor } = useEditor();
+  const { tiptap } = useTiptap();
 
   const heights = [
     {
@@ -31,7 +30,7 @@ export function EditorSpacing() {
     }
   ];
 
-  const currentHeight = editor?.getAttributes('textStyle').lineHeight || '1.5';
+  const currentHeight = tiptap?.getAttributes('textStyle').lineHeight || '1.5';
 
   return (
     <DropdownMenu>
@@ -49,7 +48,7 @@ export function EditorSpacing() {
           <Button
             key={index}
             variant={currentHeight === height.value ? 'secondary' : 'ghost'}
-            onClick={() => editor?.chain().focus().toggleTextStyle({ lineHeight: height.value }).run()}
+            onClick={() => tiptap?.chain().focus().toggleTextStyle({ lineHeight: height.value }).run()}
             className="justify-start"
           >
             {height.label}

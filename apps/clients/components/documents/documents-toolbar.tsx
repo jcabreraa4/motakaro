@@ -1,25 +1,24 @@
 import { useRouter } from 'next/navigation';
 
-import { BoldIcon, ItalicIcon, LucideIcon, PenIcon, Redo2Icon, RemoveFormattingIcon, SpellCheckIcon, TrashIcon, UnderlineIcon, Undo2Icon } from 'lucide-react';
+import { BoldIcon, ItalicIcon, LucideIcon, PenIcon, PrinterIcon, Redo2Icon, RemoveFormattingIcon, SpellCheckIcon, TrashIcon, UnderlineIcon, Undo2Icon } from 'lucide-react';
 
 import type { Document } from '@workspace/backend/schema';
+import { EditorAlign } from '@workspace/tiptap/components/editor-align';
+import { EditorColor } from '@workspace/tiptap/components/editor-color';
+import { EditorHighlight } from '@workspace/tiptap/components/editor-highlight';
+import { EditorImage } from '@workspace/tiptap/components/editor-image';
+import { EditorLink } from '@workspace/tiptap/components/editor-link';
+import { EditorLists } from '@workspace/tiptap/components/editor-lists';
+import { EditorSize } from '@workspace/tiptap/components/editor-size';
+import { EditorSpacing } from '@workspace/tiptap/components/editor-spacing';
+import { EditorTable } from '@workspace/tiptap/components/editor-table';
+import { useTiptap } from '@workspace/tiptap/hooks/use-tiptap';
 import { Button } from '@workspace/ui/components/button';
 import { Separator } from '@workspace/ui/components/separator';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { DocumentsRemove } from '@/components/documents/documents-remove';
 import { DocumentsUpdate } from '@/components/documents/documents-update';
-import { EditorAlign } from '@/components/documents/editor/editor-align';
-import { EditorColor } from '@/components/documents/editor/editor-color';
-import { EditorHighlight } from '@/components/documents/editor/editor-highlight';
-import { EditorImage } from '@/components/documents/editor/editor-image';
-import { EditorLink } from '@/components/documents/editor/editor-link';
-import { EditorLists } from '@/components/documents/editor/editor-lists';
-import { EditorPrint } from '@/components/documents/editor/editor-print';
-import { EditorSize } from '@/components/documents/editor/editor-size';
-import { EditorSpacing } from '@/components/documents/editor/editor-spacing';
-import { EditorTable } from '@/components/documents/editor/editor-table';
-import { useEditor } from '@/hooks/use-editor';
 
 interface ToolbarButtonProps {
   icon: LucideIcon;
@@ -54,7 +53,7 @@ function ToolbarSeparator({ className }: { className?: string }) {
 
 export function DocumentsToolbar({ document }: { document: Document }) {
   const { push } = useRouter();
-  const { actions, format } = useEditor();
+  const { actions, format } = useTiptap();
 
   return (
     <section className="flex w-full items-center overflow-x-auto overflow-y-hidden print:hidden">
@@ -68,7 +67,10 @@ export function DocumentsToolbar({ document }: { document: Document }) {
         >
           <ToolbarButton icon={TrashIcon} />
         </DocumentsRemove>
-        <EditorPrint />
+        <ToolbarButton
+          icon={PrinterIcon}
+          onClick={() => window.print()}
+        />
       </div>
       <ToolbarSeparator className="hidden lg:flex" />
       <div className="flex items-center gap-1">

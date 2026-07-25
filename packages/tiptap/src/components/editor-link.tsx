@@ -2,25 +2,24 @@ import { useState } from 'react';
 
 import { Link2Icon } from 'lucide-react';
 
+import { useTiptap } from '@workspace/tiptap/hooks/use-tiptap';
 import { Button } from '@workspace/ui/components/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 import { Input } from '@workspace/ui/components/input';
 
-import { useEditor } from '@/hooks/use-editor';
-
 export function EditorLink() {
-  const { editor } = useEditor();
+  const { tiptap } = useTiptap();
 
   const [value, setValue] = useState('');
 
   function handleValue() {
     if (!value.trim()) return;
-    editor?.chain().focus().extendMarkRange('link').setLink({ href: value }).run();
+    tiptap?.chain().focus().extendMarkRange('link').setLink({ href: value }).run();
     setValue('');
   }
 
   return (
-    <DropdownMenu onOpenChange={(open) => open && setValue(editor?.getAttributes('link').href || '')}>
+    <DropdownMenu onOpenChange={(open) => open && setValue(tiptap?.getAttributes('link').href || '')}>
       <DropdownMenuTrigger asChild>
         <Button
           size="icon"

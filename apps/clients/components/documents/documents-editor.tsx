@@ -1,16 +1,15 @@
 import { useEffect } from 'react';
 
 import { useTiptapSync } from '@convex-dev/prosemirror-sync/tiptap';
-import { EditorContent, useEditor as useTiptap } from '@tiptap/react';
+import { EditorContent, useEditor } from '@tiptap/react';
 
 import { api } from '@workspace/backend/_generated/api';
 import type { Document } from '@workspace/backend/schema';
 import { extensions } from '@workspace/tiptap/extensions';
-
-import { useEditor } from '@/hooks/use-editor';
+import { useTiptap } from '@workspace/tiptap/hooks/use-tiptap';
 
 export function DocumentsEditor({ document }: { document: Document }) {
-  const { setEditor } = useEditor();
+  const { setTiptap } = useTiptap();
 
   const realtime = useTiptapSync(api.prosemirror, document._id);
 
@@ -19,32 +18,32 @@ export function DocumentsEditor({ document }: { document: Document }) {
     void realtime.create({ type: 'doc', content: [] });
   }, [realtime]);
 
-  const editor = useTiptap(
+  const editor = useEditor(
     {
       content: realtime.initialContent ?? undefined,
       onCreate({ editor }) {
-        setEditor(editor);
+        setTiptap(editor);
       },
       onDestroy() {
-        setEditor(null);
+        setTiptap(null);
       },
       onUpdate({ editor }) {
-        setEditor(editor);
+        setTiptap(editor);
       },
       onSelectionUpdate({ editor }) {
-        setEditor(editor);
+        setTiptap(editor);
       },
       onTransaction({ editor }) {
-        setEditor(editor);
+        setTiptap(editor);
       },
       onFocus({ editor }) {
-        setEditor(editor);
+        setTiptap(editor);
       },
       onBlur({ editor }) {
-        setEditor(editor);
+        setTiptap(editor);
       },
       onContentError({ editor }) {
-        setEditor(editor);
+        setTiptap(editor);
       },
       editorProps: {
         attributes: {

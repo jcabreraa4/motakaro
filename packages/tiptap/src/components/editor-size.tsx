@@ -2,23 +2,22 @@ import { useState } from 'react';
 
 import { MinusIcon, PlusIcon } from 'lucide-react';
 
+import { useTiptap } from '@workspace/tiptap/hooks/use-tiptap';
 import { Button } from '@workspace/ui/components/button';
 
-import { useEditor } from '@/hooks/use-editor';
-
 export function EditorSize() {
-  const { editor } = useEditor();
+  const { tiptap } = useTiptap();
 
   const [fontSize, setFontSize] = useState('16');
   const [inputValue, setInputValue] = useState(fontSize);
   const [isEditing, setIsEditing] = useState(false);
 
-  const currentSize = editor?.getAttributes('textStyle').fontSize || '16px';
+  const currentSize = tiptap?.getAttributes('textStyle').fontSize || '16px';
 
   function updateFontSize(newSize: string) {
     const size = parseInt(newSize);
     if (!isNaN(size) && size > 0) {
-      editor?.chain().focus().setFontSize(`${size}px`).run();
+      tiptap?.chain().focus().setFontSize(`${size}px`).run();
       setFontSize(newSize);
       setInputValue(newSize);
       setIsEditing(false);
@@ -37,7 +36,7 @@ export function EditorSize() {
     if (e.key === 'Enter') {
       e.preventDefault();
       updateFontSize(inputValue);
-      editor?.commands.focus();
+      tiptap?.commands.focus();
     }
   }
 

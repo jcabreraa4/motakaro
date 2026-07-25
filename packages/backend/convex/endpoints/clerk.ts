@@ -48,7 +48,7 @@ export const clerkClients = httpAction(async (ctx, request) => {
 
   // User Events
   if (event.type === 'user.created' || event.type === 'user.updated') {
-    // Upsert Contact
+    // Upsert Client
     await ctx.runMutation(internal.clients.internalUpsert, {
       email: event.data.email_addresses[0]!.email_address!,
       name: event.data.first_name ?? '',
@@ -57,7 +57,7 @@ export const clerkClients = httpAction(async (ctx, request) => {
       clerkId: event.data.id
     });
   } else if (event.type === 'user.deleted') {
-    // Remove Contact
+    // Remove Client
     await ctx.runMutation(internal.clients.internalRemove, {
       clerkId: event.data.id!
     });
@@ -103,11 +103,13 @@ export const clerkClients = httpAction(async (ctx, request) => {
 
   // Billing Events
   if (event.type === 'subscriptionItem.active') {
+    // Obtain ID
     const clerkId = event.data.payer?.organization_id;
     if (!clerkId) return new Response(null, { status: 200 });
 
     const plan = event.data.plan?.slug as OrganizationPlan;
 
+    // Update Organization
     await ctx.runMutation(internal.organizations.internalUpdate, {
       plan: plan,
       clerkId: clerkId

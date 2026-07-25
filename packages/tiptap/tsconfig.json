@@ -1,10 +1,11 @@
 {
-  "extends": "@workspace/typescript-config/base.json",
+  "extends": "@workspace/typescript-config/react-library.json",
   "compilerOptions": {
     "paths": {
-      "@workspace/tiptap/*": ["./src/*"]
+      "@workspace/tiptap/*": ["./src/*"],
+      "@workspace/ui/*": ["../../packages/ui/src/*"]
     }
   },
-  "include": ["."],
-  "exclude": ["node_modules"]
+  "include": [".", "../typescript-config"],
+  "exclude": ["node_modules", "dist"]
 }
