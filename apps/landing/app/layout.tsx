@@ -36,7 +36,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       suppressHydrationWarning
       className={cn('antialiased', fontMono.variable, 'font-sans', fontSans.variable)}
     >
-      <body suppressHydrationWarning>
+      <body>
         <ConvexProvider>
           <TooltipProvider>
             <Toaster />

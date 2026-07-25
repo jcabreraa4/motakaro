@@ -5,6 +5,7 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { Analytics } from '@vercel/analytics/next';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
+import '@workspace/tiptap/styles/tiptap.css';
 import { Toaster } from '@workspace/ui/components/sonner';
 import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import '@workspace/ui/globals.css';
@@ -38,7 +39,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       suppressHydrationWarning
       className={cn('antialiased', fontMono.variable, 'font-sans', fontSans.variable)}
     >
-      <body suppressHydrationWarning>
+      <body>
         <ClerkProvider
           taskUrls={{
             'choose-organization': '/org-selection'

@@ -6,11 +6,11 @@ import { Analytics } from '@vercel/analytics/next';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import 'tldraw/tldraw.css';
 
+import '@workspace/tiptap/styles/tiptap.css';
 import { Toaster } from '@workspace/ui/components/sonner';
 import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import '@workspace/ui/globals.css';
 import { cn } from '@workspace/ui/lib/utils';
-import '@workspace/ui/tiptap.css';
 import '@workspace/ui/tldraw.css';
 
 import { ConvexProvider } from '@/components/providers/convex-provider';
@@ -41,7 +41,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       suppressHydrationWarning
       className={cn('antialiased', fontMono.variable, 'font-sans', fontSans.variable)}
     >
-      <body suppressHydrationWarning>
+      <body>
         <ClerkProvider>
           <NuqsAdapter>
             <ThemeProvider
