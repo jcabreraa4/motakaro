@@ -13,7 +13,7 @@
   "devDependencies": {
     "@workspace/typescript-config": "workspace:*",
     "trigger.dev": "^4.5.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5"
   },
   "exports": {
     ".": "./src/index.ts"

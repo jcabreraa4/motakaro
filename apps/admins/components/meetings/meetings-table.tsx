@@ -13,7 +13,7 @@ import { cn } from '@workspace/ui/lib/utils';
 
 import { useChatbot } from '@/hooks/use-chatbot';
 
-export function MeetingsTable({ meetings }: { meetings: Meeting[] }) {
+function MeetingsItem({ meeting }: { meeting: Meeting }) {
   const { push } = useRouter();
   const { open } = useChatbot();
 
@@ -29,60 +29,72 @@ export function MeetingsTable({ meetings }: { meetings: Meeting[] }) {
     window.open(url, '_blank');
   }
 
+  function handleUpdate() {
+    updateMeeting({ id: meeting._id, starred: !meeting.starred })
+      .then(() => toast.success(meeting.starred ? 'Meeting unstarred successfully.' : 'Meeting starred successfully.'))
+      .catch(() => toast.error('An internal error has occurred.'));
+  }
+
+  return (
+    <Card className="min-h-fit">
+      <CardHeader>
+        <CardTitle className={cn('flex items-center gap-3 truncate', open && 'lg:flex-col lg:items-start lg:gap-5')}>
+          <div className={cn('pointer-events-none flex max-w-40 items-center justify-center rounded-lg p-2 text-black select-none lg:min-w-40', meeting.status === 'scheduled' ? 'bg-motakaro text-white' : meeting.status === 'cancelled' ? 'bg-red-300' : meeting.status === 'ongoing' ? 'animate-pulse bg-green-300' : meeting.status === 'finished' ? 'bg-primary text-white dark:text-black' : 'bg-yellow-300')}>
+            <div className="flex gap-2">
+              {meeting.status === 'scheduled' ? <ClockIcon className="size-5" /> : meeting.status === 'cancelled' ? <CalendarX2Icon className="size-5" /> : meeting.status === 'ongoing' ? <RadioIcon className="size-5" /> : meeting.status === 'finished' ? <CheckCircleIcon className="size-5" /> : <CircleSlash className="size-5" />}
+              <span className="hidden justify-center text-sm font-bold lg:flex">{meeting.status.toUpperCase()}</span>
+            </div>
+          </div>
+          <span className="truncate text-sm lg:text-lg">{meeting.name}</span>
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-5">
+        <p>
+          <span className="pointer-events-none font-semibold select-none">Starting: </span>
+          {format(meeting.start, "EEEE, d 'of' MMMM yyyy, HH:mm")}
+        </p>
+        <p>
+          <span className="pointer-events-none font-semibold select-none">Organizer: </span>
+          {meeting.organizer}
+        </p>
+      </CardContent>
+      <CardFooter className="flex gap-2">
+        <Button
+          variant={meeting.starred ? 'default' : 'secondary'}
+          className="cursor-pointer"
+          onClick={handleUpdate}
+        >
+          <StarIcon />
+        </Button>
+        <Button
+          variant="secondary"
+          className="cursor-pointer"
+          onClick={() => handleOpen(meeting.link)}
+        >
+          <ExternalLinkIcon />
+          {!open && <span>Open Meeting</span>}
+        </Button>
+        <Button
+          variant="secondary"
+          className="cursor-pointer"
+          onClick={() => handleManage(meeting._id)}
+        >
+          <SettingsIcon />
+          Manage Booking
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+}
+
+export function MeetingsTable({ meetings }: { meetings: Meeting[] }) {
   return (
     <section className="flex w-full flex-col gap-5 overflow-y-auto">
       {meetings.map((meeting) => (
-        <Card
+        <MeetingsItem
           key={meeting._id}
-          className="min-h-fit"
-        >
-          <CardHeader>
-            <CardTitle className={cn('flex items-center gap-3 truncate', open && 'lg:flex-col lg:items-start lg:gap-5')}>
-              <div className={cn('pointer-events-none flex max-w-40 items-center justify-center rounded-lg p-2 text-black select-none lg:min-w-40', meeting.status === 'scheduled' ? 'bg-motakaro text-white' : meeting.status === 'cancelled' ? 'bg-red-300' : meeting.status === 'ongoing' ? 'animate-pulse bg-green-300' : meeting.status === 'finished' ? 'bg-primary text-white dark:text-black' : 'bg-yellow-300')}>
-                <div className="flex gap-2">
-                  {meeting.status === 'scheduled' ? <ClockIcon className="size-5" /> : meeting.status === 'cancelled' ? <CalendarX2Icon className="size-5" /> : meeting.status === 'ongoing' ? <RadioIcon className="size-5" /> : meeting.status === 'finished' ? <CheckCircleIcon className="size-5" /> : <CircleSlash className="size-5" />}
-                  <span className="hidden justify-center text-sm font-bold lg:flex">{meeting.status.toUpperCase()}</span>
-                </div>
-              </div>
-              <span className="truncate text-sm lg:text-lg">{meeting.name}</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-5">
-            <p>
-              <span className="pointer-events-none font-semibold select-none">Starting: </span>
-              {format(meeting.start, "EEEE, d 'of' MMMM yyyy, HH:mm")}
-            </p>
-            <p>
-              <span className="pointer-events-none font-semibold select-none">Organizer: </span>
-              {meeting.organizer}
-            </p>
-          </CardContent>
-          <CardFooter className="flex gap-2">
-            <Button
-              variant={meeting.starred ? 'default' : 'secondary'}
-              className="cursor-pointer"
-              onClick={() => updateMeeting({ id: meeting._id, starred: !meeting.starred }).finally(() => toast.success(meeting.starred ? 'Meeting removed from starred successfully.' : 'Meeting added to starred successfully.'))}
-            >
-              <StarIcon />
-            </Button>
-            <Button
-              variant="secondary"
-              className="cursor-pointer"
-              onClick={() => handleOpen(meeting.link)}
-            >
-              <ExternalLinkIcon />
-              {!open && <span>Open Meeting</span>}
-            </Button>
-            <Button
-              variant="secondary"
-              className="cursor-pointer"
-              onClick={() => handleManage(meeting._id)}
-            >
-              <SettingsIcon />
-              Manage Booking
-            </Button>
-          </CardFooter>
-        </Card>
+          meeting={meeting}
+        />
       ))}
     </section>
   );
