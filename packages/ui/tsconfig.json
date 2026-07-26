@@ -5,6 +5,6 @@
       "@workspace/ui/*": ["./src/*"]
     }
   },
-  "include": ["."],
+  "include": [".", "../typescript-config"],
   "exclude": ["node_modules", "dist"]
 }
