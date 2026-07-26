@@ -21,8 +21,6 @@
     "@langchain/textsplitters": "^1.0.1",
     "@sentry/nextjs": "^10",
     "@tiptap/react": "^3.29.0",
-    "@tiptap/starter-kit": "^3.29.0",
-    "@tiptap/static-renderer": "^3.29.0",
     "@trigger.dev/sdk": "^4.4.6",
     "@vercel/analytics": "^2.0.1",
     "@workspace/backend": "workspace:*",
