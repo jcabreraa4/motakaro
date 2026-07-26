@@ -5,6 +5,7 @@
       "@/*": ["./*"],
       "@workspace/backend/*": ["../../packages/backend/convex/*"],
       "@workspace/tiptap/*": ["../../packages/tiptap/src/*"],
+      "@workspace/tldraw/*": ["../../packages/tldraw/src/*"],
       "@workspace/trigger/*": ["../../packages/trigger/src/*"],
       "@workspace/ui/*": ["../../packages/ui/src/*"]
     },

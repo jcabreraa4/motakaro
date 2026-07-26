@@ -30,8 +30,6 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  console.log('RUNTIME:', process.versions.bun);
-
   return (
     <html
       lang="en"

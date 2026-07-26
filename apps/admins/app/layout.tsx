@@ -6,12 +6,12 @@ import { Analytics } from '@vercel/analytics/next';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import 'tldraw/tldraw.css';
 
-import '@workspace/tiptap/styles/tiptap.css';
+import '@workspace/tiptap/tiptap.css';
+import '@workspace/tldraw/tldraw.css';
 import { Toaster } from '@workspace/ui/components/sonner';
 import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import '@workspace/ui/globals.css';
 import { cn } from '@workspace/ui/lib/utils';
-import '@workspace/ui/tldraw.css';
 
 import { ConvexProvider } from '@/components/providers/convex-provider';
 import { ThemeProvider } from '@/components/providers/theme-provider';
@@ -35,8 +35,6 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  console.log('RUNTIME:', process.versions.bun);
-
   return (
     <html
       lang="en"

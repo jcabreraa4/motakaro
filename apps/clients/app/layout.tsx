@@ -5,7 +5,7 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { Analytics } from '@vercel/analytics/next';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
-import '@workspace/tiptap/styles/tiptap.css';
+import '@workspace/tiptap/tiptap.css';
 import { Toaster } from '@workspace/ui/components/sonner';
 import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import '@workspace/ui/globals.css';
@@ -33,8 +33,6 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  console.log('RUNTIME:', process.versions.bun);
-
   return (
     <html
       lang="en"

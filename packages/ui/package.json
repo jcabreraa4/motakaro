@@ -62,13 +62,11 @@
     "typescript": "^5"
   },
   "exports": {
-    "./components/*": "./src/components/*.tsx",
-    "./hooks/*": "./src/hooks/*.ts",
-    "./lib/*": "./src/lib/*.ts",
+    "./*": [
+      "./src/*.ts",
+      "./src/*.tsx"
+    ],
     "./globals.css": "./src/styles/globals.css",
-    "./tiptap.css": "./src/styles/tiptap.css",
-    "./tldraw.css": "./src/styles/tldraw.css",
-    "./types/*": "./src/types/*.ts",
     "./postcss.config": "./postcss.config.mjs"
   }
 }

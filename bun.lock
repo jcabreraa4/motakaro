@@ -33,6 +33,7 @@
         "@vercel/analytics": "^2.0.1",
         "@workspace/backend": "workspace:*",
         "@workspace/tiptap": "workspace:*",
+        "@workspace/tldraw": "workspace:*",
         "@workspace/trigger": "workspace:*",
         "@workspace/ui": "workspace:*",
         "convex": "^1.42.1",
@@ -55,6 +56,7 @@
       },
       "devDependencies": {
         "@tailwindcss/postcss": "^4",
+        "@types/lodash": "^4.17.24",
         "@types/node": "^20",
         "@types/pdf-parse": "^1.1.5",
         "@types/react": "^19",
@@ -187,6 +189,20 @@
         "react": "^19.2.4",
         "tiptap-extension-resize-image": "^1.4.4",
         "zustand": "^5.0.14",
+      },
+      "devDependencies": {
+        "@types/react": "^19",
+        "@workspace/eslint-config": "workspace:*",
+        "@workspace/typescript-config": "workspace:*",
+        "eslint": "^9",
+        "typescript": "^5",
+      },
+    },
+    "packages/tldraw": {
+      "name": "@workspace/tldraw",
+      "dependencies": {
+        "@workspace/ui": "workspace:*",
+        "react": "^19.2.4",
       },
       "devDependencies": {
         "@types/react": "^19",
@@ -1220,6 +1236,8 @@
 
     "@types/katex": ["@types/katex@0.16.8", "", {}, "sha512-trgaNyfU+Xh2Tc+ABIb44a5AYUpicB3uwirOioeOkNPPbmgRNtcWyDeeFRzjPZENO9Vq8gvVqfhaaXWLlevVwg=="],
 
+    "@types/lodash": ["@types/lodash@4.17.24", "", {}, "sha512-gIW7lQLZbue7lRSWEFql49QJJWThrTFFeIMJdp3eH4tKoxm1OvEPg02rm4wCCSHS0cL3/Fizimb35b7k8atwsQ=="],
+
     "@types/mdast": ["@types/mdast@4.0.4", "", { "dependencies": { "@types/unist": "*" } }, "sha512-kGaNbPh1k7AFzgpud/gMdvIm5xuECykRR+JnWKQno9TAXVa6WIVCGTPvYGekIDL4uwCZQSYbUxNBSb1aUo79oA=="],
 
     "@types/ms": ["@types/ms@2.1.0", "", {}, "sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA=="],
@@ -1311,6 +1329,8 @@
     "@workspace/eslint-config": ["@workspace/eslint-config@workspace:packages/eslint-config"],
 
     "@workspace/tiptap": ["@workspace/tiptap@workspace:packages/tiptap"],
+
+    "@workspace/tldraw": ["@workspace/tldraw@workspace:packages/tldraw"],
 
     "@workspace/trigger": ["@workspace/trigger@workspace:packages/trigger"],
 
