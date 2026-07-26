@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 
 import { ClerkProvider } from '@clerk/nextjs';
+import { OpenPanelComponent } from '@openpanel/nextjs';
 import { Analytics } from '@vercel/analytics/next';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import 'tldraw/tldraw.css';
@@ -55,6 +56,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <Toaster />
                   {children}
                   <Analytics />
+                  <OpenPanelComponent
+                    apiUrl="/api/op"
+                    scriptUrl="/api/op/op1.js"
+                    clientId={process.env.NEXT_PUBLIC_OPENPANEL_CLIENT_ID!}
+                    trackScreenViews={true}
+                    trackOutgoingLinks={true}
+                  />
                 </TooltipProvider>
               </ConvexProvider>
             </ThemeProvider>
