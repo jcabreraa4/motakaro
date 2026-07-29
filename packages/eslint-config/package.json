@@ -20,7 +20,7 @@
   },
   "exports": {
     "./base": "./base.js",
-    "./next-js": "./next.js",
+    "./nextjs": "./next.js",
     "./react-internal": "./react-internal.js"
   }
 }
