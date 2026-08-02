@@ -4,8 +4,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "bun run --bun next dev --turbopack --port 3002",
-    "build": "bun run --bun next build",
+    "dev": "next dev --turbopack --port 3002",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
