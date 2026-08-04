@@ -9,7 +9,7 @@ import { math } from '@streamdown/math';
 import { mermaid } from '@streamdown/mermaid';
 import type { UIMessage } from 'ai';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
-import { Streamdown } from 'streamdown';
+import { type PluginConfig, Streamdown } from 'streamdown';
 
 import { Button } from '@workspace/ui/components/button';
 import { ButtonGroup, ButtonGroupText } from '@workspace/ui/components/button-group';
@@ -255,11 +255,16 @@ export type MessageResponseProps = ComponentProps<typeof Streamdown>;
 
 const streamdownPlugins = { cjk, code, math, mermaid };
 
+// TODO: Remove this cast once streamdown/@streamdown/* align their Shiki dependency --> streamdownPlugins as unknown as PluginConfig.
+// Current versions:
+// - streamdown@2.5.0 -> shiki@4
+// - @streamdown/code@1.1.1 -> shiki@3
+
 export const MessageResponse = memo(
   ({ className, ...props }: MessageResponseProps) => (
     <Streamdown
       className={cn('size-full [&>*:first-child]:mt-0 [&>*:last-child]:mb-0', className)}
-      plugins={streamdownPlugins}
+      plugins={streamdownPlugins as unknown as PluginConfig}
       {...props}
     />
   ),

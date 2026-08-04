@@ -9,7 +9,7 @@ import { code } from '@streamdown/code';
 import { math } from '@streamdown/math';
 import { mermaid } from '@streamdown/mermaid';
 import { BrainIcon, ChevronDownIcon } from 'lucide-react';
-import { Streamdown } from 'streamdown';
+import { type PluginConfig, Streamdown } from 'streamdown';
 
 import { Shimmer } from '@workspace/ui/components/aisdk/shimmer';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@workspace/ui/components/collapsible';
@@ -156,12 +156,17 @@ export type ReasoningContentProps = ComponentProps<typeof CollapsibleContent> & 
 
 const streamdownPlugins = { cjk, code, math, mermaid };
 
+// TODO: Remove this cast once streamdown/@streamdown/* align their Shiki dependency --> streamdownPlugins as unknown as PluginConfig.
+// Current versions:
+// - streamdown@2.5.0 -> shiki@4
+// - @streamdown/code@1.1.1 -> shiki@3
+
 export const ReasoningContent = memo(({ className, children, ...props }: ReasoningContentProps) => (
   <CollapsibleContent
     className={cn('mt-4 text-sm', 'text-muted-foreground outline-none data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:slide-out-to-top-2 data-[state=open]:animate-in data-[state=open]:slide-in-from-top-2', className)}
     {...props}
   >
-    <Streamdown plugins={streamdownPlugins}>{children}</Streamdown>
+    <Streamdown plugins={streamdownPlugins as unknown as PluginConfig}>{children}</Streamdown>
   </CollapsibleContent>
 ));
 
