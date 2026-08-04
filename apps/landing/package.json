@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "bun --bun next dev --port 3002",
-    "build": "next build",
+    "build": "bun --bun next build",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
@@ -33,6 +33,6 @@
     "@workspace/eslint-config": "workspace:^",
     "@workspace/typescript-config": "workspace:*",
     "eslint": "^10",
-    "typescript": "^7"
+    "typescript": "^5"
   }
 }
