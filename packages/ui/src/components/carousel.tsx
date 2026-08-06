@@ -158,14 +158,16 @@ function CarouselPrevious({ className, variant = 'outline', size = 'icon-sm', ..
 
   return (
     <Button
-      size={size}
+      data-slot="carousel-previous"
       variant={variant}
-      className={cn('absolute cursor-pointer touch-manipulation rounded-full', orientation === 'horizontal' ? 'top-1/2 -left-12' : '-top-12 left-1/2 -translate-x-1/2 rotate-90', className)}
+      size={size}
+      className={cn('absolute touch-manipulation rounded-full', orientation === 'horizontal' ? 'inset-y-0 -left-12 my-auto' : '-top-12 left-1/2 -translate-x-1/2 rotate-90', className)}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
       {...props}
     >
       <ChevronLeftIcon />
+      <span className="sr-only">Previous slide</span>
     </Button>
   );
 }
@@ -175,14 +177,16 @@ function CarouselNext({ className, variant = 'outline', size = 'icon-sm', ...pro
 
   return (
     <Button
-      size={size}
+      data-slot="carousel-next"
       variant={variant}
-      className={cn('absolute cursor-pointer touch-manipulation rounded-full', orientation === 'horizontal' ? 'top-1/2 -right-12' : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90', className)}
+      size={size}
+      className={cn('absolute touch-manipulation rounded-full', orientation === 'horizontal' ? 'inset-y-0 -right-12 my-auto' : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90', className)}
       disabled={!canScrollNext}
       onClick={scrollNext}
       {...props}
     >
       <ChevronRightIcon />
+      <span className="sr-only">Next slide</span>
     </Button>
   );
 }

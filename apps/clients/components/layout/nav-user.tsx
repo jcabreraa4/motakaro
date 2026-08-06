@@ -82,7 +82,7 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
             <SidebarMenuButton
               size="lg"
               variant="outline"
-              className="cursor-pointer bg-sidebar data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="bg-sidebar data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <UserData
                 name={displayName}

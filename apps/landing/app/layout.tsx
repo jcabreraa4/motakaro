@@ -12,7 +12,7 @@ import { cn } from '@workspace/ui/lib/utils';
 
 import { ConvexProvider } from '@/components/providers/convex-provider';
 
-const fontSans = Geist({
+const geist = Geist({
   subsets: ['latin'],
   variable: '--font-sans'
 });
@@ -35,7 +35,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn('antialiased', fontMono.variable, 'font-sans', fontSans.variable)}
+      className={cn('antialiased', fontMono.variable, 'font-sans', geist.variable)}
     >
       <body>
         <ConvexProvider>

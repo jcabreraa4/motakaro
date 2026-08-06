@@ -35,7 +35,7 @@ export function MainHeader() {
           {industries.map((industry, index) => (
             <Heading2
               key={index}
-              className="mx-2 cursor-default uppercase transition select-none hover:text-motakaro"
+              className="hover:text-motakaro mx-2 cursor-default uppercase transition select-none"
             >
               {industry}
             </Heading2>

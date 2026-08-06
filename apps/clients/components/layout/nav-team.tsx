@@ -76,7 +76,7 @@ function TeamSettings({ name, plan, logo }: TeamSettingsProps) {
       <SidebarMenuItem>
         <SidebarMenuButton
           size="lg"
-          className="cursor-pointer data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+          className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
           onClick={() =>
             openOrganizationProfile({
               appearance: {
@@ -127,7 +127,7 @@ function TeamSelector({ organizations, activeOrganization, setActiveOrganization
             <SidebarMenuButton
               size="lg"
               variant="outline"
-              className="cursor-pointer bg-sidebar data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="bg-sidebar data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <TeamData
                 name={activeOrganization.name}

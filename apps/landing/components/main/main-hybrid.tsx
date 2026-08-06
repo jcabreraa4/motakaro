@@ -36,7 +36,7 @@ export function MainHybrid() {
           {sections.map((section, index) => (
             <Card
               key={index}
-              className={cn('relative w-full bg-black', index === 1 && 'shadow-lg shadow-motakaro')}
+              className={cn('relative w-full bg-black', index === 1 && 'shadow-motakaro shadow-lg')}
             >
               <CardHeader>
                 <CardTitle>

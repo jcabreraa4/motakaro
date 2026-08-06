@@ -46,7 +46,7 @@ function ToolbarSeparator({ className }: { className?: string }) {
   return (
     <Separator
       orientation="vertical"
-      className={cn('mx-1 max-h-6 min-w-0.5', className)}
+      className={cn('mx-1 max-h-6', className)}
     />
   );
 }
