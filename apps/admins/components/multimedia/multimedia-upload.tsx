@@ -144,7 +144,7 @@ export function MultimediaUpload({ organizationId, onSuccess, children }: Multim
                 {canUpload && (
                   <Button
                     onClick={handleUpload}
-                    className="flex-1 cursor-pointer"
+                    className="flex-1"
                   >
                     <PlusIcon />
                     Upload {files.length} File{files.length > 1 ? 's' : ''}
@@ -152,7 +152,7 @@ export function MultimediaUpload({ organizationId, onSuccess, children }: Multim
                 )}
                 <Button
                   onClick={() => setFiles([])}
-                  className="flex-1 cursor-pointer"
+                  className="flex-1"
                 >
                   <TrashIcon />
                   Remove All

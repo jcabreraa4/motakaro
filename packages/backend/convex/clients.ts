@@ -74,7 +74,10 @@ export const clientGet = query({
 
 export const clientUpdate = mutation({
   args: {
-    onboarded: v.optional(v.boolean())
+    onboarded: v.optional(v.boolean()),
+    phone: v.optional(v.string()),
+    twitter: v.optional(v.string()),
+    linkedin: v.optional(v.string())
   },
   handler: async (ctx, args) => {
     // Verify Identity
@@ -90,6 +93,9 @@ export const clientUpdate = mutation({
     // Update Client
     await ctx.db.patch(client._id, {
       ...(args.onboarded !== undefined ? { onboarded: args.onboarded } : {}),
+      ...(args.phone !== undefined ? { phone: args.phone } : {}),
+      ...(args.twitter !== undefined ? { twitter: args.twitter } : {}),
+      ...(args.linkedin !== undefined ? { linkedin: args.linkedin } : {}),
       updated: Date.now(),
       seen: Date.now()
     });

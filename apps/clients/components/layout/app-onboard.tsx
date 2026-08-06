@@ -1,13 +1,17 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import { useAuth } from '@clerk/nextjs';
 import { useMutation, useQuery } from 'convex/react';
-import { RocketIcon } from 'lucide-react';
+import { ArrowLeftIcon, ArrowRightIcon, LinkIcon, MailIcon, PhoneIcon, RocketIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@workspace/ui/components/dialog';
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
+import { Label } from '@workspace/ui/components/label';
 
 export function AppOnboard() {
   const { isLoaded } = useAuth();
@@ -15,30 +19,134 @@ export function AppOnboard() {
   const client = useQuery(api.clients.clientGet, isLoaded ? {} : 'skip');
   const updateClient = useMutation(api.clients.clientUpdate);
 
-  function completeOnboarding() {
-    updateClient({ onboarded: true }).finally(() => {
-      toast.success('Onboarding completed successfully!');
-    });
+  const [step, setStep] = useState(0);
+  const [info, setInfo] = useState({ phone: '', twitter: '', linkedin: '' });
+
+  useEffect(() => {
+    setInfo({ phone: client?.phone || '', twitter: client?.twitter || '', linkedin: client?.linkedin || '' });
+  }, [client?.phone, client?.twitter, client?.linkedin]);
+
+  function handleUpdate() {
+    updateClient({ onboarded: true, phone: info.phone, twitter: info.twitter, linkedin: info.linkedin })
+      .then(() => toast.success('Onboarding completed successfully!'))
+      .catch(() => toast.error('An internal error has ocurred.'));
+  }
+
+  function nextStep() {
+    setStep(step + 1);
+  }
+
+  function prevStep() {
+    setStep(step - 1);
   }
 
   if (!client) return null;
 
   return (
     <Dialog open={!client.onboarded}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Onboarding</DialogTitle>
-          <DialogDescription>Welcome to Motakaro!</DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <Button
-            onClick={completeOnboarding}
-            className="w-full cursor-pointer"
-          >
-            <RocketIcon />
-            Complete Onboarding
-          </Button>
-        </DialogFooter>
+      <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
+        {step === 0 && (
+          <>
+            <DialogHeader>
+              <DialogTitle>Motakaro Onboarding</DialogTitle>
+              <DialogDescription>Contact Information</DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="email">Email Address</Label>
+                <InputGroup>
+                  <InputGroupInput
+                    disabled
+                    id="email"
+                    type="email"
+                    value={client.email}
+                  />
+                  <InputGroupAddon>
+                    <MailIcon />
+                  </InputGroupAddon>
+                </InputGroup>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="phone">Phone Number</Label>
+                <InputGroup>
+                  <InputGroupInput
+                    id="phone"
+                    type="tel"
+                    placeholder="+1 (555) 123-4567"
+                    value={info.phone}
+                    onChange={(e) => setInfo({ ...info, phone: e.target.value })}
+                  />
+                  <InputGroupAddon>
+                    <PhoneIcon />
+                  </InputGroupAddon>
+                </InputGroup>
+              </div>
+            </div>
+            <DialogFooter>
+              <Button
+                className="w-full"
+                onClick={nextStep}
+              >
+                <ArrowRightIcon />
+                Next Step
+              </Button>
+            </DialogFooter>
+          </>
+        )}
+        {step === 1 && (
+          <>
+            <DialogHeader>
+              <DialogTitle>Motakaro Onboarding</DialogTitle>
+              <DialogDescription>Social Media Profiles</DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="twitter">Twitter Profile</Label>
+                <InputGroup>
+                  <InputGroupInput
+                    id="twitter"
+                    value={info.twitter}
+                    placeholder="https://twitter.com/username"
+                    onChange={(e) => setInfo({ ...info, twitter: e.target.value })}
+                  />
+                  <InputGroupAddon>
+                    <LinkIcon />
+                  </InputGroupAddon>
+                </InputGroup>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="linkedin">LinkedIn Profile</Label>
+                <InputGroup>
+                  <InputGroupInput
+                    id="linkedin"
+                    value={info.linkedin}
+                    placeholder="https://linkedin.com/in/username"
+                    onChange={(e) => setInfo({ ...info, linkedin: e.target.value })}
+                  />
+                  <InputGroupAddon>
+                    <LinkIcon />
+                  </InputGroupAddon>
+                </InputGroup>
+              </div>
+            </div>
+            <DialogFooter className="flex-row">
+              <Button
+                className="flex-1"
+                onClick={prevStep}
+              >
+                <ArrowLeftIcon />
+                Previous Step
+              </Button>
+              <Button
+                className="flex-1"
+                onClick={handleUpdate}
+              >
+                <RocketIcon />
+                End Onboarding
+              </Button>
+            </DialogFooter>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );

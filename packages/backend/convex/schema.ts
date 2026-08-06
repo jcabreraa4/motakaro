@@ -28,8 +28,8 @@ export default defineSchema({
     seen: v.optional(v.number()),
     note: v.optional(v.string()),
 
-    role: v.optional(v.string()),
-    phone: v.optional(v.number()),
+    phone: v.optional(v.string()),
+    twitter: v.optional(v.string()),
     linkedin: v.optional(v.string())
   }).index('by_clerkId', ['clerkId']),
 
@@ -51,8 +51,8 @@ export default defineSchema({
     seen: v.optional(v.number()),
     note: v.optional(v.string()),
 
-    role: v.optional(v.string()),
-    phone: v.optional(v.number()),
+    phone: v.optional(v.string()),
+    twitter: v.optional(v.string()),
     linkedin: v.optional(v.string())
   }).index('by_clerkId', ['clerkId']),
 
@@ -74,8 +74,11 @@ export default defineSchema({
     note: v.optional(v.string()),
 
     website: v.optional(v.string()),
-    linkedin: v.optional(v.string()),
-    language: v.optional(v.string())
+    language: v.optional(v.string()),
+
+    phone: v.optional(v.string()),
+    twitter: v.optional(v.string()),
+    linkedin: v.optional(v.string())
   }).index('by_clerkId', ['clerkId']),
 
   // Motakaro Invoices

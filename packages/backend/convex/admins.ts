@@ -45,7 +45,10 @@ export const get = query({
 
 export const update = mutation({
   args: {
-    onboarded: v.optional(v.boolean())
+    onboarded: v.optional(v.boolean()),
+    phone: v.optional(v.string()),
+    twitter: v.optional(v.string()),
+    linkedin: v.optional(v.string())
   },
   handler: async (ctx, args) => {
     // Verify Identity
@@ -61,6 +64,9 @@ export const update = mutation({
     // Update Admin
     await ctx.db.patch(admin._id, {
       ...(args.onboarded !== undefined ? { onboarded: args.onboarded } : {}),
+      ...(args.phone !== undefined ? { phone: args.phone } : {}),
+      ...(args.twitter !== undefined ? { twitter: args.twitter } : {}),
+      ...(args.linkedin !== undefined ? { linkedin: args.linkedin } : {}),
       updated: Date.now(),
       seen: Date.now()
     });
