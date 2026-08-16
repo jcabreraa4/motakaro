@@ -1,3 +1,6 @@
-# Landing
+# Landing App
 
-> Nextjs app deployed on vercel.
+> Nextjs app.
+> Nodejs runtime.
+> Bun package manager.
+> Deployed on Vercel.
