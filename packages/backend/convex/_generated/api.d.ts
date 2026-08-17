@@ -26,7 +26,6 @@ import type * as organizations from "../organizations.js";
 import type * as prosemirror from "../prosemirror.js";
 import type * as resources from "../resources.js";
 import type * as threads from "../threads.js";
-import type * as whiteboards from "../whiteboards.js";
 
 import type {
   ApiFromModules,
@@ -53,7 +52,6 @@ declare const fullApi: ApiFromModules<{
   prosemirror: typeof prosemirror;
   resources: typeof resources;
   threads: typeof threads;
-  whiteboards: typeof whiteboards;
 }>;
 
 /**

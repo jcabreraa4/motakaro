@@ -201,23 +201,6 @@ export default defineSchema({
     .index('by_organizationId_updated', ['organizationId', 'updated'])
     .index('by_organizationId_clientVisible', ['organizationId', 'clientVisible']),
 
-  // Organization Whiteboards
-  whiteboards: defineTable({
-    // Primary Columns
-    name: v.string(),
-    note: v.string(),
-    content: v.string(),
-
-    starred: v.boolean(),
-    updated: v.number(),
-
-    clientVisible: v.boolean(),
-    clientStarred: v.boolean(),
-
-    // Relationship Columns
-    organizationId: v.optional(v.id('organizations'))
-  }).index('by_organizationId_updated', ['organizationId', 'updated']),
-
   // Motakaro Resources
   resources: defineTable({
     // Primary Columns
@@ -244,5 +227,4 @@ export type Notification = Doc<'notifications'>;
 export type Meeting = Doc<'meetings'>;
 export type MediaFile = Doc<'multimedia'> & { url: string | null };
 export type Document = Doc<'documents'>;
-export type Whiteboard = Doc<'whiteboards'>;
 export type Resource = Doc<'resources'>;

@@ -5,10 +5,8 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { OpenPanelComponent } from '@openpanel/nextjs';
 import { Analytics } from '@vercel/analytics/next';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
-import 'tldraw/tldraw.css';
 
 import '@workspace/tiptap/tiptap.css';
-import '@workspace/tldraw/tldraw.css';
 import { Toaster } from '@workspace/ui/components/sonner';
 import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import '@workspace/ui/globals.css';
