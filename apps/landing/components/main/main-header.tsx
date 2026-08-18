@@ -17,8 +17,7 @@ export function MainHeader() {
         <SectionContent className="flex flex-col gap-5 lg:flex-row">
           <div className="flex w-full flex-col justify-center gap-6 lg:gap-8">
             <Heading1 className="uppercase">B2B Revenue Systems through Hybrid Demand</Heading1>
-            <Heading2>Predictable revenue workflows based on</Heading2>
-            <Heading3>GTM strategy based on audience targeting and education on LinkedIn, with ads designed to attract your ICP and generate real buying intent signals.</Heading3>
+            <Heading3>Powered by a GTM strategy based on targeted LinkedIn ads, generating ICP buying intent signals and triggering automated outbound sequences.</Heading3>
             <div className="flex gap-6">
               <ContactLink />
               <PlaybookLink />
@@ -35,7 +34,7 @@ export function MainHeader() {
           {industries.map((industry, index) => (
             <Heading2
               key={index}
-              className="hover:text-motakaro mx-2 cursor-default uppercase transition select-none"
+              className="mx-2 cursor-default uppercase transition select-none hover:text-motakaro"
             >
               {industry}
             </Heading2>
