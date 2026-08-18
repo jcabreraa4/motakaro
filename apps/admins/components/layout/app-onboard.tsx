@@ -26,9 +26,13 @@ export function AppOnboard() {
     setInfo({ phone: admin?.phone || '', twitter: admin?.twitter || '', linkedin: admin?.linkedin || '' });
   }, [admin?.phone, admin?.twitter, admin?.linkedin]);
 
+  useEffect(() => {
+    setStep(0);
+  }, [admin?.onboarded]);
+
   function handleUpdate() {
     updateAdmin({ onboarded: true, phone: info.phone, twitter: info.twitter, linkedin: info.linkedin })
-      .then(() => toast.success('Onboarding completed successfully!'))
+      .then(() => toast.success('Onboarding completed successfully.'))
       .catch(() => toast.error('An internal error has ocurred.'));
   }
 
@@ -48,7 +52,7 @@ export function AppOnboard() {
         {step === 0 && (
           <>
             <DialogHeader>
-              <DialogTitle>Motakaro Onboarding</DialogTitle>
+              <DialogTitle>User Onboarding</DialogTitle>
               <DialogDescription>Contact Information</DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-4">
@@ -96,7 +100,7 @@ export function AppOnboard() {
         {step === 1 && (
           <>
             <DialogHeader>
-              <DialogTitle>Motakaro Onboarding</DialogTitle>
+              <DialogTitle>User Onboarding</DialogTitle>
               <DialogDescription>Social Media Profiles</DialogDescription>
             </DialogHeader>
             <div className="flex flex-col gap-4">

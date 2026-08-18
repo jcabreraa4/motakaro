@@ -29,7 +29,7 @@ const signInSchema = z.object({
 type SignInFormType = z.infer<typeof signInSchema>;
 
 const errorMessage = 'An internal error has occurred.';
-const successMessage = 'You are successfully signed in.';
+const successMessage = 'You signed in successfully.';
 const checkMessage = 'Please check your credentials.';
 
 export default function SignInPage() {

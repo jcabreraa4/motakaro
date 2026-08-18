@@ -70,7 +70,7 @@ export function NavUser({ name, email, avatar }: NavUserProps) {
 
   function handleSignOut() {
     signOut()
-      .then(() => toast.success('Signed out successfully.'))
+      .then(() => toast.success('You signed out successfully.'))
       .catch(() => toast.error('An internal error has ocurred.'));
   }
 

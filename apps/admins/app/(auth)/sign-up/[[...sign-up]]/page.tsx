@@ -36,7 +36,7 @@ const signUpSchema = z
 type SignUpFormType = z.infer<typeof signUpSchema>;
 
 const errorMessage = 'An internal error has occurred.';
-const successMessage = 'You are successfully signed up.';
+const successMessage = 'You signed up successfully.';
 const checkMessage = 'Please check your credentials.';
 
 export default function SignInPage() {
