@@ -47,12 +47,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           }}
         >
           <NuqsAdapter>
-            <ThemeProvider
-              enableSystem
-              attribute="class"
-              defaultTheme="dark"
-              disableTransitionOnChange
-            >
+            <ThemeProvider>
               <ConvexProvider>
                 <TooltipProvider>
                   <Toaster />
