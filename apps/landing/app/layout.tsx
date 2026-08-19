@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 
-import { OpenPanelComponent } from '@openpanel/nextjs';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
@@ -10,6 +9,7 @@ import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import '@workspace/ui/globals.css';
 import { cn } from '@workspace/ui/lib/utils';
 
+import { OpenPanel } from '@/components/external/open-panel';
 import { ConvexProvider } from '@/components/providers/convex-provider';
 
 const geist = Geist({
@@ -44,13 +44,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {children}
             <Analytics />
             <SpeedInsights />
-            <OpenPanelComponent
-              apiUrl="/api/op"
-              scriptUrl="/api/op/op1.js"
-              clientId={process.env.NEXT_PUBLIC_OPENPANEL_CLIENT_ID!}
-              trackScreenViews={true}
-              trackOutgoingLinks={true}
-            />
+            <OpenPanel />
           </TooltipProvider>
         </ConvexProvider>
       </body>
