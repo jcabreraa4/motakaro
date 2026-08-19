@@ -124,6 +124,7 @@ export default function SignUp() {
     }
   }
 
+  // Resend Email Code
   function handleEmail() {
     signUp.verifications
       .sendEmailCode()
@@ -131,6 +132,7 @@ export default function SignUp() {
       .catch(() => toast.error('An internal error has ocurred.'));
   }
 
+  // Reset Process
   function handleReset() {
     signUp.reset().catch(() => toast.error('An internal error has ocurred.'));
   }
@@ -139,7 +141,7 @@ export default function SignUp() {
   if (isDisabled) {
     return (
       <FieldGroup>
-        <div className="flex flex-col items-center gap-1 text-center">
+        <div className="flex flex-col items-center gap-1">
           <p className="text-2xl font-bold">Access Disabled</p>
           <p className="text-sm text-balance text-muted-foreground">Sign ups are not available at the moment</p>
         </div>
@@ -156,7 +158,7 @@ export default function SignUp() {
   if (!clerkTicket || !clerkStatus) {
     return (
       <FieldGroup>
-        <div className="flex flex-col items-center gap-1 text-center">
+        <div className="flex flex-col items-center gap-1">
           <p className="text-2xl font-bold">Access Restricted</p>
           <p className="text-sm text-balance text-muted-foreground">Sign ups are only available with an invitation</p>
         </div>
@@ -174,7 +176,7 @@ export default function SignUp() {
     return (
       <form onSubmit={handleVerify}>
         <FieldGroup>
-          <div className="flex flex-col items-center gap-1 text-center">
+          <div className="flex flex-col items-center gap-1">
             <p className="text-2xl font-bold">Verify your Email</p>
             <p className="text-sm text-balance text-muted-foreground">Introduce the code sent to your email address</p>
           </div>
@@ -240,7 +242,7 @@ export default function SignUp() {
   return (
     <form onSubmit={signUpForm.handleSubmit(handleSubmit)}>
       <FieldGroup>
-        <div className="flex flex-col items-center gap-1 text-center">
+        <div className="flex flex-col items-center gap-1">
           <p className="text-2xl font-bold">Create an Account</p>
           <p className="text-sm text-balance text-muted-foreground">Introduce your credentials to sign up</p>
         </div>

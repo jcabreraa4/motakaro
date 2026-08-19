@@ -102,6 +102,7 @@ export default function Page() {
     }
   }
 
+  // Resend Email Code
   function handleEmail() {
     signIn.mfa
       .sendEmailCode()
@@ -109,6 +110,7 @@ export default function Page() {
       .catch(() => toast.error('An internal error has ocurred.'));
   }
 
+  // Reset Process
   function handleReset() {
     signIn.reset().catch(() => toast.error('An internal error has ocurred.'));
   }
@@ -117,7 +119,7 @@ export default function Page() {
   if (isDisabled) {
     return (
       <FieldGroup>
-        <div className="flex flex-col items-center gap-1 text-center">
+        <div className="flex flex-col items-center gap-1">
           <p className="text-2xl font-bold">Access Disabled</p>
           <p className="text-sm text-balance text-muted-foreground">Sign ins are not available at the moment</p>
         </div>
@@ -135,7 +137,7 @@ export default function Page() {
     return (
       <form onSubmit={handleVerify}>
         <FieldGroup>
-          <div className="flex flex-col items-center gap-1 text-center">
+          <div className="flex flex-col items-center gap-1">
             <p className="text-2xl font-bold">Verify your Email</p>
             <p className="text-sm text-balance text-muted-foreground">Introduce the code sent to your email address</p>
           </div>
@@ -201,7 +203,7 @@ export default function Page() {
   return (
     <form onSubmit={signInForm.handleSubmit(handleSubmit)}>
       <FieldGroup>
-        <div className="flex flex-col items-center gap-1 text-center">
+        <div className="flex flex-col items-center gap-1">
           <p className="text-2xl font-bold">Welcome Back</p>
           <p className="text-sm text-balance text-muted-foreground">Introduce your credentials to sign in</p>
         </div>
@@ -230,12 +232,12 @@ export default function Page() {
             <Field data-invalid={fieldState.invalid}>
               <div className="flex items-center">
                 <FieldLabel htmlFor="password">Password</FieldLabel>
-                <a
+                <span
                   className="ml-auto cursor-pointer text-sm underline-offset-4 hover:underline"
                   onClick={() => toast.info('Contact support to reset your password.')}
                 >
                   Forgot your password?
-                </a>
+                </span>
               </div>
               <Input
                 {...field}

@@ -1,5 +1,7 @@
 import Image from 'next/image';
 
+import { Card } from '@workspace/ui/components/card';
+
 import { Branding } from '@/components/branding';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -9,7 +11,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="absolute top-0 left-0 flex w-full justify-between p-5 xl:p-8">
           <Branding />
         </div>
-        {children}
+        <Card className="w-full max-w-md bg-transparent py-0 ring-0">{children}</Card>
       </section>
       <section className="pointer-events-none relative hidden h-full w-full select-none xl:flex">
         <div className="absolute z-10 flex h-full w-full flex-col items-center justify-center gap-4 text-center">

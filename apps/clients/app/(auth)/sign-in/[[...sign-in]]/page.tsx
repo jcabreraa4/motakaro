@@ -12,11 +12,9 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { Button } from '@workspace/ui/components/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
-import { Field, FieldError, FieldLabel } from '@workspace/ui/components/field';
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@workspace/ui/components/field';
 import { Input } from '@workspace/ui/components/input';
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@workspace/ui/components/input-otp';
-import { Label } from '@workspace/ui/components/label';
 
 const pageStatus = process.env.NEXT_PUBLIC_SIGN_IN_ACTIVE!;
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
@@ -131,178 +129,174 @@ export default function SignInPage() {
     }
   }
 
+  // Resend Email Code
+  function handleEmail() {
+    signIn.mfa
+      .sendEmailCode()
+      .then(() => toast.success('New code sent successfully.'))
+      .catch(() => toast.error('An internal error has ocurred.'));
+  }
+
+  // Reset Process
+  function handleReset() {
+    signIn.reset().catch(() => toast.error('An internal error has ocurred.'));
+  }
+
   // Disabled Card
   if (isDisabled) {
     return (
-      <Card className="w-full max-w-lg">
-        <CardHeader className="pointer-events-none select-none">
-          <CardTitle className="text-xl font-bold">Access Disabled</CardTitle>
-          <CardDescription>Sign ins are currently disabled.</CardDescription>
-        </CardHeader>
-        <CardFooter className="flex flex-row gap-26">
-          <Label>Don&apos;t have an account?</Label>
-          <Link href="/sign-up">
-            <Label className="cursor-pointer underline">Sign Up</Label>
-          </Link>
-        </CardFooter>
-      </Card>
+      <FieldGroup>
+        <div className="flex flex-col items-center gap-1">
+          <p className="text-2xl font-bold">Access Disabled</p>
+          <p className="text-sm text-balance text-muted-foreground">Sign ins are not available at the moment</p>
+        </div>
+        <Field>
+          <FieldDescription className="text-center">
+            Don&apos;t have an account? <Link href="/sign-up">Sign up</Link>
+          </FieldDescription>
+        </Field>
+      </FieldGroup>
     );
   }
 
   // Verify Email Form
   if (signIn.status === 'needs_client_trust') {
     return (
-      <Card className="w-full max-w-lg bg-transparent shadow-none ring-0">
-        <CardHeader className="pointer-events-none px-1 select-none">
-          <CardTitle className="text-xl font-bold">Verify your Email</CardTitle>
-          <CardDescription>Introduce the code sent to your email address.</CardDescription>
-        </CardHeader>
-        <CardContent className="px-1">
-          <form
-            onSubmit={handleVerify}
-            className="flex flex-col gap-5"
-          >
-            <Field>
-              <div className="flex items-end justify-between">
-                <FieldLabel htmlFor="code">Verification Code</FieldLabel>
-                <Button
-                  size="xs"
-                  type="button"
-                  variant="outline"
-                  className="cursor-pointer"
-                  onClick={() =>
-                    signIn.mfa.sendEmailCode().finally(() => {
-                      toast.success('New code sent successfully.');
-                    })
-                  }
-                >
-                  <RefreshCwIcon />
-                  Resend Code
-                </Button>
-              </div>
-              <InputOTP
-                required
-                name="code"
-                maxLength={6}
-                value={emailCode}
-                onChange={setEmailCode}
-                className="w-full"
+      <form onSubmit={handleVerify}>
+        <FieldGroup>
+          <div className="flex flex-col items-center gap-1">
+            <p className="text-2xl font-bold">Verify your Email</p>
+            <p className="text-sm text-balance text-muted-foreground">Introduce the code sent to your email address</p>
+          </div>
+          <Field>
+            <div className="flex items-end justify-between">
+              <FieldLabel htmlFor="code">Verification Code</FieldLabel>
+              <Button
+                size="xs"
+                type="button"
+                variant="outline"
+                onClick={handleEmail}
               >
-                <InputOTPGroup className="flex-1 *:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-full *:data-[slot=input-otp-slot]:text-xl">
-                  <InputOTPSlot
-                    index={0}
-                    className="flex-1"
-                  />
-                  <InputOTPSlot
-                    index={1}
-                    className="flex-1"
-                  />
-                  <InputOTPSlot
-                    index={2}
-                    className="flex-1"
-                  />
-                </InputOTPGroup>
-                <InputOTPSeparator className="mx-2" />
-                <InputOTPGroup className="flex-1 *:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-full *:data-[slot=input-otp-slot]:text-xl">
-                  <InputOTPSlot
-                    index={3}
-                    className="flex-1"
-                  />
-                  <InputOTPSlot
-                    index={4}
-                    className="flex-1"
-                  />
-                  <InputOTPSlot
-                    index={5}
-                    className="flex-1"
-                  />
-                </InputOTPGroup>
-              </InputOTP>
-            </Field>
+                <RefreshCwIcon />
+                Resend Code
+              </Button>
+            </div>
+            <InputOTP
+              required
+              name="code"
+              maxLength={6}
+              value={emailCode}
+              onChange={setEmailCode}
+            >
+              <InputOTPGroup className="w-full *:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-full *:data-[slot=input-otp-slot]:text-xl">
+                <InputOTPSlot index={0} />
+                <InputOTPSlot index={1} />
+                <InputOTPSlot index={2} />
+              </InputOTPGroup>
+              <InputOTPSeparator className="mx-2" />
+              <InputOTPGroup className="w-full *:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-full *:data-[slot=input-otp-slot]:text-xl">
+                <InputOTPSlot index={3} />
+                <InputOTPSlot index={4} />
+                <InputOTPSlot index={5} />
+              </InputOTPGroup>
+            </InputOTP>
+          </Field>
+          <Field>
             <Button
               type="submit"
-              className="w-full cursor-pointer font-semibold"
+              className="font-semibold"
               disabled={isLoading}
             >
               {isLoading ? 'Signing In...' : 'Sign In'}
             </Button>
-          </form>
-        </CardContent>
-        <CardFooter className="px-1">
-          <Label
-            className="cursor-pointer underline"
-            onClick={() => signIn.reset()}
-          >
-            Want to start over
-          </Label>
-        </CardFooter>
-      </Card>
+          </Field>
+          <Field>
+            <FieldDescription className="text-center">
+              Did something go wrong?{' '}
+              <span
+                className="cursor-pointer underline underline-offset-4 hover:text-white"
+                onClick={handleReset}
+              >
+                Start over
+              </span>
+            </FieldDescription>
+          </Field>
+        </FieldGroup>
+      </form>
     );
   }
 
   // Sign In Form
   return (
-    <Card className="w-full max-w-lg bg-transparent shadow-none ring-0">
-      <CardHeader className="pointer-events-none px-1 select-none">
-        <CardTitle className="text-xl font-bold">Welcome Back</CardTitle>
-        <CardDescription>Introduce your credentials.</CardDescription>
-      </CardHeader>
-      <CardContent className="px-1">
-        <form
-          onSubmit={signInForm.handleSubmit(handleSubmit)}
-          className="flex flex-col gap-5"
-        >
-          <Controller
-            control={signInForm.control}
-            name="email"
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input
-                  {...field}
-                  id="email"
-                  type="email"
-                  disabled={isLoading}
-                  placeholder="m@example.com"
-                  aria-invalid={fieldState.invalid}
-                />
-                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-              </Field>
-            )}
-          />
-          <Controller
-            control={signInForm.control}
-            name="password"
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
+    <form onSubmit={signInForm.handleSubmit(handleSubmit)}>
+      <FieldGroup>
+        <div className="flex flex-col items-center gap-1">
+          <p className="text-2xl font-bold">Welcome Back</p>
+          <p className="text-sm text-balance text-muted-foreground">Introduce your credentials to sign in</p>
+        </div>
+        <Controller
+          control={signInForm.control}
+          name="email"
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="email">Email</FieldLabel>
+              <Input
+                {...field}
+                id="email"
+                type="email"
+                disabled={isLoading}
+                placeholder="m@example.com"
+                aria-invalid={fieldState.invalid}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+        <Controller
+          control={signInForm.control}
+          name="password"
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <div className="flex items-center">
                 <FieldLabel htmlFor="password">Password</FieldLabel>
-                <Input
-                  {...field}
-                  id="password"
-                  type="password"
-                  disabled={isLoading}
-                  placeholder="••••••••••"
-                  aria-invalid={fieldState.invalid}
-                />
-                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-              </Field>
-            )}
-          />
+                <span
+                  className="ml-auto cursor-pointer text-sm underline-offset-4 hover:underline"
+                  onClick={() => toast.info('Contact support to reset your password.')}
+                >
+                  Forgot your password?
+                </span>
+              </div>
+              <Input
+                {...field}
+                id="password"
+                type="password"
+                disabled={isLoading}
+                placeholder="••••••••••"
+                aria-invalid={fieldState.invalid}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+        <Field>
           <Button
             type="submit"
-            className="w-full cursor-pointer font-semibold"
+            className="font-semibold"
             disabled={isLoading}
           >
             {isLoading ? 'Signing In...' : 'Sign In'}
           </Button>
-        </form>
-      </CardContent>
-      <CardFooter className="flex flex-row gap-2 px-1">
-        <Label>Don&apos;t have an account?</Label>
-        <Link href="/sign-up">
-          <Label className="cursor-pointer underline">Sign Up</Label>
-        </Link>
-      </CardFooter>
-    </Card>
+        </Field>
+        <Field>
+          <FieldDescription className="text-center">
+            Don&apos;t have an account? <Link href="/sign-up">Sign up</Link>
+          </FieldDescription>
+        </Field>
+      </FieldGroup>
+      <div
+        id="clerk-captcha"
+        className="hidden"
+      />
+    </form>
   );
 }
