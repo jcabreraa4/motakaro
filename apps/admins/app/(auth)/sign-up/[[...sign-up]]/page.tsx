@@ -214,6 +214,7 @@ export default function SignUp() {
           <Field>
             <Button
               type="submit"
+              className="font-semibold"
               disabled={isLoading}
             >
               {isLoading ? 'Signing Up...' : 'Sign Up'}
@@ -221,7 +222,7 @@ export default function SignUp() {
           </Field>
           <Field>
             <FieldDescription className="text-center">
-              Something went wrong?{' '}
+              Did something go wrong?{' '}
               <span
                 className="cursor-pointer underline underline-offset-4 hover:text-white"
                 onClick={handleReset}
@@ -320,6 +321,7 @@ export default function SignUp() {
         <Field>
           <Button
             type="submit"
+            className="font-semibold"
             disabled={isLoading}
           >
             {isLoading ? 'Signing Up...' : 'Sign Up'}

@@ -175,6 +175,7 @@ export default function Page() {
           <Field>
             <Button
               type="submit"
+              className="font-semibold"
               disabled={isLoading}
             >
               {isLoading ? 'Signing In...' : 'Sign In'}
@@ -182,7 +183,7 @@ export default function Page() {
           </Field>
           <Field>
             <FieldDescription className="text-center">
-              Something went wrong?{' '}
+              Did something go wrong?{' '}
               <span
                 className="cursor-pointer underline underline-offset-4 hover:text-white"
                 onClick={handleReset}
@@ -251,6 +252,7 @@ export default function Page() {
         <Field>
           <Button
             type="submit"
+            className="font-semibold"
             disabled={isLoading}
           >
             {isLoading ? 'Signing In...' : 'Sign In'}
