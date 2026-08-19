@@ -12,11 +12,9 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { Button } from '@workspace/ui/components/button';
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@workspace/ui/components/field';
 import { Input } from '@workspace/ui/components/input';
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@workspace/ui/components/input-otp';
-import { Label } from '@workspace/ui/components/label';
 
 const pageStatus = process.env.NEXT_PUBLIC_SIGN_UP_ACTIVE!;
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
@@ -140,46 +138,41 @@ export default function SignUp() {
   // Disabled Card
   if (isDisabled) {
     return (
-      <Card className="w-full max-w-lg">
-        <CardHeader className="pointer-events-none select-none">
-          <CardTitle className="text-xl font-bold">Access Disabled</CardTitle>
-          <CardDescription>Sign ups are currently disabled.</CardDescription>
-        </CardHeader>
-        <CardFooter className="flex flex-row gap-2">
-          <Label>Already have an account?</Label>
-          <Link href="/sign-in">
-            <Label className="cursor-pointer underline">Sign In</Label>
-          </Link>
-        </CardFooter>
-      </Card>
+      <FieldGroup>
+        <div className="flex flex-col items-center gap-1 text-center">
+          <p className="text-2xl font-bold">Access Disabled</p>
+          <p className="text-sm text-balance text-muted-foreground">Sign ups are not available at the moment</p>
+        </div>
+        <Field>
+          <FieldDescription className="text-center">
+            Already have an account? <Link href="/sign-in">Sign in</Link>
+          </FieldDescription>
+        </Field>
+      </FieldGroup>
     );
   }
 
   // No Invitation
   if (!clerkTicket || !clerkStatus) {
     return (
-      <Card className="w-full max-w-lg">
-        <CardHeader className="pointer-events-none select-none">
-          <CardTitle className="text-xl font-bold">Access Restricted</CardTitle>
-          <CardDescription>Sign ups are only available with an invitation.</CardDescription>
-        </CardHeader>
-        <CardFooter className="flex flex-row gap-2">
-          <Label>Already have an account?</Label>
-          <Link href="/sign-in">
-            <Label className="cursor-pointer underline">Sign In</Label>
-          </Link>
-        </CardFooter>
-      </Card>
+      <FieldGroup>
+        <div className="flex flex-col items-center gap-1 text-center">
+          <p className="text-2xl font-bold">Access Restricted</p>
+          <p className="text-sm text-balance text-muted-foreground">Sign ups are only available with an invitation</p>
+        </div>
+        <Field>
+          <FieldDescription className="text-center">
+            Already have an account? <Link href="/sign-in">Sign in</Link>
+          </FieldDescription>
+        </Field>
+      </FieldGroup>
     );
   }
 
   // Verify Email Form
   if (signUp.status === 'missing_requirements' && signUp.unverifiedFields.includes('email_address') && signUp.missingFields.length === 0) {
     return (
-      <form
-        className="w-full max-w-md"
-        onSubmit={handleVerify}
-      >
+      <form onSubmit={handleVerify}>
         <FieldGroup>
           <div className="flex flex-col items-center gap-1 text-center">
             <p className="text-2xl font-bold">Verify your Email</p>
@@ -244,10 +237,7 @@ export default function SignUp() {
 
   // Sign Up Form
   return (
-    <form
-      className="w-full max-w-md"
-      onSubmit={signUpForm.handleSubmit(handleSubmit)}
-    >
+    <form onSubmit={signUpForm.handleSubmit(handleSubmit)}>
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center">
           <p className="text-2xl font-bold">Create an Account</p>

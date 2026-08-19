@@ -12,11 +12,9 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { Button } from '@workspace/ui/components/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@workspace/ui/components/field';
 import { Input } from '@workspace/ui/components/input';
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@workspace/ui/components/input-otp';
-import { Label } from '@workspace/ui/components/label';
 
 const pageStatus = process.env.NEXT_PUBLIC_SIGN_IN_ACTIVE!;
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
@@ -118,28 +116,24 @@ export default function Page() {
   // Disabled Card
   if (isDisabled) {
     return (
-      <Card className="w-full max-w-lg">
-        <CardHeader className="pointer-events-none select-none">
-          <CardTitle className="text-xl font-bold">Access Disabled</CardTitle>
-          <CardDescription>Sign ins are currently disabled.</CardDescription>
-        </CardHeader>
-        <CardFooter className="flex flex-row gap-2">
-          <Label>Don&apos;t have an account?</Label>
-          <Link href="/sign-up">
-            <Label className="cursor-pointer underline">Sign Up</Label>
-          </Link>
-        </CardFooter>
-      </Card>
+      <FieldGroup>
+        <div className="flex flex-col items-center gap-1 text-center">
+          <p className="text-2xl font-bold">Access Disabled</p>
+          <p className="text-sm text-balance text-muted-foreground">Sign ins are not available at the moment</p>
+        </div>
+        <Field>
+          <FieldDescription className="text-center">
+            Don&apos;t have an account? <Link href="/sign-up">Sign up</Link>
+          </FieldDescription>
+        </Field>
+      </FieldGroup>
     );
   }
 
   // Verify Email Form
   if (signIn.status === 'needs_client_trust') {
     return (
-      <form
-        className="w-full max-w-md"
-        onSubmit={handleVerify}
-      >
+      <form onSubmit={handleVerify}>
         <FieldGroup>
           <div className="flex flex-col items-center gap-1 text-center">
             <p className="text-2xl font-bold">Verify your Email</p>
@@ -204,10 +198,7 @@ export default function Page() {
 
   // Sign In Form
   return (
-    <form
-      className="w-full max-w-md"
-      onSubmit={signInForm.handleSubmit(handleSubmit)}
-    >
+    <form onSubmit={signInForm.handleSubmit(handleSubmit)}>
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center">
           <p className="text-2xl font-bold">Welcome Back</p>
