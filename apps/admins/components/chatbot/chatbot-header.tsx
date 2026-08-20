@@ -9,7 +9,7 @@ export function ChatbotHeader() {
 
   return (
     <header className="flex h-12 shrink-0 items-center justify-between border-b bg-sidebar px-4 md:h-16 md:bg-transparent">
-      <p className="text-sm font-medium">Ghostty</p>
+      <p className="text-sm font-medium">Ghostty Agents</p>
       <Button
         size="icon-sm"
         variant="ghost"

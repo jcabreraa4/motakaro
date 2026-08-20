@@ -14,6 +14,8 @@ import { cn } from '@workspace/ui/lib/utils';
 
 import { copyString } from '@/utils/copy-string';
 
+import { AppSection } from '../layout/app-section';
+
 interface ChatbotMessagesProps {
   threadId: string;
   className?: string;
@@ -32,50 +34,52 @@ export function ChatbotMessages({ threadId, className }: ChatbotMessagesProps) {
   }, [messages.length]);
 
   return (
-    <div
-      ref={messagesRef}
-      className="flex min-h-0 w-full flex-1 justify-center overflow-y-auto"
-    >
-      <div className="w-full">
-        <Conversation className={cn(messages.length === 0 && 'h-full')}>
-          <ConversationContent className={cn('px-0', messages.length === 0 && 'h-full')}>
-            {status === 'LoadingFirstPage' ? (
-              <GenericLoader />
-            ) : messages.length === 0 ? (
-              <ConversationEmptyState className="h-full select-none">
-                <Empty>
-                  <EmptyHeader>
-                    <EmptyMedia variant="icon">
-                      <MessageSquareIcon className="size-6" />
-                    </EmptyMedia>
-                    <EmptyTitle className="text-xl">No Messages Yet</EmptyTitle>
-                    <EmptyDescription className="text-md">How can I help you today, {user?.firstName}?</EmptyDescription>
-                  </EmptyHeader>
-                </Empty>
-              </ConversationEmptyState>
-            ) : (
-              <>
-                {status === 'CanLoadMore' && (
-                  <div className="flex justify-center">
-                    <Button
-                      variant="outline"
-                      onClick={() => loadMore(20)}
-                    >
-                      Load More
-                    </Button>
-                  </div>
-                )}
-                <MessagesLoaded
-                  messages={messages}
-                  className={className}
-                />
-              </>
-            )}
-          </ConversationContent>
-          <ConversationScrollButton />
-        </Conversation>
+    <AppSection className="flex flex-col gap-5">
+      <div
+        ref={messagesRef}
+        className="flex min-h-0 w-full flex-1 justify-center overflow-y-auto"
+      >
+        <div className="w-full">
+          <Conversation className={cn(messages.length === 0 && 'h-full')}>
+            <ConversationContent className={cn('px-0', messages.length === 0 && 'h-full')}>
+              {status === 'LoadingFirstPage' ? (
+                <GenericLoader />
+              ) : messages.length === 0 ? (
+                <ConversationEmptyState className="h-full select-none">
+                  <Empty>
+                    <EmptyHeader>
+                      <EmptyMedia variant="icon">
+                        <MessageSquareIcon className="size-6" />
+                      </EmptyMedia>
+                      <EmptyTitle className="text-xl">No Messages Yet</EmptyTitle>
+                      <EmptyDescription className="text-md">How can I help you today, {user?.firstName}?</EmptyDescription>
+                    </EmptyHeader>
+                  </Empty>
+                </ConversationEmptyState>
+              ) : (
+                <>
+                  {status === 'CanLoadMore' && (
+                    <div className="flex justify-center">
+                      <Button
+                        variant="outline"
+                        onClick={() => loadMore(20)}
+                      >
+                        Load More
+                      </Button>
+                    </div>
+                  )}
+                  <MessagesLoaded
+                    messages={messages}
+                    className={className}
+                  />
+                </>
+              )}
+            </ConversationContent>
+            <ConversationScrollButton />
+          </Conversation>
+        </div>
       </div>
-    </div>
+    </AppSection>
   );
 }
 

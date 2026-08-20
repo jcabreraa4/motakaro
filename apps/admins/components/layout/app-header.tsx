@@ -103,7 +103,7 @@ function ChatbotButton({ className }: { className?: string }) {
           size="icon-sm"
           variant="ghost"
           className={className}
-          onClick={() => setOpen(!open)}
+          onClick={() => setOpen(true)}
         >
           <GhostIcon className="size-5" />
         </Button>
