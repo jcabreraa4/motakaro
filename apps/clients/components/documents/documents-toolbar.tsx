@@ -33,7 +33,7 @@ function ToolbarButton({ icon: Icon, isActive, disabled, onClick, className }: T
     <Button
       size="icon"
       variant={isActive ? 'secondary' : 'ghost'}
-      className={cn('cursor-pointer', className)}
+      className={className}
       onClick={onClick}
       disabled={disabled}
     >
@@ -46,7 +46,7 @@ function ToolbarSeparator({ className }: { className?: string }) {
   return (
     <Separator
       orientation="vertical"
-      className={cn('mx-1 max-h-6', className)}
+      className={cn('mx-1 data-vertical:h-4 data-vertical:self-auto', className)}
     />
   );
 }

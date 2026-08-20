@@ -25,10 +25,7 @@ export default function Page() {
           key={contact._id}
           href={`/contacts/${contact._id}`}
         >
-          <Button
-            variant="outline"
-            className="cursor-pointer"
-          >
+          <Button variant="outline">
             {contact.name} {contact.surname}
           </Button>
         </Link>

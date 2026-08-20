@@ -92,7 +92,7 @@ export function DocumentsUpdate({ document, onSuccess, children }: DocumentsUpda
               value={info.starred}
               onValueChange={(value) => setInfo({ ...info, starred: value })}
             >
-              <SelectTrigger className={cn('w-full cursor-pointer', info.starred !== document.starred.toString() && 'border-red-500')}>
+              <SelectTrigger className={cn('w-full', info.starred !== document.starred.toString() && 'border-red-500')}>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -112,7 +112,7 @@ export function DocumentsUpdate({ document, onSuccess, children }: DocumentsUpda
                   value={info.clientVisible}
                   onValueChange={(value) => setInfo({ ...info, clientVisible: value })}
                 >
-                  <SelectTrigger className={cn('w-full cursor-pointer', info.clientVisible !== document.clientVisible.toString() && 'border-red-500')}>
+                  <SelectTrigger className={cn('w-full', info.clientVisible !== document.clientVisible.toString() && 'border-red-500')}>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -129,7 +129,7 @@ export function DocumentsUpdate({ document, onSuccess, children }: DocumentsUpda
                   value={info.clientStarred}
                   onValueChange={(value) => setInfo({ ...info, clientStarred: value })}
                 >
-                  <SelectTrigger className={cn('w-full cursor-pointer', info.clientStarred !== document.clientStarred.toString() && 'border-red-500')}>
+                  <SelectTrigger className={cn('w-full', info.clientStarred !== document.clientStarred.toString() && 'border-red-500')}>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -147,16 +147,13 @@ export function DocumentsUpdate({ document, onSuccess, children }: DocumentsUpda
           <Button
             disabled={disableReset()}
             variant="outline"
-            className="hidden cursor-pointer xl:flex"
+            className="hidden xl:flex"
             onClick={handleReset}
           >
             <RotateCcwIcon />
             Clear Changes
           </Button>
-          <Button
-            className="cursor-pointer"
-            onClick={handleUpdate}
-          >
+          <Button onClick={handleUpdate}>
             <SaveIcon />
             Update Document
           </Button>

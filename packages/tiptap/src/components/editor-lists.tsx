@@ -34,7 +34,6 @@ export function EditorLists() {
         <Button
           size="icon"
           variant="ghost"
-          className="cursor-pointer"
         >
           <ListIcon />
         </Button>

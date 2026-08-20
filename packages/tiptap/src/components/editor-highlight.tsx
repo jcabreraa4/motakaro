@@ -18,7 +18,6 @@ export function EditorHighlight() {
         <Button
           size="icon"
           variant="ghost"
-          className="cursor-pointer"
         >
           <HighlighterIcon />
         </Button>

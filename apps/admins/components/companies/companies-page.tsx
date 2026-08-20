@@ -45,7 +45,7 @@ export function CompaniesLoaded({ preloaded }: CompaniesPageProps) {
           description="The company record could not be found."
         >
           <Link href="/companies">
-            <Button className="cursor-pointer">
+            <Button>
               <Building2Icon />
               Check Companies
             </Button>

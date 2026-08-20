@@ -9,11 +9,14 @@ import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
+import { SidebarInset } from '@workspace/ui/components/sidebar';
 import { cn } from '@workspace/ui/lib/utils';
 
+import { ChatbotHeader } from '@/components/chatbot/chatbot-header';
 import { ChatbotInput } from '@/components/chatbot/chatbot-input';
 import { ChatbotMessages } from '@/components/chatbot/chatbot-messages';
 import { ChatbotThreads } from '@/components/chatbot/chatbot-threads';
+import { AppSection } from '@/components/layout/app-section';
 import { useChatbot } from '@/hooks/use-chatbot';
 
 export function AppChatbot() {
@@ -34,12 +37,13 @@ export function AppChatbot() {
   }
 
   return (
-    <section className={cn('w-full xl:max-w-120 xl:border-l print:hidden', !open && 'hidden')}>
+    <SidebarInset className={cn('w-full md:max-w-100 print:hidden', !open && 'hidden')}>
+      <ChatbotHeader />
       {!threadId ? (
-        <div className="flex h-full flex-col gap-3 p-3 md:gap-5 md:p-5">
+        <AppSection className="flex flex-col gap-5">
           <Button
             variant="outline"
-            className="w-full cursor-pointer"
+            className="w-full"
             onClick={handleCreate}
           >
             <PlusIcon />
@@ -49,13 +53,13 @@ export function AppChatbot() {
             threads={threads}
             setThreadId={setThreadId}
           />
-        </div>
+        </AppSection>
       ) : (
         <div className="flex h-full flex-col gap-3 py-3 md:gap-5 md:py-5">
           <div className="px-3 md:px-5">
             <Button
               variant="outline"
-              className="w-full cursor-pointer justify-start gap-2 truncate"
+              className="w-full justify-start gap-2 truncate"
               onClick={() => setThreadId(undefined)}
             >
               <ArrowLeftIcon />
@@ -72,6 +76,6 @@ export function AppChatbot() {
           />
         </div>
       )}
-    </section>
+    </SidebarInset>
   );
 }

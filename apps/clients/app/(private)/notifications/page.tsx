@@ -54,7 +54,7 @@ export default function Page() {
             {searchFilter && (
               <InputGroupAddon align="inline-end">
                 <InputGroupButton
-                  className="cursor-pointer hover:bg-transparent"
+                  className="hover:bg-transparent"
                   onClick={() => setSearchFilter('')}
                 >
                   <KbdGroup>
@@ -73,7 +73,7 @@ export default function Page() {
           >
             <SelectTrigger
               disabled={!notifications || notifications.length === 0}
-              className="w-full min-w-50 cursor-pointer lg:max-w-50"
+              className="w-full min-w-50 lg:max-w-50"
             >
               <SelectValue />
             </SelectTrigger>

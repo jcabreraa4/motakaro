@@ -20,7 +20,6 @@ function CopyLinkButton({ link }: { link: string }) {
   return (
     <InputGroupButton
       size="icon-sm"
-      className="cursor-pointer"
       onClick={() => copyString({ text: link, type: 'link' })}
     >
       <CopyIcon />
@@ -177,7 +176,6 @@ export function ResourcesCreate({ onSuccess, children }: ResourcesCreateProps) {
         <SheetFooter>
           <Button
             type="submit"
-            className="cursor-pointer"
             onClick={handleCreate}
           >
             <PlusIcon />

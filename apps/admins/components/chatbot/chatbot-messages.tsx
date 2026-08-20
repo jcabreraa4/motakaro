@@ -34,7 +34,7 @@ export function ChatbotMessages({ threadId, className }: ChatbotMessagesProps) {
   return (
     <div
       ref={messagesRef}
-      className={cn('flex min-h-0 w-full flex-1 justify-center overflow-y-auto')}
+      className="flex min-h-0 w-full flex-1 justify-center overflow-y-auto"
     >
       <div className="w-full">
         <Conversation className={cn(messages.length === 0 && 'h-full')}>
@@ -59,7 +59,6 @@ export function ChatbotMessages({ threadId, className }: ChatbotMessagesProps) {
                   <div className="flex justify-center">
                     <Button
                       variant="outline"
-                      className="cursor-pointer"
                       onClick={() => loadMore(20)}
                     >
                       Load More
@@ -115,17 +114,13 @@ function MessagesLoaded({ messages, className }: MessagesLoadedProps) {
             </Message>
             {message.role === 'assistant' && isLastMessage && (
               <MessageActions className="-ml-2">
-                <MessageAction
-                  label="Copy"
-                  className="cursor-pointer"
-                  onClick={() => copyString({ text: message.text, type: 'message' })}
-                >
+                <MessageAction onClick={() => copyString({ text: message.text, type: 'message' })}>
                   <CopyIcon />
                 </MessageAction>
-                <MessageAction className="cursor-pointer">
+                <MessageAction>
                   <ThumbsUpIcon />
                 </MessageAction>
-                <MessageAction className="cursor-pointer">
+                <MessageAction>
                   <ThumbsDownIcon />
                 </MessageAction>
               </MessageActions>

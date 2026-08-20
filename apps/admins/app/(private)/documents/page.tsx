@@ -49,7 +49,7 @@ export default function Page() {
           {searchFilter && (
             <InputGroupAddon align="inline-end">
               <InputGroupButton
-                className="cursor-pointer hover:bg-transparent"
+                className="hover:bg-transparent"
                 onClick={() => setSearchFilter('')}
               >
                 <KbdGroup>
@@ -65,7 +65,7 @@ export default function Page() {
         <DocumentsCreate onSuccess={(id) => push(`/documents/${id}`)}>
           <Button
             variant="outline"
-            className="min-w-50 cursor-pointer"
+            className="min-w-50"
           >
             <PlusIcon />
             Create Document
@@ -81,7 +81,7 @@ export default function Page() {
           description="There are currently no documents available."
         >
           <DocumentsCreate onSuccess={(id) => push(`/documents/${id}`)}>
-            <Button className="min-w-50 cursor-pointer">
+            <Button className="min-w-50">
               <PlusIcon />
               Create Document
             </Button>

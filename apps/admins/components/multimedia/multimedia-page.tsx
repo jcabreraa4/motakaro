@@ -47,7 +47,7 @@ function MultimediaLoaded({ preloaded }: MultimediaPageProps) {
           description="The file record could not be found."
         >
           <Link href="/multimedia">
-            <Button className="cursor-pointer">
+            <Button>
               <ImageIcon />
               Check Multimedia
             </Button>

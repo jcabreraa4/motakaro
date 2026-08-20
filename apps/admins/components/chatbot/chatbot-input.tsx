@@ -69,10 +69,7 @@ export function ChatbotInput({ threadId, className }: ChatbotInputProps) {
               </label>
             </PromptInputButton>
           </PromptInputTools>
-          <PromptInputSubmit
-            disabled={!(input.trim() || files.length > 0)}
-            className="cursor-pointer"
-          />
+          <PromptInputSubmit disabled={!(input.trim() || files.length > 0)} />
         </PromptInputFooter>
       </PromptInput>
     </>

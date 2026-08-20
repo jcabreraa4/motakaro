@@ -2,13 +2,11 @@
 
 import Link from 'next/link';
 
-import { Building2Icon, ChartColumnBigIcon, FileTextIcon, HeadsetIcon, ImageIcon, LayoutDashboardIcon, ListVideoIcon, type LucideIcon, PencilRulerIcon, UsersIcon, WalletIcon } from 'lucide-react';
+import { Building2Icon, ChartColumnBigIcon, FileTextIcon, HeadsetIcon, ImageIcon, LayoutDashboardIcon, ListVideoIcon, type LucideIcon, UsersIcon, WalletIcon } from 'lucide-react';
 
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
-import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { useChatbot } from '@/hooks/use-chatbot';
 import { useLocation } from '@/hooks/use-location';
 
 type Section = {
@@ -85,13 +83,6 @@ const sections: Section[] = [
 
 export function NavMain() {
   const { section } = useLocation();
-  const { setOpen } = useChatbot();
-
-  const isMobile = useIsMobile();
-
-  function closeChatbotInMobile() {
-    if (isMobile) setOpen(false);
-  }
 
   function isActive(url: string) {
     if (`/${section}` === url) return true;
@@ -109,8 +100,6 @@ export function NavMain() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    tooltip={item.title}
-                    onClick={closeChatbotInMobile}
                     className={cn(isActive(item.url) ? 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground active:bg-primary active:text-primary-foreground' : 'text-primary/80')}
                   >
                     <Link href={item.url}>

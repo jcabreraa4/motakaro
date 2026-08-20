@@ -45,7 +45,7 @@ export function ChatbotRemove({ id, onSuccess, children }: ChatbotRemoveProps) {
           <DialogClose asChild>
             <Button
               variant="destructive"
-              className="w-full cursor-pointer"
+              className="w-full"
               onClick={handleRemove}
             >
               <TrashIcon />

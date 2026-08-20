@@ -40,7 +40,6 @@ export function EditorAlign() {
         <Button
           size="icon"
           variant="ghost"
-          className="cursor-pointer"
         >
           <AlignLeftIcon />
         </Button>

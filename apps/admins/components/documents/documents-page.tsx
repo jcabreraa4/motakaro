@@ -47,7 +47,7 @@ function DocumentsPageLoaded({ preloaded }: DocumentsPageProps) {
           description="The document record could not be found."
         >
           <Link href="/documents">
-            <Button className="cursor-pointer">
+            <Button>
               <FileTextIcon />
               Check Documents
             </Button>

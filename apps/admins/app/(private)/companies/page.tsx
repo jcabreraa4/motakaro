@@ -25,12 +25,7 @@ export default function Page() {
           key={organization._id}
           href={`/companies/${organization._id}`}
         >
-          <Button
-            variant="outline"
-            className="cursor-pointer"
-          >
-            {organization.name}
-          </Button>
+          <Button variant="outline">{organization.name}</Button>
         </Link>
       ))}
     </AppSection>

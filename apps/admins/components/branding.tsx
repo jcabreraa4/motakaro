@@ -12,7 +12,7 @@ export function Branding({ className }: { className?: string }) {
         height={500}
         className="h-10 w-auto"
       />
-      <p className="text-2xl font-semibold text-white">Motakaro</p>
+      <p className="text-2xl font-semibold">Motakaro</p>
     </div>
   );
 }

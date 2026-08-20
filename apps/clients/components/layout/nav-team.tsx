@@ -126,8 +126,7 @@ function TeamSelector({ organizations, activeOrganization, setActiveOrganization
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              variant="outline"
-              className="bg-sidebar data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="ring-0! data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <TeamData
                 name={activeOrganization.name}

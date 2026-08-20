@@ -97,7 +97,6 @@ function MobileTable({ isActive, className }: TableProps) {
             asChild
             size="icon"
             variant="ghost"
-            className="cursor-pointer"
           >
             <MenuIcon />
           </Button>

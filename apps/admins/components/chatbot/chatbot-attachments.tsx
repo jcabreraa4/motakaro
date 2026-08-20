@@ -20,7 +20,7 @@ function Attachment({ file }: { file: File }) {
       <HoverCardTrigger asChild>
         <Button
           variant="outline"
-          className="cursor-pointer rounded-l-none border-l-0"
+          className="rounded-l-none border-l-0"
           onClick={() => setOpen(true)}
         >
           {file.name}
@@ -56,7 +56,7 @@ export function ChatbotAttachments({ files, setFiles, className }: ChatbotAttach
         >
           <Button
             variant="outline"
-            className="cursor-pointer rounded-r-none"
+            className="rounded-r-none"
             onClick={() => setFiles(files.filter((_, i) => i !== index))}
           >
             <TrashIcon />

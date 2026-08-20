@@ -9,9 +9,8 @@ import { toast } from 'sonner';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Button } from '@workspace/ui/components/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
-import { Label } from '@workspace/ui/components/label';
+import { Field, FieldDescription, FieldGroup } from '@workspace/ui/components/field';
 
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
 
@@ -61,6 +60,13 @@ export default function OrgSelectionPage() {
     }
   }
 
+  // Sign Out
+  function handleSignOut() {
+    signOut()
+      .then(() => toast.success('You signed out successfully.'))
+      .catch(() => toast.error('An internal error has ocurred.'));
+  }
+
   // Loading State
   if (!isLoaded || isSelecting || userMemberships.isLoading || (!userMemberships?.data?.length && !showSpinner)) {
     return <GenericLoader />;
@@ -69,32 +75,34 @@ export default function OrgSelectionPage() {
   // No Organizations
   if (userMemberships?.data?.length === 0 || !userMemberships?.data) {
     return (
-      <Card className="w-full max-w-lg">
-        <CardHeader className="pointer-events-none select-none">
-          <CardTitle className="text-xl font-bold">No Organizations</CardTitle>
-          <CardDescription>Contact your organization admin for an invitation.</CardDescription>
-        </CardHeader>
-        <CardFooter className="flex flex-col items-start gap-2">
-          <Label>Signed in as {session?.user.primaryEmailAddress?.emailAddress}</Label>
-          <Label
-            className="cursor-pointer underline"
-            onClick={() => signOut()}
-          >
-            Sign Out
-          </Label>
-        </CardFooter>
-      </Card>
+      <FieldGroup>
+        <div className="flex flex-col items-center gap-1">
+          <p className="text-2xl font-bold">No Organizations</p>
+          <p className="text-sm text-balance text-muted-foreground">Contact an organization admin for an invitation</p>
+        </div>
+        <Field>
+          <FieldDescription className="text-center">
+            Signed in as {session?.user.primaryEmailAddress?.emailAddress}{' '}
+            <span
+              className="cursor-pointer underline underline-offset-4 hover:text-black dark:hover:text-white"
+              onClick={handleSignOut}
+            >
+              Sign out
+            </span>
+          </FieldDescription>
+        </Field>
+      </FieldGroup>
     );
   }
 
   // Selection Form
   return (
-    <Card className="w-full max-w-lg bg-transparent shadow-none ring-0">
-      <CardHeader className="pointer-events-none px-1 select-none">
-        <CardTitle className="text-xl font-bold">Select Organization</CardTitle>
-        <CardDescription>You&apos;ll be able to switch organizations within the app.</CardDescription>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-3 px-1">
+    <FieldGroup>
+      <div className="flex flex-col items-center gap-1">
+        <p className="text-2xl font-bold">Select Organization</p>
+        <p className="text-sm text-balance text-muted-foreground">You&apos;ll be able to switch organizations within the app</p>
+      </div>
+      <Field className="flex flex-col gap-3">
         {userMemberships?.data?.map((mem) => (
           <Button
             key={mem.id}
@@ -114,16 +122,18 @@ export default function OrgSelectionPage() {
             <span className="truncate text-left leading-tight font-medium">{mem.organization.name}</span>
           </Button>
         ))}
-      </CardContent>
-      <CardFooter className="flex flex-col items-start gap-3 px-1">
-        <Label>Signed in as {session?.user.primaryEmailAddress?.emailAddress}</Label>
-        <Label
-          className="cursor-pointer underline"
-          onClick={() => signOut()}
-        >
-          Sign Out
-        </Label>
-      </CardFooter>
-    </Card>
+      </Field>
+      <Field>
+        <FieldDescription className="text-center">
+          Signed in as {session?.user.primaryEmailAddress?.emailAddress}{' '}
+          <span
+            className="cursor-pointer underline underline-offset-4 hover:text-black dark:hover:text-white"
+            onClick={handleSignOut}
+          >
+            Sign out
+          </span>
+        </FieldDescription>
+      </Field>
+    </FieldGroup>
   );
 }

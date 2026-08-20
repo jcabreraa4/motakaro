@@ -45,7 +45,7 @@ function MeetingsLoaded({ preloaded }: MeetingsPageProps) {
           description="The meeting record could not be found."
         >
           <Link href="/meetings">
-            <Button className="cursor-pointer">
+            <Button>
               <HeadsetIcon />
               Check Meetings
             </Button>

@@ -46,7 +46,7 @@ export function DocumentsRemove({ id, onSuccess, children }: DocumentsRemoveProp
           <DialogClose asChild>
             <Button
               variant="destructive"
-              className="w-full cursor-pointer"
+              className="w-full"
               onClick={handleRemove}
             >
               <TrashIcon />

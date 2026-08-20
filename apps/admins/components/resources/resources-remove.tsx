@@ -45,7 +45,7 @@ export function ResourcesRemove({ id, onSuccess, children }: ResourcesRemoveProp
         <DialogFooter>
           <Button
             variant="destructive"
-            className="w-full cursor-pointer"
+            className="w-full"
             onClick={handleRemove}
           >
             <TrashIcon />

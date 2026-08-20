@@ -14,10 +14,7 @@ export function MultimediaToolbar({ file }: { file: MediaFile }) {
   return (
     <section className="flex gap-3">
       <MultimediaUpdate file={file}>
-        <Button
-          variant="outline"
-          className="cursor-pointer"
-        >
+        <Button variant="outline">
           <PenIcon />
           Update
         </Button>
@@ -26,18 +23,12 @@ export function MultimediaToolbar({ file }: { file: MediaFile }) {
         id={file._id}
         onSuccess={() => push('/multimedia')}
       >
-        <Button
-          variant="outline"
-          className="cursor-pointer"
-        >
+        <Button variant="outline">
           <TrashIcon />
           Delete
         </Button>
       </MultimediaRemove>
-      <Button
-        variant="outline"
-        className="cursor-pointer"
-      >
+      <Button variant="outline">
         <DownloadIcon />
         Download
       </Button>

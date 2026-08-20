@@ -45,7 +45,7 @@ export function MultimediaRemove({ id, onSuccess, children }: MultimediaRemovePr
         <DialogFooter>
           <Button
             variant="destructive"
-            className="w-full cursor-pointer"
+            className="w-full"
             onClick={handleRemove}
           >
             <TrashIcon />

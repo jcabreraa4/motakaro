@@ -19,7 +19,7 @@ export function AppFooter() {
           <Link href="/privacy">
             <Button
               variant="link"
-              className="w-fit cursor-pointer p-0"
+              className="w-fit p-0"
             >
               <Paragraph>Privacy Policy</Paragraph>
             </Button>

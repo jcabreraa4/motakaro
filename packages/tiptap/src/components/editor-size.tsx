@@ -58,7 +58,6 @@ export function EditorSize() {
         size="icon"
         variant="ghost"
         onClick={decrement}
-        className="cursor-pointer"
       >
         <MinusIcon />
       </Button>
@@ -87,7 +86,6 @@ export function EditorSize() {
         size="icon"
         variant="ghost"
         onClick={increment}
-        className="cursor-pointer"
       >
         <PlusIcon />
       </Button>

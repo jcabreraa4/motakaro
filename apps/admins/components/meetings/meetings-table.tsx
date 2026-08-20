@@ -61,14 +61,12 @@ function MeetingsItem({ meeting }: { meeting: Meeting }) {
       <CardFooter className="flex gap-2">
         <Button
           variant={meeting.starred ? 'default' : 'secondary'}
-          className="cursor-pointer"
           onClick={handleUpdate}
         >
           <StarIcon />
         </Button>
         <Button
           variant="secondary"
-          className="cursor-pointer"
           onClick={() => handleOpen(meeting.link)}
         >
           <ExternalLinkIcon />
@@ -76,7 +74,6 @@ function MeetingsItem({ meeting }: { meeting: Meeting }) {
         </Button>
         <Button
           variant="secondary"
-          className="cursor-pointer"
           onClick={() => handleManage(meeting._id)}
         >
           <SettingsIcon />

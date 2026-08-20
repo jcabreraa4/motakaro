@@ -47,7 +47,7 @@ function ResourcesLoaded({ preloaded }: ResourcesPageProps) {
           description="The resource record could not be found."
         >
           <Link href="/resources">
-            <Button className="cursor-pointer">
+            <Button>
               <ListVideoIcon />
               Check Resources
             </Button>

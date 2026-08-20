@@ -47,7 +47,7 @@ export function MainDoubts() {
                 value={index.toString()}
                 className="border-black py-2"
               >
-                <AccordionTrigger className="cursor-pointer">
+                <AccordionTrigger>
                   <Heading3>{question.title}</Heading3>
                 </AccordionTrigger>
                 <AccordionContent>

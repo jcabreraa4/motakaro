@@ -226,7 +226,7 @@ export default function SignUp() {
             <FieldDescription className="text-center">
               Did something go wrong?{' '}
               <span
-                className="cursor-pointer underline underline-offset-4 hover:text-white"
+                className="cursor-pointer underline underline-offset-4 hover:text-black dark:hover:text-white"
                 onClick={handleReset}
               >
                 Start over

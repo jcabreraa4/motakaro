@@ -33,7 +33,6 @@ function NotificationsItem({ notification }: { notification: Notification }) {
           {notification.link && (
             <Button
               variant={notification.starred ? 'secondary' : 'default'}
-              className="cursor-pointer"
               onClick={() => handleLink(notification.link!)}
             >
               {notification.link.startsWith('/') ? <NavigationIcon /> : <ExternalLinkIcon />}
@@ -43,7 +42,7 @@ function NotificationsItem({ notification }: { notification: Notification }) {
           {!notification.read && (
             <Button
               onClick={() => updateNotification({ id: notification._id, read: true })}
-              className={cn('cursor-pointer', notification.starred && 'bg-red-700 text-white hover:bg-red-700/85')}
+              className={cn(notification.starred && 'bg-red-700 text-white hover:bg-red-700/85')}
             >
               <CheckCheckIcon />
               <span className="hidden lg:flex">Mark as Read</span>

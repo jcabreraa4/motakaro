@@ -43,7 +43,6 @@ export function NotificationsPopover() {
         <Button
           size="icon-sm"
           variant="ghost"
-          className="cursor-pointer"
         >
           <BellIcon className="size-5" />
           {hasUnread && <span className="absolute top-0 right-0 size-2 rounded-full bg-primary" />}
@@ -59,7 +58,7 @@ export function NotificationsPopover() {
             <Link href="/notifications">
               <Button
                 variant="link"
-                className="h-fit cursor-pointer"
+                className="h-fit"
                 onClick={() => setOpen(false)}
               >
                 View all

@@ -16,7 +16,6 @@ export function EditorColor() {
         <Button
           size="icon"
           variant="ghost"
-          className="cursor-pointer"
         >
           <span
             className="border-b-2 px-1"

@@ -45,7 +45,7 @@ export function ContactsLoaded({ preloaded }: ContactsPageProps) {
           description="The contact record could not be found."
         >
           <Link href="/contacts">
-            <Button className="cursor-pointer">
+            <Button>
               <UsersIcon />
               Check Contacts
             </Button>

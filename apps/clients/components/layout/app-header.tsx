@@ -54,7 +54,7 @@ export function ThemeButton({ className }: { className?: string }) {
     <Button
       size="icon-sm"
       variant="ghost"
-      className={cn('cursor-pointer', className)}
+      className={className}
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
     >
       <SunIcon className="hidden size-5 dark:block" />
@@ -63,14 +63,14 @@ export function ThemeButton({ className }: { className?: string }) {
   );
 }
 
-export function AppHeader({ className }: { className?: string }) {
+export function AppHeader() {
   return (
-    <header className={cn('flex h-12 shrink-0 items-center justify-between gap-2 border-x border-t bg-sidebar px-3 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 md:h-16 md:rounded-t-md md:bg-white md:px-4 dark:bg-sidebar dark:md:bg-[#0A0A0A]', className)}>
-      <div className="flex items-center gap-1">
-        <SidebarTrigger className="-ml-1 cursor-pointer" />
+    <header className="flex h-12 shrink-0 items-center justify-between gap-2 border-b bg-sidebar px-3 md:h-16 md:bg-transparent md:px-4 print:hidden">
+      <div className="flex items-center gap-2">
+        <SidebarTrigger className="-ml-1" />
         <Separator
           orientation="vertical"
-          className="mr-2 data-[orientation=vertical]:h-4"
+          className="mr-2 data-vertical:h-4 data-vertical:self-auto"
         />
         <HeaderBreadcrumb />
       </div>

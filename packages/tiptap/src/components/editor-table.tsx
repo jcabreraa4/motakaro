@@ -32,7 +32,6 @@ export function EditorTable() {
         <Button
           size="icon"
           variant="ghost"
-          className="cursor-pointer"
         >
           <TableIcon />
         </Button>

@@ -41,7 +41,7 @@ export default function Page() {
         >
           <SelectTrigger
             disabled={!resources || resources.length === 0}
-            className="hidden min-w-50 cursor-pointer xl:flex"
+            className="hidden min-w-50 xl:flex"
           >
             <SelectValue />
           </SelectTrigger>
@@ -71,7 +71,7 @@ export default function Page() {
           {searchFilter && (
             <InputGroupAddon align="inline-end">
               <InputGroupButton
-                className="cursor-pointer hover:bg-transparent"
+                className="hover:bg-transparent"
                 onClick={() => setSearchFilter('')}
               >
                 <KbdGroup>
@@ -87,7 +87,7 @@ export default function Page() {
         <ResourcesCreate>
           <Button
             variant="outline"
-            className="min-w-50 cursor-pointer"
+            className="min-w-50"
           >
             <PlusIcon />
             Create Resource
@@ -103,7 +103,7 @@ export default function Page() {
           description="There are currently no resources available."
         >
           <ResourcesCreate>
-            <Button className="min-w-50 cursor-pointer">
+            <Button className="min-w-50">
               <PlusIcon />
               Create Resource
             </Button>

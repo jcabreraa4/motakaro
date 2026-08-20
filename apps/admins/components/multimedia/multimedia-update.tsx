@@ -105,7 +105,7 @@ export function MultimediaUpdate({ file, onSuccess, children }: MultimediaUpdate
               value={info.starred}
               onValueChange={(value) => setInfo({ ...info, starred: value })}
             >
-              <SelectTrigger className={cn('w-full cursor-pointer', info.starred !== file.starred.toString() && 'border-red-500')}>
+              <SelectTrigger className={cn('w-full', info.starred !== file.starred.toString() && 'border-red-500')}>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -125,7 +125,7 @@ export function MultimediaUpdate({ file, onSuccess, children }: MultimediaUpdate
                   value={info.clientVisible}
                   onValueChange={(value) => setInfo({ ...info, clientVisible: value })}
                 >
-                  <SelectTrigger className={cn('w-full cursor-pointer', info.clientVisible !== file.clientVisible.toString() && 'border-red-500')}>
+                  <SelectTrigger className={cn('w-full', info.clientVisible !== file.clientVisible.toString() && 'border-red-500')}>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -142,7 +142,7 @@ export function MultimediaUpdate({ file, onSuccess, children }: MultimediaUpdate
                   value={info.clientStarred}
                   onValueChange={(value) => setInfo({ ...info, clientStarred: value })}
                 >
-                  <SelectTrigger className={cn('w-full cursor-pointer', info.clientStarred !== file.clientStarred.toString() && 'border-red-500')}>
+                  <SelectTrigger className={cn('w-full', info.clientStarred !== file.clientStarred.toString() && 'border-red-500')}>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -160,16 +160,13 @@ export function MultimediaUpdate({ file, onSuccess, children }: MultimediaUpdate
           <Button
             disabled={disableReset()}
             variant="outline"
-            className="hidden cursor-pointer xl:flex"
+            className="hidden xl:flex"
             onClick={handleReset}
           >
             <RotateCcwIcon />
             Clear Changes
           </Button>
-          <Button
-            className="cursor-pointer"
-            onClick={handleUpdate}
-          >
+          <Button onClick={handleUpdate}>
             <SaveIcon />
             Update File
           </Button>

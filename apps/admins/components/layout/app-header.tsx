@@ -6,8 +6,7 @@ import { Fragment } from 'react';
 
 import { useAuth } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
-import { GhostIcon, UserRoundIcon } from 'lucide-react';
-import { MoonIcon, SunIcon } from 'lucide-react';
+import { GhostIcon, MoonIcon, SunIcon, UserRoundIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
@@ -16,7 +15,6 @@ import { Button } from '@workspace/ui/components/button';
 import { Separator } from '@workspace/ui/components/separator';
 import { SidebarTrigger } from '@workspace/ui/components/sidebar';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip';
-import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { NotificationsPopover } from '@/components/notifications/notifications-popover';
@@ -27,22 +25,12 @@ import { useLocation } from '@/hooks/use-location';
 function HeaderBreadcrumb() {
   const { section } = useLocation();
   const { breadcrumbs } = useHeader();
-  const { setOpen } = useChatbot();
-
-  const isMobile = useIsMobile();
-
-  function closeChatbotInMobile() {
-    if (isMobile) setOpen(false);
-  }
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <Link
-            href={`/${section}`}
-            onClick={closeChatbotInMobile}
-          >
+          <Link href={`/${section}`}>
             <BreadcrumbPage className="font-medium capitalize select-none">{section}</BreadcrumbPage>
           </Link>
         </BreadcrumbItem>
@@ -51,10 +39,7 @@ function HeaderBreadcrumb() {
             <BreadcrumbSeparator className="hidden lg:block" />
             <BreadcrumbItem className={cn('hidden select-none lg:block', item.href && 'cursor-pointer')}>
               {item.href ? (
-                <Link
-                  href={item.href}
-                  onClick={closeChatbotInMobile}
-                >
+                <Link href={item.href}>
                   <BreadcrumbPage>{item.text}</BreadcrumbPage>
                 </Link>
               ) : (
@@ -102,7 +87,7 @@ function UserPresence({ className }: { className?: string }) {
       </div>
       <Separator
         orientation="vertical"
-        className={cn('ml-2 data-[orientation=vertical]:h-4', className)}
+        className={cn('ml-2 data-vertical:h-4 data-vertical:self-auto', className)}
       />
     </>
   );
@@ -112,14 +97,18 @@ function ChatbotButton({ className }: { className?: string }) {
   const { open, setOpen } = useChatbot();
 
   return (
-    <Button
-      size="icon-sm"
-      variant={open ? 'secondary' : 'ghost'}
-      className={cn('cursor-pointer', className)}
-      onClick={() => setOpen(!open)}
-    >
-      <GhostIcon className="size-5" />
-    </Button>
+    <>
+      {!open && (
+        <Button
+          size="icon-sm"
+          variant="ghost"
+          className={className}
+          onClick={() => setOpen(!open)}
+        >
+          <GhostIcon className="size-5" />
+        </Button>
+      )}
+    </>
   );
 }
 
@@ -130,7 +119,7 @@ export function ThemeButton({ className }: { className?: string }) {
     <Button
       size="icon-sm"
       variant="ghost"
-      className={cn('cursor-pointer', className)}
+      className={className}
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
     >
       <SunIcon className="hidden size-5 dark:block" />
@@ -139,23 +128,23 @@ export function ThemeButton({ className }: { className?: string }) {
   );
 }
 
-export function AppHeader({ className }: { className?: string }) {
+export function AppHeader() {
   return (
-    <header className={cn('flex h-12 shrink-0 items-center justify-between gap-2 border-x border-t bg-sidebar px-3 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 md:h-16 md:rounded-t-md md:bg-white md:px-4 dark:bg-sidebar dark:md:bg-[#0A0A0A]', className)}>
-      <div className="flex items-center gap-1">
-        <SidebarTrigger className="-ml-1 cursor-pointer" />
+    <header className="flex h-12 shrink-0 items-center justify-between gap-2 border-b bg-sidebar px-3 md:h-16 md:bg-transparent md:px-4 print:hidden">
+      <div className="flex items-center gap-2">
+        <SidebarTrigger className="-ml-1" />
         <Separator
           orientation="vertical"
-          className="mr-2 data-[orientation=vertical]:h-4"
+          className="mr-2 data-vertical:h-4 data-vertical:self-auto"
         />
         <HeaderBreadcrumb />
       </div>
       <div className="flex items-center gap-2">
         <UserPresence className="hidden select-none 2xl:flex" />
         <div className="flex gap-2">
-          <ChatbotButton />
           <NotificationsPopover />
           <ThemeButton className="hidden md:flex" />
+          <ChatbotButton />
         </div>
       </div>
     </header>

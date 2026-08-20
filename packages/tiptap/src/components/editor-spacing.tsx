@@ -38,7 +38,6 @@ export function EditorSpacing() {
         <Button
           size="icon"
           variant="ghost"
-          className="cursor-pointer"
         >
           <ListCollapseIcon />
         </Button>

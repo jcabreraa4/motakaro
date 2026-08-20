@@ -24,7 +24,6 @@ export function EditorImage() {
         <Button
           size="icon"
           variant="ghost"
-          className="cursor-pointer"
         >
           <ImageIcon />
         </Button>
@@ -35,12 +34,7 @@ export function EditorImage() {
           onChange={(e) => setValue(e.target.value)}
           placeholder="https://image.png"
         />
-        <Button
-          className="cursor-pointer"
-          onClick={handleValue}
-        >
-          Insert
-        </Button>
+        <Button onClick={handleValue}>Insert</Button>
       </DropdownMenuContent>
     </DropdownMenu>
   );

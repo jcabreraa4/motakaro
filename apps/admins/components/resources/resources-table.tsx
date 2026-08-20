@@ -26,7 +26,6 @@ function ItemButton({ icon: Icon, onClick, isActive }: ItemButtonProps) {
     <Button
       onClick={onClick}
       variant={isActive ? 'default' : 'outline'}
-      className="cursor-pointer"
     >
       <Icon />
     </Button>

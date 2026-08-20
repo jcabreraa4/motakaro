@@ -22,7 +22,6 @@ function CopyLinkButton({ link }: { link: string }) {
   return (
     <InputGroupButton
       size="icon-sm"
-      className="cursor-pointer"
       onClick={() => copyString({ text: link, type: 'link' })}
     >
       <CopyIcon />
@@ -109,7 +108,7 @@ export function ResourcesUpdate({ resource, onSuccess, children }: ResourcesUpda
               value={info.starred}
               onValueChange={(value) => setInfo({ ...info, starred: value })}
             >
-              <SelectTrigger className={cn('w-full cursor-pointer', info.starred !== resource.starred.toString() && 'border-red-500')}>
+              <SelectTrigger className={cn('w-full', info.starred !== resource.starred.toString() && 'border-red-500')}>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -184,7 +183,7 @@ export function ResourcesUpdate({ resource, onSuccess, children }: ResourcesUpda
               value={info.published}
               onValueChange={(value) => setInfo({ ...info, published: value })}
             >
-              <SelectTrigger className={cn('w-full cursor-pointer', info.published !== resource.published.toString() && 'border-red-500')}>
+              <SelectTrigger className={cn('w-full', info.published !== resource.published.toString() && 'border-red-500')}>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -200,16 +199,13 @@ export function ResourcesUpdate({ resource, onSuccess, children }: ResourcesUpda
           <Button
             disabled={disableReset()}
             variant="outline"
-            className="hidden cursor-pointer xl:flex"
+            className="hidden xl:flex"
             onClick={handleReset}
           >
             <RotateCcwIcon />
             Clear Changes
           </Button>
-          <Button
-            className="cursor-pointer"
-            onClick={handleUpdate}
-          >
+          <Button onClick={handleUpdate}>
             <SaveIcon />
             Update Resource
           </Button>

@@ -24,7 +24,6 @@ export function EditorLink() {
         <Button
           size="icon"
           variant="ghost"
-          className="cursor-pointer"
         >
           <Link2Icon />
         </Button>
@@ -35,12 +34,7 @@ export function EditorLink() {
           onChange={(e) => setValue(e.target.value)}
           placeholder="https://example.com"
         />
-        <Button
-          className="cursor-pointer"
-          onClick={handleValue}
-        >
-          Insert
-        </Button>
+        <Button onClick={handleValue}>Insert</Button>
       </DropdownMenuContent>
     </DropdownMenu>
   );
