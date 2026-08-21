@@ -1,6 +1,6 @@
 # Admins App
 
 > Nextjs app.
-> Nodejs runtime.
-> Bun package manager.
+> Bun as runtime.
+> Bun as package manager.
 > Deployed on Vercel.
