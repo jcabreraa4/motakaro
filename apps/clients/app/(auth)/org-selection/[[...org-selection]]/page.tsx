@@ -1,5 +1,6 @@
 'use client';
 
+import type { Route } from 'next';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -51,7 +52,7 @@ export default function OrgSelectionPage() {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
           toast.success(successMessage);
-          push(url);
+          push(url as Route);
         }
       });
     } catch {

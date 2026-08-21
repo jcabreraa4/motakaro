@@ -1,5 +1,6 @@
 'use client';
 
+import type { Route } from 'next';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { Fragment } from 'react';
@@ -30,7 +31,7 @@ function HeaderBreadcrumb() {
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <Link href={`/${section}`}>
+          <Link href={`/${section}` as Route}>
             <BreadcrumbPage className="font-medium capitalize select-none">{section}</BreadcrumbPage>
           </Link>
         </BreadcrumbItem>
@@ -39,7 +40,7 @@ function HeaderBreadcrumb() {
             <BreadcrumbSeparator className="hidden lg:block" />
             <BreadcrumbItem className={cn('hidden select-none lg:block', item.href && 'cursor-pointer')}>
               {item.href ? (
-                <Link href={item.href}>
+                <Link href={item.href as Route}>
                   <BreadcrumbPage>{item.text}</BreadcrumbPage>
                 </Link>
               ) : (

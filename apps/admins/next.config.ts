@@ -3,9 +3,7 @@ import type { NextConfig } from 'next';
 import { withSentryConfig } from '@sentry/nextjs';
 
 const nextConfig: NextConfig = {
-  typescript: {
-    ignoreBuildErrors: true
-  },
+  typedRoutes: true,
   transpilePackages: ['@workspace/ui', '@workspace/tiptap'],
   images: {
     remotePatterns: [

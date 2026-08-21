@@ -1,5 +1,6 @@
 'use client';
 
+import type { Route } from 'next';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -44,8 +45,8 @@ export default function SignInPage() {
   const clerkStatus = searchParams.get('__clerk_status');
 
   useEffect(() => {
-    if (isSignedIn) push(redirectPage);
-    if (session && !orgId) push('/org-selection');
+    if (isSignedIn) push(redirectPage as Route);
+    if (session && !orgId) push('/org-selection' as Route);
   }, [isSignedIn, session, orgId, push]);
 
   useEffect(() => {
@@ -60,7 +61,7 @@ export default function SignInPage() {
       if (result.status === 'complete') {
         await (signIn as any).setActive({ session: result.createdSessionId });
         toast.success(successMessage);
-        push(redirectPage);
+        push(redirectPage as Route);
       } else {
         toast.error(errorMessage);
       }
@@ -95,7 +96,7 @@ export default function SignInPage() {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
           toast.success(successMessage);
-          push(url);
+          push(url as Route);
         }
       });
     } else if (signIn.status === 'needs_client_trust') {
@@ -121,7 +122,7 @@ export default function SignInPage() {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
           toast.success(successMessage);
-          push(url);
+          push(url as Route);
         }
       });
     } else {
@@ -152,7 +153,7 @@ export default function SignInPage() {
         </div>
         <Field>
           <FieldDescription className="text-center">
-            Don&apos;t have an account? <Link href="/sign-up">Sign up</Link>
+            Don&apos;t have an account? <Link href={'/sign-up' as Route}>Sign up</Link>
           </FieldDescription>
         </Field>
       </FieldGroup>
@@ -289,7 +290,7 @@ export default function SignInPage() {
         </Field>
         <Field>
           <FieldDescription className="text-center">
-            Don&apos;t have an account? <Link href="/sign-up">Sign up</Link>
+            Don&apos;t have an account? <Link href={'/sign-up' as Route}>Sign up</Link>
           </FieldDescription>
         </Field>
       </FieldGroup>

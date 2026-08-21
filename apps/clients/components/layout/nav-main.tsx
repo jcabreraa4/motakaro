@@ -1,5 +1,6 @@
 'use client';
 
+import type { Route } from 'next';
 import Link from 'next/link';
 
 import { Building2Icon, ChartColumnBigIcon, FileTextIcon, HeadsetIcon, ImageIcon, LayoutDashboardIcon, type LucideIcon, UsersIcon } from 'lucide-react';
@@ -92,7 +93,7 @@ export function NavMain() {
                     asChild
                     className={cn(isActive(item.url) ? 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground active:bg-primary active:text-primary-foreground' : 'text-primary/80')}
                   >
-                    <Link href={item.url}>
+                    <Link href={item.url as Route}>
                       <item.icon className="size-4" />
                       <span className="select-none">{item.title}</span>
                     </Link>

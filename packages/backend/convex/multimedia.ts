@@ -129,6 +129,7 @@ export const update = mutation({
 // Client Functions
 
 export const clientList = query({
+  args: {},
   handler: async (ctx) => {
     // Obtain Identity
     const identity = await getClientAuth(ctx);
@@ -310,6 +311,7 @@ export const clientUpdate = mutation({
 // Shared Functions
 
 export const sharedUpload = mutation({
+  args: {},
   handler: async (ctx) => {
     // Verify Identity
     await verifyIdentity(ctx);

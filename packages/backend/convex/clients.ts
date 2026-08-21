@@ -55,6 +55,7 @@ export const get = query({
 // Client Functions
 
 export const clientGet = query({
+  args: {},
   handler: async (ctx) => {
     // Obtain Identity
     const identity = await getClientAuth(ctx);

@@ -1,5 +1,6 @@
 'use client';
 
+import type { Route } from 'next';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -50,8 +51,8 @@ export default function SignInPage() {
   const clerkStatus = searchParams.get('__clerk_status');
 
   useEffect(() => {
-    if (isSignedIn) push(redirectPage);
-    if (session && !orgId) push('/org-selection');
+    if (isSignedIn) push(redirectPage as Route);
+    if (session && !orgId) push('/org-selection' as Route);
   }, [isSignedIn, session, orgId, push]);
 
   const isDisabled = pageStatus === 'false';
@@ -87,7 +88,7 @@ export default function SignInPage() {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
           toast.success(successMessage);
-          push(url);
+          push(url as Route);
         }
       });
     } else if (signUp.status === 'missing_requirements') {
@@ -118,7 +119,7 @@ export default function SignInPage() {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
           toast.success(successMessage);
-          push(url);
+          push(url as Route);
         }
       });
     } else {
@@ -149,7 +150,7 @@ export default function SignInPage() {
         </div>
         <Field>
           <FieldDescription className="text-center">
-            Already have an account? <Link href="/sign-in">Sign in</Link>
+            Already have an account? <Link href={'/sign-in' as Route}>Sign in</Link>
           </FieldDescription>
         </Field>
       </FieldGroup>
@@ -166,7 +167,7 @@ export default function SignInPage() {
         </div>
         <Field>
           <FieldDescription className="text-center">
-            Already have an account? <Link href="/sign-in">Sign in</Link>
+            Already have an account? <Link href={'/sign-in' as Route}>Sign in</Link>
           </FieldDescription>
         </Field>
       </FieldGroup>
@@ -333,7 +334,7 @@ export default function SignInPage() {
         </Field>
         <Field>
           <FieldDescription className="text-center">
-            Already have an account? <Link href="/sign-in">Sign in</Link>
+            Already have an account? <Link href={'/sign-in' as Route}>Sign in</Link>
           </FieldDescription>
         </Field>
       </FieldGroup>

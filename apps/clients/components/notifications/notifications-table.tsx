@@ -1,3 +1,4 @@
+import type { Route } from 'next';
 import { useRouter } from 'next/navigation';
 
 import { useMutation } from 'convex/react';
@@ -16,7 +17,7 @@ function NotificationsItem({ notification }: { notification: Notification }) {
 
   function handleLink(link: string) {
     if (link.startsWith('/')) {
-      router.push(link);
+      router.push(link as Route);
     } else {
       window.open(link, '_blank');
     }

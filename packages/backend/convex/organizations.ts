@@ -8,6 +8,7 @@ import { env } from './env';
 import { organizationPlan } from './schema';
 
 export const list = query({
+  args: {},
   handler: async (ctx) => {
     // Verify Identity
     await verifyAdminAuth(ctx);
@@ -45,6 +46,7 @@ export const get = query({
 // Client Functions
 
 export const clientList = query({
+  args: {},
   handler: async (ctx) => {
     // Obtain Identity
     const identity = await getClientAuth(ctx);

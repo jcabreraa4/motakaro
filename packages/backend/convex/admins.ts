@@ -27,6 +27,7 @@ export const list = query({
 });
 
 export const get = query({
+  args: {},
   handler: async (ctx) => {
     // Verify Identity
     const identity = await verifyAdminAuth(ctx);

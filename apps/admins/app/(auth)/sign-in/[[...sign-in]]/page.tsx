@@ -1,5 +1,6 @@
 'use client';
 
+import type { Route } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -38,7 +39,7 @@ export default function Page() {
   const [emailCode, setEmailCode] = useState('');
 
   useEffect(() => {
-    if (isSignedIn) push(redirectPage);
+    if (isSignedIn) push(redirectPage as Route);
   }, [isSignedIn, push]);
 
   const isDisabled = pageStatus === 'false';
@@ -68,7 +69,7 @@ export default function Page() {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
           toast.success(successMessage);
-          push(url);
+          push(url as Route);
         }
       });
     } else if (signIn.status === 'needs_client_trust') {
@@ -94,7 +95,7 @@ export default function Page() {
           if (session?.currentTask) return;
           const url = decorateUrl(redirectPage);
           toast.success(successMessage);
-          push(url);
+          push(url as Route);
         }
       });
     } else {
@@ -125,7 +126,7 @@ export default function Page() {
         </div>
         <Field>
           <FieldDescription className="text-center">
-            Don&apos;t have an account? <Link href="/sign-up">Sign up</Link>
+            Don&apos;t have an account? <Link href={'/sign-up' as Route}>Sign up</Link>
           </FieldDescription>
         </Field>
       </FieldGroup>
@@ -262,7 +263,7 @@ export default function Page() {
         </Field>
         <Field>
           <FieldDescription className="text-center">
-            Don&apos;t have an account? <Link href="/sign-up">Sign up</Link>
+            Don&apos;t have an account? <Link href={'/sign-up' as Route}>Sign up</Link>
           </FieldDescription>
         </Field>
       </FieldGroup>

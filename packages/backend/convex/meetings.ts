@@ -6,6 +6,7 @@ import { verifyAdminAuth } from './auth';
 import { meetingStatus } from './schema';
 
 export const list = query({
+  args: {},
   handler: async (ctx) => {
     // Verify Identity
     await verifyAdminAuth(ctx);

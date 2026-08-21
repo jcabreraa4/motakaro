@@ -1,5 +1,6 @@
 'use client';
 
+import type { Route } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -67,7 +68,7 @@ function DesktopTable({ isActive, className }: TableProps) {
       {items.map((item) => (
         <Link
           key={item.url}
-          href={item.url}
+          href={item.url as Route}
         >
           <TableItem
             text={item.title}
@@ -109,7 +110,7 @@ function MobileTable({ isActive, className }: TableProps) {
             {items.map((item) => (
               <Link
                 key={item.url}
-                href={item.url}
+                href={item.url as Route}
               >
                 <TableItem
                   text={item.title}

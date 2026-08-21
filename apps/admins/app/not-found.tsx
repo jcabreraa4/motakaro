@@ -1,3 +1,4 @@
+import type { Route } from 'next';
 import Link from 'next/link';
 
 import { GenericError } from '@workspace/ui/components/custom/generic-error';
@@ -13,7 +14,7 @@ export default function NotFound() {
       text="Page not found"
     >
       <div className="fixed top-0 left-0 z-50 p-5 xl:p-8">
-        <Link href={redirectPage}>
+        <Link href={redirectPage as Route}>
           <Branding />
         </Link>
       </div>
