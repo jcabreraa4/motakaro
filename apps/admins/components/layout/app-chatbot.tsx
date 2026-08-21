@@ -27,7 +27,7 @@ export function AppChatbot() {
   const thread = threads.find((thread) => thread._id === threadId);
 
   return (
-    <SidebarInset className={cn('w-full min-w-100 md:max-w-100 print:hidden', !open && 'hidden')}>
+    <SidebarInset className={cn('hidden w-full overflow-hidden md:max-w-100 print:hidden', open && 'xl:flex')}>
       <ChatbotHeader />
       {!threadId ? (
         <ChatbotThreads
@@ -35,7 +35,7 @@ export function AppChatbot() {
           setThreadId={setThreadId}
         />
       ) : (
-        <div className="flex h-full flex-col gap-3 py-3 md:gap-5 md:py-5">
+        <div className="flex min-h-0 flex-1 flex-col gap-3 py-3 md:gap-5 md:py-5">
           <div className="px-3 md:px-5">
             <Button
               variant="outline"

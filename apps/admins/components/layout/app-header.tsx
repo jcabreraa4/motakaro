@@ -144,7 +144,7 @@ export function AppHeader() {
         <div className="flex gap-2">
           <NotificationsPopover />
           <ThemeButton className="hidden md:flex" />
-          <ChatbotButton />
+          <ChatbotButton className="hidden xl:flex" />
         </div>
       </div>
     </header>
