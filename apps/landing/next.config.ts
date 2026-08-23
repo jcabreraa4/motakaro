@@ -7,11 +7,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '*.convex.cloud'
+        hostname: '*.motakaro.com'
       },
       {
         protocol: 'https',
-        hostname: '*.motakaro.com'
+        hostname: '*.convex.cloud'
       }
     ]
   }

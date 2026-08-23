@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'img.clerk.com'
+        hostname: '*.motakaro.com'
       },
       {
         protocol: 'https',
@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: '*.motakaro.com'
+        hostname: 'img.clerk.com'
       }
     ]
   }
