@@ -73,10 +73,15 @@ const sections: Section[] = [
 ];
 
 export function NavMain() {
-  const { section } = useLocation();
+  const { routes } = useLocation();
 
-  function isActive(url: string) {
-    if (`/${section}` === url) return true;
+  function isSection(url: string) {
+    if (`/${routes[0]}` === url && !routes[1]) return true;
+    return false;
+  }
+
+  function isSubroute(url: string) {
+    if (`/${routes[0]}` === url && routes[1]) return true;
     return false;
   }
 
@@ -91,7 +96,7 @@ export function NavMain() {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    className={cn(isActive(item.url) ? 'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground active:bg-primary active:text-primary-foreground' : 'text-primary/80')}
+                    className={cn(isSection(item.url) ? 'bg-primary! text-white!' : isSubroute(item.url) && 'border bg-secondary')}
                   >
                     <Link href={item.url as Route}>
                       <item.icon className="size-4" />

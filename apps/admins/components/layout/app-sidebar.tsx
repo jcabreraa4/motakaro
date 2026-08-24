@@ -1,6 +1,7 @@
-import { Sidebar, SidebarContent, SidebarHeader } from '@workspace/ui/components/sidebar';
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@workspace/ui/components/sidebar';
 
 import { NavMain } from '@/components/layout/nav-main';
+import { NavTeam } from '@/components/layout/nav-team';
 import { NavUser } from '@/components/layout/nav-user';
 import { getUser } from '@/server/get-user';
 
@@ -13,15 +14,22 @@ export async function AppSidebar({ ...props }: React.ComponentProps<typeof Sideb
       variant="inset"
     >
       <SidebarHeader>
-        <NavUser
-          name={`${user!.name} ${user!.surname}`}
-          email={user!.email}
-          avatar={user!.avatar}
+        <NavTeam
+          name="Motakaro"
+          plan="Onboarding"
+          logo="/motakaro.webp"
         />
       </SidebarHeader>
       <SidebarContent>
         <NavMain />
       </SidebarContent>
+      <SidebarFooter>
+        <NavUser
+          name={`${user!.name} ${user!.surname}`}
+          email={user!.email}
+          avatar={user!.avatar}
+        />
+      </SidebarFooter>
     </Sidebar>
   );
 }

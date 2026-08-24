@@ -1,3 +1,7 @@
+# Clients App
+
+Next.js app · Bun runtime · Bun package manager · Deployed on Vercel
+
 <!-- NEXTJS AGENT RULES START -->
 
 # This is NOT the Next.js you know
