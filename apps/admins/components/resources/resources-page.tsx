@@ -12,7 +12,7 @@ import { Button } from '@workspace/ui/components/button';
 import { EmptySection } from '@workspace/ui/components/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
-import { AppSection } from '@/components/layout/app-section';
+import { InsetSection } from '@/components/layout/inset-section';
 import { ResourcesRender } from '@/components/resources/resources-render';
 import { ResourcesToolbar } from '@/components/resources/resources-toolbar';
 import { useHeader } from '@/hooks/use-header';
@@ -40,7 +40,7 @@ function ResourcesLoaded({ preloaded }: ResourcesPageProps) {
 
   if (!resource) {
     return (
-      <AppSection>
+      <InsetSection>
         <EmptySection
           icon={ListVideoIcon}
           title="404 Not Found"
@@ -53,14 +53,14 @@ function ResourcesLoaded({ preloaded }: ResourcesPageProps) {
             </Button>
           </Link>
         </EmptySection>
-      </AppSection>
+      </InsetSection>
     );
   }
 
   return (
-    <AppSection className="flex flex-col gap-3 md:gap-5">
+    <InsetSection className="flex flex-col gap-3 md:gap-5">
       <ResourcesToolbar resource={resource} />
       <ResourcesRender resource={resource} />
-    </AppSection>
+    </InsetSection>
   );
 }

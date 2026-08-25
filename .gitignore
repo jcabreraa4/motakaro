@@ -21,6 +21,13 @@ coverage
 # Vercel
 .vercel
 
+# Eve
+.eve
+.nitro
+.output
+dist
+*.tsbuildinfo
+
 # Build Outputs
 .next/
 out/

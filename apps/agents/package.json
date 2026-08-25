@@ -1,0 +1,31 @@
+{
+  "name": "agents",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "eve dev",
+    "build": "eve build",
+    "start": "eve start",
+    "lint": "eslint",
+    "format": "prettier --write \"**/*.{ts,tsx}\"",
+    "typecheck": "tsc --noEmit",
+    "deploy": "eve deploy",
+    "eval": "eve eval"
+  },
+  "dependencies": {
+    "@vercel/connect": "0.4.3",
+    "ai": "^7.0.58",
+    "eve": "^0.44.4",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "24.x",
+    "eslint": "^10",
+    "typescript": "^6"
+  },
+  "imports": {
+    "#*": "./agent/*",
+    "#evals/*": "./evals/*"
+  }
+}

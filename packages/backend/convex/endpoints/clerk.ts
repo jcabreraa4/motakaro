@@ -74,9 +74,10 @@ export const clerkClients = httpAction(async (ctx, request) => {
 
     // Upsert Organization
     await ctx.runMutation(internal.organizations.internalUpsert, {
+      clerkId: event.data.id,
       name: event.data.name,
-      logo: event.data.image_url ?? '',
-      clerkId: event.data.id
+      slug: event.data.slug,
+      logo: event.data.image_url ?? ''
     });
   } else if (event.type === 'organization.deleted') {
     // Remove Organization

@@ -77,6 +77,7 @@ export const internalUpsert = internalMutation({
   args: {
     clerkId: v.string(),
     name: v.string(),
+    slug: v.string(),
     logo: v.string()
   },
   handler: async (ctx, args) => {
@@ -94,6 +95,7 @@ export const internalUpsert = internalMutation({
       await ctx.db.insert('organizations', {
         clerkId: args.clerkId,
         name: args.name,
+        slug: args.slug,
         logo: args.logo,
         plan: 'onboarding',
         onboarded: false,

@@ -1,6 +1,8 @@
 {
   "name": "@workspace/backend",
+  "version": "0.1.0",
   "type": "module",
+  "private": true,
   "scripts": {
     "dev": "convex dev",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
@@ -8,10 +10,9 @@
     "deploy": "convex deploy"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^3.0.68",
     "@clerk/backend": "^3.2.0",
-    "@convex-dev/agent": "^0.6.2",
-    "@convex-dev/prosemirror-sync": "^0.2.3",
+    "@convex-dev/prosemirror-sync": "^0.2.6",
+    "@convex-dev/r2": "^0.10.2",
     "@types/node": "^25.4.0",
     "convex": "^1.45.0",
     "svix": "^1.88.0"

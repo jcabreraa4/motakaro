@@ -12,7 +12,7 @@ import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '
 import { Kbd, KbdGroup } from '@workspace/ui/components/kbd';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 
-import { AppSection } from '@/components/layout/app-section';
+import { InsetSection } from '@/components/layout/inset-section';
 import { ResourcesCreate } from '@/components/resources/resources-create';
 import { ResourcesTable } from '@/components/resources/resources-table';
 import { useParams } from '@/hooks/use-params';
@@ -33,7 +33,7 @@ export default function Page() {
   });
 
   return (
-    <AppSection className="flex flex-col gap-3 md:gap-5">
+    <InsetSection className="flex flex-col gap-3 md:gap-5">
       <section className="flex flex-col gap-3 lg:flex-row lg:gap-5">
         <Select
           value={effectiveStatusFilter}
@@ -118,6 +118,6 @@ export default function Page() {
       ) : (
         <ResourcesTable resources={filtered || []} />
       )}
-    </AppSection>
+    </InsetSection>
   );
 }

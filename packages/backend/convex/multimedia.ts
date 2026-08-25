@@ -1,8 +1,12 @@
+import { R2 } from '@convex-dev/r2';
 import { ConvexError, v } from 'convex/values';
 
-import type { Id } from './_generated/dataModel';
+import { components } from './_generated/api';
+import type { DataModel, Id } from './_generated/dataModel';
 import { mutation, query } from './_generated/server';
 import { getClientAuth, verifyAdminAuth, verifyClientAuth, verifyIdentity } from './auth';
+
+const r2 = new R2(components.r2);
 
 export const list = query({
   args: {
@@ -18,7 +22,7 @@ export const list = query({
       .withIndex('by_organizationId_updated', (q) => q.eq('organizationId', args.organizationId))
       .order('desc')
       .collect();
-    return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await ctx.storage.getUrl(file.storageId) })));
+    return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await r2.getUrl(file.key) })));
   }
 });
 
@@ -36,7 +40,7 @@ export const get = query({
       if (!file) return null;
 
       // Obtain Url
-      const url = await ctx.storage.getUrl(file.storageId);
+      const url = await r2.getUrl(file.key);
       if (!url) return null;
 
       // Return File
@@ -50,11 +54,11 @@ export const get = query({
 export const create = mutation({
   args: {
     name: v.string(),
+    key: v.string(),
     type: v.string(),
     size: v.number(),
     width: v.optional(v.number()),
     height: v.optional(v.number()),
-    storageId: v.id('_storage'),
     organizationId: v.optional(v.id('organizations'))
   },
   handler: async (ctx, args) => {
@@ -65,15 +69,16 @@ export const create = mutation({
     return await ctx.db.insert('multimedia', {
       name: args.name ?? 'Untitled File',
       note: '',
+      key: args.key,
+      bucket: r2.config.bucket,
       type: args.type,
       size: args.size,
-      width: args.width,
-      height: args.height,
       starred: false,
       updated: Date.now(),
-      storageId: args.storageId,
       clientVisible: false,
       clientStarred: false,
+      width: args.width,
+      height: args.height,
       organizationId: args.organizationId
     });
   }
@@ -92,7 +97,7 @@ export const remove = mutation({
     if (!file) throw new ConvexError('File not found');
 
     // Remove File
-    await ctx.storage.delete(file.storageId);
+    await r2.deleteObject(ctx, file.key);
     await ctx.db.delete(args.id);
   }
 });
@@ -151,7 +156,7 @@ export const clientList = query({
       .withIndex('by_organizationId_clientVisible', (q) => q.eq('organizationId', organization._id).eq('clientVisible', true))
       .order('desc')
       .collect();
-    return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await ctx.storage.getUrl(file.storageId) })));
+    return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await r2.getUrl(file.key) })));
   }
 });
 
@@ -183,7 +188,7 @@ export const clientGet = query({
       if (file.organizationId !== organization._id) return null;
 
       // Obtain Url
-      const url = await ctx.storage.getUrl(file.storageId);
+      const url = await r2.getUrl(file.key);
       if (!url) return null;
 
       // Return File
@@ -197,11 +202,11 @@ export const clientGet = query({
 export const clientCreate = mutation({
   args: {
     name: v.string(),
+    key: v.string(),
     type: v.string(),
     size: v.number(),
     width: v.optional(v.number()),
-    height: v.optional(v.number()),
-    storageId: v.id('_storage')
+    height: v.optional(v.number())
   },
   handler: async (ctx, args) => {
     // Verify Identity
@@ -219,17 +224,18 @@ export const clientCreate = mutation({
 
     // Create File
     return await ctx.db.insert('multimedia', {
-      name: args.name || 'Untitled File',
+      name: args.name ?? 'Untitled File',
       note: '',
+      key: args.key,
+      bucket: r2.config.bucket,
       type: args.type,
       size: args.size,
-      width: args.width,
-      height: args.height,
       starred: false,
       updated: Date.now(),
-      storageId: args.storageId,
-      clientVisible: true,
+      clientVisible: false,
       clientStarred: false,
+      width: args.width,
+      height: args.height,
       organizationId: organization._id
     });
   }
@@ -263,7 +269,7 @@ export const clientRemove = mutation({
     }
 
     // Remove File
-    await ctx.storage.delete(file.storageId);
+    await r2.deleteObject(ctx, file.key);
     await ctx.db.delete(args.id);
   }
 });
@@ -310,13 +316,9 @@ export const clientUpdate = mutation({
 
 // Shared Functions
 
-export const sharedUpload = mutation({
-  args: {},
-  handler: async (ctx) => {
-    // Verify Identity
+export const { generateUploadUrl: sharedUpload, syncMetadata: sharedMetadata } = r2.clientApi<DataModel>({
+  checkUpload: async (ctx) => {
+    // Válido tanto para admin como client, igual que hacía sharedUpload
     await verifyIdentity(ctx);
-
-    // Return Url
-    return await ctx.storage.generateUploadUrl();
   }
 });

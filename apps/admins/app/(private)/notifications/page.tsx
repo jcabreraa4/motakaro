@@ -9,7 +9,7 @@ import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '
 import { Kbd, KbdGroup } from '@workspace/ui/components/kbd';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 
-import { AppSection } from '@/components/layout/app-section';
+import { InsetSection } from '@/components/layout/inset-section';
 import { NotificationsLoader } from '@/components/notifications/notifications-loader';
 import { NotificationsTable } from '@/components/notifications/notifications-table';
 import { useParams } from '@/hooks/use-params';
@@ -30,7 +30,7 @@ export default function Page() {
   });
 
   return (
-    <AppSection className="flex justify-center">
+    <InsetSection className="flex justify-center">
       <div className="flex w-full max-w-5xl flex-col gap-5">
         <div className="hidden h-9 items-center lg:flex">
           <h2 className="text-2xl font-semibold select-none">Notifications</h2>
@@ -100,6 +100,6 @@ export default function Page() {
           <NotificationsTable notifications={filtered || []} />
         )}
       </div>
-    </AppSection>
+    </InsetSection>
   );
 }

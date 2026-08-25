@@ -9,7 +9,7 @@ import { api } from '@workspace/backend/_generated/api';
 import { Button } from '@workspace/ui/components/button';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
-import { AppSection } from '@/components/layout/app-section';
+import { InsetSection } from '@/components/layout/inset-section';
 
 export default function Page() {
   const { isLoaded } = useAuth();
@@ -19,7 +19,7 @@ export default function Page() {
   if (!contacts) return <GenericLoader />;
 
   return (
-    <AppSection className="flex flex-col gap-3">
+    <InsetSection className="flex flex-col gap-3">
       {contacts.map((contact) => (
         <Link
           key={contact._id}
@@ -30,6 +30,6 @@ export default function Page() {
           </Button>
         </Link>
       ))}
-    </AppSection>
+    </InsetSection>
   );
 }

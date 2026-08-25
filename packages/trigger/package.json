@@ -1,6 +1,8 @@
 {
   "name": "@workspace/trigger",
+  "version": "0.1.0",
   "type": "module",
+  "private": true,
   "scripts": {
     "dev": "trigger dev",
     "format": "prettier --write \"**/*.{ts,tsx}\"",

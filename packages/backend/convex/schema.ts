@@ -61,6 +61,7 @@ export default defineSchema({
     // Primary Columns
     clerkId: v.string(),
     name: v.string(),
+    slug: v.string(),
     logo: v.string(),
     plan: organizationPlan,
 
@@ -162,9 +163,11 @@ export default defineSchema({
     // Primary Columns
     name: v.string(),
     note: v.string(),
+
+    key: v.string(),
+    bucket: v.string(),
     type: v.string(),
     size: v.number(),
-    storageId: v.id('_storage'),
 
     starred: v.boolean(),
     updated: v.number(),
@@ -187,6 +190,7 @@ export default defineSchema({
     // Primary Columns
     name: v.string(),
     note: v.string(),
+
     content: v.string(),
 
     starred: v.boolean(),
@@ -206,6 +210,7 @@ export default defineSchema({
     // Primary Columns
     name: v.string(),
     note: v.string(),
+
     link: v.string(),
     embed: v.string(),
     thumbnail: v.string(),

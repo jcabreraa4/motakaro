@@ -19,6 +19,10 @@ export const env = {
   // Calcom Keys
   CALCOM_WEBHOOK_SECRET: getKey('CALCOM_WEBHOOK_SECRET'),
 
-  // OpenAI Keys
-  OPENAI_API_KEY: getKey('OPENAI_API_KEY')
+  // Cloudflare Keys
+  R2_TOKEN: getKey('R2_TOKEN'),
+  R2_ACCESS_KEY_ID: getKey('R2_ACCESS_KEY_ID'),
+  R2_SECRET_ACCESS_KEY: getKey('R2_SECRET_ACCESS_KEY'),
+  R2_ENDPOINT: getKey('R2_ENDPOINT'),
+  R2_BUCKET: getKey('R2_BUCKET')
 };

@@ -15,7 +15,7 @@ import { Kbd, KbdGroup } from '@workspace/ui/components/kbd';
 
 import { DocumentsCreate } from '@/components/documents/documents-create';
 import { DocumentsTable } from '@/components/documents/documents-table';
-import { AppSection } from '@/components/layout/app-section';
+import { InsetSection } from '@/components/layout/inset-section';
 import { useParams } from '@/hooks/use-params';
 
 export default function Page() {
@@ -29,7 +29,7 @@ export default function Page() {
   const filtered = documents?.filter((document) => searchFilter === '' || document.name.toLowerCase().includes(searchFilter.toLowerCase()) || document._id.toLowerCase().includes(searchFilter.toLowerCase()));
 
   return (
-    <AppSection className="flex flex-col gap-3 md:gap-5">
+    <InsetSection className="flex flex-col gap-3 md:gap-5">
       <section className="flex flex-col gap-3 lg:flex-row lg:gap-5">
         <InputGroup className="flex-1">
           <InputGroupInput
@@ -96,6 +96,6 @@ export default function Page() {
       ) : (
         <DocumentsTable documents={filtered || []} />
       )}
-    </AppSection>
+    </InsetSection>
   );
 }

@@ -12,7 +12,7 @@ import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Kbd, KbdGroup } from '@workspace/ui/components/kbd';
 
-import { AppSection } from '@/components/layout/app-section';
+import { InsetSection } from '@/components/layout/inset-section';
 import { MeetingsCreate } from '@/components/meetings/meetings-create';
 import { MeetingsTable } from '@/components/meetings/meetings-table';
 import { useParams } from '@/hooks/use-params';
@@ -35,7 +35,7 @@ export default function Page() {
   });
 
   return (
-    <AppSection className="flex flex-col gap-3 md:gap-5">
+    <InsetSection className="flex flex-col gap-3 md:gap-5">
       <section className="flex flex-col gap-3 lg:flex-row lg:gap-5">
         <InputGroup className="flex-1">
           <InputGroupInput
@@ -102,6 +102,6 @@ export default function Page() {
       ) : (
         <MeetingsTable meetings={filtered || []} />
       )}
-    </AppSection>
+    </InsetSection>
   );
 }

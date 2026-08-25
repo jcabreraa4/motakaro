@@ -12,7 +12,7 @@ import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '
 import { Kbd, KbdGroup } from '@workspace/ui/components/kbd';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 
-import { AppSection } from '@/components/layout/app-section';
+import { InsetSection } from '@/components/layout/inset-section';
 import { MultimediaTable } from '@/components/multimedia/multimedia-table';
 import { MultimediaUpload } from '@/components/multimedia/multimedia-upload';
 import { useParams } from '@/hooks/use-params';
@@ -33,7 +33,7 @@ export default function Page() {
   });
 
   return (
-    <AppSection className="flex flex-col gap-3 md:gap-5">
+    <InsetSection className="flex flex-col gap-3 md:gap-5">
       <section className="flex flex-col gap-3 lg:flex-row lg:gap-5">
         <Select
           value={effectiveTypeFilter}
@@ -120,6 +120,6 @@ export default function Page() {
       ) : (
         <MultimediaTable multimedia={filtered || []} />
       )}
-    </AppSection>
+    </InsetSection>
   );
 }

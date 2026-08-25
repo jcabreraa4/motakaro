@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
+import { useUploadFile } from '@convex-dev/r2/react';
 import { useMutation } from 'convex/react';
 import { Loader2Icon, PlusIcon, TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
@@ -23,7 +24,10 @@ interface MultimediaUploadProps {
 }
 
 export function MultimediaUpload({ onSuccess, children }: MultimediaUploadProps) {
-  const uploadFile = useMutation(api.multimedia.sharedUpload);
+  const uploadFile = useUploadFile({
+    generateUploadUrl: api.multimedia.sharedUpload,
+    syncMetadata: api.multimedia.sharedMetadata
+  });
   const createFile = useMutation(api.multimedia.clientCreate);
 
   const [open, setOpen] = useState(false);
@@ -69,10 +73,9 @@ export function MultimediaUpload({ onSuccess, children }: MultimediaUploadProps)
           });
         }
 
-        const fetchUrl = await uploadFile();
-        const response = await fetch(fetchUrl, { method: 'POST', headers: { 'Content-Type': fileType }, body: file });
-        const { storageId } = await response.json();
-        await createFile({ name: file.name, type: fileType, size: file.size, storageId, width, height });
+        // El hook sube el archivo a R2 y sincroniza la metadata; devuelve el key
+        const key = await uploadFile(file);
+        await createFile({ name: file.name, key, type: fileType, size: file.size, width, height });
       })
     );
 

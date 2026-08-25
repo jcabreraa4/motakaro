@@ -12,7 +12,7 @@ import { Button } from '@workspace/ui/components/button';
 import { EmptySection } from '@workspace/ui/components/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
-import { AppSection } from '@/components/layout/app-section';
+import { InsetSection } from '@/components/layout/inset-section';
 import { MultimediaRender } from '@/components/multimedia/multimedia-render';
 import { MultimediaToolbar } from '@/components/multimedia/multimedia-toolbar';
 import { useHeader } from '@/hooks/use-header';
@@ -40,7 +40,7 @@ function MultimediaLoaded({ preloaded }: MultimediaPageProps) {
 
   if (!file) {
     return (
-      <AppSection>
+      <InsetSection>
         <EmptySection
           icon={ImageIcon}
           title="404 Not Found"
@@ -53,14 +53,14 @@ function MultimediaLoaded({ preloaded }: MultimediaPageProps) {
             </Button>
           </Link>
         </EmptySection>
-      </AppSection>
+      </InsetSection>
     );
   }
 
   return (
-    <AppSection className="flex flex-col gap-3 md:gap-5">
+    <InsetSection className="flex flex-col gap-3 md:gap-5">
       <MultimediaToolbar file={file} />
       <MultimediaRender file={file} />
-    </AppSection>
+    </InsetSection>
   );
 }

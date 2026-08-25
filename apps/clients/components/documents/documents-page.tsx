@@ -14,7 +14,7 @@ import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
 import { DocumentsEditor } from '@/components/documents/documents-editor';
 import { DocumentsToolbar } from '@/components/documents/documents-toolbar';
-import { AppSection } from '@/components/layout/app-section';
+import { InsetSection } from '@/components/layout/inset-section';
 import { useHeader } from '@/hooks/use-header';
 
 interface DocumentsPageProps {
@@ -40,7 +40,7 @@ function DocumentsPageLoaded({ preloaded }: DocumentsPageProps) {
 
   if (!document) {
     return (
-      <AppSection>
+      <InsetSection>
         <EmptySection
           icon={FileTextIcon}
           title="404 Not Found"
@@ -53,14 +53,14 @@ function DocumentsPageLoaded({ preloaded }: DocumentsPageProps) {
             </Button>
           </Link>
         </EmptySection>
-      </AppSection>
+      </InsetSection>
     );
   }
 
   return (
-    <AppSection className="flex flex-col gap-3 md:gap-5">
+    <InsetSection className="flex flex-col gap-3 md:gap-5">
       <DocumentsToolbar document={document} />
       <DocumentsEditor document={document} />
-    </AppSection>
+    </InsetSection>
   );
 }

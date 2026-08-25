@@ -12,7 +12,7 @@ import { Button } from '@workspace/ui/components/button';
 import { EmptySection } from '@workspace/ui/components/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
-import { AppSection } from '@/components/layout/app-section';
+import { InsetSection } from '@/components/layout/inset-section';
 import { useHeader } from '@/hooks/use-header';
 
 interface CompaniesPageProps {
@@ -38,7 +38,7 @@ export function CompaniesLoaded({ preloaded }: CompaniesPageProps) {
 
   if (!company) {
     return (
-      <AppSection>
+      <InsetSection>
         <EmptySection
           icon={Building2Icon}
           title="404 Not Found"
@@ -51,13 +51,13 @@ export function CompaniesLoaded({ preloaded }: CompaniesPageProps) {
             </Button>
           </Link>
         </EmptySection>
-      </AppSection>
+      </InsetSection>
     );
   }
 
   return (
-    <AppSection>
+    <InsetSection>
       <p>{company.name}</p>
-    </AppSection>
+    </InsetSection>
   );
 }

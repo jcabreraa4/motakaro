@@ -2,10 +2,10 @@ import { cookies } from 'next/headers';
 
 import { SidebarInset, SidebarProvider } from '@workspace/ui/components/sidebar';
 
-import { AppChatbot } from '@/components/layout/app-chatbot';
-import { AppHeader } from '@/components/layout/app-header';
+import { AgentsInset } from '@/components/agents/agents-inset';
 import { AppOnboard } from '@/components/layout/app-onboard';
-import { AppSidebar } from '@/components/layout/app-sidebar';
+import { InsetHeader } from '@/components/layout/inset-header';
+import { SidebarMain } from '@/components/layout/sidebar-main';
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
@@ -16,12 +16,12 @@ export default async function Layout({ children }: { children: React.ReactNode }
       defaultOpen={defaultOpen}
       className="h-svh overflow-hidden"
     >
-      <AppSidebar />
+      <SidebarMain />
       <SidebarInset className="overflow-hidden">
-        <AppHeader />
+        <InsetHeader />
         <div className="h-full overflow-hidden">{children}</div>
       </SidebarInset>
-      <AppChatbot />
+      <AgentsInset />
       <AppOnboard />
     </SidebarProvider>
   );

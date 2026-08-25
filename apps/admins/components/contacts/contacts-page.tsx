@@ -12,7 +12,7 @@ import { Button } from '@workspace/ui/components/button';
 import { EmptySection } from '@workspace/ui/components/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
-import { AppSection } from '@/components/layout/app-section';
+import { InsetSection } from '@/components/layout/inset-section';
 import { useHeader } from '@/hooks/use-header';
 
 interface ContactsPageProps {
@@ -38,7 +38,7 @@ export function ContactsLoaded({ preloaded }: ContactsPageProps) {
 
   if (!contact) {
     return (
-      <AppSection>
+      <InsetSection>
         <EmptySection
           icon={UsersIcon}
           title="404 Not Found"
@@ -51,15 +51,15 @@ export function ContactsLoaded({ preloaded }: ContactsPageProps) {
             </Button>
           </Link>
         </EmptySection>
-      </AppSection>
+      </InsetSection>
     );
   }
 
   return (
-    <AppSection>
+    <InsetSection>
       <p>
         {contact.name} {contact.surname}
       </p>
-    </AppSection>
+    </InsetSection>
   );
 }
