@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 
+import { useUploadFile } from '@convex-dev/r2/react';
 import { useMutation } from 'convex/react';
 import { Loader2Icon, PlusIcon, TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
@@ -25,8 +26,11 @@ interface MultimediaUploadProps {
 }
 
 export function MultimediaUpload({ organizationId, onSuccess, children }: MultimediaUploadProps) {
-  const uploadFile = useMutation(api.multimedia.sharedUpload);
   const createFile = useMutation(api.multimedia.create);
+  const uploadPublic = useUploadFile({
+    generateUploadUrl: api.multimedia.sharedPublicUpload,
+    syncMetadata: api.multimedia.sharedPublicSync
+  });
 
   const [open, setOpen] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
@@ -71,10 +75,8 @@ export function MultimediaUpload({ organizationId, onSuccess, children }: Multim
           });
         }
 
-        const fetchUrl = await uploadFile();
-        const response = await fetch(fetchUrl, { method: 'POST', headers: { 'Content-Type': fileType }, body: file });
-        const { storageId } = await response.json();
-        await createFile({ organizationId, name: file.name, type: fileType, size: file.size, storageId, width, height });
+        const key = await uploadPublic(file);
+        await createFile({ organizationId, name: file.name, key: key, bucket: 'public', type: fileType, size: file.size, width: width, height: height });
       })
     );
 

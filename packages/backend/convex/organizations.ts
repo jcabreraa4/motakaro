@@ -5,7 +5,7 @@ import type { Id } from './_generated/dataModel';
 import { internalAction, internalMutation, query } from './_generated/server';
 import { getClientAuth, verifyAdminAuth } from './auth';
 import { env } from './env';
-import { organizationPlan } from './schema';
+import { organizationsPlan } from './schema';
 
 export const list = query({
   args: {},
@@ -134,7 +134,7 @@ export const internalRemove = internalMutation({
 export const internalUpdate = internalMutation({
   args: {
     clerkId: v.string(),
-    plan: organizationPlan
+    plan: organizationsPlan
   },
   handler: async (ctx, args) => {
     // Obtain Organization

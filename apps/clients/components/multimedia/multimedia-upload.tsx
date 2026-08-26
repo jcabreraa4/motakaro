@@ -24,11 +24,11 @@ interface MultimediaUploadProps {
 }
 
 export function MultimediaUpload({ onSuccess, children }: MultimediaUploadProps) {
-  const uploadFile = useUploadFile({
-    generateUploadUrl: api.multimedia.sharedUpload,
-    syncMetadata: api.multimedia.sharedMetadata
-  });
   const createFile = useMutation(api.multimedia.clientCreate);
+  const uploadPublic = useUploadFile({
+    generateUploadUrl: api.multimedia.sharedPublicUpload,
+    syncMetadata: api.multimedia.sharedPublicSync
+  });
 
   const [open, setOpen] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
@@ -45,37 +45,8 @@ export function MultimediaUpload({ onSuccess, children }: MultimediaUploadProps)
 
     await Promise.all(
       files.map(async (file) => {
-        const fileType = file.type;
-        let width: number | undefined;
-        let height: number | undefined;
-
-        if (fileType.includes('image')) {
-          await new Promise<void>((resolve) => {
-            const img = new window.Image();
-            img.src = URL.createObjectURL(file);
-            img.onload = () => {
-              width = img.naturalWidth;
-              height = img.naturalHeight;
-              resolve();
-            };
-          });
-        } else if (fileType.includes('video')) {
-          await new Promise<void>((resolve) => {
-            const video = document.createElement('video');
-            video.preload = 'metadata';
-            video.onloadedmetadata = () => {
-              width = video.videoWidth;
-              height = video.videoHeight;
-              URL.revokeObjectURL(video.src);
-              resolve();
-            };
-            video.src = URL.createObjectURL(file);
-          });
-        }
-
-        // El hook sube el archivo a R2 y sincroniza la metadata; devuelve el key
-        const key = await uploadFile(file);
-        await createFile({ name: file.name, key, type: fileType, size: file.size, width, height });
+        const key = await uploadPublic(file);
+        await createFile({ name: file.name, key: key, bucket: 'public', type: file.type, size: file.size });
       })
     );
 

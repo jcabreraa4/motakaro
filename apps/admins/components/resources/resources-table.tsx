@@ -13,7 +13,7 @@ import { ResourcesInfo } from '@/components/resources/resources-info';
 import { ResourcesPreview } from '@/components/resources/resources-preview';
 import { ResourcesRemove } from '@/components/resources/resources-remove';
 import { ResourcesUpdate } from '@/components/resources/resources-update';
-import { useChatbot } from '@/hooks/use-chatbot';
+import { useLayout } from '@/hooks/use-layout';
 
 interface ItemButtonProps {
   icon: LucideIcon;
@@ -83,7 +83,7 @@ function ResourcesItem({ resource }: { resource: Resource }) {
 }
 
 export function ResourcesTable({ resources }: { resources: Resource[] }) {
-  const { open } = useChatbot();
+  const { agents } = useLayout();
 
   const starredResources = resources.filter((file) => file.starred);
   const nonStarredResources = resources.filter((file) => !file.starred);
@@ -91,7 +91,7 @@ export function ResourcesTable({ resources }: { resources: Resource[] }) {
   return (
     <section className="flex min-h-0 flex-1 flex-col gap-8 overflow-y-auto">
       {starredResources.length != 0 && (
-        <div className={cn('grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3', open ? '2xl:grid-cols-3' : '2xl:grid-cols-4')}>
+        <div className={cn('grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3', agents ? '2xl:grid-cols-3' : '2xl:grid-cols-4')}>
           {starredResources.map((resource) => (
             <ResourcesItem
               key={resource._id}
@@ -101,7 +101,7 @@ export function ResourcesTable({ resources }: { resources: Resource[] }) {
         </div>
       )}
       {nonStarredResources.length != 0 && (
-        <div className={cn('grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3', open ? '2xl:grid-cols-3' : '2xl:grid-cols-4')}>
+        <div className={cn('grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3', agents ? '2xl:grid-cols-3' : '2xl:grid-cols-4')}>
           {nonStarredResources.map((resource) => (
             <ResourcesItem
               key={resource._id}

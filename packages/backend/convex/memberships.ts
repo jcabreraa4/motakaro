@@ -1,15 +1,15 @@
 import { ConvexError, v } from 'convex/values';
 
 import { internalMutation } from './_generated/server';
-import { organizationRole } from './schema';
+import { membershipsRole } from './schema';
 
 // Internal Mutations
 
 export const internalUpsert = internalMutation({
   args: {
+    role: membershipsRole,
     clientClerkId: v.string(),
-    organizationClerkId: v.string(),
-    organizationRole: organizationRole
+    organizationClerkId: v.string()
   },
   handler: async (ctx, args) => {
     // Obtain Client
@@ -35,15 +35,15 @@ export const internalUpsert = internalMutation({
     if (membership) {
       // Update Membership
       await ctx.db.patch(membership._id, {
-        organizationRole: args.organizationRole,
+        role: args.role,
         updated: Date.now()
       });
     } else {
       // Create Membership
       await ctx.db.insert('memberships', {
+        role: args.role,
         clientId: client._id,
         organizationId: organization._id,
-        organizationRole: args.organizationRole,
         updated: Date.now()
       });
     }

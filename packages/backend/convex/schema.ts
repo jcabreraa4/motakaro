@@ -3,12 +3,20 @@ import { v } from 'convex/values';
 
 import { Doc } from './_generated/dataModel';
 
-export const organizationPlan = v.union(v.literal('onboarding'), v.literal('rollout'), v.literal('scaling'));
-export const organizationRole = v.union(v.literal('org:member'), v.literal('org:admin'));
-export const organizationStatus = v.union(v.literal('active'), v.literal('inactive'));
+// Organizations
+export const organizationsPlan = v.union(v.literal('onboarding'), v.literal('rollout'), v.literal('scaling'));
+export const organizationsStatus = v.union(v.literal('active'), v.literal('inactive'));
 
-export const meetingStatus = v.union(v.literal('scheduled'), v.literal('cancelled'), v.literal('rejected'), v.literal('ongoing'), v.literal('finished'));
+// Memberships
+export const membershipsRole = v.union(v.literal('org:member'), v.literal('org:admin'));
 
+// Meetings
+export const meetingsStatus = v.union(v.literal('scheduled'), v.literal('cancelled'), v.literal('rejected'), v.literal('ongoing'), v.literal('finished'));
+
+// Multimedia
+export const multimediaBucket = v.union(v.literal('public'), v.literal('private'));
+
+// Database Schema
 export default defineSchema({
   // Motakaro Admins
   admins: defineTable({
@@ -63,10 +71,10 @@ export default defineSchema({
     name: v.string(),
     slug: v.string(),
     logo: v.string(),
-    plan: organizationPlan,
+    plan: organizationsPlan,
 
     onboarded: v.boolean(),
-    status: organizationStatus,
+    status: organizationsStatus,
 
     starred: v.boolean(),
     updated: v.number(),
@@ -82,53 +90,18 @@ export default defineSchema({
     linkedin: v.optional(v.string())
   }).index('by_clerkId', ['clerkId']),
 
-  // Motakaro Invoices
-  invoices: defineTable({
-    // Primary Columns
-    name: v.string(),
-    amount: v.number(),
-
-    starred: v.boolean(),
-    updated: v.number(),
-
-    // Additional Columns
-    note: v.optional(v.string()),
-    link: v.optional(v.string()),
-
-    // Relationship Columns
-    organizationId: v.id('organizations')
-  }),
-
-  // Clients Organizations
+  // Client Memberships
   memberships: defineTable({
     // Primary Columns
+    role: membershipsRole,
     clientId: v.id('clients'),
     organizationId: v.id('organizations'),
-    organizationRole: organizationRole,
 
     updated: v.number()
   })
     .index('by_clientId', ['clientId'])
     .index('by_organizationId', ['organizationId'])
     .index('by_clientId_organizationId', ['clientId', 'organizationId']),
-
-  // Organization Notifications
-  notifications: defineTable({
-    // Primary Columns
-    name: v.string(),
-    read: v.boolean(),
-    content: v.string(),
-
-    starred: v.boolean(),
-    updated: v.number(),
-
-    // Additional Columns
-    note: v.optional(v.string()),
-    link: v.optional(v.string()),
-
-    // Relationship Columns
-    organizationId: v.optional(v.id('organizations'))
-  }).index('by_organizationId', ['organizationId']),
 
   // Organization Meetings
   meetings: defineTable({
@@ -140,7 +113,7 @@ export default defineSchema({
     end: v.number(),
     organizer: v.string(),
     attendees: v.array(v.string()),
-    status: meetingStatus,
+    status: meetingsStatus,
 
     starred: v.boolean(),
     updated: v.number(),
@@ -155,8 +128,30 @@ export default defineSchema({
     rejection: v.optional(v.string()),
 
     transcript: v.optional(v.string()),
-    recording: v.optional(v.string())
+    recording: v.optional(v.string()),
+
+    // Relationship Columns
+    organizationId: v.optional(v.id('organizations'))
   }).index('by_calcomId', ['calcomId']),
+
+  // Organization Notifications
+  notifications: defineTable({
+    // Primary Columns
+    name: v.string(),
+    note: v.string(),
+
+    read: v.boolean(),
+    content: v.string(),
+
+    starred: v.boolean(),
+    updated: v.number(),
+
+    // Additional Columns
+    link: v.optional(v.string()),
+
+    // Relationship Columns
+    organizationId: v.optional(v.id('organizations'))
+  }).index('by_organizationId', ['organizationId']),
 
   // Organization Multimedia
   multimedia: defineTable({
@@ -165,7 +160,7 @@ export default defineSchema({
     note: v.string(),
 
     key: v.string(),
-    bucket: v.string(),
+    bucket: multimediaBucket,
     type: v.string(),
     size: v.number(),
 
@@ -205,6 +200,24 @@ export default defineSchema({
     .index('by_organizationId_updated', ['organizationId', 'updated'])
     .index('by_organizationId_clientVisible', ['organizationId', 'clientVisible']),
 
+  // Organization Invoices
+  invoices: defineTable({
+    // Primary Columns
+    name: v.string(),
+    note: v.string(),
+
+    amount: v.number(),
+
+    starred: v.boolean(),
+    updated: v.number(),
+
+    // Additional Columns
+    link: v.optional(v.string()),
+
+    // Relationship Columns
+    organizationId: v.id('organizations')
+  }),
+
   // Motakaro Resources
   resources: defineTable({
     // Primary Columns
@@ -223,13 +236,14 @@ export default defineSchema({
     .index('by_published', ['published'])
 });
 
+// Schema Types
 export type Admin = Doc<'admins'>;
 export type Client = Doc<'clients'>;
 export type Organization = Doc<'organizations'>;
-export type Invoice = Doc<'invoices'>;
 export type Membership = Doc<'memberships'>;
-export type Notification = Doc<'notifications'>;
 export type Meeting = Doc<'meetings'>;
+export type Notification = Doc<'notifications'>;
 export type MediaFile = Doc<'multimedia'> & { url: string | null };
 export type Document = Doc<'documents'>;
+export type Invoice = Doc<'invoices'>;
 export type Resource = Doc<'resources'>;

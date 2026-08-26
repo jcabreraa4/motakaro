@@ -3,7 +3,7 @@ import { ConvexError, v } from 'convex/values';
 import type { Id } from './_generated/dataModel';
 import { internalMutation, mutation, query } from './_generated/server';
 import { verifyAdminAuth } from './auth';
-import { meetingStatus } from './schema';
+import { meetingsStatus } from './schema';
 
 export const list = query({
   args: {},
@@ -72,7 +72,7 @@ export const internalUpsert = internalMutation({
     end: v.number(),
     organizer: v.string(),
     attendees: v.array(v.string()),
-    status: meetingStatus,
+    status: meetingsStatus,
     note: v.optional(v.string()),
     website: v.optional(v.string()),
     attribution: v.optional(v.string())
@@ -111,7 +111,7 @@ export const internalUpsert = internalMutation({
 export const internalUpdate = internalMutation({
   args: {
     calcomId: v.string(),
-    status: meetingStatus,
+    status: meetingsStatus,
     rescheduling: v.optional(v.string()),
     cancellation: v.optional(v.string()),
     rejection: v.optional(v.string()),

@@ -5,10 +5,10 @@ import { Webhook } from 'svix';
 import { internal } from '../_generated/api';
 import { httpAction } from '../_generated/server';
 import { env } from '../env';
-import { organizationPlan, organizationRole } from '../schema';
+import { membershipsRole, organizationsPlan } from '../schema';
 
-type OrganizationRole = Infer<typeof organizationRole>;
-type OrganizationPlan = Infer<typeof organizationPlan>;
+type MembershipsRole = Infer<typeof membershipsRole>;
+type OrganizationsPlan = Infer<typeof organizationsPlan>;
 type ClerkWebhookType = 'admins' | 'clients';
 
 // Clerk Admins (/clerk-admins)
@@ -90,9 +90,9 @@ export const clerkClients = httpAction(async (ctx, request) => {
   if (event.type === 'organizationMembership.created' || event.type === 'organizationMembership.updated') {
     // Upsert Membership
     await ctx.runMutation(internal.memberships.internalUpsert, {
+      role: event.data.role as MembershipsRole,
       clientClerkId: event.data.public_user_data.user_id,
-      organizationClerkId: event.data.organization.id,
-      organizationRole: event.data.role as OrganizationRole
+      organizationClerkId: event.data.organization.id
     });
   } else if (event.type === 'organizationMembership.deleted') {
     // Remove Membership
@@ -108,7 +108,7 @@ export const clerkClients = httpAction(async (ctx, request) => {
     const clerkId = event.data.payer?.organization_id;
     if (!clerkId) return new Response(null, { status: 200 });
 
-    const plan = event.data.plan?.slug as OrganizationPlan;
+    const plan = event.data.plan?.slug as OrganizationsPlan;
 
     // Update Organization
     await ctx.runMutation(internal.organizations.internalUpdate, {

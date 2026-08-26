@@ -5,8 +5,22 @@ import { components } from './_generated/api';
 import type { DataModel, Id } from './_generated/dataModel';
 import { mutation, query } from './_generated/server';
 import { getClientAuth, verifyAdminAuth, verifyClientAuth, verifyIdentity } from './auth';
+import { env } from './env';
+import { multimediaBucket } from './schema';
 
-const r2 = new R2(components.r2);
+const publicBucket = new R2(components.r2, {
+  accessKeyId: env.R2_ACCESS_KEY_ID!,
+  secretAccessKey: env.R2_SECRET_ACCESS_KEY!,
+  endpoint: env.R2_ENDPOINT!,
+  bucket: env.R2_PUBLIC_BUCKET!
+});
+
+const privateBucket = new R2(components.r2, {
+  accessKeyId: env.R2_ACCESS_KEY_ID!,
+  secretAccessKey: env.R2_SECRET_ACCESS_KEY!,
+  endpoint: env.R2_ENDPOINT!,
+  bucket: env.R2_PRIVATE_BUCKET!
+});
 
 export const list = query({
   args: {
@@ -16,13 +30,23 @@ export const list = query({
     // Verify Identity
     await verifyAdminAuth(ctx);
 
-    // Return Multimedia
+    // Obtain Multimedia
     const multimedia = await ctx.db
       .query('multimedia')
       .withIndex('by_organizationId_updated', (q) => q.eq('organizationId', args.organizationId))
       .order('desc')
       .collect();
-    return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await r2.getUrl(file.key) })));
+
+    // Return Multimedia
+    return await Promise.all(
+      multimedia.map(async (file) => {
+        // Obtain Url
+        const url = file.bucket === 'private' ? await privateBucket.getUrl(file.key) : `https://${env.R2_PUBLIC_DOMAIN}/${file.key}`;
+
+        // Return File
+        return { ...file, url };
+      })
+    );
   }
 });
 
@@ -40,7 +64,7 @@ export const get = query({
       if (!file) return null;
 
       // Obtain Url
-      const url = await r2.getUrl(file.key);
+      const url = file.bucket === 'private' ? await privateBucket.getUrl(file.key) : `https://${env.R2_PUBLIC_DOMAIN}/${file.key}`;
       if (!url) return null;
 
       // Return File
@@ -55,6 +79,7 @@ export const create = mutation({
   args: {
     name: v.string(),
     key: v.string(),
+    bucket: multimediaBucket,
     type: v.string(),
     size: v.number(),
     width: v.optional(v.number()),
@@ -70,7 +95,7 @@ export const create = mutation({
       name: args.name ?? 'Untitled File',
       note: '',
       key: args.key,
-      bucket: r2.config.bucket,
+      bucket: args.bucket,
       type: args.type,
       size: args.size,
       starred: false,
@@ -97,8 +122,12 @@ export const remove = mutation({
     if (!file) throw new ConvexError('File not found');
 
     // Remove File
-    await r2.deleteObject(ctx, file.key);
     await ctx.db.delete(args.id);
+    if (file.bucket === 'private') {
+      await privateBucket.deleteObject(ctx, file.key);
+    } else {
+      await publicBucket.deleteObject(ctx, file.key);
+    }
   }
 });
 
@@ -150,13 +179,23 @@ export const clientList = query({
       .first();
     if (!organization) throw new ConvexError('Organization not found');
 
-    // Return Multimedia
+    // Obtain Multimedia
     const multimedia = await ctx.db
       .query('multimedia')
       .withIndex('by_organizationId_clientVisible', (q) => q.eq('organizationId', organization._id).eq('clientVisible', true))
       .order('desc')
       .collect();
-    return await Promise.all(multimedia.map(async (file) => ({ ...file, url: await r2.getUrl(file.key) })));
+
+    // Return Multimedia
+    return await Promise.all(
+      multimedia.map(async (file) => {
+        // Obtain Url
+        const url = file.bucket === 'private' ? await privateBucket.getUrl(file.key) : `https://${env.R2_PUBLIC_DOMAIN}/${file.key}`;
+
+        // Return File
+        return { ...file, url };
+      })
+    );
   }
 });
 
@@ -188,7 +227,7 @@ export const clientGet = query({
       if (file.organizationId !== organization._id) return null;
 
       // Obtain Url
-      const url = await r2.getUrl(file.key);
+      const url = file.bucket === 'private' ? await privateBucket.getUrl(file.key) : `https://${env.R2_PUBLIC_DOMAIN}/${file.key}`;
       if (!url) return null;
 
       // Return File
@@ -203,6 +242,7 @@ export const clientCreate = mutation({
   args: {
     name: v.string(),
     key: v.string(),
+    bucket: multimediaBucket,
     type: v.string(),
     size: v.number(),
     width: v.optional(v.number()),
@@ -227,12 +267,12 @@ export const clientCreate = mutation({
       name: args.name ?? 'Untitled File',
       note: '',
       key: args.key,
-      bucket: r2.config.bucket,
+      bucket: args.bucket,
       type: args.type,
       size: args.size,
       starred: false,
       updated: Date.now(),
-      clientVisible: false,
+      clientVisible: true,
       clientStarred: false,
       width: args.width,
       height: args.height,
@@ -269,8 +309,12 @@ export const clientRemove = mutation({
     }
 
     // Remove File
-    await r2.deleteObject(ctx, file.key);
     await ctx.db.delete(args.id);
+    if (file.bucket === 'private') {
+      await privateBucket.deleteObject(ctx, file.key);
+    } else {
+      await publicBucket.deleteObject(ctx, file.key);
+    }
   }
 });
 
@@ -316,9 +360,14 @@ export const clientUpdate = mutation({
 
 // Shared Functions
 
-export const { generateUploadUrl: sharedUpload, syncMetadata: sharedMetadata } = r2.clientApi<DataModel>({
+export const { generateUploadUrl: sharedPublicUpload, syncMetadata: sharedPublicSync } = publicBucket.clientApi<DataModel>({
   checkUpload: async (ctx) => {
-    // Válido tanto para admin como client, igual que hacía sharedUpload
+    await verifyIdentity(ctx);
+  }
+});
+
+export const { generateUploadUrl: sharedPrivateUpload, syncMetadata: sharedPrivateSync } = privateBucket.clientApi<DataModel>({
+  checkUpload: async (ctx) => {
     await verifyIdentity(ctx);
   }
 });
