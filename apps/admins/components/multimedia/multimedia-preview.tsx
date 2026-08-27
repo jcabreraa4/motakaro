@@ -2,15 +2,15 @@ import dynamic from 'next/dynamic';
 
 import { BanIcon } from 'lucide-react';
 
+import { RenderAudio } from '@workspace/render/components/render-audio';
+import { RenderImage } from '@workspace/render/components/render-image';
+import { RenderPoster } from '@workspace/render/components/render-poster';
+import { RenderVideo } from '@workspace/render/components/render-video';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { RenderAudio } from '@/components/multimedia/render/render-audio';
-import { RenderImage } from '@/components/multimedia/render/render-image';
-import { RenderPoster } from '@/components/multimedia/render/render-poster';
-import { RenderVideo } from '@/components/multimedia/render/render-video';
 import { mediaType } from '@/utils/media-type';
 
-const RenderIframe = dynamic(() => import('@/components/multimedia/render/render-iframe').then((m) => m.RenderIframe), { ssr: false });
+const RenderIframe = dynamic(() => import('@workspace/render/components/render-iframe').then((m) => m.RenderIframe), { ssr: false });
 
 interface MultimediaPreviewProps {
   src: string;

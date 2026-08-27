@@ -8,7 +8,6 @@ import { api } from '@workspace/backend/_generated/api';
 import type { MediaFile } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 import { Input } from '@workspace/ui/components/input';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
 import { Label } from '@workspace/ui/components/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
@@ -68,26 +67,22 @@ export function MultimediaUpdate({ file, onSuccess, children }: MultimediaUpdate
         </SheetHeader>
         <div className="grid flex-1 auto-rows-min gap-4 px-4 lg:gap-5">
           {file.bucket === 'public' ? (
-            <InputGroup onClick={() => copyString({ text: file.url!, type: 'link' })}>
-              <InputGroupInput
-                readOnly
-                value={file.url!}
-                className="cursor-pointer"
-              />
-              <InputGroupAddon className="cursor-pointer">
-                <LinkIcon />
-              </InputGroupAddon>
-            </InputGroup>
+            <Button
+              variant="outline"
+              className="truncate"
+              onClick={() => copyString({ text: file.url!, type: 'link' })}
+            >
+              <LinkIcon />
+              <span className="truncate">{file.url!}</span>
+            </Button>
           ) : (
-            <InputGroup className="pointer-events-none">
-              <InputGroupInput
-                readOnly
-                value="Private files cannot be shared publicly."
-              />
-              <InputGroupAddon>
-                <InfoIcon />
-              </InputGroupAddon>
-            </InputGroup>
+            <Button
+              variant="outline"
+              className="pointer-events-none truncate"
+            >
+              <InfoIcon />
+              <span className="truncate">Private files do not have a persistent link</span>
+            </Button>
           )}
           <div className="flex flex-col gap-2">
             <Label htmlFor="name">Name</Label>

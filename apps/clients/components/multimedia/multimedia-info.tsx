@@ -22,7 +22,7 @@ export function MultimediaInfo({ name, size, type, className, showIcon = true }:
         {showIcon && <div className="min-w-8">{fileType === 'image' ? <ImageIcon /> : fileType === 'video' ? <VideoIcon /> : fileType === 'audio' ? <HeadphonesIcon /> : <FileTextIcon />}</div>}
         <p className="truncate text-lg font-semibold">{name || 'Untitled File'}</p>
       </div>
-      <p className="text-sm text-gray-500">{sizeToText(size)}</p>
+      <p className="text-sm text-gray-500">File size: {sizeToText(size)}</p>
     </div>
   );
 }

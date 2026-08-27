@@ -1,8 +1,7 @@
 import { useState } from 'react';
 
+import { RenderLoader } from '@workspace/render/components/render-loader';
 import { cn } from '@workspace/ui/lib/utils';
-
-import { RenderLoader } from '@/components/multimedia/render/render-loader';
 
 interface RenderVideoProps {
   src: string;
@@ -39,8 +38,6 @@ export function RenderVideo({ src, fill, width, height, controls, className }: R
       <div className="@container-size relative flex h-full w-full items-center justify-center">
         <video
           src={src}
-          width={width}
-          height={height}
           controls={controls}
           preload="metadata"
           className={cn('max-h-full w-full max-w-full rounded-md border bg-sidebar object-contain', className)}

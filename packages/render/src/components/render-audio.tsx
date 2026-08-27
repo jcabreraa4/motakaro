@@ -1,8 +1,7 @@
 import { HeadphonesIcon } from 'lucide-react';
 
+import { RenderPoster } from '@workspace/render/components/render-poster';
 import { cn } from '@workspace/ui/lib/utils';
-
-import { RenderPoster } from '@/components/multimedia/render/render-poster';
 
 interface RenderAudioProps {
   src: string;

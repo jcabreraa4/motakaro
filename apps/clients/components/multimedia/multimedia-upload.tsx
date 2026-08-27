@@ -42,14 +42,12 @@ export function MultimediaUpload({ onSuccess, children }: MultimediaUploadProps)
 
   async function handleUpload() {
     setLoading(true);
-
     await Promise.all(
       files.map(async (file) => {
         const key = await uploadPublic(file);
         await createFile({ name: file.name, key: key, bucket: 'public', type: file.type, size: file.size });
       })
     );
-
     toast.success(`${files.length} file${files.length > 1 ? 's' : ''} uploaded successfully.`);
     setFiles([]);
     setOpen(false);

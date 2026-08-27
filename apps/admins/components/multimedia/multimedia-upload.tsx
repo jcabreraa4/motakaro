@@ -76,7 +76,7 @@ export function MultimediaUpload({ organizationId, onSuccess, children }: Multim
         }
 
         const key = await uploadPublic(file);
-        await createFile({ organizationId, name: file.name, key: key, bucket: 'public', type: fileType, size: file.size, width: width, height: height });
+        await createFile({ name: file.name, key, bucket: 'public', type: fileType, size: file.size, width, height, organizationId });
       })
     );
 

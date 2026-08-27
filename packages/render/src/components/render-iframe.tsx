@@ -3,9 +3,8 @@
 import { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 
+import { RenderLoader } from '@workspace/render/components/render-loader';
 import { cn } from '@workspace/ui/lib/utils';
-
-import { RenderLoader } from '@/components/multimedia/render/render-loader';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
