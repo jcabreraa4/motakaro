@@ -1,8 +1,7 @@
 import { TriangleAlertIcon, VideoOffIcon } from 'lucide-react';
 
 import type { Resource } from '@workspace/backend/schema';
-
-import { RenderPoster } from '@/components/multimedia/render/render-poster';
+import { RenderPoster } from '@workspace/render/components/render-poster';
 
 export function ResourcesRender({ resource }: { resource: Resource }) {
   const invalidEmbed = resource.embed && !resource.embed.startsWith('http');

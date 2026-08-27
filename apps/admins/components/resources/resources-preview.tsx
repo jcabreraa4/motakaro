@@ -1,9 +1,8 @@
 import { ImageOffIcon, TriangleAlertIcon } from 'lucide-react';
 
+import { RenderImage } from '@workspace/render/components/render-image';
+import { RenderPoster } from '@workspace/render/components/render-poster';
 import { cn } from '@workspace/ui/lib/utils';
-
-import { RenderImage } from '@/components/multimedia/render/render-image';
-import { RenderPoster } from '@/components/multimedia/render/render-poster';
 
 interface ResourcesPreviewProps {
   src: string;
