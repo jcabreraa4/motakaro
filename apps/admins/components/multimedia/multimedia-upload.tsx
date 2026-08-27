@@ -44,42 +44,12 @@ export function MultimediaUpload({ organizationId, onSuccess, children }: Multim
 
   async function handleUpload() {
     setLoading(true);
-
     await Promise.all(
       files.map(async (file) => {
-        const fileType = file.type;
-        let width: number | undefined;
-        let height: number | undefined;
-
-        if (fileType.includes('image')) {
-          await new Promise<void>((resolve) => {
-            const img = new window.Image();
-            img.src = URL.createObjectURL(file);
-            img.onload = () => {
-              width = img.naturalWidth;
-              height = img.naturalHeight;
-              resolve();
-            };
-          });
-        } else if (fileType.includes('video')) {
-          await new Promise<void>((resolve) => {
-            const video = document.createElement('video');
-            video.preload = 'metadata';
-            video.onloadedmetadata = () => {
-              width = video.videoWidth;
-              height = video.videoHeight;
-              URL.revokeObjectURL(video.src);
-              resolve();
-            };
-            video.src = URL.createObjectURL(file);
-          });
-        }
-
         const key = await uploadPublic(file);
-        await createFile({ name: file.name, key, bucket: 'public', type: fileType, size: file.size, width, height, organizationId });
+        await createFile({ name: file.name, key, bucket: 'public', type: file.type, size: file.size, organizationId });
       })
     );
-
     toast.success(`${files.length} file${files.length > 1 ? 's' : ''} uploaded successfully.`);
     setFiles([]);
     setOpen(false);

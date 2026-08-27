@@ -45,13 +45,16 @@ export function MultimediaUpload({ onSuccess, children }: MultimediaUploadProps)
     await Promise.all(
       files.map(async (file) => {
         const key = await uploadPublic(file);
-        await createFile({ name: file.name, key: key, bucket: 'public', type: file.type, size: file.size });
+        await createFile({ name: file.name, key, bucket: 'public', type: file.type, size: file.size });
       })
-    );
-    toast.success(`${files.length} file${files.length > 1 ? 's' : ''} uploaded successfully.`);
-    setFiles([]);
-    setOpen(false);
-    onSuccess?.();
+    )
+      .then(() => {
+        toast.success(`${files.length} file${files.length > 1 ? 's' : ''} uploaded successfully.`);
+        setFiles([]);
+        setOpen(false);
+        onSuccess?.();
+      })
+      .catch(() => toast.error('An internal error has ocurred.'));
   }
 
   const validFiles = files.filter((f) => validTypes.some((t) => f.type.includes(t)));

@@ -82,8 +82,6 @@ export const create = mutation({
     bucket: multimediaBucket,
     type: v.string(),
     size: v.number(),
-    width: v.optional(v.number()),
-    height: v.optional(v.number()),
     organizationId: v.optional(v.id('organizations'))
   },
   handler: async (ctx, args) => {
@@ -102,8 +100,6 @@ export const create = mutation({
       updated: Date.now(),
       clientVisible: false,
       clientStarred: false,
-      width: args.width,
-      height: args.height,
       organizationId: args.organizationId
     });
   }
@@ -244,9 +240,7 @@ export const clientCreate = mutation({
     key: v.string(),
     bucket: multimediaBucket,
     type: v.string(),
-    size: v.number(),
-    width: v.optional(v.number()),
-    height: v.optional(v.number())
+    size: v.number()
   },
   handler: async (ctx, args) => {
     // Verify Identity
@@ -274,8 +268,6 @@ export const clientCreate = mutation({
       updated: Date.now(),
       clientVisible: true,
       clientStarred: false,
-      width: args.width,
-      height: args.height,
       organizationId: organization._id
     });
   }

@@ -6,13 +6,11 @@ import { cn } from '@workspace/ui/lib/utils';
 interface RenderVideoProps {
   src: string;
   fill?: boolean;
-  width?: number;
-  height?: number;
   controls?: boolean;
   className?: string;
 }
 
-export function RenderVideo({ src, fill, width, height, controls, className }: RenderVideoProps) {
+export function RenderVideo({ src, fill, controls, className }: RenderVideoProps) {
   const [loading, setLoading] = useState(true);
 
   // Fill Container

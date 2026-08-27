@@ -170,10 +170,6 @@ export default defineSchema({
     clientVisible: v.boolean(),
     clientStarred: v.boolean(),
 
-    // Additional Columns
-    width: v.optional(v.number()),
-    height: v.optional(v.number()),
-
     // Relationship Columns
     organizationId: v.optional(v.id('organizations'))
   })

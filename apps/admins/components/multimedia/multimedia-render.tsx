@@ -20,8 +20,6 @@ export function MultimediaRender({ file }: { file: MediaFile }) {
         <RenderVideo
           controls
           src={file.url!}
-          width={file.width}
-          height={file.height}
         />
       ) : type === 'audio' ? (
         <RenderAudio

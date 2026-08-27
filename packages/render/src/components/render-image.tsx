@@ -14,7 +14,7 @@ export function RenderImage({ src, fill, className }: RenderImageProps) {
         src={src}
         alt="Image"
         loading="lazy"
-        className={cn('object-cover', className)}
+        className={cn('h-full w-full object-cover', className)}
       />
     );
   }
