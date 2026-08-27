@@ -1,0 +1,26 @@
+{
+  "configPath": "/home/jcabreraa4/Documents/Software/TypeScript/Projects/motakaro/packages/trigger/.trigger/tmp/build-NJzVsz/packages/trigger/trigger.config.mjs",
+  "customConditions": [
+  ],
+  "prompts": [
+  ],
+  "queues": [
+  ],
+  "runtime": "node",
+  "runtimeVersion": "24.13.0",
+  "skills": [
+  ],
+  "tasks": [
+    {
+      "entryPoint": "/home/jcabreraa4/Documents/Software/TypeScript/Projects/motakaro/packages/trigger/.trigger/tmp/build-NJzVsz/packages/trigger/src/trigger/example.mjs",
+      "filePath": "src/trigger/example.ts",
+      "id": "hello-function",
+      "maxDuration": 300
+    }
+  ],
+  "timings": {
+    "src/trigger/example.ts": 1.8065679999999986,
+    "src/trigger/index.ts": 0.4747500000000002
+  },
+  "workerEntryPoint": "/home/jcabreraa4/Documents/Software/TypeScript/Projects/motakaro/packages/trigger/.trigger/tmp/build-NJzVsz/node_modules/.bun/trigger.dev@4.5.12+9d0eee97fc866dea/node_modules/trigger.dev/dist/esm/entryPoints/dev-run-worker.mjs"
+}
