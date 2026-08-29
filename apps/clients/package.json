@@ -17,7 +17,6 @@
     "@convex-dev/prosemirror-sync": "^0.2.6",
     "@convex-dev/r2": "^0.10.2",
     "@hookform/resolvers": "^5.2.2",
-    "@openpanel/nextjs": "^1.5.1",
     "@sentry/nextjs": "^10",
     "@tiptap/react": "^3.29.0",
     "@vercel/analytics": "^2.0.1",

@@ -9,7 +9,6 @@ import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import '@workspace/ui/globals.css';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { OpenPanel } from '@/components/external/open-panel';
 import { ConvexProvider } from '@/components/providers/convex-provider';
 
 const geist = Geist({
@@ -44,7 +43,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {children}
             <Analytics />
             <SpeedInsights />
-            <OpenPanel />
           </TooltipProvider>
         </ConvexProvider>
       </body>
