@@ -10,12 +10,12 @@
     "deploy": "trigger deploy"
   },
   "dependencies": {
-    "@trigger.dev/sdk": "^4.5.12"
+    "@trigger.dev/sdk": "catalog:"
   },
   "devDependencies": {
     "@workspace/typescript-config": "workspace:*",
-    "trigger.dev": "^4.5.12",
-    "typescript": "^6"
+    "trigger.dev": "catalog:",
+    "typescript": "catalog:"
   },
   "exports": {
     ".": "./src/index.ts"

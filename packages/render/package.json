@@ -10,16 +10,17 @@
   },
   "dependencies": {
     "@workspace/ui": "workspace:*",
-    "lucide-react": "^1.26.0",
-    "react": "^19.2.4",
-    "react-pdf": "^10.5.0"
+    "lucide-react": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "react-pdf": "catalog:"
   },
   "devDependencies": {
-    "@types/react": "^19",
+    "@types/react": "catalog:",
     "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
-    "eslint": "^10",
-    "typescript": "^6"
+    "eslint": "catalog:",
+    "typescript": "catalog:"
   },
   "exports": {
     "./*": [

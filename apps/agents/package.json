@@ -14,15 +14,17 @@
     "eval": "eve eval"
   },
   "dependencies": {
-    "@vercel/connect": "0.4.3",
-    "ai": "^7.0.58",
-    "eve": "^0.44.4",
-    "zod": "4.4.3"
+    "@vercel/connect": "catalog:",
+    "ai": "catalog:",
+    "eve": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
-    "@types/node": "24.x",
-    "eslint": "^10",
-    "typescript": "^6"
+    "@types/node": "catalog:",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
   },
   "imports": {
     "#*": "./agent/*",

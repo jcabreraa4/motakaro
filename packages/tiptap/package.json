@@ -9,27 +9,28 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@tiptap/core": "^3.29.0",
-    "@tiptap/extension-highlight": "^3.29.0",
-    "@tiptap/extension-link": "^3.29.0",
-    "@tiptap/extension-list": "^3.29.0",
-    "@tiptap/extension-table": "^3.29.0",
-    "@tiptap/extension-text-align": "^3.29.0",
-    "@tiptap/extension-text-style": "^3.29.0",
-    "@tiptap/react": "^3.29.0",
-    "@tiptap/starter-kit": "^3.29.0",
+    "@tiptap/core": "catalog:",
+    "@tiptap/extension-highlight": "catalog:",
+    "@tiptap/extension-link": "catalog:",
+    "@tiptap/extension-list": "catalog:",
+    "@tiptap/extension-table": "catalog:",
+    "@tiptap/extension-text-align": "catalog:",
+    "@tiptap/extension-text-style": "catalog:",
+    "@tiptap/react": "catalog:",
+    "@tiptap/starter-kit": "catalog:",
     "@workspace/ui": "workspace:*",
-    "lucide-react": "^1.26.0",
-    "react": "^19.2.4",
-    "tiptap-extension-resize-image": "^1.4.4",
-    "zustand": "^5.0.14"
+    "lucide-react": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "tiptap-extension-resize-image": "catalog:",
+    "zustand": "catalog:"
   },
   "devDependencies": {
-    "@types/react": "^19",
+    "@types/react": "catalog:",
     "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
-    "eslint": "^10",
-    "typescript": "^6"
+    "eslint": "catalog:",
+    "typescript": "catalog:"
   },
   "exports": {
     "./*": [

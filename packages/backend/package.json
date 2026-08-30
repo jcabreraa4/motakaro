@@ -10,16 +10,16 @@
     "deploy": "convex deploy"
   },
   "dependencies": {
-    "@clerk/backend": "^3.2.0",
-    "@convex-dev/prosemirror-sync": "^0.2.6",
-    "@convex-dev/r2": "^0.10.2",
-    "@types/node": "^25.4.0",
-    "convex": "^1.45.0",
-    "svix": "^1.88.0"
+    "@clerk/backend": "catalog:",
+    "@convex-dev/prosemirror-sync": "catalog:",
+    "@convex-dev/r2": "catalog:",
+    "convex": "catalog:",
+    "svix": "catalog:"
   },
   "devDependencies": {
+    "@types/node": "catalog:",
     "@workspace/typescript-config": "workspace:*",
-    "typescript": "^6"
+    "typescript": "catalog:"
   },
   "exports": {
     "./convex": "./convex/*"
