@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@clerk/nextjs": "catalog:",
+    "@clerk/nextjs": "7.0.4",
     "@clerk/themes": "catalog:",
     "@convex-dev/prosemirror-sync": "catalog:",
     "@convex-dev/r2": "catalog:",

@@ -30,6 +30,7 @@ type SignInFormType = z.infer<typeof signInSchema>;
 const errorMessage = 'An internal error has occurred.';
 const successMessage = 'You signed in successfully.';
 const checkMessage = 'Please check your credentials.';
+const emailMessage = 'A code has been sent to your email.';
 
 export default function Page() {
   const { push } = useRouter();
@@ -53,7 +54,7 @@ export default function Page() {
     }
   });
 
-  // Sign In Submit
+  // Sign In
   async function handleSubmit(data: SignInFormType) {
     const { error } = await signIn.password({
       emailAddress: data.email,
@@ -74,14 +75,20 @@ export default function Page() {
       });
     } else if (signIn.status === 'needs_client_trust') {
       const emailCodeFactor = signIn.supportedSecondFactors.find((factor) => factor.strategy === 'email_code');
-      if (emailCodeFactor) await signIn.mfa.sendEmailCode();
-      toast.info('A code has been sent to your email.');
+      if (emailCodeFactor) {
+        await signIn.mfa
+          .sendEmailCode()
+          .then(() => toast.info(emailMessage))
+          .catch(() => toast.error(errorMessage));
+      } else {
+        toast.error(errorMessage);
+      }
     } else {
       toast.error(errorMessage);
     }
   }
 
-  // Verify Email Submit
+  // Verify Email
   async function handleVerify(e: React.SubmitEvent) {
     e.preventDefault();
     const { error } = await signIn.mfa.verifyEmailCode({ code: emailCode });
@@ -103,17 +110,17 @@ export default function Page() {
     }
   }
 
-  // Resend Email Code
+  // Resend Email
   function handleEmail() {
     signIn.mfa
       .sendEmailCode()
-      .then(() => toast.success('New code sent successfully.'))
-      .catch(() => toast.error('An internal error has ocurred.'));
+      .then(() => toast.info(emailMessage))
+      .catch(() => toast.error(errorMessage));
   }
 
   // Reset Process
   function handleReset() {
-    signIn.reset().catch(() => toast.error('An internal error has ocurred.'));
+    signIn.reset().catch(() => toast.error(errorMessage));
   }
 
   // Disabled Card
@@ -133,7 +140,7 @@ export default function Page() {
     );
   }
 
-  // Verify Email Form
+  // Verify Email
   if (signIn.status === 'needs_client_trust') {
     return (
       <form onSubmit={handleVerify}>
@@ -200,7 +207,7 @@ export default function Page() {
     );
   }
 
-  // Sign In Form
+  // Sign In
   return (
     <form onSubmit={signInForm.handleSubmit(handleSubmit)}>
       <FieldGroup>

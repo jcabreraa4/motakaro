@@ -37,6 +37,7 @@ type SignUpFormType = z.infer<typeof signUpSchema>;
 const errorMessage = 'An internal error has occurred.';
 const successMessage = 'You signed up successfully.';
 const checkMessage = 'Please check your credentials.';
+const emailMessage = 'A code has been sent to your email.';
 
 export default function SignInPage() {
   const { push } = useRouter();
@@ -68,16 +69,15 @@ export default function SignInPage() {
     }
   });
 
-  // Sign Up Submit
+  // Sign Up
   async function handleSubmit(data: SignUpFormType) {
-    // Clerk Legacy Fix, Update in the Future
     const { error } = await signUp.create({
       strategy: 'ticket',
       ticket: clerkTicket!,
       firstName: data.name,
       lastName: data.surname,
       password: data.password
-    } as any);
+    });
     if (error) {
       toast.error(errorMessage);
       return;
@@ -97,7 +97,7 @@ export default function SignInPage() {
         if (emailError) {
           toast.error(errorMessage);
         } else {
-          toast.info('A code has been sent to your email.');
+          toast.info(emailMessage);
         }
       }
     } else {
@@ -105,7 +105,7 @@ export default function SignInPage() {
     }
   }
 
-  // Verify Email Submit
+  // Verify Email
   async function handleVerify(e: React.SubmitEvent) {
     e.preventDefault();
     const { error } = await signUp.verifications.verifyEmailCode({ code: emailCode });
@@ -127,17 +127,17 @@ export default function SignInPage() {
     }
   }
 
-  // Resend Email Code
+  // Resend Email
   function handleEmail() {
     signUp.verifications
       .sendEmailCode()
-      .then(() => toast.success('New code sent successfully.'))
-      .catch(() => toast.error('An internal error has ocurred.'));
+      .then(() => toast.info(emailMessage))
+      .catch(() => toast.error(errorMessage));
   }
 
   // Reset Process
   function handleReset() {
-    signUp.reset().catch(() => toast.error('An internal error has ocurred.'));
+    signUp.reset().catch(() => toast.error(errorMessage));
   }
 
   // Disabled Card
@@ -174,7 +174,7 @@ export default function SignInPage() {
     );
   }
 
-  // Verify Email Form
+  // Verify Email
   if (signUp.status === 'missing_requirements' && signUp.unverifiedFields.includes('email_address') && signUp.missingFields.length === 0) {
     return (
       <form onSubmit={handleVerify}>
@@ -241,7 +241,7 @@ export default function SignInPage() {
     );
   }
 
-  // Sign Up Form
+  // Sign Up
   return (
     <form onSubmit={signUpForm.handleSubmit(handleSubmit)}>
       <FieldGroup>
