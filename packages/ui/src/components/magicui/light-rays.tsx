@@ -80,6 +80,7 @@ export function LightRays({ className, style, count = 7, color = 'rgba(160, 210,
   const cycleDuration = Math.max(speed, 0.1);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setRays(createRays(count, cycleDuration));
   }, [count, cycleDuration]);
 

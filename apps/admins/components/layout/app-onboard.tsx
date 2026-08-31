@@ -23,10 +23,12 @@ export function AppOnboard() {
   const [info, setInfo] = useState({ phone: '', twitter: '', linkedin: '' });
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setInfo({ phone: admin?.phone || '', twitter: admin?.twitter || '', linkedin: admin?.linkedin || '' });
   }, [admin?.phone, admin?.twitter, admin?.linkedin]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setStep(0);
   }, [admin?.onboarded]);
 

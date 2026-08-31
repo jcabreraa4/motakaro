@@ -174,6 +174,7 @@ export function SidebarTeam({ teams }: { teams: Organization[] }) {
   useEffect(() => {
     if (organization?.id && organizations && organizations[0]) {
       const active = organizations.find((org) => org.clerkId === organization.id);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (active) setActiveOrganization(active);
     }
   }, [organization?.id, organizations]);

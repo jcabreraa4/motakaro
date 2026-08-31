@@ -1,3 +1,3 @@
 export function MeetingsCreate({ children }: { children: React.ReactElement }) {
-  return <></>;
+  return <>{children}</>;
 }

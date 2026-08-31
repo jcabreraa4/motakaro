@@ -182,6 +182,7 @@ export const JSXPreviewContent = memo(({ className, ...props }: JSXPreviewConten
   // Reset error tracking when jsx changes
   useEffect(() => {
     errorReportedRef.current = null;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHadError(false);
   }, [processedJsx]);
 

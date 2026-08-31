@@ -31,6 +31,7 @@ export default function OrgSelectionPage() {
 
   useEffect(() => {
     if (!isLoaded || isSelecting || userMemberships.isLoading) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setShowSpinner(false);
       return;
     }
