@@ -274,7 +274,7 @@ export default function SignInPage() {
               <div className="flex items-center">
                 <FieldLabel htmlFor="password">Password</FieldLabel>
                 <span
-                  className="ml-auto cursor-pointer text-sm underline-offset-4 hover:underline"
+                  className="ml-auto cursor-pointer text-sm underline-offset-4 select-none hover:underline"
                   onClick={() => toast.info('Contact support to reset your password.')}
                 >
                   Forgot your password?
