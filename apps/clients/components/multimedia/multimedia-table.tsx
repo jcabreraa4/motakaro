@@ -6,13 +6,13 @@ import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
 import type { MediaFile } from '@workspace/backend/schema';
+import { downloadFile } from '@workspace/render/utils/download-file';
 import { Button } from '@workspace/ui/components/button';
 
 import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
 import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
 import { MultimediaRemove } from '@/components/multimedia/multimedia-remove';
 import { MultimediaUpdate } from '@/components/multimedia/multimedia-update';
-import { downloadFile } from '@/utils/download-file';
 
 interface ItemButtonProps {
   icon: LucideIcon;

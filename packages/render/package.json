@@ -13,7 +13,8 @@
     "lucide-react": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "react-pdf": "catalog:"
+    "react-pdf": "catalog:",
+    "sonner": "catalog:"
   },
   "devDependencies": {
     "@types/react": "catalog:",

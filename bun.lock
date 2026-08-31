@@ -189,6 +189,7 @@
         "react": "catalog:",
         "react-dom": "catalog:",
         "react-pdf": "catalog:",
+        "sonner": "catalog:",
       },
       "devDependencies": {
         "@types/react": "catalog:",

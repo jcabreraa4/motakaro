@@ -4,13 +4,12 @@ import type { MediaFile } from '@workspace/backend/schema';
 import { RenderAudio } from '@workspace/render/components/render-audio';
 import { RenderImage } from '@workspace/render/components/render-image';
 import { RenderVideo } from '@workspace/render/components/render-video';
-
-import { mediaType } from '@/utils/media-type';
+import { extractType } from '@workspace/render/utils/extract-type';
 
 const RenderIframe = dynamic(() => import('@workspace/render/components/render-iframe').then((m) => m.RenderIframe), { ssr: false });
 
 export function MultimediaRender({ file }: { file: MediaFile }) {
-  const type = mediaType(file.type);
+  const type = extractType(file.type);
 
   return (
     <section className="relative h-full w-full overflow-hidden lg:rounded-md lg:border lg:p-5">

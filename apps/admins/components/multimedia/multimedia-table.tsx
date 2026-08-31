@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
 import type { MediaFile } from '@workspace/backend/schema';
+import { downloadFile } from '@workspace/render/utils/download-file';
 import { Button } from '@workspace/ui/components/button';
 import { cn } from '@workspace/ui/lib/utils';
 
@@ -14,7 +15,6 @@ import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
 import { MultimediaRemove } from '@/components/multimedia/multimedia-remove';
 import { MultimediaUpdate } from '@/components/multimedia/multimedia-update';
 import { useLayout } from '@/hooks/use-layout';
-import { downloadFile } from '@/utils/download-file';
 
 interface ItemButtonProps {
   icon: LucideIcon;
