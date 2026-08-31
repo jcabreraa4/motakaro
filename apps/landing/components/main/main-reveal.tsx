@@ -1,6 +1,5 @@
-import { TextReveal } from '@workspace/ui/components/magicui/text-reveal';
-
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
+import { TextReveal } from '@/components/ui/text-reveal';
 
 export function MainReveal() {
   return (

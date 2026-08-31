@@ -3,12 +3,12 @@
 import { useQuery } from 'convex/react';
 
 import { api } from '@workspace/backend/_generated/api';
-import { VideoDialog } from '@workspace/ui/components/magicui/video-dialog';
 import { Skeleton } from '@workspace/ui/components/skeleton';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { Heading2 } from '@/components/layout/app-heading';
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
+import { VideoDialog } from '@/components/ui/video-dialog';
 
 function ResourcesTable({ children }: { children: React.ReactNode }) {
   return <div className="grid flex-1 grid-flow-row grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">{children}</div>;

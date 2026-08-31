@@ -148,7 +148,7 @@ async function validateRequest({ request, webhook }: ValidateRequestProps): Prom
       'svix-id': svixId,
       'svix-timestamp': svixTimestamp,
       'svix-signature': svixSignature
-    }) as WebhookEvent;
+    }) as unknown as WebhookEvent;
   } catch {
     return null;
   }

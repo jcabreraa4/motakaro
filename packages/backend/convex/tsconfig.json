@@ -5,6 +5,7 @@
    */
   "compilerOptions": {
     /* Not required by Convex: Can be modified */
+    "types": ["node"],
     "allowJs": true,
     "strict": true,
     "moduleResolution": "Bundler",

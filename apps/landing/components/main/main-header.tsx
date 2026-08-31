@@ -1,11 +1,10 @@
 import Image from 'next/image';
 
-import { VelocityScroll } from '@workspace/ui/components/magicui/velocity-scroll';
-
 import { Heading1, Heading2, Heading3 } from '@/components/layout/app-heading';
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
 import { ContactLink } from '@/components/motakaro/contact-link';
 import { PlaybookLink } from '@/components/motakaro/playbook-link';
+import { VelocityScroll } from '@/components/ui/velocity-scroll';
 
 const video = process.env.NEXT_PUBLIC_VIDEO_URL!;
 
