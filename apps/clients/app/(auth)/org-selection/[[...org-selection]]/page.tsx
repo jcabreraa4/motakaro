@@ -83,7 +83,7 @@ export default function OrgSelectionPage() {
           <p className="text-sm text-balance text-muted-foreground">Contact an organization admin for an invitation</p>
         </div>
         <Field>
-          <FieldDescription className="text-center">
+          <FieldDescription className="text-center select-none">
             Signed in as {session?.user.primaryEmailAddress?.emailAddress}{' '}
             <span
               className="cursor-pointer underline underline-offset-4 hover:text-black dark:hover:text-white"
@@ -126,7 +126,7 @@ export default function OrgSelectionPage() {
         ))}
       </Field>
       <Field>
-        <FieldDescription className="text-center">
+        <FieldDescription className="text-center select-none">
           Signed in as {session?.user.primaryEmailAddress?.emailAddress}{' '}
           <span
             className="cursor-pointer underline underline-offset-4 hover:text-black dark:hover:text-white"

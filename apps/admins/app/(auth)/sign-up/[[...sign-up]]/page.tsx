@@ -147,7 +147,7 @@ export default function SignUp() {
           <p className="text-sm text-balance text-muted-foreground">Sign ups are not available at the moment</p>
         </div>
         <Field>
-          <FieldDescription className="text-center">
+          <FieldDescription className="text-center select-none">
             Already have an account? <Link href={'/sign-in' as Route}>Sign in</Link>
           </FieldDescription>
         </Field>
@@ -164,7 +164,7 @@ export default function SignUp() {
           <p className="text-sm text-balance text-muted-foreground">Sign ups are only available with an invitation</p>
         </div>
         <Field>
-          <FieldDescription className="text-center">
+          <FieldDescription className="text-center select-none">
             Already have an account? <Link href={'/sign-in' as Route}>Sign in</Link>
           </FieldDescription>
         </Field>
@@ -224,7 +224,7 @@ export default function SignUp() {
             </Button>
           </Field>
           <Field>
-            <FieldDescription className="text-center">
+            <FieldDescription className="text-center select-none">
               Did something go wrong?{' '}
               <span
                 className="cursor-pointer underline underline-offset-4 hover:text-black dark:hover:text-white"
@@ -331,7 +331,7 @@ export default function SignUp() {
           </Button>
         </Field>
         <Field>
-          <FieldDescription className="text-center">
+          <FieldDescription className="text-center select-none">
             Already have an account? <Link href={'/sign-in' as Route}>Sign in</Link>
           </FieldDescription>
         </Field>

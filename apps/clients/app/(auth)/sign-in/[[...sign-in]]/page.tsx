@@ -165,7 +165,7 @@ export default function SignInPage() {
           <p className="text-sm text-balance text-muted-foreground">Sign ins are not available at the moment</p>
         </div>
         <Field>
-          <FieldDescription className="text-center">
+          <FieldDescription className="text-center select-none">
             Don&apos;t have an account? <Link href={'/sign-up' as Route}>Sign up</Link>
           </FieldDescription>
         </Field>
@@ -225,7 +225,7 @@ export default function SignInPage() {
             </Button>
           </Field>
           <Field>
-            <FieldDescription className="text-center">
+            <FieldDescription className="text-center select-none">
               Did something go wrong?{' '}
               <span
                 className="cursor-pointer underline underline-offset-4 hover:text-black dark:hover:text-white"
@@ -302,7 +302,7 @@ export default function SignInPage() {
           </Button>
         </Field>
         <Field>
-          <FieldDescription className="text-center">
+          <FieldDescription className="text-center select-none">
             Don&apos;t have an account? <Link href={'/sign-up' as Route}>Sign up</Link>
           </FieldDescription>
         </Field>
