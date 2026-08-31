@@ -4,6 +4,7 @@
   "type": "module",
   "private": true,
   "devDependencies": {
+    "@eslint/compat": "catalog:",
     "@eslint/js": "catalog:",
     "@next/eslint-plugin-next": "catalog:",
     "@typescript-eslint/eslint-plugin": "catalog:",
@@ -20,7 +21,8 @@
   },
   "exports": {
     "./base": "./base.js",
-    "./nextjs": "./next.js",
-    "./react-internal": "./react-internal.js"
+    "./eve": "./eve.js",
+    "./next": "./next.js",
+    "./react": "./react.js"
   }
 }

@@ -65,7 +65,7 @@ export default function OrgSelectionPage() {
   function handleSignOut() {
     signOut()
       .then(() => toast.success('You signed out successfully.'))
-      .catch(() => toast.error('An internal error has ocurred.'));
+      .catch(() => toast.error(errorMessage));
   }
 
   // Loading State
@@ -77,7 +77,7 @@ export default function OrgSelectionPage() {
   if (userMemberships?.data?.length === 0 || !userMemberships?.data) {
     return (
       <FieldGroup>
-        <div className="flex flex-col items-center gap-1">
+        <div className="flex flex-col items-center gap-1 select-none">
           <p className="text-2xl font-bold">No Organizations</p>
           <p className="text-sm text-balance text-muted-foreground">Contact an organization admin for an invitation</p>
         </div>
@@ -99,7 +99,7 @@ export default function OrgSelectionPage() {
   // Selection Form
   return (
     <FieldGroup>
-      <div className="flex flex-col items-center gap-1">
+      <div className="flex flex-col items-center gap-1 select-none">
         <p className="text-2xl font-bold">Select Organization</p>
         <p className="text-sm text-balance text-muted-foreground">You&apos;ll be able to switch organizations within the app</p>
       </div>

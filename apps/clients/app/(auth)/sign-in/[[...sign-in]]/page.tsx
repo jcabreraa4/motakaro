@@ -160,7 +160,7 @@ export default function SignInPage() {
   if (isDisabled) {
     return (
       <FieldGroup>
-        <div className="flex flex-col items-center gap-1">
+        <div className="flex flex-col items-center gap-1 select-none">
           <p className="text-2xl font-bold">Access Disabled</p>
           <p className="text-sm text-balance text-muted-foreground">Sign ins are not available at the moment</p>
         </div>
@@ -178,7 +178,7 @@ export default function SignInPage() {
     return (
       <form onSubmit={handleVerify}>
         <FieldGroup>
-          <div className="flex flex-col items-center gap-1">
+          <div className="flex flex-col items-center gap-1 select-none">
             <p className="text-2xl font-bold">Verify your Email</p>
             <p className="text-sm text-balance text-muted-foreground">Introduce the code sent to your email address</p>
           </div>
@@ -244,7 +244,7 @@ export default function SignInPage() {
   return (
     <form onSubmit={signInForm.handleSubmit(handleSubmit)}>
       <FieldGroup>
-        <div className="flex flex-col items-center gap-1">
+        <div className="flex flex-col items-center gap-1 select-none">
           <p className="text-2xl font-bold">Welcome Back</p>
           <p className="text-sm text-balance text-muted-foreground">Introduce your credentials to sign in</p>
         </div>
