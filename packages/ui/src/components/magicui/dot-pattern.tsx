@@ -74,7 +74,6 @@ export function DotPattern({ width = 16, height = 16, x = 0, y = 0, cx = 1, cy =
         setDimensions({ width, height });
       }
     };
-
     updateDimensions();
     window.addEventListener('resize', updateDimensions);
     return () => window.removeEventListener('resize', updateDimensions);

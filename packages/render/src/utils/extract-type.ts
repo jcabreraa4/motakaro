@@ -1,6 +1,6 @@
-type mediaType = 'image' | 'video' | 'audio' | 'other';
+type MediaType = 'image' | 'video' | 'audio' | 'other';
 
-export function extractType(type: string): mediaType {
+export function extractType(type: string): MediaType {
   if (type.startsWith('image')) return 'image';
   if (type.startsWith('video')) return 'video';
   if (type.startsWith('audio')) return 'audio';
