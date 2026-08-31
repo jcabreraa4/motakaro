@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "convex dev",
+    "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit -p convex/tsconfig.json",
     "deploy": "convex deploy"
@@ -18,7 +19,9 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
+    "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
+    "eslint": "catalog:",
     "typescript": "catalog:"
   },
   "exports": {

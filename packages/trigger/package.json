@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "trigger dev",
+    "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "deploy": "trigger deploy"
@@ -13,7 +14,9 @@
     "@trigger.dev/sdk": "catalog:"
   },
   "devDependencies": {
+    "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
+    "eslint": "catalog:",
     "trigger.dev": "catalog:",
     "typescript": "catalog:"
   },
