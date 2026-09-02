@@ -8,9 +8,6 @@
     },
     "packages/trigger": {
       "entry": ["trigger.config.ts"]
-    },
-    "packages/ui": {
-      "ignoreDependencies": ["postcss-load-config"]
     }
   }
 }
