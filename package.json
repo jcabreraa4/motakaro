@@ -8,12 +8,14 @@
     "lint": "turbo run lint",
     "format": "turbo run format",
     "typecheck": "turbo run typecheck",
-    "deploy": "turbo run deploy"
+    "deploy": "turbo run deploy",
+    "knip": "knip --no-exit-code"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "catalog:",
     "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
+    "knip": "catalog:",
     "prettier": "catalog:",
     "prettier-plugin-tailwindcss": "catalog:",
     "turbo": "catalog:",
@@ -87,6 +89,7 @@
     "eve": "^0.47.3",
     "globals": "^17.11.0",
     "input-otp": "^1.5.0",
+    "knip": "^6.34.0",
     "lucide-react": "^1.37.0",
     "media-chrome": "^4.19.2",
     "motion": "^13.1.1",

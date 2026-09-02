@@ -1,7 +1,9 @@
 import { defineConfig } from '@trigger.dev/sdk';
 
+const project = 'proj_ymgrrxhllckcsupcajsf';
+
 export default defineConfig({
-  project: 'proj_ymgrrxhllckcsupcajsf',
+  project,
   dirs: ['./src/trigger'],
   maxDuration: 300
 });

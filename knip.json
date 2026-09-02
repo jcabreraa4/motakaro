@@ -1,0 +1,16 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "workspaces": {
+    ".": {
+      "entry": [".eslintrc.js"],
+      "ignore": [".agents/**"],
+      "ignoreDependencies": ["eslint"]
+    },
+    "packages/trigger": {
+      "entry": ["trigger.config.ts"]
+    },
+    "packages/ui": {
+      "ignoreDependencies": ["postcss-load-config"]
+    }
+  }
+}

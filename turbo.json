@@ -29,6 +29,9 @@
     },
     "deploy": {
       "cache": false
+    },
+    "//#knip": {
+      "cache": false
     }
   }
 }
