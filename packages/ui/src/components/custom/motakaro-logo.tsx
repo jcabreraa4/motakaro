@@ -1,16 +1,14 @@
-import Image from 'next/image';
-
 import { cn } from '@workspace/ui/lib/utils';
 
-export function Branding({ className }: { className?: string }) {
+const logo = '/logo.webp';
+
+export function MotakaroLogo({ className }: { className?: string }) {
   return (
     <div className={cn('pointer-events-none flex items-center gap-2 select-none', className)}>
-      <Image
-        src="/motakaro.webp"
-        alt="MTKOLogo"
-        width={500}
-        height={500}
-        className="h-10 w-auto"
+      <img
+        src={logo}
+        alt="Motakaro"
+        className="size-10"
       />
       <p className="text-2xl font-semibold">Motakaro</p>
     </div>

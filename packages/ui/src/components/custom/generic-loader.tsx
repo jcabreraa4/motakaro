@@ -1,4 +1,4 @@
-import { Spinner } from '@workspace/ui/components/spinner';
+import { Spinner } from '@workspace/ui/components/shadcn/spinner';
 import { cn } from '@workspace/ui/lib/utils';
 
 export function GenericLoader({ className }: { className?: string }) {

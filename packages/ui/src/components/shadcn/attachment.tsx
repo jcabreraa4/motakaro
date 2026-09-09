@@ -3,7 +3,7 @@ import * as React from 'react';
 import { type VariantProps, cva } from 'class-variance-authority';
 import { Slot } from 'radix-ui';
 
-import { Button } from '@workspace/ui/components/button';
+import { Button } from '@workspace/ui/components/shadcn/button';
 import { cn } from '@workspace/ui/lib/utils';
 
 const attachmentVariants = cva('group/attachment relative flex w-fit max-w-full min-w-0 shrink-0 flex-wrap rounded-xl border bg-card text-card-foreground transition-colors focus-within:ring-1 focus-within:ring-ring/50 has-[>a,>button]:hover:bg-muted/50 data-[state=error]:border-destructive/30 data-[state=idle]:border-dashed', {

@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
 import type { Resource } from '@workspace/backend/schema';
-import { Button } from '@workspace/ui/components/button';
+import { Button } from '@workspace/ui/components/shadcn/button';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { ResourcesInfo } from '@/components/resources/resources-info';

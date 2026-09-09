@@ -2,9 +2,9 @@
 
 import { BuildingIcon, ChevronsUpDown } from 'lucide-react';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
-import { Dialog, DialogContent, DialogTrigger } from '@workspace/ui/components/dialog';
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
+import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/shadcn/avatar';
+import { Dialog, DialogContent, DialogTrigger } from '@workspace/ui/components/shadcn/dialog';
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/shadcn/sidebar';
 import { cn } from '@workspace/ui/lib/utils';
 
 interface TeamDataProps extends SidebarTeamProps {

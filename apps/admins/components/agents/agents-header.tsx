@@ -1,6 +1,6 @@
 import { XIcon } from 'lucide-react';
 
-import { Button } from '@workspace/ui/components/button';
+import { Button } from '@workspace/ui/components/shadcn/button';
 
 import { useLayout } from '@/hooks/use-layout';
 

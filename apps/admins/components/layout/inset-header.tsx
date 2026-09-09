@@ -10,12 +10,12 @@ import { useQuery } from 'convex/react';
 import { GhostIcon, MoonIcon, SunIcon, UserRoundIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
-import { Button } from '@workspace/ui/components/button';
-import { Separator } from '@workspace/ui/components/separator';
-import { SidebarTrigger } from '@workspace/ui/components/sidebar';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip';
+import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from '@workspace/ui/components/shadcn/avatar';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/shadcn/breadcrumb';
+import { Button } from '@workspace/ui/components/shadcn/button';
+import { Separator } from '@workspace/ui/components/shadcn/separator';
+import { SidebarTrigger } from '@workspace/ui/components/shadcn/sidebar';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/shadcn/tooltip';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { NotificationsPopover } from '@/components/notifications/notifications-popover';

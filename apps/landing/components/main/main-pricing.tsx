@@ -1,6 +1,6 @@
 import { type LucideIcon, RocketIcon, SproutIcon } from 'lucide-react';
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/shadcn/card';
 
 import { Heading2, Heading3, Paragraph } from '@/components/layout/app-heading';
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';

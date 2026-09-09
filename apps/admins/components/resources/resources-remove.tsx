@@ -6,8 +6,8 @@ import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
 import type { Id } from '@workspace/backend/_generated/dataModel';
-import { Button } from '@workspace/ui/components/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
+import { Button } from '@workspace/ui/components/shadcn/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/shadcn/dialog';
 
 interface ResourcesRemoveProps {
   id: Id<'resources'>;

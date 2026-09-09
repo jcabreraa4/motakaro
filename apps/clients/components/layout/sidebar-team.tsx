@@ -11,10 +11,10 @@ import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Organization } from '@workspace/backend/schema';
-import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@workspace/ui/components/sidebar';
-import { Skeleton } from '@workspace/ui/components/skeleton';
+import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/shadcn/avatar';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@workspace/ui/components/shadcn/dropdown-menu';
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@workspace/ui/components/shadcn/sidebar';
+import { Skeleton } from '@workspace/ui/components/shadcn/skeleton';
 import { cn } from '@workspace/ui/lib/utils';
 
 function TeamSkeleton() {

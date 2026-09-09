@@ -1,17 +1,19 @@
 import Link from 'next/link';
 
-import { Button } from '@workspace/ui/components/button';
+import { Button } from '@workspace/ui/components/shadcn/button';
+import { MotakaroLogo } from '@workspace/ui/components/custom/motakaro-logo';
 
 import { Paragraph } from '@/components/layout/app-heading';
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
-import { Branding } from '@/components/motakaro/branding';
 
 export function AppFooter() {
   return (
     <SectionWrapper>
       <SectionInner className="lg:py-5">
         <SectionContent>
-          <Branding />
+          <Link href="/">
+            <MotakaroLogo />
+          </Link>
         </SectionContent>
         <SectionContent className="flex flex-col gap-2 lg:flex-row lg:items-center">
           <Paragraph>All Rights Reserved © {new Date().getFullYear()} Motakaro</Paragraph>

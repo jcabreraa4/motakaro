@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { ImageIcon } from 'lucide-react';
 
 import { useTiptap } from '@workspace/tiptap/hooks/use-tiptap';
-import { Button } from '@workspace/ui/components/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
-import { Input } from '@workspace/ui/components/input';
+import { Button } from '@workspace/ui/components/shadcn/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@workspace/ui/components/shadcn/dropdown-menu';
+import { Input } from '@workspace/ui/components/shadcn/input';
 
 export function EditorImage() {
   const { tiptap } = useTiptap();

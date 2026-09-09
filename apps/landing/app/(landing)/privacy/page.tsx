@@ -1,4 +1,4 @@
-import { Separator } from '@workspace/ui/components/separator';
+import { Separator } from '@workspace/ui/components/shadcn/separator';
 
 import { Heading2, Heading3, Paragraph } from '@/components/layout/app-heading';
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';

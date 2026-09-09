@@ -6,7 +6,7 @@ import { useAuth } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Button } from '@workspace/ui/components/button';
+import { Button } from '@workspace/ui/components/shadcn/button';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
 import { InsetSection } from '@/components/layout/inset-section';

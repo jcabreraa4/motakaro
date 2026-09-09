@@ -7,8 +7,8 @@ import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
 import type { Meeting } from '@workspace/backend/schema';
-import { Button } from '@workspace/ui/components/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import { Button } from '@workspace/ui/components/shadcn/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/shadcn/card';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { useLayout } from '@/hooks/use-layout';

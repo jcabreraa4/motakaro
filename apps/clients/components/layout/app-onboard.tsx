@@ -8,10 +8,10 @@ import { ArrowLeftIcon, ArrowRightIcon, LinkIcon, MailIcon, PhoneIcon, RocketIco
 import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Button } from '@workspace/ui/components/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@workspace/ui/components/dialog';
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/input-group';
-import { Label } from '@workspace/ui/components/label';
+import { Button } from '@workspace/ui/components/shadcn/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@workspace/ui/components/shadcn/dialog';
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@workspace/ui/components/shadcn/input-group';
+import { Label } from '@workspace/ui/components/shadcn/label';
 
 export function AppOnboard() {
   const { isLoaded } = useAuth();

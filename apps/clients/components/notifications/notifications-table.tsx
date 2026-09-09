@@ -7,8 +7,8 @@ import { BellIcon, CheckCheckIcon, ExternalLinkIcon, NavigationIcon, TriangleAle
 
 import { api } from '@workspace/backend/_generated/api';
 import type { Notification } from '@workspace/backend/schema';
-import { Button } from '@workspace/ui/components/button';
-import { Separator } from '@workspace/ui/components/separator';
+import { Button } from '@workspace/ui/components/shadcn/button';
+import { Separator } from '@workspace/ui/components/shadcn/separator';
 import { cn } from '@workspace/ui/lib/utils';
 
 function NotificationsItem({ notification }: { notification: Notification }) {

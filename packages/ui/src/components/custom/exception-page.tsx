@@ -1,10 +1,11 @@
-interface GenericErrorProps {
+import { MotakaroLogo } from '@workspace/ui/components/custom/motakaro-logo';
+
+interface ExceptionPageProps {
   code: number;
   text: string;
-  children: React.ReactNode;
 }
 
-export function GenericError({ code, text, children }: GenericErrorProps) {
+export function ExceptionPage({ code, text }: ExceptionPageProps) {
   return (
     <main className="flex h-svh flex-col items-center justify-center gap-5">
       <section className="pointer-events-none flex h-14 w-full justify-center gap-5 select-none">
@@ -15,7 +16,9 @@ export function GenericError({ code, text, children }: GenericErrorProps) {
           <p className="text-3xl font-semibold">{text}</p>
         </div>
       </section>
-      {children}
+      <div className="fixed top-0 left-0 z-50 p-5 xl:p-8">
+        <MotakaroLogo />
+      </div>
     </main>
   );
 }

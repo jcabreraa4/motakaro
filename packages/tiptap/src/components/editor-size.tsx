@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { MinusIcon, PlusIcon } from 'lucide-react';
 
 import { useTiptap } from '@workspace/tiptap/hooks/use-tiptap';
-import { Button } from '@workspace/ui/components/button';
+import { Button } from '@workspace/ui/components/shadcn/button';
 
 export function EditorSize() {
   const { tiptap } = useTiptap();

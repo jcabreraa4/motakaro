@@ -1,4 +1,4 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@workspace/ui/components/accordion';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@workspace/ui/components/shadcn/accordion';
 
 import { Heading3, Paragraph } from '@/components/layout/app-heading';
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';

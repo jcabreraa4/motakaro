@@ -5,14 +5,14 @@ import { CopyIcon, LinkIcon, PlusIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Button } from '@workspace/ui/components/button';
-import { Input } from '@workspace/ui/components/input';
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
-import { Label } from '@workspace/ui/components/label';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
-import { Separator } from '@workspace/ui/components/separator';
-import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
-import { Textarea } from '@workspace/ui/components/textarea';
+import { Button } from '@workspace/ui/components/shadcn/button';
+import { Input } from '@workspace/ui/components/shadcn/input';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/shadcn/input-group';
+import { Label } from '@workspace/ui/components/shadcn/label';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/shadcn/select';
+import { Separator } from '@workspace/ui/components/shadcn/separator';
+import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/shadcn/sheet';
+import { Textarea } from '@workspace/ui/components/shadcn/textarea';
 
 import { copyString } from '@/utils/copy-string';
 

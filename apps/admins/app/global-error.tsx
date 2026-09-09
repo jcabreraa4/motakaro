@@ -5,11 +5,9 @@ import { useEffect } from 'react';
 
 import { captureException } from '@sentry/nextjs';
 
-import { GenericError } from '@workspace/ui/components/custom/generic-error';
 import '@workspace/ui/globals.css';
+import { ExceptionPage } from '@workspace/ui/components/custom/exception-page';
 import { cn } from '@workspace/ui/lib/utils';
-
-import { Branding } from '@/components/branding';
 
 const fontSans = Geist({
   subsets: ['latin'],
@@ -37,14 +35,10 @@ export default function GlobalError({ error }: GlobalErrorProps) {
       className={cn('antialiased', fontMono.variable, 'font-sans', fontSans.variable)}
     >
       <body suppressHydrationWarning>
-        <GenericError
+        <ExceptionPage
           code={500}
           text="Internal error"
-        >
-          <div className="fixed top-0 left-0 z-50 p-5 xl:p-8">
-            <Branding />
-          </div>
-        </GenericError>
+        />
       </body>
     </html>
   );

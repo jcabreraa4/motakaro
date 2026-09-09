@@ -7,10 +7,10 @@ import { BellIcon, TriangleAlertIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
 import type { Notification } from '@workspace/backend/schema';
-import { Button } from '@workspace/ui/components/button';
-import { Popover, PopoverContent, PopoverHeader, PopoverTitle, PopoverTrigger } from '@workspace/ui/components/popover';
-import { Separator } from '@workspace/ui/components/separator';
-import { Spinner } from '@workspace/ui/components/spinner';
+import { Button } from '@workspace/ui/components/shadcn/button';
+import { Popover, PopoverContent, PopoverHeader, PopoverTitle, PopoverTrigger } from '@workspace/ui/components/shadcn/popover';
+import { Separator } from '@workspace/ui/components/shadcn/separator';
+import { Spinner } from '@workspace/ui/components/shadcn/spinner';
 import { cn } from '@workspace/ui/lib/utils';
 
 function NotificationsItem({ notification }: { notification: Notification }) {

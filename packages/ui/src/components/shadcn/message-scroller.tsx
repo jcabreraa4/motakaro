@@ -5,7 +5,7 @@ import * as React from 'react';
 import { MessageScroller as MessageScrollerPrimitive, useMessageScroller, useMessageScrollerScrollable, useMessageScrollerVisibility } from '@shadcn/react/message-scroller';
 import { ArrowDownIcon } from 'lucide-react';
 
-import { Button } from '@workspace/ui/components/button';
+import { Button } from '@workspace/ui/components/shadcn/button';
 import { cn } from '@workspace/ui/lib/utils';
 
 function MessageScrollerProvider(props: React.ComponentProps<typeof MessageScrollerPrimitive.Provider>) {

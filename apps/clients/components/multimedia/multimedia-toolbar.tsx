@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { DownloadIcon, PenIcon, TrashIcon } from 'lucide-react';
 
 import type { MediaFile } from '@workspace/backend/schema';
-import { Button } from '@workspace/ui/components/button';
+import { Button } from '@workspace/ui/components/shadcn/button';
 
 import { MultimediaRemove } from '@/components/multimedia/multimedia-remove';
 import { MultimediaUpdate } from '@/components/multimedia/multimedia-update';

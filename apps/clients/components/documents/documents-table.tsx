@@ -7,9 +7,9 @@ import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
 import type { Document } from '@workspace/backend/schema';
-import { Button } from '@workspace/ui/components/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table';
+import { Button } from '@workspace/ui/components/shadcn/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@workspace/ui/components/shadcn/dropdown-menu';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/shadcn/table';
 
 import { DocumentsRemove } from '@/components/documents/documents-remove';
 import { DocumentsUpdate } from '@/components/documents/documents-update';

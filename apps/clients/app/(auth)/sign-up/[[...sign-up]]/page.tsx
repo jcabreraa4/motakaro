@@ -12,10 +12,10 @@ import { RefreshCwIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
-import { Button } from '@workspace/ui/components/button';
-import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@workspace/ui/components/field';
-import { Input } from '@workspace/ui/components/input';
-import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@workspace/ui/components/input-otp';
+import { Button } from '@workspace/ui/components/shadcn/button';
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@workspace/ui/components/shadcn/field';
+import { Input } from '@workspace/ui/components/shadcn/input';
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@workspace/ui/components/shadcn/input-otp';
 
 const pageStatus = process.env.NEXT_PUBLIC_SIGN_UP_ACTIVE!;
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;

@@ -7,10 +7,10 @@ import { Loader2Icon, PlusIcon, TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Button } from '@workspace/ui/components/button';
-import { Carousel, CarouselContent, CarouselItem } from '@workspace/ui/components/carousel';
+import { Button } from '@workspace/ui/components/shadcn/button';
+import { Carousel, CarouselContent, CarouselItem } from '@workspace/ui/components/shadcn/carousel';
 import { FileDropzone } from '@workspace/ui/components/custom/file-dropzone';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/shadcn/dialog';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { MultimediaInfo } from '@/components/multimedia/multimedia-info';

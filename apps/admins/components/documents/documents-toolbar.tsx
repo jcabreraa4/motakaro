@@ -13,8 +13,8 @@ import { EditorSize } from '@workspace/tiptap/components/editor-size';
 import { EditorSpacing } from '@workspace/tiptap/components/editor-spacing';
 import { EditorTable } from '@workspace/tiptap/components/editor-table';
 import { useTiptap } from '@workspace/tiptap/hooks/use-tiptap';
-import { Button } from '@workspace/ui/components/button';
-import { Separator } from '@workspace/ui/components/separator';
+import { Button } from '@workspace/ui/components/shadcn/button';
+import { Separator } from '@workspace/ui/components/shadcn/separator';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { DocumentsRemove } from '@/components/documents/documents-remove';

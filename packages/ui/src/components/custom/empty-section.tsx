@@ -1,6 +1,6 @@
 import type { LucideIcon } from 'lucide-react';
 
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/shadcn/empty';
 import { cn } from '@workspace/ui/lib/utils';
 
 interface EmptySectionProps {

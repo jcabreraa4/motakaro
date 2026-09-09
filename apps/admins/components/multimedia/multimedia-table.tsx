@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import { api } from '@workspace/backend/_generated/api';
 import type { MediaFile } from '@workspace/backend/schema';
 import { downloadFile } from '@workspace/render/utils/download-file';
-import { Button } from '@workspace/ui/components/button';
+import { Button } from '@workspace/ui/components/shadcn/button';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { MultimediaInfo } from '@/components/multimedia/multimedia-info';

@@ -5,8 +5,8 @@ import * as React from 'react';
 import { Command as CommandPrimitive } from 'cmdk';
 import { CheckIcon, SearchIcon } from 'lucide-react';
 
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@workspace/ui/components/dialog';
-import { InputGroup, InputGroupAddon } from '@workspace/ui/components/input-group';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@workspace/ui/components/shadcn/dialog';
+import { InputGroup, InputGroupAddon } from '@workspace/ui/components/shadcn/input-group';
 import { cn } from '@workspace/ui/lib/utils';
 
 function Command({ className, ...props }: React.ComponentProps<typeof CommandPrimitive>) {

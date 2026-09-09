@@ -1,8 +1,8 @@
 import { ListIcon, ListOrderedIcon, ListTodoIcon } from 'lucide-react';
 
 import { useTiptap } from '@workspace/tiptap/hooks/use-tiptap';
-import { Button } from '@workspace/ui/components/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
+import { Button } from '@workspace/ui/components/shadcn/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@workspace/ui/components/shadcn/dropdown-menu';
 
 export function EditorLists() {
   const { structure } = useTiptap();

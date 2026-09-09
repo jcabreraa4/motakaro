@@ -7,11 +7,11 @@ import { useQuery } from 'convex/react';
 import { FileTextIcon, PlusIcon, SearchIcon, XIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Button } from '@workspace/ui/components/button';
+import { Button } from '@workspace/ui/components/shadcn/button';
 import { EmptySection } from '@workspace/ui/components/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
-import { Kbd, KbdGroup } from '@workspace/ui/components/kbd';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/shadcn/input-group';
+import { Kbd, KbdGroup } from '@workspace/ui/components/shadcn/kbd';
 
 import { DocumentsCreate } from '@/components/documents/documents-create';
 import { DocumentsTable } from '@/components/documents/documents-table';

@@ -6,13 +6,13 @@ import { useState } from 'react';
 
 import { MenuIcon } from 'lucide-react';
 
-import { Button } from '@workspace/ui/components/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
+import { Button } from '@workspace/ui/components/shadcn/button';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/shadcn/sheet';
+import { MotakaroLogo } from '@workspace/ui/components/custom/motakaro-logo';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { Paragraph } from '@/components/layout/app-heading';
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
-import { Branding } from '@/components/motakaro/branding';
 import { ContactLink } from '@/components/motakaro/contact-link';
 import { useLocation } from '@/hooks/use-location';
 
@@ -146,7 +146,9 @@ export function AppNavbar() {
     <SectionWrapper>
       <SectionInner className="lg:py-5">
         <SectionContent className="flex items-center justify-between">
-          <Branding />
+          <Link href="/">
+            <MotakaroLogo />
+          </Link>
           <DesktopTable
             isActive={isActive}
             className="hidden lg:flex"

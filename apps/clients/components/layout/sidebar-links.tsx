@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 import { Building2Icon, ChartColumnBigIcon, FileTextIcon, HeadsetIcon, ImageIcon, LayoutDashboardIcon, type LucideIcon, UsersIcon } from 'lucide-react';
 
-import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
+import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/shadcn/sidebar';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { useLocation } from '@/hooks/use-location';

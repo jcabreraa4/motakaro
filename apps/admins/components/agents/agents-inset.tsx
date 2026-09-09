@@ -1,6 +1,6 @@
 'use client';
 
-import { SidebarInset } from '@workspace/ui/components/sidebar';
+import { SidebarInset } from '@workspace/ui/components/shadcn/sidebar';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { AgentsHeader } from '@/components/agents/agents-header';
@@ -14,7 +14,7 @@ export function AgentsInset() {
     <SidebarInset className={cn('hidden w-full overflow-hidden md:max-w-100 print:hidden', agents && 'xl:flex')}>
       <AgentsHeader />
       <InsetSection>
-        <div className="h-full bg-yellow-100"></div>
+        <div className="h-full"></div>
       </InsetSection>
     </SidebarInset>
   );

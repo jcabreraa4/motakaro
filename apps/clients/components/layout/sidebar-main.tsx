@@ -1,4 +1,4 @@
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@workspace/ui/components/sidebar';
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@workspace/ui/components/shadcn/sidebar';
 
 import { SidebarLinks } from '@/components/layout/sidebar-links';
 import { SidebarTeam } from '@/components/layout/sidebar-team';

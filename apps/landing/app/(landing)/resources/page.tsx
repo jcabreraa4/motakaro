@@ -3,7 +3,7 @@
 import { useQuery } from 'convex/react';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Skeleton } from '@workspace/ui/components/skeleton';
+import { Skeleton } from '@workspace/ui/components/shadcn/skeleton';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { Heading2 } from '@/components/layout/app-heading';

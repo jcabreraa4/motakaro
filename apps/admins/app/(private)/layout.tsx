@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 
-import { SidebarInset, SidebarProvider } from '@workspace/ui/components/sidebar';
+import { SidebarInset, SidebarProvider } from '@workspace/ui/components/shadcn/sidebar';
 
 import { AgentsInset } from '@/components/agents/agents-inset';
 import { AppOnboard } from '@/components/layout/app-onboard';

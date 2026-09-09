@@ -1,4 +1,4 @@
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/shadcn/card';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { Heading2, Heading3, Paragraph } from '@/components/layout/app-heading';

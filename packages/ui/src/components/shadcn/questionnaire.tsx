@@ -5,7 +5,7 @@ import * as React from 'react';
 import { Questionnaire as QuestionnairePrimitive } from '@shadcn/react/questionnaire';
 import { CheckIcon } from 'lucide-react';
 
-import { type Button, buttonVariants } from '@workspace/ui/components/button';
+import { type Button, buttonVariants } from '@workspace/ui/components/shadcn/button';
 import { cn } from '@workspace/ui/lib/utils';
 
 function Questionnaire({ className, ...props }: React.ComponentProps<typeof QuestionnairePrimitive.Root>) {

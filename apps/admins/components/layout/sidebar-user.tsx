@@ -11,9 +11,9 @@ import { BellIcon, ChevronsUpDown, CircleUserIcon, LogOutIcon, MoonIcon, SunIcon
 import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@workspace/ui/components/sidebar';
+import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/shadcn/avatar';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@workspace/ui/components/shadcn/dropdown-menu';
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@workspace/ui/components/shadcn/sidebar';
 import { cn } from '@workspace/ui/lib/utils';
 
 interface UserDataProps extends SidebarUserProps {

@@ -7,10 +7,10 @@ import { Fragment } from 'react';
 
 import { MoonIcon, SunIcon } from 'lucide-react';
 
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
-import { Button } from '@workspace/ui/components/button';
-import { Separator } from '@workspace/ui/components/separator';
-import { SidebarTrigger } from '@workspace/ui/components/sidebar';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/shadcn/breadcrumb';
+import { Button } from '@workspace/ui/components/shadcn/button';
+import { Separator } from '@workspace/ui/components/shadcn/separator';
+import { SidebarTrigger } from '@workspace/ui/components/shadcn/sidebar';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { NotificationsPopover } from '@/components/notifications/notifications-popover';

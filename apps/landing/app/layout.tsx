@@ -4,8 +4,8 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
-import { Toaster } from '@workspace/ui/components/sonner';
-import { TooltipProvider } from '@workspace/ui/components/tooltip';
+import { Toaster } from '@workspace/ui/components/shadcn/sonner';
+import { TooltipProvider } from '@workspace/ui/components/shadcn/tooltip';
 import '@workspace/ui/globals.css';
 import { cn } from '@workspace/ui/lib/utils';
 
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   title: 'Motakaro',
   description: 'B2B GTM Engineering',
   icons: {
-    icon: '/motakaro.webp'
+    icon: '/logo.webp'
   }
 };
 

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { Button } from '@workspace/ui/components/button';
+import { Button } from '@workspace/ui/components/shadcn/button';
 
 import { Paragraph } from '@/components/layout/app-heading';
 

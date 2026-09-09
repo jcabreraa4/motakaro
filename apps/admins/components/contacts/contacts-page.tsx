@@ -8,7 +8,7 @@ import { Preloaded, usePreloadedQuery } from 'convex/react';
 import { UsersIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Button } from '@workspace/ui/components/button';
+import { Button } from '@workspace/ui/components/shadcn/button';
 import { EmptySection } from '@workspace/ui/components/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
@@ -57,9 +57,7 @@ export function ContactsLoaded({ preloaded }: ContactsPageProps) {
 
   return (
     <InsetSection>
-      <p>
-        {contact.name} {contact.surname}
-      </p>
+      <p>{contact.name}</p>
     </InsetSection>
   );
 }

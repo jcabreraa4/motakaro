@@ -5,9 +5,9 @@ import { useQuery } from 'convex/react';
 import { SearchIcon, XIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
-import { Kbd, KbdGroup } from '@workspace/ui/components/kbd';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/shadcn/input-group';
+import { Kbd, KbdGroup } from '@workspace/ui/components/shadcn/kbd';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/shadcn/select';
 
 import { InsetSection } from '@/components/layout/inset-section';
 import { NotificationsLoader } from '@/components/notifications/notifications-loader';
