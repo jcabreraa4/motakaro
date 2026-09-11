@@ -5,9 +5,9 @@ import { useQuery } from 'convex/react';
 import { ImageIcon, PlusIcon, SearchIcon, XIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Button } from '@workspace/ui/components/shadcn/button';
 import { EmptySection } from '@workspace/ui/components/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
+import { Button } from '@workspace/ui/components/shadcn/button';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/shadcn/input-group';
 import { Kbd, KbdGroup } from '@workspace/ui/components/shadcn/kbd';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/shadcn/select';

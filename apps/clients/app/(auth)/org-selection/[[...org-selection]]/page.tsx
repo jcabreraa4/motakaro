@@ -8,9 +8,9 @@ import { useClerk, useOrganizationList, useSession } from '@clerk/nextjs';
 import { BuildingIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/shadcn/avatar';
 import { Button } from '@workspace/ui/components/shadcn/button';
-import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 import { Field, FieldDescription, FieldGroup } from '@workspace/ui/components/shadcn/field';
 
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;

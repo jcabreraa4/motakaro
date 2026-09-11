@@ -8,9 +8,9 @@ import { Preloaded, usePreloadedQuery } from 'convex/react';
 import { FileTextIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Button } from '@workspace/ui/components/shadcn/button';
 import { EmptySection } from '@workspace/ui/components/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
+import { Button } from '@workspace/ui/components/shadcn/button';
 
 import { DocumentsEditor } from '@/components/documents/documents-editor';
 import { DocumentsToolbar } from '@/components/documents/documents-toolbar';

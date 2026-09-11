@@ -1,13 +1,31 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
+  "cycles": {
+    "dynamicImports": true
+  },
+  "rules": {
+    "cycles": "warn"
+  },
   "workspaces": {
     ".": {
       "entry": [".eslintrc.js"],
-      "ignore": [".agents/**"],
+      "project": ["*.{js,cjs,mjs,ts}"],
+      "ignore": [".agents/**", ".claude/**"],
       "ignoreDependencies": ["eslint"]
     },
+    "apps/agents": {
+      "entry": ["agent/agent.ts", "agent/channels/*.ts"],
+      "project": ["agent/**/*.ts", "evals/**/*.ts"]
+    },
+    "packages/backend": {
+      "convex": true,
+      "ignoreIssues": {
+        "convex/_generated/**": ["exports", "types", "duplicates"]
+      }
+    },
     "packages/trigger": {
-      "entry": ["trigger.config.ts"]
+      "entry": ["trigger.config.ts", "src/index.ts", "src/trigger/**/*.ts"],
+      "project": ["trigger.config.ts", "src/**/*.ts"]
     }
   }
 }

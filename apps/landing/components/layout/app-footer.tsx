@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
-import { Button } from '@workspace/ui/components/shadcn/button';
 import { MotakaroLogo } from '@workspace/ui/components/custom/motakaro-logo';
+import { Button } from '@workspace/ui/components/shadcn/button';
 
 import { Paragraph } from '@/components/layout/app-heading';
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';

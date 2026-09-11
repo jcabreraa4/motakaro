@@ -2,8 +2,8 @@
 
 import { Geist, Geist_Mono } from 'next/font/google';
 
-import '@workspace/ui/globals.css';
 import { ExceptionPage } from '@workspace/ui/components/custom/exception-page';
+import '@workspace/ui/globals.css';
 import { cn } from '@workspace/ui/lib/utils';
 
 const fontSans = Geist({

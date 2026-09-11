@@ -8,9 +8,9 @@ import { Preloaded, usePreloadedQuery } from 'convex/react';
 import { ListVideoIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
-import { Button } from '@workspace/ui/components/shadcn/button';
 import { EmptySection } from '@workspace/ui/components/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
+import { Button } from '@workspace/ui/components/shadcn/button';
 
 import { InsetSection } from '@/components/layout/inset-section';
 import { ResourcesRender } from '@/components/resources/resources-render';

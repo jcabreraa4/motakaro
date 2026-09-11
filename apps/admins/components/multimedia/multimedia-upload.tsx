@@ -8,9 +8,9 @@ import { toast } from 'sonner';
 
 import { api } from '@workspace/backend/_generated/api';
 import { Id } from '@workspace/backend/_generated/dataModel';
+import { FileDropzone } from '@workspace/ui/components/custom/file-dropzone';
 import { Button } from '@workspace/ui/components/shadcn/button';
 import { Carousel, CarouselContent, CarouselItem } from '@workspace/ui/components/shadcn/carousel';
-import { FileDropzone } from '@workspace/ui/components/custom/file-dropzone';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/shadcn/dialog';
 import { cn } from '@workspace/ui/lib/utils';
 

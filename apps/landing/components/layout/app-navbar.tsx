@@ -6,9 +6,9 @@ import { useState } from 'react';
 
 import { MenuIcon } from 'lucide-react';
 
+import { MotakaroLogo } from '@workspace/ui/components/custom/motakaro-logo';
 import { Button } from '@workspace/ui/components/shadcn/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/shadcn/sheet';
-import { MotakaroLogo } from '@workspace/ui/components/custom/motakaro-logo';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { Paragraph } from '@/components/layout/app-heading';

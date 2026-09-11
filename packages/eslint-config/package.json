@@ -7,8 +7,6 @@
     "@eslint/compat": "catalog:",
     "@eslint/js": "catalog:",
     "@next/eslint-plugin-next": "catalog:",
-    "@typescript-eslint/eslint-plugin": "catalog:",
-    "@typescript-eslint/parser": "catalog:",
     "eslint": "catalog:",
     "eslint-config-prettier": "catalog:",
     "eslint-plugin-only-warn": "catalog:",
