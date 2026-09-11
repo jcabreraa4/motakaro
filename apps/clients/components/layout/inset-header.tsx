@@ -48,7 +48,7 @@ function HeaderBreadcrumb() {
   );
 }
 
-export function ThemeButton({ className }: { className?: string }) {
+function ThemeButton({ className }: { className?: string }) {
   const { theme, setTheme } = useTheme();
 
   return (
