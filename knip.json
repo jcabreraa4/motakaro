@@ -1,5 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
+  "ignore": [".agents/**", ".claude/**"],
   "cycles": {
     "dynamicImports": true
   },
@@ -7,12 +8,6 @@
     "cycles": "warn"
   },
   "workspaces": {
-    ".": {
-      "entry": [".eslintrc.js"],
-      "project": ["*.{js,cjs,mjs,ts}"],
-      "ignore": [".agents/**", ".claude/**"],
-      "ignoreDependencies": ["eslint"]
-    },
     "apps/agents": {
       "entry": ["agent/agent.ts", "agent/channels/*.ts"],
       "project": ["agent/**/*.ts", "evals/**/*.ts"]

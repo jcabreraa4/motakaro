@@ -23,5 +23,8 @@ export const config = [
         ...globals.node
       }
     }
+  },
+  {
+    ignores: ['.eve/**']
   }
 ];
