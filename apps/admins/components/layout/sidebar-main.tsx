@@ -17,7 +17,7 @@ export async function SidebarMain({ ...props }: React.ComponentProps<typeof Side
         <SidebarTeam
           name="Motakaro"
           plan="Internal"
-          logo="/motakaro.webp"
+          logo="/logo.webp"
         />
       </SidebarHeader>
       <SidebarContent>

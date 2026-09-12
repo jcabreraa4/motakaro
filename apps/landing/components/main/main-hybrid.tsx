@@ -4,8 +4,8 @@ import { cn } from '@workspace/ui/lib/utils';
 import { Heading2, Heading3, Paragraph } from '@/components/layout/app-heading';
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
 import { ContactLink } from '@/components/motakaro/contact-link';
-import { DotBackground } from '@/components/ui/dot-pattern';
-import { SparklesText } from '@/components/ui/sparkles-text';
+import { DotBackground } from '@workspace/ui/components/magicui/dot-pattern';
+import { SparklesText } from '@workspace/ui/components/magicui/sparkles-text';
 
 interface Section {
   title: string;

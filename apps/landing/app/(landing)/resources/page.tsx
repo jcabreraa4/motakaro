@@ -8,7 +8,7 @@ import { cn } from '@workspace/ui/lib/utils';
 
 import { Heading2 } from '@/components/layout/app-heading';
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
-import { VideoDialog } from '@/components/ui/video-dialog';
+import { VideoDialog } from '@workspace/ui/components/magicui/video-dialog';
 
 function ResourcesTable({ children }: { children: React.ReactNode }) {
   return <div className="grid flex-1 grid-flow-row grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">{children}</div>;
