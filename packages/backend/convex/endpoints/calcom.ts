@@ -11,7 +11,7 @@ export const calcomSync = httpAction(async (ctx, request) => {
 
   // Verify Request
   const signature = request.headers.get('X-Cal-Signature-256');
-  if (!validateRequest(body, signature)) {
+  if (!(await validateRequest(body, signature))) {
     return new Response('Invalid signature', { status: 401 });
   }
 

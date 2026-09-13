@@ -3,6 +3,7 @@
   "compilerOptions": {
     "paths": {
       "@/*": ["./*"],
+      "@workspace/auth/*": ["../../packages/auth/src/*"],
       "@workspace/backend/*": ["../../packages/backend/convex/*"],
       "@workspace/render/*": ["../../packages/render/src/*"],
       "@workspace/tiptap/*": ["../../packages/tiptap/src/*"],

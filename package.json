@@ -8,6 +8,7 @@
     "lint": "turbo run lint",
     "format": "turbo run format",
     "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
     "deploy": "turbo run deploy",
     "knip": "knip --no-exit-code"
   },
@@ -37,6 +38,7 @@
     "@clerk/themes": "^2.4.57",
     "@convex-dev/prosemirror-sync": "^0.2.6",
     "@convex-dev/r2": "^0.10.2",
+    "@edge-runtime/vm": "^5.0.0",
     "@eslint/compat": "^2.1.0",
     "@eslint/js": "^10.0.1",
     "@hookform/resolvers": "^5.9.1",
@@ -66,6 +68,7 @@
     "cmdk": "^1.1.1",
     "cn": "^0.2.4",
     "convex": "^1.45.0",
+    "convex-test": "^0.0.58",
     "date-fns": "^4.4.0",
     "embla-carousel-react": "^8.6.0",
     "eslint": "^10.9.1",
@@ -106,6 +109,8 @@
     "typescript": "^6",
     "typescript-eslint": "^8.68.0",
     "vaul": "^1.1.2",
+    "vite": "^8.3.0",
+    "vitest": "^5.0.0",
     "zod": "^4.5.4",
     "zustand": "^5.0.15"
   }

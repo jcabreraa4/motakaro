@@ -10,8 +10,9 @@ import { useAuth, useSignUp } from '@clerk/nextjs';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RefreshCwIcon } from 'lucide-react';
 import { toast } from 'sonner';
-import { z } from 'zod';
 
+import { signUpSchema } from '@workspace/auth/schemas/auth';
+import type { SignUpFormType } from '@workspace/auth/schemas/auth';
 import { Button } from '@workspace/ui/components/shadcn/button';
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@workspace/ui/components/shadcn/field';
 import { Input } from '@workspace/ui/components/shadcn/input';
@@ -19,20 +20,6 @@ import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@works
 
 const pageStatus = process.env.NEXT_PUBLIC_SIGN_UP_ACTIVE!;
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
-
-const signUpSchema = z
-  .object({
-    name: z.string().min(1, 'Name is required'),
-    surname: z.string().min(1, 'Surname is required'),
-    password: z.string().min(1, 'Password is required').min(6, 'Password is too short'),
-    confirm: z.string().min(1, 'Password is required')
-  })
-  .refine((data) => data.password === data.confirm, {
-    message: 'Passwords do not match',
-    path: ['confirm']
-  });
-
-type SignUpFormType = z.infer<typeof signUpSchema>;
 
 const errorMessage = 'An internal error has occurred.';
 const successMessage = 'You signed up successfully.';

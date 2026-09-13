@@ -1,11 +1,11 @@
+import { DotBackground } from '@workspace/ui/components/magicui/dot-pattern';
+import { SparklesText } from '@workspace/ui/components/magicui/sparkles-text';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/shadcn/card';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { Heading2, Heading3, Paragraph } from '@/components/layout/app-heading';
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
 import { ContactLink } from '@/components/motakaro/contact-link';
-import { DotBackground } from '@workspace/ui/components/magicui/dot-pattern';
-import { SparklesText } from '@workspace/ui/components/magicui/sparkles-text';
 
 interface Section {
   title: string;

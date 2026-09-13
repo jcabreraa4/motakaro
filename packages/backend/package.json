@@ -8,6 +8,7 @@
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit -p convex/tsconfig.json",
+    "test": "vitest run",
     "deploy": "convex deploy"
   },
   "dependencies": {
@@ -18,11 +19,15 @@
     "svix": "catalog:"
   },
   "devDependencies": {
+    "@edge-runtime/vm": "catalog:",
     "@types/node": "catalog:",
     "@workspace/eslint-config": "workspace:*",
     "@workspace/typescript-config": "workspace:*",
+    "convex-test": "catalog:",
     "eslint": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:"
   },
   "exports": {
     "./convex": "./convex/*"

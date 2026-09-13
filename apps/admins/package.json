@@ -21,6 +21,7 @@
     "@tiptap/react": "catalog:",
     "@trigger.dev/sdk": "catalog:",
     "@vercel/analytics": "catalog:",
+    "@workspace/auth": "workspace:*",
     "@workspace/backend": "workspace:*",
     "@workspace/render": "workspace:*",
     "@workspace/tiptap": "workspace:*",
@@ -37,10 +38,10 @@
     "react-dropzone": "catalog:",
     "react-hook-form": "catalog:",
     "sonner": "catalog:",
-    "zod": "catalog:",
     "zustand": "catalog:"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",

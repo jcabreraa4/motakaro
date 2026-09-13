@@ -1,12 +1,12 @@
 import { type LucideIcon, MegaphoneIcon, SearchIcon, TrendingUpIcon, VideoIcon } from 'lucide-react';
 
+import { DotBackground } from '@workspace/ui/components/magicui/dot-pattern';
+import { HyperText } from '@workspace/ui/components/magicui/hyper-text';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/shadcn/card';
 
 import { Heading2, Heading3, Paragraph } from '@/components/layout/app-heading';
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
 import { ContactLink } from '@/components/motakaro/contact-link';
-import { DotBackground } from '@workspace/ui/components/magicui/dot-pattern';
-import { HyperText } from '@workspace/ui/components/magicui/hyper-text';
 
 interface Service {
   title: string;
