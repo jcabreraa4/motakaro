@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "deploy": "vercel pull --environment=production --yes && vercel build --prod && vercel deploy --prebuilt --prod"
   },
   "dependencies": {
     "@clerk/nextjs": "catalog:",

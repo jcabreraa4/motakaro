@@ -34,7 +34,12 @@
       "dependsOn": ["transit"]
     },
     "deploy": {
-      "cache": false
+      "cache": false,
+      "dependsOn": ["typecheck"]
+    },
+    "eval": {
+      "cache": false,
+      "dependsOn": ["typecheck"]
     },
     "//#knip": {
       "cache": false

@@ -9,7 +9,7 @@
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit -p convex/tsconfig.json",
     "test": "vitest run",
-    "deploy": "convex deploy"
+    "deploy": "convex deploy -y"
   },
   "dependencies": {
     "@clerk/backend": "catalog:",
