@@ -2,13 +2,13 @@
 
 > Open-source infrastructure.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Bun](https://img.shields.io/badge/Bun-package%20manager-F9F1E1?logo=bun)](https://bun.sh)
-[![Turborepo](https://img.shields.io/badge/Turborepo-monorepo-EF4444?logo=turborepo)](https://turbo.build)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Bun](https://img.shields.io/badge/Bun-Runtime-EFEFEF?logo=bun)](https://bun.sh)
+[![Turborepo](https://img.shields.io/badge/Turborepo-Monorepo-EFEFEF?logo=turborepo)](https://turbo.build)
 [![Nextjs](https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs)](https://nextjs.org)
-[![Eve](https://img.shields.io/badge/eve-agents-000000)](https://eve.dev)
-[![Convex](https://img.shields.io/badge/Convex-backend-EE342F?logo=convex&logoColor=white)](https://convex.dev)
-[![Trigger](https://img.shields.io/badge/Trigger.dev-background%20jobs-A78BFA)](https://trigger.dev)
+[![Convex](https://img.shields.io/badge/Convex-Backend-EF4444?logo=convex&logoColor=white)](https://convex.dev)
+[![Eve](https://img.shields.io/badge/Eve-Agents-000000)](https://eve.dev)
+[![Trigger](https://img.shields.io/badge/Trigger.dev-BG%20Jobs-EF4444)](https://trigger.dev)
 
 ---
 
