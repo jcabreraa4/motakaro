@@ -1,7 +1,18 @@
-dist/
+# Dependencies
 node_modules/
+bun.lock
+
+# Build Outputs
+dist/
 .next/
 .turbo/
 coverage/
-pnpm-lock.yaml
-.pnpm-store/
+
+# Vercel
+.vercel/
+
+# Convex
+convex/_generated/
+
+# Auto-Generated Docs
+CHANGELOG.md
