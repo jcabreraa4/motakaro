@@ -17,7 +17,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <h1 className="text-5xl font-bold">Motakaro Labs</h1>
         </div>
         <img
-          alt="Motakaro"
+          alt="Image"
           src={background}
           className="w-full object-cover opacity-30"
         />
