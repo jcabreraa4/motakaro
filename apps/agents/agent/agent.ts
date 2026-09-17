@@ -1,6 +1,6 @@
 import { defineAgent } from 'eve';
 
 export default defineAgent({
-  model: 'zai/glm-5.3-flash',
+  model: 'google/gemini-3.7-flash',
   description: 'Motakaro internal assistant.'
 });
