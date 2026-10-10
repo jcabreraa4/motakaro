@@ -5,7 +5,7 @@ import { withSentryConfig } from '@sentry/nextjs/config';
 const nextConfig: NextConfig = {
   typedRoutes: true,
   transpilePackages: ['@workspace/auth', '@workspace/render', '@workspace/tiptap', '@workspace/ui'],
-  allowedDevOrigins: ['falcon.ts.cabrerajorge.com'],
+  allowedDevOrigins: ['*.ts.cabrerajorge.com'],
   images: {
     remotePatterns: [
       {

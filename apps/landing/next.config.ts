@@ -3,7 +3,7 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   typedRoutes: true,
   transpilePackages: ['@workspace/ui'],
-  allowedDevOrigins: ['falcon.ts.cabrerajorge.com'],
+  allowedDevOrigins: ['*.ts.cabrerajorge.com'],
   images: {
     remotePatterns: [
       {
