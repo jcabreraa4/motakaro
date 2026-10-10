@@ -111,7 +111,7 @@
     "typescript": "^6",
     "typescript-eslint": "^8.68.0",
     "vaul": "^1.1.2",
-    "vercel": "^59.16.0",
+    "vercel": "^63.1.2",
     "vite": "^8.3.0",
     "vitest": "^5.0.0",
     "zod": "^4.5.4",
