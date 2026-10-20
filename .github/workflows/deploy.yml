@@ -34,4 +34,4 @@ jobs:
         working-directory: packages/trigger
         env:
           TRIGGER_ACCESS_TOKEN: ${{ secrets.TRIGGER_ACCESS_TOKEN }}
-        run: bunx trigger.dev@latest deploy
+        run: bunx trigger.dev deploy
