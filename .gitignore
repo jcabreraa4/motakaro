@@ -2,8 +2,7 @@
 node_modules/
 
 # Env Vars
-.env
-.env.*
+.env*
 !.env.example
 
 # Turbo
@@ -41,4 +40,3 @@ pnpm-debug.log*
 # OS / Misc
 .DS_Store
 *.pem
-.env*
