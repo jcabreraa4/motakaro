@@ -25,11 +25,13 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Deploy Convex
+        working-directory: packages/backend
         env:
           CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
         run: bunx convex deploy --yes
 
       - name: Deploy Trigger
+        working-directory: packages/trigger
         env:
           TRIGGER_ACCESS_TOKEN: ${{ secrets.TRIGGER_ACCESS_TOKEN }}
         run: bunx trigger.dev@latest deploy
