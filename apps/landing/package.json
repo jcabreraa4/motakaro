@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "bun --bun next dev --port 3003",
-    "build": "next build",
+    "build": "bun --bun next build",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
