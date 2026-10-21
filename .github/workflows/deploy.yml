@@ -12,14 +12,64 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  BUN_VERSION: 1.4.3
+
 jobs:
-  deploy:
+  # Deploy Vercel
+  vercel:
+    name: Vercel (${{ matrix.app }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - app: admins
+            project: VERCEL_PROJECT_ID_ADMINS
+          - app: clients
+            project: VERCEL_PROJECT_ID_CLIENTS
+          - app: landing
+            project: VERCEL_PROJECT_ID_LANDING
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets[matrix.project] }}
+    defaults:
+      run:
+        working-directory: apps/${{ matrix.app }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Install
+        working-directory: .
+        run: bun install --frozen-lockfile
+
+      - name: Pull Vercel Env
+        run: bunx vercel@latest pull --yes --environment=production --token=$VERCEL_TOKEN
+
+      - name: Build
+        run: bunx vercel@latest build --prod --token=$VERCEL_TOKEN
+
+      - name: Deploy Prebuilt
+        run: bunx vercel@latest deploy --prebuilt --prod --token=$VERCEL_TOKEN
+
+  # Deploy Convex
+  convex:
+    name: Convex
+    needs: vercel
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
       - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install
         run: bun install --frozen-lockfile
@@ -29,6 +79,22 @@ jobs:
         env:
           CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
         run: bunx convex deploy --yes
+
+  # Deploy Trigger
+  trigger:
+    name: Trigger
+    needs: convex
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Install
+        run: bun install --frozen-lockfile
 
       - name: Deploy Trigger
         working-directory: packages/trigger
