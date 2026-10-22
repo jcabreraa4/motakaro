@@ -18,7 +18,7 @@ env:
 
 jobs:
   test:
-    name: Typecheck & Test
+    name: Typecheck and Test
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
