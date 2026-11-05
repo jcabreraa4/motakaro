@@ -1,4 +1,4 @@
-# agents
+# chatbot
 
 This is an [eve](https://eve.dev) agent bootstrapped with [`eve init`](https://eve.dev/docs/reference/cli#eve-init).
 
@@ -21,7 +21,6 @@ Add capabilities under `agent/`, including tools, connections, channels, skills,
 To learn more about eve, explore these resources:
 
 - [eve documentation](https://eve.dev/docs) — learn about eve's features and authoring APIs.
-- [Build an Agent tutorial](https://eve.dev/docs/tutorial/first-agent) — build and deploy an agent step by step.
 - [eve on GitHub](https://github.com/vercel/eve) — view the source and contribute.
 
 ## Deploy on Vercel
