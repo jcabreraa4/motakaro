@@ -105,6 +105,9 @@ jobs:
         with:
           bun-version: ${{ env.BUN_VERSION }}
 
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
+
       - name: Deploy to Vercel
         run: bunx vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
 
