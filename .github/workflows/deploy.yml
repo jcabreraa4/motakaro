@@ -20,7 +20,7 @@ env:
 jobs:
   # Deploy Vercel
   vercel:
-    name: Vercel (${{ matrix.app }})
+    name: Deploy ${{ matrix.display }}
     if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -29,14 +29,19 @@ jobs:
       matrix:
         include:
           - app: admins
+            display: Admins
             project: VERCEL_PROJECT_ID_ADMINS
           - app: clients
+            display: Clients
             project: VERCEL_PROJECT_ID_CLIENTS
           - app: landing
+            display: Landing
             project: VERCEL_PROJECT_ID_LANDING
           - app: ghosts
+            display: Ghosts
             project: VERCEL_PROJECT_ID_GHOSTS
           - app: chatbot
+            display: Chatbot
             project: VERCEL_PROJECT_ID_CHATBOT
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -67,7 +72,7 @@ jobs:
 
   # Deploy Convex
   convex:
-    name: Convex
+    name: Deploy Convex
     needs: vercel
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -93,7 +98,7 @@ jobs:
 
   # Deploy Trigger
   trigger:
-    name: Trigger
+    name: Deploy Trigger
     needs: convex
     runs-on: ubuntu-latest
     timeout-minutes: 15
