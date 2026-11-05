@@ -66,7 +66,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: vercel-${{ matrix.app }}
-          path: .vercel
+          path: |
+            .vercel
+            apps/${{ matrix.app }}/.next
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 1
@@ -98,7 +100,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: vercel-${{ matrix.app }}
-          path: .vercel
+          path: .
 
       - name: Install Bun
         uses: oven-sh/setup-bun@v2
