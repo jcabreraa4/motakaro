@@ -18,9 +18,9 @@ env:
   BUN_VERSION: 1.4.4
 
 jobs:
-  # Build Vercel
-  build_vercel:
-    name: Build Vercel (${{ matrix.app }})
+  # Deploy Vercel
+  vercel:
+    name: Vercel (${{ matrix.app }})
     if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -62,61 +62,13 @@ jobs:
       - name: Build Application
         run: bunx vercel build --prod --token=$VERCEL_TOKEN
 
-      - name: Upload Build
-        uses: actions/upload-artifact@v4
-        with:
-          name: vercel-${{ matrix.app }}
-          path: |
-            .vercel
-            apps/${{ matrix.app }}/.next
-          include-hidden-files: true
-          if-no-files-found: error
-          retention-days: 1
-
-  # Deploy Vercel
-  deploy_vercel:
-    name: Deploy Vercel (${{ matrix.app }})
-    needs: build_vercel
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - app: admins
-          - app: clients
-          - app: landing
-          - app: ghosts
-          - app: chatbot
-    env:
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-    steps:
-      - name: Clone Repository
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
-
-      - name: Download Build
-        uses: actions/download-artifact@v4
-        with:
-          name: vercel-${{ matrix.app }}
-          path: .
-
-      - name: Install Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: ${{ env.BUN_VERSION }}
-
-      - name: Install Dependencies
-        run: bun install --frozen-lockfile
-
       - name: Deploy to Vercel
         run: bunx vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
 
   # Deploy Convex
-  deploy_convex:
-    name: Deploy Convex
-    needs: deploy_vercel
+  convex:
+    name: Convex
+    needs: vercel
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -140,9 +92,9 @@ jobs:
         run: bunx convex deploy --yes
 
   # Deploy Trigger
-  deploy_trigger:
-    name: Deploy Trigger
-    needs: deploy_convex
+  trigger:
+    name: Trigger
+    needs: convex
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
