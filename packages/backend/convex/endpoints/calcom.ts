@@ -7,6 +7,7 @@ type CalcomTrigger = 'BOOKING_CREATED' | 'BOOKING_RESCHEDULED' | 'BOOKING_CANCEL
 // Calcom Sync (/calcom-sync)
 
 export const calcomSync = httpAction(async (ctx, request) => {
+  // Obtain Body
   const body = await request.text();
 
   // Verify Request

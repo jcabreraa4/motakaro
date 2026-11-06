@@ -7,7 +7,7 @@ function getKey(key: string) {
 }
 
 export const env = {
-  // Clerk Keys
+  // Clerk
   CLERK_ADMINS_JWT_DOMAIN: getKey('CLERK_ADMINS_JWT_DOMAIN'),
   CLERK_ADMINS_WEBHOOK_SECRET: getKey('CLERK_ADMINS_WEBHOOK_SECRET'),
 
@@ -15,10 +15,16 @@ export const env = {
   CLERK_CLIENTS_WEBHOOK_SECRET: getKey('CLERK_CLIENTS_WEBHOOK_SECRET'),
   CLERK_CLIENTS_SECRET_KEY: getKey('CLERK_CLIENTS_SECRET_KEY'),
 
-  // Calcom Keys
+  // Calcom
   CALCOM_WEBHOOK_SECRET: getKey('CALCOM_WEBHOOK_SECRET'),
 
-  // Cloudflare Keys
+  // Resend
+  RESEND_API_KEY: getKey('RESEND_API_KEY'),
+
+  // Trigger
+  TRIGGER_SECRET_KEY: getKey('TRIGGER_SECRET_KEY'),
+
+  // Cloudflare
   R2_TOKEN: getKey('R2_TOKEN'),
   R2_ACCESS_KEY_ID: getKey('R2_ACCESS_KEY_ID'),
   R2_SECRET_ACCESS_KEY: getKey('R2_SECRET_ACCESS_KEY'),
