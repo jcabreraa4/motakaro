@@ -75,6 +75,9 @@ export declare const internal: FilterApi<
 >;
 
 export declare const components: {
-  r2: import("@convex-dev/r2/_generated/component.js").ComponentApi<"r2">;
+  mcp: import("@convex-dev/mcp/_generated/component.js").ComponentApi<"mcp">;
   prosemirrorSync: import("@convex-dev/prosemirror-sync/_generated/component.js").ComponentApi<"prosemirrorSync">;
+  r2: import("@convex-dev/r2/_generated/component.js").ComponentApi<"r2">;
+  resend: import("@convex-dev/resend/_generated/component.js").ComponentApi<"resend">;
+  trigger: import("@trigger.dev/convex/_generated/component.js").ComponentApi<"trigger">;
 };
