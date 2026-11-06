@@ -25,7 +25,7 @@ jobs:
       - name: Clone Repository
         uses: actions/checkout@v4
 
-      - name: Install Bun
+      - name: Install Bun ${{ env.BUN_VERSION }}
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: ${{ env.BUN_VERSION }}
