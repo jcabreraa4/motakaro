@@ -19,6 +19,7 @@
     "@workspace/backend": "workspace:*",
     "@workspace/ui": "workspace:*",
     "convex": "catalog:",
+    "eve": "catalog:",
     "lucide-react": "catalog:",
     "next": "catalog:",
     "react": "catalog:",

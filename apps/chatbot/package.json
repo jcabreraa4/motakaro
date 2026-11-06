@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "eve dev --no-default-extensions",
+    "dev": "eve dev --no-default-extensions --port 3005",
     "build": "eve build",
     "start": "eve start",
     "lint": "eslint",

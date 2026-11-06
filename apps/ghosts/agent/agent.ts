@@ -1,13 +1,17 @@
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import type { LanguageModel } from 'ai';
 import { defineAgent } from 'eve';
+import type { AgentReasoningDefinition, EveLanguageModel } from 'eve';
+
+const model = process.env.OPENROUTER_MODEL || 'z-ai/glm-5.3-flash';
+const context = Number(process.env.OPENROUTER_CONTEXT || 1048576);
+const reasoning = (process.env.OPENROUTER_REASONING || 'provider-default') as AgentReasoningDefinition;
 
 const openrouter = createOpenRouter();
 
-const model: LanguageModel = openrouter('z-ai/glm-5.3-flash');
+const languageModel: EveLanguageModel = openrouter(model);
 
 export default defineAgent({
-  model,
-  modelContextWindowTokens: 1_048_576,
-  reasoning: 'high'
+  model: languageModel,
+  modelContextWindowTokens: context,
+  reasoning: reasoning
 });
