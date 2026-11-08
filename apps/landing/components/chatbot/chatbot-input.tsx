@@ -2,8 +2,10 @@ import { useState } from 'react';
 
 import type { UseChatHelpers } from '@ai-sdk/react';
 import type { ChatStatus, UIMessage } from 'ai';
+import { SendHorizontalIcon } from 'lucide-react';
 
-import { PromptInput, PromptInputBody, PromptInputFooter, PromptInputSubmit, PromptInputTextarea, PromptInputTools } from '@workspace/ui/components/chatbot/prompt-input';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupTextarea } from '@workspace/ui/components/input-group';
+import { Spinner } from '@workspace/ui/components/spinner';
 
 interface ChatbotInputProps {
   status: ChatStatus;
@@ -13,27 +15,36 @@ interface ChatbotInputProps {
 export function ChatbotInput({ status, sendMessage }: ChatbotInputProps) {
   const [input, setInput] = useState('');
 
+  const isBusy = status === 'submitted' || status === 'streaming';
+
   function handleSubmit() {
     sendMessage({ text: input });
     setInput('');
   }
 
   return (
-    <PromptInput onSubmit={handleSubmit}>
-      <PromptInputBody>
-        <PromptInputTextarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Can I help you with anything?"
-        />
-      </PromptInputBody>
-      <PromptInputFooter>
-        <PromptInputTools></PromptInputTools>
-        <PromptInputSubmit
-          disabled={!input.trim() || status === 'streaming'}
-          className="cursor-pointer"
-        />
-      </PromptInputFooter>
-    </PromptInput>
+    <InputGroup>
+      <InputGroupTextarea
+        value={input}
+        className="min-h-12"
+        placeholder="Can I help you with anything?"
+        onChange={(e) => setInput(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSubmit();
+          }
+        }}
+      />
+      <InputGroupAddon align="block-end">
+        <InputGroupButton
+          onClick={handleSubmit}
+          disabled={!input.trim() || isBusy}
+        >
+          {isBusy ? <Spinner /> : <SendHorizontalIcon />}
+          <span className="sr-only">Send</span>
+        </InputGroupButton>
+      </InputGroupAddon>
+    </InputGroup>
   );
 }

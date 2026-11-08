@@ -1,26 +1,64 @@
-import type { UIMessage } from 'ai';
+import type { ChatStatus, UIMessage } from 'ai';
 
-import { Conversation, ConversationContent, ConversationScrollButton } from '@workspace/ui/components/chatbot/conversation';
-import { Message, MessageResponse } from '@workspace/ui/components/chatbot/message';
+import { Bubble, BubbleContent } from '@workspace/ui/components/bubble';
+import { Message, MessageContent } from '@workspace/ui/components/message';
+import { MessageScroller, MessageScrollerButton, MessageScrollerContent, MessageScrollerItem, MessageScrollerProvider, MessageScrollerViewport } from '@workspace/ui/components/message-scroller';
+import { Spinner } from '@workspace/ui/components/spinner';
 
-export function ChatbotMessages({ messages }: { messages: UIMessage[] }) {
+interface ChatbotMessagesProps {
+  messages: UIMessage[];
+  status: ChatStatus;
+}
+
+export function ChatbotMessages({ messages, status }: ChatbotMessagesProps) {
   return (
-    <Conversation className="min-h-0 flex-1 overflow-y-auto">
-      <ConversationContent>
-        {messages.map((message, index) => (
-          <Message
-            key={index}
-            from={message.role}
-          >
-            {message.parts.map((part, index) => {
-              if (part.type === 'text') {
-                return <MessageResponse key={`${message.id}-${index}`}>{part.text}</MessageResponse>;
-              }
+    <MessageScrollerProvider autoScroll>
+      <MessageScroller className="flex-1">
+        <MessageScrollerViewport>
+          <MessageScrollerContent aria-busy={status === 'streaming'}>
+            {messages.map((message) => {
+              const isUser = message.role === 'user';
+
+              return (
+                <MessageScrollerItem
+                  key={message.id}
+                  messageId={message.id}
+                  scrollAnchor={isUser}
+                >
+                  {message.parts.map(
+                    (part, partIndex) =>
+                      part.type === 'text' && (
+                        <Message
+                          key={partIndex}
+                          align={isUser ? 'end' : 'start'}
+                        >
+                          <MessageContent>
+                            <Bubble
+                              align={isUser ? 'end' : 'start'}
+                              variant={isUser ? 'muted' : 'ghost'}
+                            >
+                              <BubbleContent>{part.text}</BubbleContent>
+                            </Bubble>
+                          </MessageContent>
+                        </Message>
+                      )
+                  )}
+                </MessageScrollerItem>
+              );
             })}
-          </Message>
-        ))}
-      </ConversationContent>
-      <ConversationScrollButton />
-    </Conversation>
+            {status === 'submitted' && (
+              <MessageScrollerItem key="spinner">
+                <Message align="start">
+                  <MessageContent>
+                    <Spinner />
+                  </MessageContent>
+                </Message>
+              </MessageScrollerItem>
+            )}
+          </MessageScrollerContent>
+        </MessageScrollerViewport>
+        <MessageScrollerButton />
+      </MessageScroller>
+    </MessageScrollerProvider>
   );
 }

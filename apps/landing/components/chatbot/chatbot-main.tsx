@@ -46,7 +46,10 @@ export function ChatbotMain() {
             <XIcon />
           </Button>
         </DialogHeader>
-        <ChatbotMessages messages={messages} />
+        <ChatbotMessages
+          messages={messages}
+          status={status}
+        />
         <ChatbotInput
           status={status}
           sendMessage={sendMessage}
