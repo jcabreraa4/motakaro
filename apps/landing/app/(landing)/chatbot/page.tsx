@@ -2,93 +2,58 @@
 
 import { useState } from 'react';
 
-import { useEveAgent } from 'eve/react';
+import { useChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
 
-import { Button } from '@workspace/ui/components/shadcn/button';
-import { Input } from '@workspace/ui/components/shadcn/input';
-import { cn } from '@workspace/ui/lib/utils';
-
-import { Heading2, Paragraph } from '@/components/layout/app-heading';
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
 
-const chatbotUrl = process.env.NEXT_PUBLIC_CHATBOT_URL;
-
 export default function Page() {
-  const agent = useEveAgent({ baseUrl: chatbotUrl });
-  const [message, setMessage] = useState('');
+  const [input, setInput] = useState('');
 
-  const isBusy = agent.status !== 'idle';
+  const { messages, sendMessage, status } = useChat({
+    transport: new DefaultChatTransport({
+      api: '/api/chatbot'
+    })
+  });
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const text = message.trim();
-    if (text.length === 0 || isBusy) return;
-    setMessage('');
-    void agent.send(text);
-  }
+  const busy = status === 'submitted' || status === 'streaming';
 
   return (
     <SectionWrapper className="flex flex-1">
       <SectionInner className="flex flex-1">
-        <SectionContent className="flex flex-1 flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <Heading2>Tokito</Heading2>
-            <Button
-              variant="outline"
-              onClick={() => agent.newSession()}
-            >
-              Nueva conversación
-            </Button>
+        <SectionContent className="relative flex flex-1 flex-col gap-4">
+          <div className="flex-1 space-y-3 overflow-y-auto">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className="whitespace-pre-wrap"
+              >
+                <b>{message.role === 'user' ? 'Tú' : 'Tokito'}:</b> {message.parts.map((part, i) => (part.type === 'text' ? <span key={i}>{part.text}</span> : null))}
+              </div>
+            ))}
           </div>
-
-          <div className="flex min-h-64 flex-1 flex-col gap-3 overflow-y-auto">
-            {agent.messages.length === 0 ? (
-              <Paragraph className="text-muted-foreground">Envía un mensaje para empezar.</Paragraph>
-            ) : (
-              agent.messages.map((item) => (
-                <article
-                  key={item.id}
-                  className={cn('flex max-w-[80%] flex-col gap-1 rounded-lg px-3 py-2', item.role === 'user' ? 'self-end bg-primary text-primary-foreground' : 'self-start bg-muted')}
-                >
-                  {item.parts.map((part, index) => {
-                    if (part.type === 'text' && part.text.length > 0) {
-                      return <p key={part.id ?? index}>{part.text}</p>;
-                    }
-                    if (part.type === 'tool') {
-                      return (
-                        <p
-                          key={part.callId}
-                          className="text-xs opacity-70"
-                        >
-                          {part.label}
-                        </p>
-                      );
-                    }
-                    return null;
-                  })}
-                </article>
-              ))
-            )}
-          </div>
-
-          {agent.error ? <Paragraph className="text-destructive">{agent.error.message}</Paragraph> : null}
-
           <form
-            onSubmit={handleSubmit}
             className="flex gap-2"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!input.trim() || busy) return;
+              sendMessage({ text: input });
+              setInput('');
+            }}
           >
-            <Input
-              value={message}
-              onChange={(event) => setMessage(event.target.value)}
-              disabled={isBusy}
-              placeholder={isBusy ? 'El agente está escribiendo…' : 'Escribe un mensaje…'}
+            <input
+              className="flex-1 rounded border px-3 py-2"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Escribe algo..."
             />
-            <Button
+            <button
               type="submit"
-              disabled={isBusy || message.trim().length === 0}
+              disabled={busy}
+              className="rounded border px-4 py-2"
             >
               Enviar
-            </Button>
+            </button>
           </form>
         </SectionContent>
       </SectionInner>

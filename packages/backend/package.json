@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@clerk/backend": "catalog:",
-    "@convex-dev/mcp": "catalog:",
     "@convex-dev/prosemirror-sync": "catalog:",
     "@convex-dev/r2": "catalog:",
     "@convex-dev/resend": "catalog:",

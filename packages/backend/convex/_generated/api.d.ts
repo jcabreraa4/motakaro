@@ -12,10 +12,10 @@ import type * as admins from "../admins.js";
 import type * as auth from "../auth.js";
 import type * as clients from "../clients.js";
 import type * as documents from "../documents.js";
-import type * as endpoints_calcom from "../endpoints/calcom.js";
-import type * as endpoints_clerk from "../endpoints/clerk.js";
 import type * as env from "../env.js";
 import type * as http from "../http.js";
+import type * as http_calcom from "../http/calcom.js";
+import type * as http_clerk from "../http/clerk.js";
 import type * as meetings from "../meetings.js";
 import type * as memberships from "../memberships.js";
 import type * as multimedia from "../multimedia.js";
@@ -35,10 +35,10 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   clients: typeof clients;
   documents: typeof documents;
-  "endpoints/calcom": typeof endpoints_calcom;
-  "endpoints/clerk": typeof endpoints_clerk;
   env: typeof env;
   http: typeof http;
+  "http/calcom": typeof http_calcom;
+  "http/clerk": typeof http_clerk;
   meetings: typeof meetings;
   memberships: typeof memberships;
   multimedia: typeof multimedia;
@@ -75,7 +75,6 @@ export declare const internal: FilterApi<
 >;
 
 export declare const components: {
-  mcp: import("@convex-dev/mcp/_generated/component.js").ComponentApi<"mcp">;
   prosemirrorSync: import("@convex-dev/prosemirror-sync/_generated/component.js").ComponentApi<"prosemirrorSync">;
   r2: import("@convex-dev/r2/_generated/component.js").ComponentApi<"r2">;
   resend: import("@convex-dev/resend/_generated/component.js").ComponentApi<"resend">;

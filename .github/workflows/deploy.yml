@@ -40,9 +40,6 @@ jobs:
           - app: ghosts
             display: Ghosts
             project: VERCEL_PROJECT_ID_GHOSTS
-          - app: chatbot
-            display: Chatbot
-            project: VERCEL_PROJECT_ID_CHATBOT
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}

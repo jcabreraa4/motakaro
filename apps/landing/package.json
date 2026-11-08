@@ -13,11 +13,14 @@
     "deploy": "vercel pull --environment=production --yes && vercel build --prod && vercel deploy --prebuilt --prod"
   },
   "dependencies": {
+    "@ai-sdk/react": "catalog:",
     "@calcom/embed-react": "catalog:",
+    "@openrouter/ai-sdk-provider": "catalog:",
     "@vercel/analytics": "catalog:",
     "@vercel/speed-insights": "catalog:",
     "@workspace/backend": "workspace:*",
     "@workspace/ui": "workspace:*",
+    "ai": "catalog:",
     "convex": "catalog:",
     "eve": "catalog:",
     "lucide-react": "catalog:",
