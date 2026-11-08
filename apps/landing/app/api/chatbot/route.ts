@@ -14,7 +14,8 @@ export async function POST(request: NextRequest) {
 
   const result = streamText({
     model: openrouter.chat(model),
-    messages: await convertToModelMessages(messages)
+    messages: await convertToModelMessages(messages),
+    instructions: 'You are Tokito, the Motakaro AI assistant. You help landing visitors with information about the company. Motakaro is a B2B GTM Agency.'
   });
 
   return createUIMessageStreamResponse({

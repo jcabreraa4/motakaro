@@ -4,71 +4,53 @@ import { useState } from 'react';
 
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
-import { BotIcon } from 'lucide-react';
+import { BotIcon, XIcon } from 'lucide-react';
 
+import { MotakaroLogo } from '@workspace/ui/components/custom/motakaro-logo';
 import { Button } from '@workspace/ui/components/shadcn/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/shadcn/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTrigger } from '@workspace/ui/components/shadcn/dialog';
 
-import { SectionContent } from '@/components/layout/app-section';
+import { ChatbotInput } from '@/components/chatbot/chatbot-input';
+import { ChatbotMessages } from '@/components/chatbot/chatbot-messages';
 
 export function ChatbotMain() {
-  const [input, setInput] = useState('');
+  const [open, setOpen] = useState(false);
 
-  const { messages, sendMessage, status } = useChat({
+  const { status, messages, sendMessage } = useChat({
     transport: new DefaultChatTransport({
       api: '/api/chatbot'
     })
   });
 
-  const busy = status === 'submitted' || status === 'streaming';
-
   return (
-    <Dialog>
+    <Dialog
+      open={open}
+      onOpenChange={setOpen}
+    >
       <DialogTrigger asChild>
-        <Button className="fixed right-4 bottom-4 z-50 shadow-lg">
+        <Button className="fixed right-5 bottom-5 z-50 shadow-lg hover:bg-primary">
           <BotIcon />
-          Talk to Tokito
+          Assistant
         </Button>
       </DialogTrigger>
-      <DialogContent className="h-[80vh] w-[80vw] max-w-[80vw]!">
-        <DialogHeader>
-          <DialogTitle>Tokito</DialogTitle>
-        </DialogHeader>
-        <SectionContent className="relative flex flex-1 flex-col gap-4">
-          <div className="flex-1 space-y-3 overflow-y-auto">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className="whitespace-pre-wrap"
-              >
-                <b>{message.role === 'user' ? 'Tú' : 'Tokito'}:</b> {message.parts.map((part, i) => (part.type === 'text' ? <span key={i}>{part.text}</span> : null))}
-              </div>
-            ))}
-          </div>
-          <form
-            className="flex gap-2"
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (!input.trim() || busy) return;
-              sendMessage({ text: input });
-              setInput('');
-            }}
+      <DialogContent
+        showCloseButton={false}
+        className="flex h-[80vh] w-full flex-col gap-3 sm:max-w-[80vw]"
+      >
+        <DialogHeader className="flex h-fit flex-row items-center justify-between">
+          <MotakaroLogo />
+          <Button
+            variant="outline"
+            onClick={() => setOpen(false)}
           >
-            <input
-              className="flex-1 rounded border px-3 py-2"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Escribe algo..."
-            />
-            <button
-              type="submit"
-              disabled={busy}
-              className="rounded border px-4 py-2"
-            >
-              Enviar
-            </button>
-          </form>
-        </SectionContent>
+            <XIcon />
+          </Button>
+        </DialogHeader>
+        <ChatbotMessages messages={messages} />
+        <ChatbotInput
+          status={status}
+          sendMessage={sendMessage}
+        />
       </DialogContent>
     </Dialog>
   );

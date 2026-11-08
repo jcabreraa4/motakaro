@@ -11,6 +11,11 @@
   "dependencies": {
     "@base-ui/react": "catalog:",
     "@shadcn/react": "catalog:",
+    "@streamdown/cjk": "catalog:",
+    "@streamdown/code": "catalog:",
+    "@streamdown/math": "catalog:",
+    "@streamdown/mermaid": "catalog:",
+    "ai": "catalog:",
     "class-variance-authority": "catalog:",
     "cmdk": "catalog:",
     "cn": "catalog:",
@@ -19,6 +24,7 @@
     "input-otp": "catalog:",
     "lucide-react": "catalog:",
     "motion": "catalog:",
+    "nanoid": "catalog:",
     "next-themes": "catalog:",
     "radix-ui": "catalog:",
     "react": "catalog:",
@@ -29,7 +35,9 @@
     "recharts": "catalog:",
     "shadcn": "catalog:",
     "sonner": "catalog:",
+    "streamdown": "catalog:",
     "tw-animate-css": "catalog:",
+    "use-stick-to-bottom": "catalog:",
     "vaul": "catalog:"
   },
   "devDependencies": {
