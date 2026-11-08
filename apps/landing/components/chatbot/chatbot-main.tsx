@@ -4,10 +4,14 @@ import { useState } from 'react';
 
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
+import { BotIcon } from 'lucide-react';
 
-import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
+import { Button } from '@workspace/ui/components/shadcn/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@workspace/ui/components/shadcn/dialog';
 
-export default function Page() {
+import { SectionContent } from '@/components/layout/app-section';
+
+export function ChatbotMain() {
   const [input, setInput] = useState('');
 
   const { messages, sendMessage, status } = useChat({
@@ -19,8 +23,17 @@ export default function Page() {
   const busy = status === 'submitted' || status === 'streaming';
 
   return (
-    <SectionWrapper className="flex flex-1">
-      <SectionInner className="flex flex-1">
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button className="fixed right-4 bottom-4 z-50 shadow-lg">
+          <BotIcon />
+          Talk to Tokito
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="h-[80vh] w-[80vw] max-w-[80vw]!">
+        <DialogHeader>
+          <DialogTitle>Tokito</DialogTitle>
+        </DialogHeader>
         <SectionContent className="relative flex flex-1 flex-col gap-4">
           <div className="flex-1 space-y-3 overflow-y-auto">
             {messages.map((message) => (
@@ -56,7 +69,7 @@ export default function Page() {
             </button>
           </form>
         </SectionContent>
-      </SectionInner>
-    </SectionWrapper>
+      </DialogContent>
+    </Dialog>
   );
 }
