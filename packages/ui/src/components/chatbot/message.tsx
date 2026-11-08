@@ -11,9 +11,9 @@ import type { UIMessage } from 'ai';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { Streamdown } from 'streamdown';
 
-import { Button } from '@workspace/ui/components/shadcn/button';
-import { ButtonGroup, ButtonGroupText } from '@workspace/ui/components/shadcn/button-group';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@workspace/ui/components/shadcn/tooltip';
+import { Button } from '@workspace/ui/components/button';
+import { ButtonGroup, ButtonGroupText } from '@workspace/ui/components/button-group';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@workspace/ui/components/tooltip';
 import { cn } from '@workspace/ui/lib/utils';
 
 export type MessageProps = HTMLAttributes<HTMLDivElement> & {

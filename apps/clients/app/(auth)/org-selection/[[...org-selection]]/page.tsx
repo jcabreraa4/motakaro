@@ -8,10 +8,10 @@ import { useClerk, useOrganizationList, useSession } from '@clerk/nextjs';
 import { BuildingIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
+import { Button } from '@workspace/ui/components/button';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
-import { Avatar, AvatarFallback, AvatarImage } from '@workspace/ui/components/shadcn/avatar';
-import { Button } from '@workspace/ui/components/shadcn/button';
-import { Field, FieldDescription, FieldGroup } from '@workspace/ui/components/shadcn/field';
+import { Field, FieldDescription, FieldGroup } from '@workspace/ui/components/field';
 
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
 

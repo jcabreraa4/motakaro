@@ -13,10 +13,10 @@ import { toast } from 'sonner';
 
 import { signInSchema } from '@workspace/auth/schemas/auth';
 import type { SignInFormType } from '@workspace/auth/schemas/auth';
-import { Button } from '@workspace/ui/components/shadcn/button';
-import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@workspace/ui/components/shadcn/field';
-import { Input } from '@workspace/ui/components/shadcn/input';
-import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@workspace/ui/components/shadcn/input-otp';
+import { Button } from '@workspace/ui/components/button';
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@workspace/ui/components/field';
+import { Input } from '@workspace/ui/components/input';
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@workspace/ui/components/input-otp';
 
 const pageStatus = process.env.NEXT_PUBLIC_SIGN_IN_ACTIVE!;
 const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;

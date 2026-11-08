@@ -6,11 +6,11 @@ import { format } from 'date-fns';
 import { CalendarPlusIcon, HeadsetIcon, SearchIcon, XIcon } from 'lucide-react';
 
 import { api } from '@workspace/backend/_generated/api';
+import { Button } from '@workspace/ui/components/button';
 import { EmptySection } from '@workspace/ui/components/custom/empty-section';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
-import { Button } from '@workspace/ui/components/shadcn/button';
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/shadcn/input-group';
-import { Kbd, KbdGroup } from '@workspace/ui/components/shadcn/kbd';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group';
+import { Kbd, KbdGroup } from '@workspace/ui/components/kbd';
 
 import { InsetSection } from '@/components/layout/inset-section';
 import { MeetingsCreate } from '@/components/meetings/meetings-create';

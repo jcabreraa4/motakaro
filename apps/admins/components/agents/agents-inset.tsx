@@ -1,6 +1,6 @@
 'use client';
 
-import { SidebarInset } from '@workspace/ui/components/shadcn/sidebar';
+import { SidebarInset } from '@workspace/ui/components/sidebar';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { AgentsHeader } from '@/components/agents/agents-header';

@@ -6,9 +6,9 @@ import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
 import { BotIcon, XIcon } from 'lucide-react';
 
+import { Button } from '@workspace/ui/components/button';
 import { MotakaroLogo } from '@workspace/ui/components/custom/motakaro-logo';
-import { Button } from '@workspace/ui/components/shadcn/button';
-import { Dialog, DialogContent, DialogHeader, DialogTrigger } from '@workspace/ui/components/shadcn/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTrigger } from '@workspace/ui/components/dialog';
 
 import { ChatbotInput } from '@/components/chatbot/chatbot-input';
 import { ChatbotMessages } from '@/components/chatbot/chatbot-messages';

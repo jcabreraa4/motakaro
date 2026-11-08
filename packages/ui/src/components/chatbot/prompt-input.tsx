@@ -7,13 +7,13 @@ import type { ChatStatus, FileUIPart, SourceDocumentUIPart } from 'ai';
 import { CornerDownLeftIcon, ImageIcon, Monitor, PlusIcon, SquareIcon, XIcon } from 'lucide-react';
 import { nanoid } from 'nanoid';
 
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from '@workspace/ui/components/shadcn/command';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@workspace/ui/components/shadcn/dropdown-menu';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@workspace/ui/components/shadcn/hover-card';
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupTextarea } from '@workspace/ui/components/shadcn/input-group';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/shadcn/select';
-import { Spinner } from '@workspace/ui/components/shadcn/spinner';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/shadcn/tooltip';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from '@workspace/ui/components/command';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@workspace/ui/components/hover-card';
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupTextarea } from '@workspace/ui/components/input-group';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select';
+import { Spinner } from '@workspace/ui/components/spinner';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip';
 import { cn } from '@workspace/ui/lib/utils';
 
 // ============================================================================

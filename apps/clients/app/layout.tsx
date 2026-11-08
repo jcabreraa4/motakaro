@@ -5,8 +5,8 @@ import { Analytics } from '@vercel/analytics/next';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 import '@workspace/tiptap/tiptap.css';
-import { Toaster } from '@workspace/ui/components/shadcn/sonner';
-import { TooltipProvider } from '@workspace/ui/components/shadcn/tooltip';
+import { Toaster } from '@workspace/ui/components/sonner';
+import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import '@workspace/ui/globals.css';
 import { cn } from '@workspace/ui/lib/utils';
 

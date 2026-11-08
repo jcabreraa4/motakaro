@@ -1,9 +1,9 @@
 import { HighlighterIcon } from 'lucide-react';
 
 import { useTiptap } from '@workspace/tiptap/hooks/use-tiptap';
+import { Button } from '@workspace/ui/components/button';
 import { ColorSwatch } from '@workspace/ui/components/custom/color-swatch';
-import { Button } from '@workspace/ui/components/shadcn/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@workspace/ui/components/shadcn/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 
 export function EditorHighlight() {
   const { tiptap } = useTiptap();

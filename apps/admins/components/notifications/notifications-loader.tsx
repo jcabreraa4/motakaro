@@ -1,4 +1,4 @@
-import { Skeleton } from '@workspace/ui/components/shadcn/skeleton';
+import { Skeleton } from '@workspace/ui/components/skeleton';
 
 export function NotificationsLoader() {
   return (

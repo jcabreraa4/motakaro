@@ -7,7 +7,7 @@ import type { UIMessage } from 'ai';
 import { ArrowDownIcon, DownloadIcon } from 'lucide-react';
 import { StickToBottom, useStickToBottomContext } from 'use-stick-to-bottom';
 
-import { Button } from '@workspace/ui/components/shadcn/button';
+import { Button } from '@workspace/ui/components/button';
 import { cn } from '@workspace/ui/lib/utils';
 
 export type ConversationProps = ComponentProps<typeof StickToBottom>;

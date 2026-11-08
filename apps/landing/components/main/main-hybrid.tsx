@@ -1,6 +1,6 @@
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { DotBackground } from '@workspace/ui/components/magicui/dot-pattern';
 import { SparklesText } from '@workspace/ui/components/magicui/sparkles-text';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/shadcn/card';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { Heading2, Heading3, Paragraph } from '@/components/layout/app-heading';
