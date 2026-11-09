@@ -9,7 +9,7 @@
     "start": "eve start",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "bun check --no-script",
     "deploy": "eve deploy",
     "eval": "eve eval"
   },

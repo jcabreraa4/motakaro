@@ -7,7 +7,7 @@
     "dev": "convex dev",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit -p convex/tsconfig.json",
+    "typecheck": "bun check --no-script -p convex/tsconfig.json",
     "test": "vitest run",
     "deploy": "convex deploy -y"
   },

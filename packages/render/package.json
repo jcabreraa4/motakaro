@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "bun check --no-script"
   },
   "dependencies": {
     "@workspace/ui": "workspace:*",

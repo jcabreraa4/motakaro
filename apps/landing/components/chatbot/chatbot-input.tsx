@@ -19,9 +19,8 @@ export function ChatbotInput({ status, sendMessage }: ChatbotInputProps) {
   const isBusy = status === 'submitted' || status === 'streaming';
 
   function handleSubmit() {
-    sendMessage({ text: input })
-      .then(() => setInput(''))
-      .catch(() => toast.error('An internal error has ocurred.'));
+    sendMessage({ text: input }).catch(() => toast.error('An internal error has ocurred.'));
+    setInput('');
   }
 
   return (

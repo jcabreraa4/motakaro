@@ -7,7 +7,7 @@
     "dev": "trigger dev",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "bun check --no-script",
     "deploy": "trigger deploy"
   },
   "dependencies": {
