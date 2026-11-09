@@ -2,7 +2,8 @@ import { useState } from 'react';
 
 import type { UseChatHelpers } from '@ai-sdk/react';
 import type { ChatStatus, UIMessage } from 'ai';
-import { SendHorizontalIcon } from 'lucide-react';
+import { PlusIcon, SendHorizontalIcon } from 'lucide-react';
+import { toast } from 'sonner';
 
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupTextarea } from '@workspace/ui/components/input-group';
 import { Spinner } from '@workspace/ui/components/spinner';
@@ -18,8 +19,9 @@ export function ChatbotInput({ status, sendMessage }: ChatbotInputProps) {
   const isBusy = status === 'submitted' || status === 'streaming';
 
   function handleSubmit() {
-    sendMessage({ text: input });
-    setInput('');
+    sendMessage({ text: input })
+      .then(() => setInput(''))
+      .catch(() => toast.error('An internal error has ocurred.'));
   }
 
   return (
@@ -38,11 +40,18 @@ export function ChatbotInput({ status, sendMessage }: ChatbotInputProps) {
       />
       <InputGroupAddon align="block-end">
         <InputGroupButton
+          size="icon-sm"
+          variant="outline"
+        >
+          <PlusIcon />
+        </InputGroupButton>
+        <InputGroupButton
+          size="icon-sm"
+          variant="default"
           onClick={handleSubmit}
           disabled={!input.trim() || isBusy}
         >
           {isBusy ? <Spinner /> : <SendHorizontalIcon />}
-          <span className="sr-only">Send</span>
         </InputGroupButton>
       </InputGroupAddon>
     </InputGroup>

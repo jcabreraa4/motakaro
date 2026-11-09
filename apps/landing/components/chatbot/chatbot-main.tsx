@@ -28,7 +28,10 @@ export function ChatbotMain() {
       onOpenChange={setOpen}
     >
       <DialogTrigger asChild>
-        <Button className="fixed right-5 bottom-5 z-50 shadow-lg hover:bg-primary">
+        <Button
+          variant="blackout"
+          className="fixed right-5 bottom-5 z-50"
+        >
           <BotIcon />
           Assistant
         </Button>

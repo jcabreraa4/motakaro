@@ -15,6 +15,7 @@
     "@clerk/backend": "catalog:",
     "@convex-dev/prosemirror-sync": "catalog:",
     "@convex-dev/r2": "catalog:",
+    "@convex-dev/rate-limiter": "catalog:",
     "@convex-dev/resend": "catalog:",
     "@trigger.dev/convex": "catalog:",
     "convex": "catalog:",
