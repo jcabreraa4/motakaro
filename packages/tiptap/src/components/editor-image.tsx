@@ -8,13 +8,13 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@workspa
 import { Input } from '@workspace/ui/components/input';
 
 export function EditorImage() {
-  const { tiptap } = useTiptap();
+  const { insertImage } = useTiptap();
 
   const [value, setValue] = useState('');
 
   function handleValue() {
     if (!value.trim()) return;
-    tiptap?.chain().focus().setImage({ src: value }).run();
+    insertImage({ src: value });
     setValue('');
   }
 

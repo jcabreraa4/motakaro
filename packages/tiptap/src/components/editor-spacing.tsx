@@ -5,7 +5,7 @@ import { Button } from '@workspace/ui/components/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 
 export function EditorSpacing() {
-  const { tiptap } = useTiptap();
+  const { lineHeight } = useTiptap();
 
   const heights = [
     {
@@ -30,7 +30,7 @@ export function EditorSpacing() {
     }
   ];
 
-  const currentHeight = tiptap?.getAttributes('textStyle').lineHeight || '1.5';
+  const currentHeight = lineHeight.value || '1.5';
 
   return (
     <DropdownMenu>
@@ -47,7 +47,7 @@ export function EditorSpacing() {
           <Button
             key={index}
             variant={currentHeight === height.value ? 'secondary' : 'ghost'}
-            onClick={() => tiptap?.chain().focus().toggleTextStyle({ lineHeight: height.value }).run()}
+            onClick={() => lineHeight.set(height.value)}
             className="justify-start"
           >
             {height.label}

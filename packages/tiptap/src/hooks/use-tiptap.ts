@@ -1,12 +1,12 @@
 import { useTiptapStore } from '@workspace/tiptap/store/tiptap-store';
 
+interface InsertImageProps {
+  src: string;
+}
+
 interface InsertTableProps {
   rows: number;
   cols: number;
-}
-
-interface SetLineHeightProps {
-  height: string;
 }
 
 export function useTiptap() {
@@ -58,14 +58,40 @@ export function useTiptap() {
     }
   };
 
-  // Advanced Functions
+  const color = {
+    value: tiptap?.getAttributes('textStyle').color,
+    set: (value: string) => tiptap?.chain().focus().setColor(value).run(),
+    unset: () => tiptap?.chain().focus().unsetColor().run()
+  };
+
+  const highlight = {
+    value: tiptap?.getAttributes('highlight').color,
+    set: (color: string) => tiptap?.chain().focus().setHighlight({ color }).run(),
+    unset: () => tiptap?.chain().focus().unsetHighlight().run()
+  };
+
+  const lineHeight = {
+    value: tiptap?.getAttributes('textStyle').lineHeight,
+    set: (height: string) => tiptap?.chain().focus().toggleTextStyle({ lineHeight: height }).run()
+  };
+
+  const align = {
+    isActive: (value: string) => tiptap?.isActive({ textAlign: value }),
+    set: (value: string) => tiptap?.chain().focus().setTextAlign(value).run()
+  };
+
+  const link = {
+    value: tiptap?.getAttributes('link').href,
+    set: (href: string) => tiptap?.chain().focus().extendMarkRange('link').setLink({ href }).run()
+  };
+
+  function insertImage({ src }: InsertImageProps) {
+    tiptap?.chain().focus().setImage({ src }).run();
+  }
+
   function insertTable({ rows, cols }: InsertTableProps) {
     tiptap?.chain().focus().insertTable({ rows, cols, withHeaderRow: false }).run();
   }
 
-  function setLineHeight({ height }: SetLineHeightProps) {
-    tiptap?.chain().focus().toggleTextStyle({ lineHeight: height }).run();
-  }
-
-  return { tiptap, setTiptap, actions, format, structure, insertTable, setLineHeight };
+  return { tiptap, setTiptap, actions, format, structure, color, highlight, lineHeight, align, link, insertImage, insertTable };
 }

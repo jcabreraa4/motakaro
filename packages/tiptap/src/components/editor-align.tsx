@@ -5,32 +5,32 @@ import { Button } from '@workspace/ui/components/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 
 export function EditorAlign() {
-  const { tiptap } = useTiptap();
+  const { align } = useTiptap();
 
   const alignments = [
     {
       value: 'left',
       icon: AlignLeftIcon,
       label: 'Align Left',
-      isActive: tiptap?.isActive({ textAlign: 'left' })
+      isActive: align.isActive('left')
     },
     {
       value: 'center',
       icon: AlignCenterIcon,
       label: 'Align Center',
-      isActive: tiptap?.isActive({ textAlign: 'center' })
+      isActive: align.isActive('center')
     },
     {
       value: 'right',
       icon: AlignRightIcon,
       label: 'Align Right',
-      isActive: tiptap?.isActive({ textAlign: 'right' })
+      isActive: align.isActive('right')
     },
     {
       value: 'justify',
       icon: AlignJustifyIcon,
       label: 'Align Justify',
-      isActive: tiptap?.isActive({ textAlign: 'justify' })
+      isActive: align.isActive('justify')
     }
   ];
 
@@ -49,7 +49,7 @@ export function EditorAlign() {
           <Button
             key={value}
             variant={isActive ? 'secondary' : 'ghost'}
-            onClick={() => tiptap?.chain().focus().setTextAlign(value).run()}
+            onClick={() => align.set(value)}
           >
             <Icon />
             {label}

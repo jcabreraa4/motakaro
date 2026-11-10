@@ -8,18 +8,18 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@workspa
 import { Input } from '@workspace/ui/components/input';
 
 export function EditorLink() {
-  const { tiptap } = useTiptap();
+  const { link } = useTiptap();
 
   const [value, setValue] = useState('');
 
   function handleValue() {
     if (!value.trim()) return;
-    tiptap?.chain().focus().extendMarkRange('link').setLink({ href: value }).run();
+    link.set(value);
     setValue('');
   }
 
   return (
-    <DropdownMenu onOpenChange={(open) => open && setValue(tiptap?.getAttributes('link').href || '')}>
+    <DropdownMenu onOpenChange={(open) => open && setValue(link.value || '')}>
       <DropdownMenuTrigger asChild>
         <Button
           size="icon"

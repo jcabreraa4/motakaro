@@ -4,11 +4,11 @@ import { ColorSwatch } from '@workspace/ui/components/custom/color-swatch';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 
 export function EditorColor() {
-  const { tiptap } = useTiptap();
+  const { color } = useTiptap();
 
   const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#FFA500', '#800080', '#808080', '#FFC0CB', '#A52A2A'];
 
-  const value = tiptap?.getAttributes('textStyle').color;
+  const value = color.value;
 
   return (
     <DropdownMenu>
@@ -28,14 +28,14 @@ export function EditorColor() {
       <DropdownMenuContent className="grid w-fit grid-cols-6 gap-1">
         <ColorSwatch
           active={!value}
-          onClick={() => tiptap?.chain().focus().unsetColor().run()}
+          onClick={() => color.unset()}
         />
-        {colors.map((color) => (
+        {colors.map((swatch) => (
           <ColorSwatch
-            key={color}
-            color={color}
-            active={value === color}
-            onClick={() => tiptap?.chain().focus().setColor(color).run()}
+            key={swatch}
+            color={swatch}
+            active={value === swatch}
+            onClick={() => color.set(swatch)}
           />
         ))}
       </DropdownMenuContent>
