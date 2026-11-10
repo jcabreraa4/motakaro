@@ -23,6 +23,7 @@ import type * as notifications from "../notifications.js";
 import type * as organizations from "../organizations.js";
 import type * as prosemirror from "../prosemirror.js";
 import type * as resources from "../resources.js";
+import type * as throttler from "../throttler.js";
 
 import type {
   ApiFromModules,
@@ -46,6 +47,7 @@ declare const fullApi: ApiFromModules<{
   organizations: typeof organizations;
   prosemirror: typeof prosemirror;
   resources: typeof resources;
+  throttler: typeof throttler;
 }>;
 
 /**
