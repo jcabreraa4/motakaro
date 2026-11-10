@@ -77,6 +77,7 @@ export declare const internal: FilterApi<
 export declare const components: {
   prosemirrorSync: import("@convex-dev/prosemirror-sync/_generated/component.js").ComponentApi<"prosemirrorSync">;
   r2: import("@convex-dev/r2/_generated/component.js").ComponentApi<"r2">;
+  rateLimiter: import("@convex-dev/rate-limiter/_generated/component.js").ComponentApi<"rateLimiter">;
   resend: import("@convex-dev/resend/_generated/component.js").ComponentApi<"resend">;
   trigger: import("@trigger.dev/convex/_generated/component.js").ComponentApi<"trigger">;
 };

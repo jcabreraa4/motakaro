@@ -6,11 +6,11 @@ import { MessageScroller, MessageScrollerButton, MessageScrollerContent, Message
 import { Spinner } from '@workspace/ui/components/spinner';
 
 interface ChatbotMessagesProps {
-  messages: UIMessage[];
   status: ChatStatus;
+  messages: UIMessage[];
 }
 
-export function ChatbotMessages({ messages, status }: ChatbotMessagesProps) {
+export function ChatbotMessages({ status, messages }: ChatbotMessagesProps) {
   return (
     <MessageScrollerProvider autoScroll>
       <MessageScroller className="flex-1">

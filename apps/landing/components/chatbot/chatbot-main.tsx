@@ -50,8 +50,8 @@ export function ChatbotMain() {
           </Button>
         </DialogHeader>
         <ChatbotMessages
-          messages={messages}
           status={status}
+          messages={messages}
         />
         <ChatbotInput
           status={status}
