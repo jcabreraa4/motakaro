@@ -60,7 +60,9 @@ export function ChatbotMain() {
             <XIcon />
           </Button>
         </DialogHeader>
-        <Separator className="mx-6" />
+        <div className="px-6">
+          <Separator />
+        </div>
         <ChatbotTexts
           status={status}
           messages={messages}
