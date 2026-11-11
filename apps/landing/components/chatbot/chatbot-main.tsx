@@ -4,19 +4,30 @@ import { useState } from 'react';
 
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
+import type { UIMessage } from 'ai';
 import { BotIcon, XIcon } from 'lucide-react';
 
 import { Button } from '@workspace/ui/components/button';
 import { MotakaroLogo } from '@workspace/ui/components/custom/motakaro-logo';
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from '@workspace/ui/components/dialog';
+import { Separator } from '@workspace/ui/components/separator';
 
 import { ChatbotInput } from '@/components/chatbot/chatbot-input';
-import { ChatbotMessages } from '@/components/chatbot/chatbot-messages';
+import { ChatbotTexts } from '@/components/chatbot/chatbot-texts';
+
+const initialMessages: UIMessage[] = [
+  {
+    id: 'welcome',
+    role: 'assistant',
+    parts: [{ type: 'text', text: "Hi, I'm Motakaro's AI assistant. How can I help you?" }]
+  }
+];
 
 export function ChatbotMain() {
   const [open, setOpen] = useState(false);
 
   const { status, messages, sendMessage } = useChat({
+    messages: initialMessages,
     transport: new DefaultChatTransport({
       api: '/api/chatbot'
     })
@@ -38,7 +49,7 @@ export function ChatbotMain() {
       </DialogTrigger>
       <DialogContent
         showCloseButton={false}
-        className="flex h-[80vh] w-full flex-col gap-3 sm:max-w-[80vw]"
+        className="flex h-[80vh] w-full flex-col gap-5 sm:max-w-[80vw]"
       >
         <DialogHeader className="flex h-fit flex-row items-center justify-between">
           <MotakaroLogo />
@@ -49,7 +60,8 @@ export function ChatbotMain() {
             <XIcon />
           </Button>
         </DialogHeader>
-        <ChatbotMessages
+        <Separator />
+        <ChatbotTexts
           status={status}
           messages={messages}
         />

@@ -5,12 +5,12 @@ import { Message, MessageContent } from '@workspace/ui/components/message';
 import { MessageScroller, MessageScrollerButton, MessageScrollerContent, MessageScrollerItem, MessageScrollerProvider, MessageScrollerViewport } from '@workspace/ui/components/message-scroller';
 import { Spinner } from '@workspace/ui/components/spinner';
 
-interface ChatbotMessagesProps {
+interface ChatbotTextsProps {
   status: ChatStatus;
   messages: UIMessage[];
 }
 
-export function ChatbotMessages({ status, messages }: ChatbotMessagesProps) {
+export function ChatbotTexts({ status, messages }: ChatbotTextsProps) {
   return (
     <MessageScrollerProvider autoScroll>
       <MessageScroller className="flex-1">
@@ -37,7 +37,7 @@ export function ChatbotMessages({ status, messages }: ChatbotMessagesProps) {
                               align={isUser ? 'end' : 'start'}
                               variant={isUser ? 'muted' : 'ghost'}
                             >
-                              <BubbleContent>{part.text}</BubbleContent>
+                              <BubbleContent className="text-base font-medium">{part.text}</BubbleContent>
                             </Bubble>
                           </MessageContent>
                         </Message>

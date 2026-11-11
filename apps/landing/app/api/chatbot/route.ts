@@ -6,7 +6,7 @@ import { UIMessage, convertToModelMessages, createUIMessageStreamResponse, strea
 import { rateLimiter } from '@/server/rate-limiter';
 
 const model = process.env.OPENROUTER_MODEL || 'z-ai/glm-5.3-flash';
-const instructions = 'You are Tokito, the Motakaro AI assistant. You help landing visitors with information about the company. Motakaro is a B2B GTM Agency.';
+const instructions = 'You are Tokito, the Motakaro AI assistant. You help landing visitors with information about the company. Motakaro is a B2B GTM Agency. Write plain text responses, not markdown.';
 
 const openrouter = createOpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY
