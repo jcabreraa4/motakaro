@@ -35,12 +35,16 @@ export function ChatbotTexts({ status, messages }: ChatbotTextsProps) {
                           className="px-6"
                         >
                           <MessageContent>
-                            <Bubble
-                              align={isUser ? 'end' : 'start'}
-                              variant={isUser ? 'muted' : 'ghost'}
-                            >
-                              <BubbleContent className="text-base font-medium">{isUser ? part.text : <Streamdown>{part.text}</Streamdown>}</BubbleContent>
-                            </Bubble>
+                            {isUser ? (
+                              <Bubble
+                                align="end"
+                                variant="muted"
+                              >
+                                <BubbleContent className="text-base font-medium">{part.text}</BubbleContent>
+                              </Bubble>
+                            ) : (
+                              <Streamdown className="text-base font-medium">{part.text}</Streamdown>
+                            )}
                           </MessageContent>
                         </Message>
                       )
