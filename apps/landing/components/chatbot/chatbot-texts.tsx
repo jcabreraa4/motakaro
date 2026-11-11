@@ -1,4 +1,5 @@
 import type { ChatStatus, UIMessage } from 'ai';
+import { Streamdown } from 'streamdown';
 
 import { Bubble, BubbleContent } from '@workspace/ui/components/bubble';
 import { Message, MessageContent } from '@workspace/ui/components/message';
@@ -31,13 +32,14 @@ export function ChatbotTexts({ status, messages }: ChatbotTextsProps) {
                         <Message
                           key={partIndex}
                           align={isUser ? 'end' : 'start'}
+                          className="px-6"
                         >
                           <MessageContent>
                             <Bubble
                               align={isUser ? 'end' : 'start'}
                               variant={isUser ? 'muted' : 'ghost'}
                             >
-                              <BubbleContent className="text-base font-medium">{part.text}</BubbleContent>
+                              <BubbleContent className="text-base font-medium">{isUser ? part.text : <Streamdown>{part.text}</Streamdown>}</BubbleContent>
                             </Bubble>
                           </MessageContent>
                         </Message>
@@ -48,7 +50,10 @@ export function ChatbotTexts({ status, messages }: ChatbotTextsProps) {
             })}
             {status === 'submitted' && (
               <MessageScrollerItem key="spinner">
-                <Message align="start">
+                <Message
+                  align="start"
+                  className="px-6"
+                >
                   <MessageContent>
                     <Spinner />
                   </MessageContent>

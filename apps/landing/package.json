@@ -26,7 +26,8 @@
     "next": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "sonner": "catalog:"
+    "sonner": "catalog:",
+    "streamdown": "catalog:"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:",

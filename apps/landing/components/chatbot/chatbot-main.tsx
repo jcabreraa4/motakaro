@@ -9,7 +9,7 @@ import { BotIcon, XIcon } from 'lucide-react';
 
 import { Button } from '@workspace/ui/components/button';
 import { MotakaroLogo } from '@workspace/ui/components/custom/motakaro-logo';
-import { Dialog, DialogContent, DialogHeader, DialogTrigger } from '@workspace/ui/components/dialog';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from '@workspace/ui/components/dialog';
 import { Separator } from '@workspace/ui/components/separator';
 
 import { ChatbotInput } from '@/components/chatbot/chatbot-input';
@@ -49,9 +49,9 @@ export function ChatbotMain() {
       </DialogTrigger>
       <DialogContent
         showCloseButton={false}
-        className="flex h-[80vh] w-full flex-col gap-5 sm:max-w-[80vw]"
+        className="flex h-[80vh] w-full flex-col gap-5 px-0 sm:max-w-[80vw]"
       >
-        <DialogHeader className="flex h-fit flex-row items-center justify-between">
+        <DialogHeader className="flex h-fit flex-row items-center justify-between px-6">
           <MotakaroLogo />
           <Button
             variant="outline"
@@ -60,15 +60,17 @@ export function ChatbotMain() {
             <XIcon />
           </Button>
         </DialogHeader>
-        <Separator />
+        <Separator className="mx-6" />
         <ChatbotTexts
           status={status}
           messages={messages}
         />
-        <ChatbotInput
-          status={status}
-          sendMessage={sendMessage}
-        />
+        <DialogFooter className="px-6">
+          <ChatbotInput
+            status={status}
+            sendMessage={sendMessage}
+          />
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
