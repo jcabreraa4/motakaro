@@ -41,13 +41,13 @@ const sections: Section[] = [
 
 export default function Page() {
   return (
-    <SectionWrapper>
+    <SectionWrapper className="flex flex-1">
       <SectionInner>
         <SectionContent className="flex flex-col gap-5">
           <Heading2>Privacy Policy</Heading2>
           <Heading3>Here we explain how we collect, use, and protect your personal information when you interact with our website and services.</Heading3>
         </SectionContent>
-        <SectionContent className="flex flex-col gap-6 lg:gap-8">
+        <SectionContent className="flex flex-1 flex-col gap-6 lg:gap-8">
           {sections.map((section, index) => (
             <div
               key={index}

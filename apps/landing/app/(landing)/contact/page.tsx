@@ -35,7 +35,7 @@ export default function Page() {
 
   return (
     <SectionWrapper className="flex flex-1">
-      <SectionInner className="flex flex-1">
+      <SectionInner>
         <SectionContent className="relative flex flex-1">
           {isLoading && (
             <div className="absolute inset-0 flex items-center justify-center">

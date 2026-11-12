@@ -7,24 +7,29 @@
  * To regenerate, run `npx convex dev`.
  * @module
  */
-import type { ApiFromModules, FilterApi, FunctionReference } from 'convex/server';
 
-import type * as admins from '../admins.js';
-import type * as auth from '../auth.js';
-import type * as clients from '../clients.js';
-import type * as documents from '../documents.js';
-import type * as env from '../env.js';
-import type * as http from '../http.js';
-import type * as http_calcom from '../http/calcom.js';
-import type * as http_clerk from '../http/clerk.js';
-import type * as meetings from '../meetings.js';
-import type * as memberships from '../memberships.js';
-import type * as multimedia from '../multimedia.js';
-import type * as notifications from '../notifications.js';
-import type * as organizations from '../organizations.js';
-import type * as prosemirror from '../prosemirror.js';
-import type * as resources from '../resources.js';
-import type * as throttler from '../throttler.js';
+import type * as admins from "../admins.js";
+import type * as auth from "../auth.js";
+import type * as clients from "../clients.js";
+import type * as documents from "../documents.js";
+import type * as env from "../env.js";
+import type * as http from "../http.js";
+import type * as http_calcom from "../http/calcom.js";
+import type * as http_clerk from "../http/clerk.js";
+import type * as meetings from "../meetings.js";
+import type * as memberships from "../memberships.js";
+import type * as multimedia from "../multimedia.js";
+import type * as notifications from "../notifications.js";
+import type * as organizations from "../organizations.js";
+import type * as prosemirror from "../prosemirror.js";
+import type * as resources from "../resources.js";
+import type * as throttler from "../throttler.js";
+
+import type {
+  ApiFromModules,
+  FilterApi,
+  FunctionReference,
+} from "convex/server";
 
 declare const fullApi: ApiFromModules<{
   admins: typeof admins;
@@ -33,8 +38,8 @@ declare const fullApi: ApiFromModules<{
   documents: typeof documents;
   env: typeof env;
   http: typeof http;
-  'http/calcom': typeof http_calcom;
-  'http/clerk': typeof http_clerk;
+  "http/calcom": typeof http_calcom;
+  "http/clerk": typeof http_clerk;
   meetings: typeof meetings;
   memberships: typeof memberships;
   multimedia: typeof multimedia;
@@ -53,7 +58,10 @@ declare const fullApi: ApiFromModules<{
  * const myFunctionReference = api.myModule.myFunction;
  * ```
  */
-export declare const api: FilterApi<typeof fullApi, FunctionReference<any, 'public'>>;
+export declare const api: FilterApi<
+  typeof fullApi,
+  FunctionReference<any, "public">
+>;
 
 /**
  * A utility for referencing Convex functions in your app's internal API.
@@ -63,12 +71,15 @@ export declare const api: FilterApi<typeof fullApi, FunctionReference<any, 'publ
  * const myFunctionReference = internal.myModule.myFunction;
  * ```
  */
-export declare const internal: FilterApi<typeof fullApi, FunctionReference<any, 'internal'>>;
+export declare const internal: FilterApi<
+  typeof fullApi,
+  FunctionReference<any, "internal">
+>;
 
 export declare const components: {
-  prosemirrorSync: import('@convex-dev/prosemirror-sync/_generated/component.js').ComponentApi<'prosemirrorSync'>;
-  r2: import('@convex-dev/r2/_generated/component.js').ComponentApi<'r2'>;
-  rateLimiter: import('@convex-dev/rate-limiter/_generated/component.js').ComponentApi<'rateLimiter'>;
-  resend: import('@convex-dev/resend/_generated/component.js').ComponentApi<'resend'>;
-  trigger: import('@trigger.dev/convex/_generated/component.js').ComponentApi<'trigger'>;
+  prosemirrorSync: import("@convex-dev/prosemirror-sync/_generated/component.js").ComponentApi<"prosemirrorSync">;
+  r2: import("@convex-dev/r2/_generated/component.js").ComponentApi<"r2">;
+  rateLimiter: import("@convex-dev/rate-limiter/_generated/component.js").ComponentApi<"rateLimiter">;
+  resend: import("@convex-dev/resend/_generated/component.js").ComponentApi<"resend">;
+  trigger: import("@trigger.dev/convex/_generated/component.js").ComponentApi<"trigger">;
 };

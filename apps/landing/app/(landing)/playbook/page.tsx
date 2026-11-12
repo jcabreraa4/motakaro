@@ -5,7 +5,7 @@ const playbook = process.env.NEXT_PUBLIC_GAMMA_URL!;
 export default function Page() {
   return (
     <SectionWrapper className="flex flex-1">
-      <SectionInner className="flex flex-1">
+      <SectionInner>
         <SectionContent className="flex flex-1">
           <iframe
             src={playbook}
