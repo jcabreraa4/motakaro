@@ -13,7 +13,7 @@ import { cn } from '@workspace/ui/lib/utils';
 import { ClerkProvider } from '@/components/providers/clerk-provider';
 import { ConvexProvider } from '@/components/providers/convex-provider';
 import { ThemeProvider } from '@/components/providers/theme-provider';
-import { TauriReadySignal } from '@/components/tauri/tauri-ready-signal';
+import { TauriLoaded } from '@/components/desktop/tauri-loaded';
 
 const geist = Geist({
   subsets: ['latin'],
@@ -49,7 +49,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <Toaster />
                   {children}
                   <Analytics />
-                  <TauriReadySignal />
+                  <TauriLoaded />
                 </TooltipProvider>
               </ConvexProvider>
             </ThemeProvider>

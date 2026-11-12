@@ -8,7 +8,7 @@
       :root {
         --motakaro-blue: #007fd8;
         --motakaro-blue-soft: #33a5f5;
-        --ink: #0b0e14;
+        --ink: #0a0a0a;
         --text: #eef4fb;
         --muted: #7e8ca0;
         --hairline: rgba(126, 140, 160, 0.18);
@@ -67,11 +67,10 @@
 
       h1 {
         margin-top: 20px;
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 600;
-        letter-spacing: 0.34em;
-        text-indent: 0.34em;
-        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        text-indent: 0.18em;
       }
 
       .subtitle {
@@ -88,7 +87,7 @@
         position: relative;
         width: 132px;
         height: 2px;
-        margin-top: 24px;
+        margin: 24px auto 0;
         overflow: hidden;
         background: var(--hairline);
         border-radius: 1px;
@@ -228,12 +227,12 @@
   <body data-state="loading">
     <main>
       <img class="logo" src="logo.webp" alt="Motakaro" draggable="false" />
-      <h1>Motakaro</h1>
-      <p class="subtitle">Administration Platform</p>
+      <h1>Motakaro Labs</h1>
+      <p class="subtitle">Where GTM meets engineering</p>
 
       <div class="loading-block">
         <div class="progress"></div>
-        <p class="status" id="status" role="status">Connecting to admins.motakaro.com</p>
+        <p class="status" id="status" role="status">Connecting to Motakaro Servers</p>
       </div>
 
       <div class="error-block" role="alert">
@@ -292,7 +291,7 @@
         function retry() {
           if (finished || !invoke) return;
           setState('loading');
-          setStatus('Reconnecting to admins.motakaro.com');
+          setStatus('Reconnecting to Motakaro Servers');
           restartTimer();
           invoke('reload_main_window').catch(showError);
         }
