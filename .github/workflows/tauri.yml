@@ -1,0 +1,58 @@
+name: Tauri
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/*/src-tauri/**'
+  workflow_dispatch:
+
+concurrency:
+  group: tauri-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+env:
+  BUN_VERSION: 1.4.4
+
+jobs:
+  build:
+    name: Build ${{ matrix.app }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [clients, admins]
+    steps:
+      - name: Clone Repository
+        uses: actions/checkout@v4
+
+      - name: Install Bun ${{ env.BUN_VERSION }}
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential curl wget file libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
+
+      - name: Install Dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build Desktop App
+        working-directory: apps/${{ matrix.app }}
+        run: bunx tauri build
+
+      - name: Upload To Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cp apps/${{ matrix.app }}/src-tauri/target/release/bundle/deb/*.deb "motakaro-${{ matrix.app }}_amd64.deb"
+          gh release upload desktop "motakaro-${{ matrix.app }}_amd64.deb" --clobber

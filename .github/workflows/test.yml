@@ -1,9 +1,10 @@
 name: Test
 
 on:
-  pull_request:
   push:
     branches: [main]
+    paths-ignore:
+      - 'apps/*/src-tauri/**'
   workflow_dispatch:
 
 concurrency:
