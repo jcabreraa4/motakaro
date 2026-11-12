@@ -24,14 +24,14 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Clone Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Install Bun ${{ env.BUN_VERSION }}
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: ${{ env.BUN_VERSION }}
 
-      - name: Install Dependencies
+      - name: Package Dependencies
         run: bun install --frozen-lockfile
 
       - name: Run Typecheck Script

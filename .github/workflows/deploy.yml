@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: deploy-${{ github.event.workflow_run.head_branch || github.ref }}
+  group: deploy-${{ github.ref }}
   cancel-in-progress: false
 
 permissions:
@@ -46,7 +46,7 @@ jobs:
       VERCEL_PROJECT_ID: ${{ secrets[matrix.project] }}
     steps:
       - name: Clone Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
@@ -55,7 +55,7 @@ jobs:
         with:
           bun-version: ${{ env.BUN_VERSION }}
 
-      - name: Install Dependencies
+      - name: Package Dependencies
         run: bun install --frozen-lockfile
 
       - name: Pull Env Variables
@@ -75,7 +75,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Clone Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
@@ -84,7 +84,7 @@ jobs:
         with:
           bun-version: ${{ env.BUN_VERSION }}
 
-      - name: Install Dependencies
+      - name: Package Dependencies
         run: bun install --frozen-lockfile
 
       - name: Deploy to Convex
@@ -101,7 +101,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Clone Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
@@ -110,7 +110,7 @@ jobs:
         with:
           bun-version: ${{ env.BUN_VERSION }}
 
-      - name: Install Dependencies
+      - name: Package Dependencies
         run: bun install --frozen-lockfile
 
       - name: Deploy to Trigger

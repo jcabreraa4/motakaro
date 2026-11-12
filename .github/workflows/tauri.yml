@@ -9,31 +9,74 @@ on:
 
 concurrency:
   group: tauri-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
-  contents: write
+  contents: read
 
 env:
   BUN_VERSION: 1.4.4
   RUST_VERSION: 1.99.1
 
 jobs:
+  # Build Desktop
   build:
-    name: Build ${{ matrix.app }}
-    runs-on: ubuntu-22.04
+    name: Build ${{ matrix.display }} (${{ matrix.platform }})
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         include:
+          # Debian
           - app: clients
+            display: Clients
+            platform: Debian
+            os: ubuntu-latest
+            bundle: deb
+            extension: deb
             file: motakaro_amd64.deb
           - app: admins
+            display: Admins
+            platform: Debian
+            os: ubuntu-latest
+            bundle: deb
+            extension: deb
             file: motakaro-admins_amd64.deb
+
+          # Windows
+          - app: clients
+            display: Clients
+            platform: Windows
+            os: windows-latest
+            bundle: nsis
+            extension: exe
+            file: motakaro_x64-setup.exe
+          - app: admins
+            display: Admins
+            platform: Windows
+            os: windows-latest
+            bundle: nsis
+            extension: exe
+            file: motakaro-admins_x64-setup.exe
+
     steps:
       - name: Clone Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+
+      - name: System Dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            curl \
+            file \
+            libxdo-dev \
+            libssl-dev \
+            libayatana-appindicator3-dev \
+            librsvg2-dev \
+            libwebkit2gtk-4.1-dev
 
       - name: Install Bun ${{ env.BUN_VERSION }}
         uses: oven-sh/setup-bun@v2
@@ -45,19 +88,54 @@ jobs:
         with:
           toolchain: ${{ env.RUST_VERSION }}
 
-      - name: Install Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential curl wget file libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
-          bun install --frozen-lockfile
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: apps/${{ matrix.app }}/src-tauri
+          key: ${{ matrix.app }}
+          cache-on-failure: true
+
+      - name: Package Dependencies
+        run: bun install --frozen-lockfile
 
       - name: Build Application
         working-directory: apps/${{ matrix.app }}
         run: bunx tauri build
 
-      - name: Upload To Release
+      - name: Package Installers
+        shell: bash
+        run: |
+          shopt -s nullglob
+          files=(apps/${{ matrix.app }}/src-tauri/target/release/bundle/${{ matrix.bundle }}/*.${{ matrix.extension }})
+          [ "${#files[@]}" -eq 1 ] || { echo "::error::Expected 1 installer, found ${#files[@]}"; exit 1; }
+          mkdir -p dist
+          cp "${files[0]}" "dist/${{ matrix.file }}"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.app }}-${{ matrix.platform }}
+          path: dist/${{ matrix.file }}
+          if-no-files-found: error
+
+  # Publish Desktop
+  publish:
+    name: Publish
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v8
+        with:
+          merge-multiple: true
+          path: dist
+
+      - name: Upload to Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cp apps/${{ matrix.app }}/src-tauri/target/release/bundle/deb/*.deb "${{ matrix.file }}"
-          gh release upload desktop "${{ matrix.file }}" --clobber
+        run: gh release upload desktop dist/* --clobber

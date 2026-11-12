@@ -1,0 +1,34 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Motakaro",
+        "width": 1280,
+        "height": 800,
+        "resizable": true,
+        "fullscreen": false,
+        "maximized": true,
+        "visible": false
+      },
+      {
+        "label": "splashscreen",
+        "title": "Motakaro",
+        "url": "http://motakarosplash.localhost/index.html",
+        "width": 400,
+        "height": 300,
+        "resizable": false,
+        "maximizable": false,
+        "minimizable": false,
+        "decorations": false,
+        "center": true,
+        "focus": true,
+        "fullscreen": false
+      }
+    ]
+  },
+  "bundle": {
+    "targets": ["nsis"]
+  }
+}
