@@ -1,6 +1,6 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "productName": "Motakaro Admins",
   "mainBinaryName": "motakaro-admins",
   "identifier": "com.motakaro.admins",
@@ -42,6 +42,8 @@
   "bundle": {
     "active": true,
     "targets": ["deb"],
+    "shortDescription": "Motakaro admin portal",
+    "longDescription": "Desktop app for the Motakaro admin portal.",
     "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"]
   }
 }
