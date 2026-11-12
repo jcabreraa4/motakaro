@@ -52,6 +52,7 @@
     "@sentry/nextjs": "^10.72.0",
     "@shadcn/react": "^0.3.0",
     "@tailwindcss/postcss": "^4.3.3",
+    "@tauri-apps/api": "^2.12.4",
     "@tauri-apps/cli": "^2.12.4",
     "@tiptap/core": "^3.30.5",
     "@tiptap/extension-highlight": "^3.30.5",

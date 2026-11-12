@@ -19,6 +19,7 @@
     "@convex-dev/r2": "catalog:",
     "@hookform/resolvers": "catalog:",
     "@sentry/nextjs": "catalog:",
+    "@tauri-apps/api": "catalog:",
     "@tiptap/react": "catalog:",
     "@trigger.dev/sdk": "catalog:",
     "@vercel/analytics": "catalog:",

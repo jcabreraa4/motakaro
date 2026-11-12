@@ -8,14 +8,31 @@
     "frontendDist": "https://admins.motakaro.com"
   },
   "app": {
+    "withGlobalTauri": true,
     "windows": [
       {
+        "label": "main",
         "title": "Motakaro",
         "width": 1280,
         "height": 800,
         "resizable": true,
         "fullscreen": false,
-        "maximized": true
+        "maximized": true,
+        "visible": false
+      },
+      {
+        "label": "splashscreen",
+        "title": "Motakaro",
+        "url": "motakarosplash://localhost/index.html",
+        "width": 400,
+        "height": 300,
+        "resizable": false,
+        "maximizable": false,
+        "minimizable": false,
+        "decorations": false,
+        "center": true,
+        "focus": true,
+        "fullscreen": false
       }
     ],
     "security": {

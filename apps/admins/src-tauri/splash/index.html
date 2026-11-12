@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Motakaro</title>
+    <style>
+      :root {
+        --motakaro-blue: #007fd8;
+        --motakaro-blue-soft: #33a5f5;
+        --ink: #0b0e14;
+        --text: #eef4fb;
+        --muted: #7e8ca0;
+        --hairline: rgba(126, 140, 160, 0.18);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: var(--ink);
+        color: var(--text);
+        font-family:
+          Geist,
+          system-ui,
+          -apple-system,
+          'Segoe UI',
+          Ubuntu,
+          Cantarell,
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        user-select: none;
+        opacity: 1;
+        transition: opacity 200ms ease-out;
+      }
+
+      body[data-state='done'] {
+        opacity: 0;
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 32px;
+      }
+
+      .logo {
+        width: 72px;
+        height: 72px;
+        animation:
+          entrance 400ms ease-out both,
+          breathing 2.8s ease-in-out 400ms infinite;
+      }
+
+      h1 {
+        margin-top: 20px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.34em;
+        text-indent: 0.34em;
+        text-transform: uppercase;
+      }
+
+      .subtitle {
+        margin-top: 6px;
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 0.26em;
+        text-indent: 0.26em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .progress {
+        position: relative;
+        width: 132px;
+        height: 2px;
+        margin-top: 24px;
+        overflow: hidden;
+        background: var(--hairline);
+        border-radius: 1px;
+      }
+
+      .progress::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        right: auto;
+        left: 0;
+        width: 40%;
+        background: linear-gradient(90deg, var(--motakaro-blue), var(--motakaro-blue-soft));
+        border-radius: 1px;
+        animation: sweep 1.4s ease-in-out infinite;
+      }
+
+      .status {
+        max-width: 280px;
+        margin-top: 12px;
+        font-size: 12px;
+        line-height: 1.5;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      .error-block {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 24px;
+      }
+
+      body[data-state='error'] .loading-block {
+        display: none;
+      }
+
+      body[data-state='error'] .error-block {
+        display: flex;
+      }
+
+      .error-block h2 {
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .error-block p {
+        max-width: 300px;
+        margin-top: 8px;
+        font-size: 12px;
+        line-height: 1.55;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      .actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 20px;
+      }
+
+      button {
+        padding: 7px 16px;
+        font: inherit;
+        font-size: 12px;
+        font-weight: 500;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      #retry {
+        color: #ffffff;
+        background: var(--motakaro-blue);
+      }
+
+      #retry:hover {
+        background: var(--motakaro-blue-soft);
+      }
+
+      #continue {
+        color: #a8b4c4;
+        background: transparent;
+        border: 1px solid var(--hairline);
+      }
+
+      #continue:hover {
+        color: var(--text);
+        border-color: var(--muted);
+      }
+
+      button:focus-visible {
+        outline: 2px solid var(--motakaro-blue-soft);
+        outline-offset: 2px;
+      }
+
+      @keyframes entrance {
+        from {
+          opacity: 0;
+          transform: scale(0.96);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes breathing {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.025);
+        }
+      }
+
+      @keyframes sweep {
+        from {
+          left: 0;
+        }
+        to {
+          left: 60%;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .logo,
+        .progress::before,
+        body {
+          animation: none;
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body data-state="loading">
+    <main>
+      <img class="logo" src="logo.webp" alt="Motakaro" draggable="false" />
+      <h1>Motakaro</h1>
+      <p class="subtitle">Administration Platform</p>
+
+      <div class="loading-block">
+        <div class="progress"></div>
+        <p class="status" id="status" role="status">Connecting to admins.motakaro.com</p>
+      </div>
+
+      <div class="error-block" role="alert">
+        <h2 id="error-title">Still connecting…</h2>
+        <p>
+          The admin app has not finished loading. Check your internet connection, try again, or
+          continue anyway.
+        </p>
+        <div class="actions">
+          <button type="button" id="retry">Try again</button>
+          <button type="button" id="continue">Continue</button>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        'use strict';
+
+        var TIMEOUT_MS = 30000;
+        var tauri = window.__TAURI__;
+        var invoke = tauri && tauri.core ? tauri.core.invoke.bind(tauri.core) : null;
+        var listen = tauri && tauri.event ? tauri.event.listen.bind(tauri.event) : null;
+
+        var statusEl = document.getElementById('status');
+        var errorTitleEl = document.getElementById('error-title');
+        var timer = null;
+        var finished = false;
+
+        function setStatus(text) {
+          statusEl.textContent = text;
+        }
+
+        function showError() {
+          if (finished) return;
+          errorTitleEl.textContent = 'Still connecting…';
+          setState('error');
+        }
+
+        function restartTimer() {
+          clearTimeout(timer);
+          timer = setTimeout(showError, TIMEOUT_MS);
+        }
+
+        function finish() {
+          if (finished || !invoke) return;
+          finished = true;
+          clearTimeout(timer);
+          setState('done');
+          // Give the fade-out a beat before swapping the windows.
+          setTimeout(function () {
+            invoke('finish_startup').catch(function () {});
+          }, 220);
+        }
+
+        function retry() {
+          if (finished || !invoke) return;
+          setState('loading');
+          setStatus('Reconnecting to admins.motakaro.com');
+          restartTimer();
+          invoke('reload_main_window').catch(showError);
+        }
+
+        function setState(state) {
+          document.body.dataset.state = state;
+        }
+
+        document.getElementById('retry').addEventListener('click', retry);
+        document.getElementById('continue').addEventListener('click', finish);
+
+        if (listen) {
+          listen('motakaro:app-ready', finish).catch(function () {
+            /* the shell shut down; nothing to do */
+          });
+        }
+
+        restartTimer();
+      })();
+    </script>
+  </body>
+</html>
