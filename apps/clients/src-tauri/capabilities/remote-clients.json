@@ -1,0 +1,10 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "remote-clients",
+  "description": "Allows the remote Motakaro Clients web app (app.motakaro.com) loaded in the main window to emit Tauri events, so it can signal that the app is ready.",
+  "windows": ["main"],
+  "remote": {
+    "urls": ["https://app.motakaro.com"]
+  },
+  "permissions": ["core:event:default"]
+}

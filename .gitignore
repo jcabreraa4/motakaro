@@ -23,6 +23,10 @@ out/
 # Trigger.dev
 .trigger
 
+# Tauri
+**/src-tauri/target/
+**/src-tauri/gen/schemas
+
 # TypeScript
 *.tsbuildinfo
 

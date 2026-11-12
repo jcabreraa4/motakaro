@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
     <title>Motakaro</title>
     <style>
       :root {
@@ -226,24 +229,45 @@
   </head>
   <body data-state="loading">
     <main>
-      <img class="logo" src="logo.webp" alt="Motakaro" draggable="false" />
+      <img
+        class="logo"
+        src="logo.webp"
+        alt="Motakaro"
+        draggable="false"
+      />
       <h1>Motakaro Labs</h1>
       <p class="subtitle">Where GTM meets engineering</p>
 
       <div class="loading-block">
         <div class="progress"></div>
-        <p class="status" id="status" role="status">Connecting to Motakaro Servers</p>
+        <p
+          class="status"
+          id="status"
+          role="status"
+        >
+          Connecting to Motakaro Servers
+        </p>
       </div>
 
-      <div class="error-block" role="alert">
+      <div
+        class="error-block"
+        role="alert"
+      >
         <h2 id="error-title">Still connecting…</h2>
-        <p>
-          The admin app has not finished loading. Check your internet connection, try again, or
-          continue anyway.
-        </p>
+        <p>The admin app has not finished loading. Check your internet connection, try again, or continue anyway.</p>
         <div class="actions">
-          <button type="button" id="retry">Try again</button>
-          <button type="button" id="continue">Continue</button>
+          <button
+            type="button"
+            id="retry"
+          >
+            Try again
+          </button>
+          <button
+            type="button"
+            id="continue"
+          >
+            Continue
+          </button>
         </div>
       </div>
     </main>

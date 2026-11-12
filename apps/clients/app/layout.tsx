@@ -10,6 +10,7 @@ import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import '@workspace/ui/globals.css';
 import { cn } from '@workspace/ui/lib/utils';
 
+import { TauriLoaded } from '@/components/desktop/tauri-loaded';
 import { ClerkProvider } from '@/components/providers/clerk-provider';
 import { ConvexProvider } from '@/components/providers/convex-provider';
 import { ThemeProvider } from '@/components/providers/theme-provider';
@@ -48,6 +49,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <Toaster />
                   {children}
                   <Analytics />
+                  <TauriLoaded />
                 </TooltipProvider>
               </ConvexProvider>
             </ThemeProvider>
