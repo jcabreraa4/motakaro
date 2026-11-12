@@ -10,7 +10,7 @@ export function SectionWrapper({ children, className }: AppSectionProps) {
 }
 
 export function SectionInner({ children, className }: AppSectionProps) {
-  return <div className={cn('mx-auto flex flex-col gap-6 py-5 lg:container lg:gap-8 lg:border-x lg:py-10', className)}>{children}</div>;
+  return <div className={cn('mx-auto flex w-full flex-col gap-6 py-5 lg:container lg:gap-8 lg:border-x lg:py-10', className)}>{children}</div>;
 }
 
 export function SectionContent({ children, className }: AppSectionProps) {
