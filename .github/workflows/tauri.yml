@@ -16,6 +16,7 @@ permissions:
 
 env:
   BUN_VERSION: 1.4.4
+  RUST_VERSION: 1.99.1
 
 jobs:
   build:
@@ -25,7 +26,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        app: [clients, admins]
+        include:
+          - app: clients
+            file: motakaro_amd64.deb
+          - app: admins
+            file: motakaro-admins_amd64.deb
     steps:
       - name: Clone Repository
         uses: actions/checkout@v4
@@ -35,18 +40,18 @@ jobs:
         with:
           bun-version: ${{ env.BUN_VERSION }}
 
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
+      - name: Install Rust ${{ env.RUST_VERSION }}
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.RUST_VERSION }}
 
-      - name: Install System Dependencies
+      - name: Install Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential curl wget file libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
+          bun install --frozen-lockfile
 
-      - name: Install Dependencies
-        run: bun install --frozen-lockfile
-
-      - name: Build Desktop App
+      - name: Build Application
         working-directory: apps/${{ matrix.app }}
         run: bunx tauri build
 
@@ -54,5 +59,5 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cp apps/${{ matrix.app }}/src-tauri/target/release/bundle/deb/*.deb "motakaro-${{ matrix.app }}_amd64.deb"
-          gh release upload desktop "motakaro-${{ matrix.app }}_amd64.deb" --clobber
+          cp apps/${{ matrix.app }}/src-tauri/target/release/bundle/deb/*.deb "${{ matrix.file }}"
+          gh release upload desktop "${{ matrix.file }}" --clobber
