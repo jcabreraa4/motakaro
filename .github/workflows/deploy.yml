@@ -39,9 +39,12 @@ jobs:
           - app: landing
             display: Landing
             project: VERCEL_PROJECT_ID_LANDING
-          - app: ghosts
-            display: Ghosts
-            project: VERCEL_PROJECT_ID_GHOSTS
+          - app: eve-admins
+            display: Eve Admins
+            project: VERCEL_PROJECT_ID_EVE_ADMINS
+          - app: eve-clients
+            display: Eve Clients
+            project: VERCEL_PROJECT_ID_EVE_CLIENTS
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}

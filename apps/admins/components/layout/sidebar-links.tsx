@@ -3,7 +3,7 @@
 import type { Route } from 'next';
 import Link from 'next/link';
 
-import { Building2Icon, ChartColumnBigIcon, FileTextIcon, HeadsetIcon, ImageIcon, LayoutDashboardIcon, ListVideoIcon, type LucideIcon, UsersIcon, WalletIcon } from 'lucide-react';
+import { BotIcon, Building2Icon, ChartColumnBigIcon, FileTextIcon, HeadsetIcon, ImageIcon, LayoutDashboardIcon, ListVideoIcon, type LucideIcon, UsersIcon, WalletIcon } from 'lucide-react';
 
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
 import { cn } from '@workspace/ui/lib/utils';
@@ -29,9 +29,24 @@ const sections: Section[] = [
         icon: LayoutDashboardIcon
       },
       {
+        title: 'Analytics',
+        url: '/analytics',
+        icon: ChartColumnBigIcon
+      },
+      {
         title: 'Meetings',
         url: '/meetings',
         icon: HeadsetIcon
+      }
+    ]
+  },
+  {
+    title: 'Landing',
+    items: [
+      {
+        title: 'Chatbot',
+        url: '/chatbot',
+        icon: BotIcon
       },
       {
         title: 'Resources',
@@ -58,11 +73,6 @@ const sections: Section[] = [
   {
     title: 'Database',
     items: [
-      {
-        title: 'Analytics',
-        url: '/analytics',
-        icon: ChartColumnBigIcon
-      },
       {
         title: 'Contacts',
         url: '/contacts',
