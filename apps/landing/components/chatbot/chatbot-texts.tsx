@@ -12,6 +12,8 @@ interface ChatbotTextsProps {
 }
 
 export function ChatbotTexts({ status, messages }: ChatbotTextsProps) {
+  const lastId = messages.at(-1)?.id;
+
   return (
     <MessageScrollerProvider autoScroll>
       <MessageScroller className="flex-1">
@@ -43,7 +45,12 @@ export function ChatbotTexts({ status, messages }: ChatbotTextsProps) {
                                 <BubbleContent className="text-base font-medium">{part.text}</BubbleContent>
                               </Bubble>
                             ) : (
-                              <Streamdown className="text-base font-medium">{part.text}</Streamdown>
+                              <Streamdown
+                                className="typeset typeset-docs text-base font-medium"
+                                isAnimating={status === 'streaming' && message.id === lastId}
+                              >
+                                {part.text}
+                              </Streamdown>
                             )}
                           </MessageContent>
                         </Message>
