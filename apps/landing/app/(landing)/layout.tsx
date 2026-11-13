@@ -1,4 +1,4 @@
-import { ChatbotMain } from '@/components/chatbot/chatbot-main';
+import { ChatbotDialog } from '@/components/chatbot/chatbot-dialog';
 import { AppFooter } from '@/components/layout/app-footer';
 import { AppNavbar } from '@/components/layout/app-navbar';
 
@@ -8,7 +8,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
       <AppNavbar />
       {children}
       <AppFooter />
-      <ChatbotMain />
+      <ChatbotDialog />
     </main>
   );
 }

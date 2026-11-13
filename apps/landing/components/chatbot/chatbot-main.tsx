@@ -1,79 +1,80 @@
-'use client';
+import type { ChatStatus, UIMessage } from 'ai';
+import { Streamdown } from 'streamdown';
 
-import { useState } from 'react';
+import { Bubble, BubbleContent } from '@workspace/ui/components/bubble';
+import { Message, MessageContent } from '@workspace/ui/components/message';
+import { MessageScroller, MessageScrollerButton, MessageScrollerContent, MessageScrollerItem, MessageScrollerProvider, MessageScrollerViewport } from '@workspace/ui/components/message-scroller';
+import { Spinner } from '@workspace/ui/components/spinner';
 
-import { useChat } from '@ai-sdk/react';
-import { DefaultChatTransport } from 'ai';
-import type { UIMessage } from 'ai';
-import { BotIcon, XIcon } from 'lucide-react';
+interface ChatbotMainProps {
+  status: ChatStatus;
+  messages: UIMessage[];
+}
 
-import { Button } from '@workspace/ui/components/button';
-import { MotakaroLogo } from '@workspace/ui/components/custom/motakaro-logo';
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from '@workspace/ui/components/dialog';
-import { Separator } from '@workspace/ui/components/separator';
-
-import { ChatbotInput } from '@/components/chatbot/chatbot-input';
-import { ChatbotTexts } from '@/components/chatbot/chatbot-texts';
-
-const initialMessages: UIMessage[] = [
-  {
-    id: 'welcome',
-    role: 'assistant',
-    parts: [{ type: 'text', text: "Hi, I'm Motakaro's AI assistant. How can I help you?" }]
-  }
-];
-
-export function ChatbotMain() {
-  const [open, setOpen] = useState(false);
-
-  const { status, messages, sendMessage } = useChat({
-    messages: initialMessages,
-    transport: new DefaultChatTransport({
-      api: '/api/chatbot'
-    })
-  });
+export function ChatbotMain({ status, messages }: ChatbotMainProps) {
+  const lastId = messages.at(-1)?.id;
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={setOpen}
-    >
-      <DialogTrigger asChild>
-        <Button
-          variant="blackout"
-          className="fixed right-5 bottom-5 z-50"
-        >
-          <BotIcon />
-          Assistant
-        </Button>
-      </DialogTrigger>
-      <DialogContent
-        showCloseButton={false}
-        className="flex h-[80vh] w-full flex-col gap-5 px-0 sm:max-w-[80vw]"
-      >
-        <DialogHeader className="flex h-fit flex-row items-center justify-between px-6">
-          <MotakaroLogo />
-          <Button
-            variant="outline"
-            onClick={() => setOpen(false)}
-          >
-            <XIcon />
-          </Button>
-        </DialogHeader>
-        <div className="px-6">
-          <Separator />
-        </div>
-        <ChatbotTexts
-          status={status}
-          messages={messages}
-        />
-        <DialogFooter className="px-6">
-          <ChatbotInput
-            status={status}
-            sendMessage={sendMessage}
-          />
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <MessageScrollerProvider autoScroll>
+      <MessageScroller className="flex-1">
+        <MessageScrollerViewport>
+          <MessageScrollerContent aria-busy={status === 'streaming'}>
+            {messages.map((message) => {
+              const isUser = message.role === 'user';
+
+              return (
+                <MessageScrollerItem
+                  key={message.id}
+                  messageId={message.id}
+                  scrollAnchor={isUser}
+                >
+                  {message.parts.map(
+                    (part, partIndex) =>
+                      part.type === 'text' && (
+                        <Message
+                          key={partIndex}
+                          align={isUser ? 'end' : 'start'}
+                          className="px-6"
+                        >
+                          <MessageContent>
+                            {isUser ? (
+                              <Bubble
+                                align="end"
+                                variant="muted"
+                              >
+                                <BubbleContent className="text-base font-medium">{part.text}</BubbleContent>
+                              </Bubble>
+                            ) : (
+                              <Streamdown
+                                className="typeset typeset-docs text-base font-medium"
+                                isAnimating={status === 'streaming' && message.id === lastId}
+                              >
+                                {part.text}
+                              </Streamdown>
+                            )}
+                          </MessageContent>
+                        </Message>
+                      )
+                  )}
+                </MessageScrollerItem>
+              );
+            })}
+            {status === 'submitted' && (
+              <MessageScrollerItem key="spinner">
+                <Message
+                  align="start"
+                  className="px-6"
+                >
+                  <MessageContent>
+                    <Spinner />
+                  </MessageContent>
+                </Message>
+              </MessageScrollerItem>
+            )}
+          </MessageScrollerContent>
+        </MessageScrollerViewport>
+        <MessageScrollerButton />
+      </MessageScroller>
+    </MessageScrollerProvider>
   );
 }
