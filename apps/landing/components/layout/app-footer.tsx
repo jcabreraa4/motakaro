@@ -16,8 +16,8 @@ export function AppFooter() {
           </Link>
         </SectionContent>
         <SectionContent className="flex flex-col gap-2 lg:flex-row lg:items-center">
-          <Paragraph>All Rights Reserved © {new Date().getFullYear()} Motakaro</Paragraph>
-          <Paragraph className="hidden lg:inline">|</Paragraph>
+          <Paragraph className="select-none">All Rights Reserved © {new Date().getFullYear()} Motakaro</Paragraph>
+          <Paragraph className="hidden select-none lg:inline">|</Paragraph>
           <Link href="/privacy">
             <Button
               variant="link"

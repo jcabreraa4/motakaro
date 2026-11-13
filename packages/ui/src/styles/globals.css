@@ -169,3 +169,7 @@
   --typeset-leading: 1.75;
   --typeset-flow: 1.25em;
 }
+
+.typeset li:has(> input[type='checkbox']) {
+  list-style: none;
+}

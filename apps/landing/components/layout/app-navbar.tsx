@@ -52,7 +52,7 @@ interface TableItemProps {
 function TableItem({ text, isActive, onClick, className }: TableItemProps) {
   return (
     <div onClick={onClick}>
-      <Paragraph className={cn('cursor-pointer', isActive && 'text-motakaro', className)}>{text}</Paragraph>
+      <Paragraph className={cn('cursor-pointer select-none', isActive && 'text-motakaro', className)}>{text}</Paragraph>
     </div>
   );
 }
