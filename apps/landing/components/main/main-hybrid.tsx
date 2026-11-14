@@ -29,7 +29,7 @@ export function MainHybrid() {
       <SectionInner>
         <SectionContent>
           <Heading2 className="text-center">
-            <SparklesText>Hybrid Demand</SparklesText>
+            <SparklesText colors={{ first: 'var(--color-motakaro)', second: 'var(--color-motakaro)' }}>Hybrid Demand</SparklesText>
           </Heading2>
         </SectionContent>
         <SectionContent className="flex flex-col gap-5 lg:flex-row">
