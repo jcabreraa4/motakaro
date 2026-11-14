@@ -10,9 +10,10 @@ export const testEnv = {
   // Clerk
   CLERK_ADMINS_JWT_DOMAIN: 'https://admins.test.clerk.accounts.dev',
   CLERK_ADMINS_WEBHOOK_SECRET: 'whsec_admins_test',
+
+  CLERK_CLIENTS_SECRET_KEY: 'sk_test_clients',
   CLERK_CLIENTS_JWT_DOMAIN: 'https://clients.test.clerk.accounts.dev',
   CLERK_CLIENTS_WEBHOOK_SECRET: 'whsec_clients_test',
-  CLERK_CLIENTS_SECRET_KEY: 'sk_test_clients',
 
   // Calcom
   CALCOM_WEBHOOK_SECRET: 'calcom_test_secret',

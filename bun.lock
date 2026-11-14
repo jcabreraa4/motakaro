@@ -109,6 +109,7 @@
       "name": "eve-admins",
       "version": "0.1.0",
       "dependencies": {
+        "@clerk/backend": "catalog:",
         "@openrouter/ai-sdk-provider": "catalog:",
         "@vercel/connect": "catalog:",
         "ai": "catalog:",
@@ -127,6 +128,7 @@
       "name": "eve-clients",
       "version": "0.1.0",
       "dependencies": {
+        "@clerk/backend": "catalog:",
         "@openrouter/ai-sdk-provider": "catalog:",
         "@vercel/connect": "catalog:",
         "ai": "catalog:",

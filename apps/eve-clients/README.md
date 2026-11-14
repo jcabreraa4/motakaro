@@ -1,4 +1,4 @@
-# Ghosts
+# Eve Clients
 
 > Eve instance.
 > Bun as runtime.

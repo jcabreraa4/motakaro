@@ -1,4 +1,4 @@
-# Ghosts
+# Eve Admins
 
 > Eve instance.
 > Bun as runtime.
