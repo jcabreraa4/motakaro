@@ -12,11 +12,11 @@ import { useSignUp } from '@clerk/nextjs' // or @clerk/clerk-react, @clerk/clerk
 const { signUp, isLoaded, setActive } = useSignUp()
 ```
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `signUp` | `SignUp` | Sign-up object with methods |
-| `isLoaded` | `boolean` | Whether the hook has loaded |
-| `setActive` | `(params) => Promise` | Sets the active session |
+| Property    | Type                  | Description                 |
+| ----------- | --------------------- | --------------------------- |
+| `signUp`    | `SignUp`              | Sign-up object with methods |
+| `isLoaded`  | `boolean`             | Whether the hook has loaded |
+| `setActive` | `(params) => Promise` | Sets the active session     |
 
 ## Sign-Up Flow
 
@@ -26,8 +26,8 @@ const { signUp, isLoaded, setActive } = useSignUp()
 const result = await signUp.create({
   emailAddress: 'user@example.com',
   password: 'securePassword123',
-  firstName: 'Jane',  // optional
-  lastName: 'Doe',    // optional
+  firstName: 'Jane', // optional
+  lastName: 'Doe', // optional
 })
 ```
 
@@ -82,8 +82,8 @@ try {
 } catch (err) {
   if (isClerkAPIResponseError(err)) {
     err.errors.forEach((e) => {
-      console.log(e.code)        // e.g. 'form_password_pwned'
-      console.log(e.message)     // Human-readable message
+      console.log(e.code) // e.g. 'form_password_pwned'
+      console.log(e.message) // Human-readable message
       console.log(e.longMessage) // Detailed message
     })
   }
@@ -187,4 +187,4 @@ export default function SignUpPage() {
 ## Docs
 
 - [Custom sign-up flow](https://clerk.com/docs/custom-flows/overview)
-- [useSignUp() reference](https://clerk.com/docs/references/react/use-sign-up)
+- [useSignUp() reference](https://clerk.com/docs/reference/hooks/legacy/use-sign-up)

@@ -10,11 +10,11 @@ import { useSignIn } from '@clerk/nextjs' // or @clerk/react, @clerk/expo
 const { signIn, errors, fetchStatus } = useSignIn()
 ```
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `signIn` | `SignInFuture` | Sign-in object with namespaced methods |
-| `errors` | `Errors<SignInFields>` | Structured error object |
-| `fetchStatus` | `'idle' \| 'fetching'` | Network request status |
+| Property      | Type                   | Description                            |
+| ------------- | ---------------------- | -------------------------------------- |
+| `signIn`      | `SignInFuture`         | Sign-in object with namespaced methods |
+| `errors`      | `Errors<SignInFields>` | Structured error object                |
+| `fetchStatus` | `'idle' \| 'fetching'` | Network request status                 |
 
 ## Sign-In Methods
 
@@ -80,6 +80,7 @@ const { error } = await signIn.phoneCode.verifyCode({ code: '123456' })
 ## MFA (Second Factor)
 
 A second factor is required when `signIn.status` is one of:
+
 - `'needs_second_factor'` — user has MFA enabled (TOTP, backup codes, etc.)
 - `'needs_client_trust'` — new device sign-in without MFA; requires email or phone code verification
 
@@ -114,7 +115,7 @@ const { error } = await signIn.resetPasswordEmailCode.submitPassword({
 })
 ```
 
-## Client Trust
+## Device Trust
 
 When a user signs in with a valid password from a new device without MFA enabled, the sign-in status becomes `needs_client_trust`. This requires an additional verification step:
 
@@ -133,9 +134,7 @@ After successful authentication, call `finalize()` to activate the session:
 ```typescript
 await signIn.finalize({
   navigate: async ({ session, decorateUrl }) => {
-    const destination = session.currentTask
-      ? `/sign-in/tasks/${session.currentTask.key}`
-      : '/'
+    const destination = session.currentTask ? `/sign-in/tasks/${session.currentTask.key}` : '/'
     const url = decorateUrl(destination)
     // decorateUrl may return an absolute URL for Safari ITP
     if (url.startsWith('http')) {
@@ -167,8 +166,8 @@ const { signIn, errors } = useSignIn()
 
 // Field-level errors
 errors?.fields?.identifier // { code, message, longMessage? }
-errors?.fields?.password   // { code, message, longMessage? }
-errors?.fields?.code       // { code, message, longMessage? }
+errors?.fields?.password // { code, message, longMessage? }
+errors?.fields?.code // { code, message, longMessage? }
 
 // Global errors (not tied to a field)
 errors?.global // ClerkGlobalHookError[] | null
@@ -311,4 +310,4 @@ export default function Page() {
 
 - [Custom sign-in flow](https://clerk.com/docs/custom-flows/overview)
 - [MFA custom flow](https://clerk.com/docs/guides/development/custom-flows/authentication/multi-factor-authentication)
-- [useSignIn() reference](https://clerk.com/docs/references/react/use-sign-in)
+- [useSignIn() reference](https://clerk.com/docs/reference/hooks/use-sign-in)

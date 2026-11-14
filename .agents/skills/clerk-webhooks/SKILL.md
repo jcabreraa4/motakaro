@@ -1,9 +1,6 @@
 ---
 name: clerk-webhooks
-description: Clerk webhooks for real-time events and data syncing. Verify with verifyWebhook
-  from the framework-specific package. Handle user, session, organization, billing, and
-  payment events. Build event-driven features like database sync, notifications, and
-  integrations.
+description: Clerk webhooks for real-time events and data syncing. Verify with verifyWebhook from the framework-specific package. Handle user, session, organization, billing, and payment events. Build event-driven features like database sync, notifications, and integrations.
 allowed-tools: WebFetch
 license: MIT
 metadata:
@@ -24,26 +21,15 @@ Webhooks are **asynchronous and eventually consistent**. Delivery is fast but no
 - Notifications (welcome emails, Slack pings, internal alerts)
 - Integrations triggered by lifecycle events
 
-Do NOT rely on webhook delivery as part of a synchronous flow such as onboarding ("user signs up, then we read X from our DB"). For data the user just created, read it from the [Clerk session token](https://clerk.com/docs/guides/sessions/session-tokens) or call the Backend API directly. Webhooks fill the gap when you need data about *other* users or events the session token doesn't carry.
+Do NOT rely on webhook delivery as part of a synchronous flow such as onboarding ("user signs up, then we read X from our DB"). For data the user just created, read it from the [Clerk session token](https://clerk.com/docs/guides/sessions/session-tokens) or call the Backend API directly. Webhooks fill the gap when you need data about _other_ users or events the session token doesn't carry.
 
 ## Verify Every Webhook
 
 Use `verifyWebhook(req)` from the framework-specific package (`@clerk/nextjs/webhooks`, `@clerk/express/webhooks`, etc.). It reads `CLERK_WEBHOOK_SIGNING_SECRET` automatically and throws on bad signatures. Skipping verification, even for notification-only handlers, exposes the endpoint to spoofed events.
 
-## Make the Webhook Route Public
+## Keep the Webhook Route Unprotected
 
-Webhook routes must be excluded from Clerk middleware protection. Without this, Clerk returns 401.
-
-```typescript
-// proxy.ts (Next.js <=15: middleware.ts)
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
-
-const isPublicRoute = createRouteMatcher(['/api/webhooks(.*)'])
-
-export default clerkMiddleware(async (auth, req) => {
-  if (!isPublicRoute(req)) await auth.protect()
-})
-```
+Webhook deliveries carry no user session. `verifyWebhook()` is the only check the route needs. A bare `clerkMiddleware()` protects nothing, so the route is already reachable. Don't call `auth.protect()` for `/api/webhooks(.*)`, in middleware or in the handler. A project that does returns `404` for every delivery until that call is removed. See [Ensure the webhook route is public](https://clerk.com/docs/guides/development/webhooks/syncing#ensure-the-webhook-route-is-public).
 
 ## Complete Webhook Handler (Next.js App Router)
 
@@ -151,16 +137,6 @@ export async function POST(req: NextRequest) {
 }
 ```
 
-**Also include proxy.ts (Next.js <=15: middleware.ts) to make the route public:**
-```typescript
-// proxy.ts (Next.js <=15: middleware.ts)
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
-const isPublicRoute = createRouteMatcher(['/api/webhooks(.*)'])
-export default clerkMiddleware(async (auth, req) => {
-  if (!isPublicRoute(req)) await auth.protect()
-})
-```
-
 ## Full Example: Organization Membership Sync to Database
 
 ```typescript
@@ -249,10 +225,11 @@ For manual typing of nested payloads, import the JSON types from your framework'
 ## Payload Field Reference
 
 ### User events (`user.created`, `user.updated`, `user.deleted`)
+
 ```typescript
 const {
-  id,                  // Clerk user ID
-  email_addresses,     // array; [0].email_address is primary email
+  id, // Clerk user ID
+  email_addresses, // array; [0].email_address is primary email
   first_name,
   last_name,
   image_url,
@@ -261,20 +238,22 @@ const {
 ```
 
 ### Organization events (`organization.created`, `organization.updated`, `organization.deleted`)
+
 ```typescript
 const {
-  id,    // org ID
-  name,  // org name
+  id, // org ID
+  name, // org name
   slug,
 } = evt.data
 ```
 
 ### Organization Membership events (`organizationMembership.created`, `organizationMembership.updated`, `organizationMembership.deleted`)
+
 ```typescript
 const {
-  organization,        // { id, name, ... }
-  public_user_data,    // { user_id, first_name, last_name, ... }
-  role,                // e.g. 'org:admin', 'org:member'
+  organization, // { id, name, ... }
+  public_user_data, // { user_id, first_name, last_name, ... }
+  role, // e.g. 'org:admin', 'org:member'
 } = evt.data
 // Access: organization.id, public_user_data.user_id, role
 ```
@@ -303,7 +282,7 @@ const {
 
 **Subscription**: `subscription.created` `subscription.updated` `subscription.active` `subscription.pastDue`
 
-**Subscription Item**: `subscriptionItem.created` `subscriptionItem.active` `subscriptionItem.updated` `subscriptionItem.canceled` `subscriptionItem.upcoming` `subscriptionItem.ended` `subscriptionItem.abandoned` `subscriptionItem.incomplete` `subscriptionItem.pastDue` `subscriptionItem.freeTrialEnding`
+**Subscription Item**: `subscriptionItem.updated` `subscriptionItem.active` `subscriptionItem.canceled` `subscriptionItem.upcoming` `subscriptionItem.ended` `subscriptionItem.expired` `subscriptionItem.abandoned` `subscriptionItem.incomplete` `subscriptionItem.pastDue` `subscriptionItem.freeTrialEnding`
 
 **Payment**: `paymentAttempt.created` `paymentAttempt.updated`
 
@@ -316,11 +295,11 @@ const {
 ## Common Pitfalls
 
 | Symptom | Cause | Fix |
-|---------|-------|-----|
+| --- | --- | --- |
 | Verification fails (Next.js) | Wrong import or usage | Use `@clerk/nextjs/webhooks`, pass `req` directly |
 | Verification fails (Express) | Using `express.json()` | Use `express.raw({ type: 'application/json' })` for webhook route |
 | Route not found (404) | Wrong path | Use `/api/webhooks` or preserve existing path |
-| Not authorized (401) | Route is protected by middleware | Make route public in `clerkMiddleware()` |
+| 401 or 404 on every delivery | `auth.protect()` covers the webhook route (in middleware or in the handler) | Remove that check; `verifyWebhook()` is the only check the route needs |
 | No data in DB | Async job pending | Wait/check logs |
 | Duplicate entries | Only handling `user.created` | Also handle `user.updated` |
 | Timeouts | Handler too slow | Queue async work, return 200 first |
@@ -340,7 +319,7 @@ Add the printed relay URL (`https://webhooks.clerk.com/in/c_.../`) as a webhook 
 ## References
 
 | Reference | Description |
-|-----------|-------------|
+| --- | --- |
 | `references/frameworks.md` | Webhook handler examples for Express, Astro, Fastify, Nuxt, React Router, TanStack Start |
 
 ## See Also
