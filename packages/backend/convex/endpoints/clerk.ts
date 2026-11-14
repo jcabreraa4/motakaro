@@ -1,6 +1,5 @@
 import type { WebhookEvent } from '@clerk/backend';
 import { Infer } from 'convex/values';
-import { Webhook } from 'svix';
 
 import { internal } from '../_generated/api';
 import { httpAction } from '../_generated/server';
@@ -121,7 +120,7 @@ export const clerkClients = httpAction(async (ctx, request) => {
   return new Response(null, { status: 200 });
 });
 
-// Clerk Request Validator
+// Clerk Request Validator (Svix Signature, Web Crypto)
 
 interface ValidateRequestProps {
   request: Request;
@@ -129,27 +128,36 @@ interface ValidateRequestProps {
 }
 
 async function validateRequest({ request, webhook }: ValidateRequestProps): Promise<WebhookEvent | null> {
-  // Obtain Payload
-  const payload = await request.text();
-
-  // Verify Headers
-  const svixId = request.headers.get('svix-id');
-  const svixTimestamp = request.headers.get('svix-timestamp');
-  const svixSignature = request.headers.get('svix-signature');
-  if (!svixId || !svixTimestamp || !svixSignature) return null;
-
-  // Obtain Secret
-  const secret = webhook === 'admins' ? env.CLERK_ADMINS_WEBHOOK_SECRET : env.CLERK_CLIENTS_WEBHOOK_SECRET;
-  const wh = new Webhook(secret);
-
-  // Verify Signature
   try {
-    return wh.verify(payload, {
-      'svix-id': svixId,
-      'svix-timestamp': svixTimestamp,
-      'svix-signature': svixSignature
-    }) as unknown as WebhookEvent;
-  } catch {
+    // Obtain Payload
+    const payload = await request.text();
+
+    // Verify Headers
+    const svixId = request.headers.get('svix-id');
+    const svixTimestamp = request.headers.get('svix-timestamp');
+    const svixSignature = request.headers.get('svix-signature');
+    if (!svixId || !svixTimestamp || !svixSignature) return null;
+
+    // Check Timestamp (5 Min)
+    const diff = Math.abs(Date.now() / 1000 - Number(svixTimestamp));
+    if (!(diff <= 300)) return null;
+
+    // Obtain Secret
+    const secret = webhook === 'admins' ? env.CLERK_ADMINS_WEBHOOK_SECRET : env.CLERK_CLIENTS_WEBHOOK_SECRET;
+    const raw = Uint8Array.from(atob(secret.replace('whsec_', '')), (c) => c.charCodeAt(0));
+    const key = await crypto.subtle.importKey('raw', raw, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+
+    // Compute Signature
+    const signed = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(`${svixId}.${svixTimestamp}.${payload}`));
+    const expected = btoa(String.fromCharCode(...new Uint8Array(signed)));
+
+    // Compare Signatures
+    const received = svixSignature.split(' ').map((s) => s.split(',')[1]);
+    if (!received.includes(expected)) return null;
+
+    return JSON.parse(payload) as WebhookEvent;
+  } catch (err) {
+    console.log(`[verify:${webhook}] THREW`, err instanceof Error ? `${err.name}: ${err.message}` : String(err));
     return null;
   }
 }

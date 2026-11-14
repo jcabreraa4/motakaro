@@ -18,8 +18,7 @@
     "@convex-dev/rate-limiter": "catalog:",
     "@convex-dev/resend": "catalog:",
     "@trigger.dev/convex": "catalog:",
-    "convex": "catalog:",
-    "svix": "catalog:"
+    "convex": "catalog:"
   },
   "devDependencies": {
     "@edge-runtime/vm": "catalog:",
