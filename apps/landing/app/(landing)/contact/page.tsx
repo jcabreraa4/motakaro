@@ -16,15 +16,18 @@ export default function Page() {
   useEffect(() => {
     async function handleCalcom() {
       const cal = await getCalApi({ namespace: 'discovery' });
+      const motakaro = getComputedStyle(document.documentElement).getPropertyValue('--color-motakaro').trim();
+
       cal('ui', {
         theme: 'dark',
         cssVarsPerTheme: {
-          light: { 'cal-brand': '#007fd8' },
-          dark: { 'cal-brand': '#007fd8' }
+          light: { 'cal-brand': motakaro },
+          dark: { 'cal-brand': motakaro }
         },
         hideEventTypeDetails: false,
         layout: 'month_view'
       });
+
       cal('on', {
         action: 'linkReady',
         callback: () => setIsLoading(false)
