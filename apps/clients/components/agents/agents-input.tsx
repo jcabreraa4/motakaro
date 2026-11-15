@@ -1,21 +1,16 @@
 import { useState } from 'react';
 
-import type { UseEveAgentReturn, UseEveAgentStatus } from 'eve/react';
+import type { UseEveAgentReturn } from 'eve/react';
 import { SendHorizontalIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupTextarea } from '@workspace/ui/components/input-group';
 import { Spinner } from '@workspace/ui/components/spinner';
 
-interface AgentsInputProps {
-  status: UseEveAgentStatus;
-  send: UseEveAgentReturn['send'];
-}
-
-export function AgentsInput({ status, send }: AgentsInputProps) {
+export function AgentsInput({ agent }: { agent: UseEveAgentReturn }) {
   const [input, setInput] = useState('');
 
-  const busy = status === 'busy' || status === 'resuming';
+  const busy = agent.status === 'busy' || agent.status === 'resuming';
   const disabled = busy || !input.trim();
 
   function handleSubmit() {
@@ -23,7 +18,7 @@ export function AgentsInput({ status, send }: AgentsInputProps) {
     if (disabled) return;
 
     // Send Message
-    send(input).catch(() => toast.error('An internal error has occurred.'));
+    agent.send(input).catch(() => toast.error('An internal error has occurred.'));
 
     // Clean Input
     setInput('');
