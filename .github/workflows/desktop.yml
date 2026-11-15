@@ -1,4 +1,4 @@
-name: Tauri
+name: Desktop
 
 run-name: ${{ github.event.workflow_run.head_commit.message || github.event.head_commit.message || github.workflow }}
 
@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: tauri-${{ github.ref }}
+  group: desktop-${{ github.ref }}
   cancel-in-progress: false
 
 permissions:
