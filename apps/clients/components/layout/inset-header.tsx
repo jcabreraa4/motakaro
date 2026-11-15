@@ -5,7 +5,7 @@ import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { Fragment } from 'react';
 
-import { MoonIcon, SunIcon } from 'lucide-react';
+import { GhostIcon, MoonIcon, SunIcon } from 'lucide-react';
 
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
 import { Button } from '@workspace/ui/components/button';
@@ -15,6 +15,7 @@ import { cn } from '@workspace/ui/lib/utils';
 
 import { NotificationsPopover } from '@/components/notifications/notifications-popover';
 import { useHeader } from '@/hooks/use-header';
+import { useLayout } from '@/hooks/use-layout';
 import { useLocation } from '@/hooks/use-location';
 
 function HeaderBreadcrumb() {
@@ -64,6 +65,25 @@ function ThemeButton({ className }: { className?: string }) {
   );
 }
 
+function AgentsButton({ className }: { className?: string }) {
+  const { agents, setAgents } = useLayout();
+
+  return (
+    <>
+      {!agents && (
+        <Button
+          size="icon-sm"
+          variant="ghost"
+          className={className}
+          onClick={() => setAgents(true)}
+        >
+          <GhostIcon className="size-5" />
+        </Button>
+      )}
+    </>
+  );
+}
+
 export function InsetHeader() {
   return (
     <header className="flex h-12 shrink-0 items-center justify-between gap-2 border-b bg-sidebar px-3 md:h-16 md:bg-transparent md:px-4 print:hidden">
@@ -78,6 +98,7 @@ export function InsetHeader() {
       <div className="flex gap-2">
         <NotificationsPopover />
         <ThemeButton className="hidden md:flex" />
+        <AgentsButton className="hidden xl:flex" />
       </div>
     </header>
   );

@@ -31,6 +31,7 @@
     "@workspace/ui": "workspace:*",
     "convex": "catalog:",
     "date-fns": "catalog:",
+    "eve": "catalog:",
     "lucide-react": "catalog:",
     "next": "catalog:",
     "next-themes": "catalog:",
@@ -40,6 +41,7 @@
     "react-dropzone": "catalog:",
     "react-hook-form": "catalog:",
     "sonner": "catalog:",
+    "streamdown": "catalog:",
     "zustand": "catalog:"
   },
   "devDependencies": {
