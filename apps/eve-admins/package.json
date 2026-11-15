@@ -23,8 +23,8 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "@workspace/eslint-config": "workspace:*",
-    "@workspace/typescript-config": "workspace:*",
+    "@workspace/eslint": "workspace:*",
+    "@workspace/typescript": "workspace:*",
     "eslint": "catalog:",
     "typescript": "catalog:"
   },

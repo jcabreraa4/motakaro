@@ -1,5 +1,5 @@
 {
-  "extends": "@workspace/typescript-config/react.json",
+  "extends": "@workspace/typescript/react.json",
   "compilerOptions": {
     "paths": {
       "@workspace/ui/*": ["./src/*"]

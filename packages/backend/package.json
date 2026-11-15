@@ -24,8 +24,8 @@
   "devDependencies": {
     "@edge-runtime/vm": "catalog:",
     "@types/node": "catalog:",
-    "@workspace/eslint-config": "workspace:*",
-    "@workspace/typescript-config": "workspace:*",
+    "@workspace/eslint": "workspace:*",
+    "@workspace/typescript": "workspace:*",
     "convex-test": "catalog:",
     "eslint": "catalog:",
     "typescript": "catalog:",

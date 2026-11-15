@@ -1,4 +1,4 @@
 {
-  "extends": "@workspace/typescript-config/eve.json",
+  "extends": "@workspace/typescript/eve.json",
   "include": ["agent/**/*.ts", "evals/**/*.ts"]
 }

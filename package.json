@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "catalog:",
-    "@workspace/typescript-config": "workspace:*",
+    "@workspace/typescript": "workspace:*",
     "knip": "catalog:",
     "prettier": "catalog:",
     "prettier-plugin-tailwindcss": "catalog:",

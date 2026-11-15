@@ -1,11 +1,11 @@
 {
-  "extends": "@workspace/typescript-config/react.json",
+  "extends": "@workspace/typescript/react.json",
   "compilerOptions": {
     "paths": {
       "@workspace/render/*": ["./src/*"],
       "@workspace/ui/*": ["../../packages/ui/src/*"]
     }
   },
-  "include": [".", "../typescript-config"],
+  "include": [".", "../typescript"],
   "exclude": ["node_modules", "dist"]
 }

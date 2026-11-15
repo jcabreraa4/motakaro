@@ -14,8 +14,8 @@
     "@trigger.dev/sdk": "catalog:"
   },
   "devDependencies": {
-    "@workspace/eslint-config": "workspace:*",
-    "@workspace/typescript-config": "workspace:*",
+    "@workspace/eslint": "workspace:*",
+    "@workspace/typescript": "workspace:*",
     "eslint": "catalog:",
     "trigger.dev": "catalog:",
     "typescript": "catalog:"
