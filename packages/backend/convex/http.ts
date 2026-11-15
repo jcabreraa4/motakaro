@@ -1,7 +1,7 @@
 import { httpRouter } from 'convex/server';
 
-import { calcomSync } from './endpoints/calcom';
-import { clerkAdmins, clerkClients } from './endpoints/clerk';
+import { calcomSync } from './http/calcom';
+import { clerkAdmins, clerkClients } from './http/clerk';
 
 const http = httpRouter();
 

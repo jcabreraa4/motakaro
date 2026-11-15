@@ -156,8 +156,7 @@ async function validateRequest({ request, webhook }: ValidateRequestProps): Prom
     if (!received.includes(expected)) return null;
 
     return JSON.parse(payload) as WebhookEvent;
-  } catch (err) {
-    console.log(`[verify:${webhook}] THREW`, err instanceof Error ? `${err.name}: ${err.message}` : String(err));
+  } catch {
     return null;
   }
 }

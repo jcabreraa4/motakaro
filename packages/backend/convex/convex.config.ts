@@ -1,3 +1,4 @@
+import crons from '@convex-dev/crons/convex.config.js';
 import prosemirrorSync from '@convex-dev/prosemirror-sync/convex.config';
 import r2 from '@convex-dev/r2/convex.config';
 import rateLimiter from '@convex-dev/rate-limiter/convex.config.js';
@@ -7,6 +8,7 @@ import { defineApp } from 'convex/server';
 
 const app = defineApp();
 
+app.use(crons);
 app.use(prosemirrorSync);
 app.use(r2);
 app.use(rateLimiter);
