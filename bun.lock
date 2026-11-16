@@ -29,6 +29,7 @@
         "@tiptap/react": "catalog:",
         "@trigger.dev/sdk": "catalog:",
         "@vercel/analytics": "catalog:",
+        "@workspace/agents": "workspace:*",
         "@workspace/auth": "workspace:*",
         "@workspace/backend": "workspace:*",
         "@workspace/render": "workspace:*",
@@ -74,6 +75,7 @@
         "@tiptap/react": "catalog:",
         "@trigger.dev/sdk": "catalog:",
         "@vercel/analytics": "catalog:",
+        "@workspace/agents": "workspace:*",
         "@workspace/auth": "workspace:*",
         "@workspace/backend": "workspace:*",
         "@workspace/render": "workspace:*",
@@ -171,6 +173,23 @@
         "@types/node": "catalog:",
         "@types/react": "catalog:",
         "@types/react-dom": "catalog:",
+        "@workspace/eslint": "workspace:*",
+        "@workspace/typescript": "workspace:*",
+        "eslint": "catalog:",
+        "typescript": "catalog:",
+      },
+    },
+    "packages/agents": {
+      "name": "@workspace/agents",
+      "version": "0.1.0",
+      "dependencies": {
+        "@workspace/ui": "workspace:*",
+        "react": "catalog:",
+        "react-dom": "catalog:",
+        "zustand": "catalog:",
+      },
+      "devDependencies": {
+        "@types/react": "catalog:",
         "@workspace/eslint": "workspace:*",
         "@workspace/typescript": "workspace:*",
         "eslint": "catalog:",
@@ -1753,6 +1772,8 @@
     "@webassemblyjs/wast-printer": ["@webassemblyjs/wast-printer@1.14.1", "", { "dependencies": { "@webassemblyjs/ast": "1.14.1", "@xtuc/long": "4.2.2" } }, "sha512-kPSSXE6De1XOR820C90RIo2ogvZG+c3KiHzqUoO/F34Y2shGzesfqv7o57xrxovZJH/MetF5UjroJ/R/3isoiw=="],
 
     "@workflow/serde": ["@workflow/serde@4.1.0", "", {}, "sha512-pav4F2BoirECWR7Nf1TKt+2eETcBj7jj4cBefQ8VXQCA6NPkaKeLfj/zMgi+3zYV5ZIBT4GuUiphsj0/b9hPQQ=="],
+
+    "@workspace/agents": ["@workspace/agents@workspace:packages/agents"],
 
     "@workspace/auth": ["@workspace/auth@workspace:packages/auth"],
 

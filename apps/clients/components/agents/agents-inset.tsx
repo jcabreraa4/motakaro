@@ -2,16 +2,16 @@
 
 import { useEveAgent } from 'eve/react';
 
+import { useAgents } from '@workspace/agents/hooks/use-agents';
 import { SidebarInset } from '@workspace/ui/components/sidebar';
 import { cn } from '@workspace/ui/lib/utils';
 
 import { AgentsHeader } from '@/components/agents/agents-header';
 import { AgentsInput } from '@/components/agents/agents-input';
 import { AgentsMain } from '@/components/agents/agents-main';
-import { useLayout } from '@/hooks/use-layout';
 
 export function AgentsInset() {
-  const { agents } = useLayout();
+  const { agents } = useAgents();
 
   const agent = useEveAgent({
     baseUrl: process.env.NEXT_PUBLIC_EVE_URL

@@ -5,17 +5,16 @@ import { format } from 'date-fns';
 import { CalendarX2Icon, CheckCircleIcon, CircleSlash, ClockIcon, ExternalLinkIcon, RadioIcon, SettingsIcon, StarIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { useAgents } from '@workspace/agents/hooks/use-agents';
 import { api } from '@workspace/backend/_generated/api';
 import type { Meeting } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { useLayout } from '@/hooks/use-layout';
-
 function MeetingsItem({ meeting }: { meeting: Meeting }) {
   const { push } = useRouter();
-  const { agents } = useLayout();
+  const { agents } = useAgents();
 
   const updateMeeting = useMutation(api.meetings.update);
 

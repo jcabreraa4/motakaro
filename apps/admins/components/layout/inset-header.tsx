@@ -9,6 +9,7 @@ import { useAuth } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 import { GhostIcon, MoonIcon, SunIcon, UserRoundIcon } from 'lucide-react';
 
+import { useAgents } from '@workspace/agents/hooks/use-agents';
 import { api } from '@workspace/backend/_generated/api';
 import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from '@workspace/ui/components/avatar';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
@@ -20,7 +21,6 @@ import { cn } from '@workspace/ui/lib/utils';
 
 import { NotificationsPopover } from '@/components/notifications/notifications-popover';
 import { useHeader } from '@/hooks/use-header';
-import { useLayout } from '@/hooks/use-layout';
 import { useLocation } from '@/hooks/use-location';
 
 function HeaderBreadcrumb() {
@@ -111,7 +111,7 @@ function ThemeButton({ className }: { className?: string }) {
 }
 
 function AgentsButton({ className }: { className?: string }) {
-  const { agents, setAgents } = useLayout();
+  const { agents, setAgents } = useAgents();
 
   return (
     <>

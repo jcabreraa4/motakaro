@@ -7,6 +7,7 @@ import { Fragment } from 'react';
 
 import { GhostIcon, MoonIcon, SunIcon } from 'lucide-react';
 
+import { useAgents } from '@workspace/agents/hooks/use-agents';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@workspace/ui/components/breadcrumb';
 import { Button } from '@workspace/ui/components/button';
 import { Separator } from '@workspace/ui/components/separator';
@@ -15,7 +16,6 @@ import { cn } from '@workspace/ui/lib/utils';
 
 import { NotificationsPopover } from '@/components/notifications/notifications-popover';
 import { useHeader } from '@/hooks/use-header';
-import { useLayout } from '@/hooks/use-layout';
 import { useLocation } from '@/hooks/use-location';
 
 function HeaderBreadcrumb() {
@@ -66,7 +66,7 @@ function ThemeButton({ className }: { className?: string }) {
 }
 
 function AgentsButton({ className }: { className?: string }) {
-  const { agents, setAgents } = useLayout();
+  const { agents, setAgents } = useAgents();
 
   return (
     <>

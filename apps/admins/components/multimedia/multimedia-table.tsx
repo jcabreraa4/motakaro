@@ -4,6 +4,7 @@ import { useMutation } from 'convex/react';
 import { DownloadIcon, ExpandIcon, LucideIcon, PenIcon, StarIcon, TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { useAgents } from '@workspace/agents/hooks/use-agents';
 import { api } from '@workspace/backend/_generated/api';
 import type { MediaFile } from '@workspace/backend/schema';
 import { downloadFile } from '@workspace/render/utils/download-file';
@@ -14,7 +15,6 @@ import { MultimediaInfo } from '@/components/multimedia/multimedia-info';
 import { MultimediaPreview } from '@/components/multimedia/multimedia-preview';
 import { MultimediaRemove } from '@/components/multimedia/multimedia-remove';
 import { MultimediaUpdate } from '@/components/multimedia/multimedia-update';
-import { useLayout } from '@/hooks/use-layout';
 
 interface ItemButtonProps {
   icon: LucideIcon;
@@ -84,7 +84,7 @@ function MultimediaItem({ file }: { file: MediaFile }) {
 }
 
 export function MultimediaTable({ multimedia }: { multimedia: MediaFile[] }) {
-  const { agents } = useLayout();
+  const { agents } = useAgents();
 
   const starredFiles = multimedia.filter((file) => file.starred);
   const nonStarredFiles = multimedia!.filter((file) => !file.starred);

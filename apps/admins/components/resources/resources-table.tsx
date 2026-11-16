@@ -4,6 +4,7 @@ import { useMutation } from 'convex/react';
 import { ExpandIcon, ExternalLinkIcon, LucideIcon, PenIcon, StarIcon, TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { useAgents } from '@workspace/agents/hooks/use-agents';
 import { api } from '@workspace/backend/_generated/api';
 import type { Resource } from '@workspace/backend/schema';
 import { Button } from '@workspace/ui/components/button';
@@ -13,7 +14,6 @@ import { ResourcesInfo } from '@/components/resources/resources-info';
 import { ResourcesPreview } from '@/components/resources/resources-preview';
 import { ResourcesRemove } from '@/components/resources/resources-remove';
 import { ResourcesUpdate } from '@/components/resources/resources-update';
-import { useLayout } from '@/hooks/use-layout';
 
 interface ItemButtonProps {
   icon: LucideIcon;
@@ -83,7 +83,7 @@ function ResourcesItem({ resource }: { resource: Resource }) {
 }
 
 export function ResourcesTable({ resources }: { resources: Resource[] }) {
-  const { agents } = useLayout();
+  const { agents } = useAgents();
 
   const starredResources = resources.filter((file) => file.starred);
   const nonStarredResources = resources.filter((file) => !file.starred);

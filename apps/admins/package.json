@@ -23,6 +23,7 @@
     "@tiptap/react": "catalog:",
     "@trigger.dev/sdk": "catalog:",
     "@vercel/analytics": "catalog:",
+    "@workspace/agents": "workspace:*",
     "@workspace/auth": "workspace:*",
     "@workspace/backend": "workspace:*",
     "@workspace/render": "workspace:*",
