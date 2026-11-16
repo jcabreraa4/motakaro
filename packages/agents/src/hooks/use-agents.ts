@@ -1,6 +1,6 @@
 import { useShallow } from 'zustand/react/shallow';
 
-import { useAgentsStore } from '@workspace/agents/store/layout-store';
+import { useAgentsStore } from '@workspace/agents/store/agents-store';
 
 export function useAgents() {
   const { agents, setAgents } = useAgentsStore(
