@@ -15,6 +15,7 @@
   "dependencies": {
     "@ai-sdk/react": "catalog:",
     "@calcom/embed-react": "catalog:",
+    "@fast-link/next": "catalog:",
     "@openrouter/ai-sdk-provider": "catalog:",
     "@vercel/analytics": "catalog:",
     "@vercel/speed-insights": "catalog:",

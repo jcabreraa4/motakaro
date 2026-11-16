@@ -1,5 +1,4 @@
-import Link from 'next/link';
-
+import { FastLink } from '@fast-link/next';
 import { useMutation } from 'convex/react';
 import { DownloadIcon, ExpandIcon, LucideIcon, PenIcon, StarIcon, TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
@@ -48,12 +47,12 @@ function MultimediaItem({ file }: { file: MediaFile }) {
       key={file._id}
       className="flex flex-col gap-5"
     >
-      <Link href={`/multimedia/${file._id}`}>
+      <FastLink href={`/multimedia/${file._id}`}>
         <MultimediaPreview
           src={file.url!}
           type={file.type}
         />
-      </Link>
+      </FastLink>
       <MultimediaInfo
         name={file.name}
         size={file.size}
@@ -75,9 +74,9 @@ function MultimediaItem({ file }: { file: MediaFile }) {
         <MultimediaRemove id={file._id}>
           <ItemButton icon={TrashIcon} />
         </MultimediaRemove>
-        <Link href={`/multimedia/${file._id}`}>
+        <FastLink href={`/multimedia/${file._id}`}>
           <ItemButton icon={ExpandIcon} />
-        </Link>
+        </FastLink>
       </div>
     </div>
   );

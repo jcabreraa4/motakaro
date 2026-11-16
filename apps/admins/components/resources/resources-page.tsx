@@ -1,9 +1,9 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect } from 'react';
 
 import { useAuth } from '@clerk/nextjs';
+import { FastLink } from '@fast-link/next';
 import { Preloaded, usePreloadedQuery } from 'convex/react';
 import { ListVideoIcon } from 'lucide-react';
 
@@ -46,12 +46,12 @@ function ResourcesLoaded({ preloaded }: ResourcesPageProps) {
           title="404 Not Found"
           description="The resource record could not be found."
         >
-          <Link href="/resources">
+          <FastLink href="/resources">
             <Button>
               <ListVideoIcon />
               Check Resources
             </Button>
-          </Link>
+          </FastLink>
         </EmptySection>
       </InsetSection>
     );

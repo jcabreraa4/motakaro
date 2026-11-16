@@ -1,9 +1,9 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect } from 'react';
 
 import { useAuth } from '@clerk/nextjs';
+import { FastLink } from '@fast-link/next';
 import { Preloaded, usePreloadedQuery } from 'convex/react';
 import { ImageIcon } from 'lucide-react';
 
@@ -46,12 +46,12 @@ function MultimediaLoaded({ preloaded }: MultimediaPageProps) {
           title="404 Not Found"
           description="The file record could not be found."
         >
-          <Link href="/multimedia">
+          <FastLink href="/multimedia">
             <Button>
               <ImageIcon />
               Check Multimedia
             </Button>
-          </Link>
+          </FastLink>
         </EmptySection>
       </InsetSection>
     );

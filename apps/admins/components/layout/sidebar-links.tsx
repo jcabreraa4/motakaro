@@ -1,8 +1,8 @@
 'use client';
 
 import type { Route } from 'next';
-import Link from 'next/link';
 
+import { FastLink } from '@fast-link/next';
 import { BotIcon, Building2Icon, ChartColumnBigIcon, FileTextIcon, HeadsetIcon, ImageIcon, LayoutDashboardIcon, ListVideoIcon, type LucideIcon, UsersIcon, WalletIcon } from 'lucide-react';
 
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@workspace/ui/components/sidebar';
@@ -118,10 +118,10 @@ export function SidebarLinks() {
                     asChild
                     className={cn(isSection(item.url) ? 'bg-primary! text-white! dark:text-black!' : isSubroute(item.url) && 'border border-black dark:border-white')}
                   >
-                    <Link href={item.url as Route}>
+                    <FastLink href={item.url as Route}>
                       <item.icon className="size-4" />
                       <span className="select-none">{item.title}</span>
-                    </Link>
+                    </FastLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

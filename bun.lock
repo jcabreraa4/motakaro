@@ -23,6 +23,7 @@
         "@clerk/themes": "catalog:",
         "@convex-dev/prosemirror-sync": "catalog:",
         "@convex-dev/r2": "catalog:",
+        "@fast-link/next": "catalog:",
         "@hookform/resolvers": "catalog:",
         "@sentry/nextjs": "catalog:",
         "@tauri-apps/api": "catalog:",
@@ -69,6 +70,7 @@
         "@clerk/themes": "catalog:",
         "@convex-dev/prosemirror-sync": "catalog:",
         "@convex-dev/r2": "catalog:",
+        "@fast-link/next": "catalog:",
         "@hookform/resolvers": "catalog:",
         "@sentry/nextjs": "catalog:",
         "@tauri-apps/api": "catalog:",
@@ -153,6 +155,7 @@
       "dependencies": {
         "@ai-sdk/react": "catalog:",
         "@calcom/embed-react": "catalog:",
+        "@fast-link/next": "catalog:",
         "@openrouter/ai-sdk-provider": "catalog:",
         "@vercel/analytics": "catalog:",
         "@vercel/speed-insights": "catalog:",
@@ -380,6 +383,7 @@
     "@edge-runtime/vm": "^5.0.0",
     "@eslint/compat": "^2.1.0",
     "@eslint/js": "^10.0.1",
+    "@fast-link/next": "^0.0.2",
     "@hookform/resolvers": "^5.9.1",
     "@next/eslint-plugin-next": "^16.3.3",
     "@openrouter/ai-sdk-provider": "^3.1.0",
@@ -734,6 +738,12 @@
     "@eslint/object-schema": ["@eslint/object-schema@3.0.5", "", {}, "sha512-vqTaUEgxzm+YDSdElad6PiRoX4t8VGDjCtt05zn4nU810UIx/uNEV7/lZJ6KwFThKZOzOxzXy48da+No7HZaMw=="],
 
     "@eslint/plugin-kit": ["@eslint/plugin-kit@0.7.3", "", { "dependencies": { "@eslint/core": "^1.2.1", "levn": "^0.4.1" } }, "sha512-IkO+/KEUvwbVpiURZg+P7zF74z5Jxe0UgJxVni+RtoHQ6IZieXaO02kmadomap/q+l6bc/jdPGGqTjhuZnuz1Q=="],
+
+    "@fast-link/core": ["@fast-link/core@0.0.2", "", {}, "sha512-JfmWftqcGQKhnpLjfs3ZpwawgWXyyGKRVitTzR4nkoe0igyZ1UTbdeZ7bX2KBOrvSO80enJ5Phm2OTq0DjmqlA=="],
+
+    "@fast-link/next": ["@fast-link/next@0.0.2", "", { "dependencies": { "@fast-link/core": "^0.0.2", "@fast-link/react": "^0.0.2" }, "peerDependencies": { "next": ">=16 <17", "react": ">=19 <20" } }, "sha512-mtKctTWRlcIngIM3GzzpzhyRF4appDjryxtcqKnb/mNb7bLg7bh+9xttwYtJVehSRlQfPI4JfCm/BwDM+CsE+Q=="],
+
+    "@fast-link/react": ["@fast-link/react@0.0.2", "", { "dependencies": { "@fast-link/core": "^0.0.2" }, "peerDependencies": { "react": ">=19 <20" } }, "sha512-EQ45t2q2PmFYu2eX6/pcepD0FUx06aFMXLPAwUEXKA6iwf7ooaCzKaZ0924ufP33yWbFFdkbCf1cZmUFGnWPkQ=="],
 
     "@fastify/busboy": ["@fastify/busboy@2.1.1", "", {}, "sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA=="],
 

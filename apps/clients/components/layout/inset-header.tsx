@@ -2,9 +2,9 @@
 
 import type { Route } from 'next';
 import { useTheme } from 'next-themes';
-import Link from 'next/link';
 import { Fragment } from 'react';
 
+import { FastLink } from '@fast-link/next';
 import { GhostIcon, MoonIcon, SunIcon } from 'lucide-react';
 
 import { useAgents } from '@workspace/agents/hooks/use-agents';
@@ -26,18 +26,18 @@ function HeaderBreadcrumb() {
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <Link href={`/${section}` as Route}>
+          <FastLink href={`/${section}` as Route}>
             <BreadcrumbPage className="font-medium capitalize select-none">{section}</BreadcrumbPage>
-          </Link>
+          </FastLink>
         </BreadcrumbItem>
         {breadcrumbs.map((item, index) => (
           <Fragment key={index}>
             <BreadcrumbSeparator className="hidden lg:block" />
             <BreadcrumbItem className={cn('hidden select-none lg:block', item.href && 'cursor-pointer')}>
               {item.href ? (
-                <Link href={item.href as Route}>
+                <FastLink href={item.href as Route}>
                   <BreadcrumbPage>{item.text}</BreadcrumbPage>
-                </Link>
+                </FastLink>
               ) : (
                 <BreadcrumbPage>{item.text}</BreadcrumbPage>
               )}

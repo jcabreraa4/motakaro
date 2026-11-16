@@ -17,6 +17,7 @@
     "@clerk/themes": "catalog:",
     "@convex-dev/prosemirror-sync": "catalog:",
     "@convex-dev/r2": "catalog:",
+    "@fast-link/next": "catalog:",
     "@hookform/resolvers": "catalog:",
     "@sentry/nextjs": "catalog:",
     "@tauri-apps/api": "catalog:",

@@ -1,5 +1,4 @@
-import Link from 'next/link';
-
+import { FastLink } from '@fast-link/next';
 import { useMutation } from 'convex/react';
 import { ExpandIcon, ExternalLinkIcon, LucideIcon, PenIcon, StarIcon, TrashIcon } from 'lucide-react';
 import { toast } from 'sonner';
@@ -48,12 +47,12 @@ function ResourcesItem({ resource }: { resource: Resource }) {
 
   return (
     <div className="flex flex-col gap-5">
-      <Link href={`/resources/${resource._id}`}>
+      <FastLink href={`/resources/${resource._id}`}>
         <ResourcesPreview
           src={resource.thumbnail}
           className="cursor-pointer"
         />
-      </Link>
+      </FastLink>
       <ResourcesInfo
         name={resource.name}
         published={resource.published}
@@ -74,9 +73,9 @@ function ResourcesItem({ resource }: { resource: Resource }) {
         <ResourcesRemove id={resource._id}>
           <ItemButton icon={TrashIcon} />
         </ResourcesRemove>
-        <Link href={`/resources/${resource._id}`}>
+        <FastLink href={`/resources/${resource._id}`}>
           <ItemButton icon={ExpandIcon} />
-        </Link>
+        </FastLink>
       </div>
     </div>
   );

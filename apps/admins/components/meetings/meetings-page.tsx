@@ -1,9 +1,9 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect } from 'react';
 
 import { useAuth } from '@clerk/nextjs';
+import { FastLink } from '@fast-link/next';
 import { Preloaded, usePreloadedQuery } from 'convex/react';
 import { HeadsetIcon } from 'lucide-react';
 
@@ -44,12 +44,12 @@ function MeetingsLoaded({ preloaded }: MeetingsPageProps) {
           title="404 Not Found"
           description="The meeting record could not be found."
         >
-          <Link href="/meetings">
+          <FastLink href="/meetings">
             <Button>
               <HeadsetIcon />
               Check Meetings
             </Button>
-          </Link>
+          </FastLink>
         </EmptySection>
       </InsetSection>
     );

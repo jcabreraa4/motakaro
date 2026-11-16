@@ -4,6 +4,7 @@ import type { Route } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
 
+import { FastLink } from '@fast-link/next';
 import { MenuIcon } from 'lucide-react';
 
 import { Button } from '@workspace/ui/components/button';
@@ -66,7 +67,7 @@ function DesktopTable({ isActive, className }: TableProps) {
   return (
     <div className={cn('items-center gap-5', className)}>
       {items.map((item) => (
-        <Link
+        <FastLink
           key={item.url}
           href={item.url as Route}
         >
@@ -74,7 +75,7 @@ function DesktopTable({ isActive, className }: TableProps) {
             text={item.title}
             isActive={isActive(item.url)}
           />
-        </Link>
+        </FastLink>
       ))}
       <TableItem
         text="Clients"
@@ -146,9 +147,9 @@ export function AppNavbar() {
     <SectionWrapper>
       <SectionInner className="lg:py-5">
         <SectionContent className="flex items-center justify-between">
-          <Link href="/">
+          <FastLink href="/">
             <MotakaroLogo />
-          </Link>
+          </FastLink>
           <DesktopTable
             isActive={isActive}
             className="hidden lg:flex"

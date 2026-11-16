@@ -1,12 +1,12 @@
 'use client';
 
 import type { Route } from 'next';
-import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { useAuth, useSignUp } from '@clerk/nextjs';
+import { FastLink } from '@fast-link/next';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RefreshCwIcon } from 'lucide-react';
 import { toast } from 'sonner';
@@ -135,7 +135,7 @@ export default function SignUp() {
         </div>
         <Field>
           <FieldDescription className="text-center select-none">
-            Already have an account? <Link href={'/sign-in' as Route}>Sign in</Link>
+            Already have an account? <FastLink href={'/sign-in' as Route}>Sign in</FastLink>
           </FieldDescription>
         </Field>
       </FieldGroup>
@@ -152,7 +152,7 @@ export default function SignUp() {
         </div>
         <Field>
           <FieldDescription className="text-center select-none">
-            Already have an account? <Link href={'/sign-in' as Route}>Sign in</Link>
+            Already have an account? <FastLink href={'/sign-in' as Route}>Sign in</FastLink>
           </FieldDescription>
         </Field>
       </FieldGroup>
@@ -319,7 +319,7 @@ export default function SignUp() {
         </Field>
         <Field>
           <FieldDescription className="text-center select-none">
-            Already have an account? <Link href={'/sign-in' as Route}>Sign in</Link>
+            Already have an account? <FastLink href={'/sign-in' as Route}>Sign in</FastLink>
           </FieldDescription>
         </Field>
       </FieldGroup>

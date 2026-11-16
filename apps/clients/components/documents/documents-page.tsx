@@ -1,9 +1,9 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect } from 'react';
 
 import { useAuth } from '@clerk/nextjs';
+import { FastLink } from '@fast-link/next';
 import { Preloaded, usePreloadedQuery } from 'convex/react';
 import { FileTextIcon } from 'lucide-react';
 
@@ -46,12 +46,12 @@ function DocumentsPageLoaded({ preloaded }: DocumentsPageProps) {
           title="404 Not Found"
           description="The document record could not be found."
         >
-          <Link href="/documents">
+          <FastLink href="/documents">
             <Button>
               <FileTextIcon />
               Check Documents
             </Button>
-          </Link>
+          </FastLink>
         </EmptySection>
       </InsetSection>
     );

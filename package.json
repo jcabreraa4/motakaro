@@ -47,6 +47,7 @@
     "@edge-runtime/vm": "^5.0.0",
     "@eslint/compat": "^2.1.0",
     "@eslint/js": "^10.0.1",
+    "@fast-link/next": "^0.0.2",
     "@hookform/resolvers": "^5.9.1",
     "@next/eslint-plugin-next": "^16.3.3",
     "@openrouter/ai-sdk-provider": "^3.1.0",

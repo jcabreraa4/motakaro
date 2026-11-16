@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { FastLink } from '@fast-link/next';
 
 import { Button } from '@workspace/ui/components/button';
 import { MotakaroLogo } from '@workspace/ui/components/custom/motakaro-logo';
@@ -11,21 +11,21 @@ export function AppFooter() {
     <SectionWrapper>
       <SectionInner className="lg:py-5">
         <SectionContent>
-          <Link href="/">
+          <FastLink href="/">
             <MotakaroLogo />
-          </Link>
+          </FastLink>
         </SectionContent>
         <SectionContent className="flex flex-col gap-2 lg:flex-row lg:items-center">
           <Paragraph className="select-none">All Rights Reserved © {new Date().getFullYear()} Motakaro</Paragraph>
           <Paragraph className="hidden select-none lg:inline">|</Paragraph>
-          <Link href="/privacy">
+          <FastLink href="/privacy">
             <Button
               variant="link"
               className="w-fit p-0"
             >
               <Paragraph>Privacy Policy</Paragraph>
             </Button>
-          </Link>
+          </FastLink>
         </SectionContent>
       </SectionInner>
     </SectionWrapper>
