@@ -29,11 +29,11 @@ Motakaro turns market research into content and sales: it detects buying signals
 ## Stack
 
 - **Next.js** — Full-stack React framework for every app, with typed routes and server components.
-- **Convex** — Reactive backend and the single source of truth: database, identity, orgs and billing.
-- **Clerk** — Authentication and user management.
+- **Convex** — Reactive backend and single source of truth: database, identity, orgs and billing.
+- **Clerk** — Authentication and user management across all the apps.
 - **Eve** — Vercel's AI agent framework, powering the dedicated agent apps.
-- **Trigger.dev** — Long-running background jobs.
-- **Tailwind CSS 4 + Shadcn** — Utility-first styling with composable components.
+- **Trigger.dev** — Durable background jobs and long-running workflows.
+- **Tailwind CSS 4 + Shadcn** — Utility-first styling with composable, accessible components.
 - **Bun + Turborepo** — Fast runtime and monorepo orchestration with version catalogs.
 
 ## Getting Started
