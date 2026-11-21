@@ -13,8 +13,8 @@
 [![Eve](https://img.shields.io/badge/Eve-Agents-000000)](https://eve.dev)
 [![Trigger](https://img.shields.io/badge/Trigger.dev-BG%20Jobs-EF4444)](https://trigger.dev)
 [![Clerk](https://img.shields.io/badge/Clerk-Auth-EF4444?logo=clerk&logoColor=white)](https://clerk.com)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-EFEFEF?logo=tailwindcss&logoColor=black)](https://tailwindcss.com)
-[![Shadcn](https://img.shields.io/badge/Shadcn-UI-EFEFEF?logo=shadcnui&logoColor=black)](https://ui.shadcn.com)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-EFEFEF?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![Shadcn](https://img.shields.io/badge/Shadcn-UI-EFEFEF?logo=shadcnui&logoColor=white)](https://ui.shadcn.com)
 
 ---
 
