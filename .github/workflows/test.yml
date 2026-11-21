@@ -6,7 +6,24 @@ on:
   push:
     branches: [main]
     paths-ignore:
+      # Tauri Wrappers
       - 'apps/*/src-tauri/**'
+      # Docs and Metadata
+      - 'README.md'
+      - 'LICENSE'
+      - 'AGENTS.md'
+      - 'CLAUDE.md'
+      - 'skills-lock.json'
+      - 'knip.json'
+      - 'docs/**'
+      # Formatting Config
+      - '.prettierignore'
+      - '.prettierrc'
+      # Agents and Editor
+      - '.agents/**'
+      - '.claude/**'
+      - '.zed/**'
+      - '.vscode/**'
   workflow_dispatch:
 
 concurrency:
