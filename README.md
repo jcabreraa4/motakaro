@@ -15,7 +15,8 @@
 [![Clerk](https://img.shields.io/badge/Clerk-Auth-EF4444?logo=clerk&logoColor=white)](https://clerk.com)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-EFEFEF?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![Shadcn](https://img.shields.io/badge/Shadcn-UI-EFEFEF?logo=shadcnui&logoColor=white)](https://ui.shadcn.com)
-[![Sentry](https://img.shields.io/badge/Sentry-Monitoring-362D59?logo=sentry&logoColor=white)](https://sentry.io)
+[![Sentry](https://img.shields.io/badge/Sentry-Monitoring-7C5CE0?logo=sentry&logoColor=white)](https://sentry.io)
+[![Resend](https://img.shields.io/badge/Resend-Email-7C5CE0?logo=resend&logoColor=white)](https://resend.com)
 
 ---
 
