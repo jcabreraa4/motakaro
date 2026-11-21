@@ -57,8 +57,3 @@ Requires Bun 1.4.4 and Node 24.x.
 
 MIT © 2026 Jorge Cabrera. See [LICENSE](LICENSE) for details.
 
----
-
-<p align="center">
-  Built by <a href="https://cabrerajorge.com">Jorge Cabrera</a>
-</p>
