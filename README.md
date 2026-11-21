@@ -15,6 +15,7 @@
 [![Clerk](https://img.shields.io/badge/Clerk-Auth-EF4444?logo=clerk&logoColor=white)](https://clerk.com)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-EFEFEF?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![Shadcn](https://img.shields.io/badge/Shadcn-UI-EFEFEF?logo=shadcnui&logoColor=white)](https://ui.shadcn.com)
+[![Sentry](https://img.shields.io/badge/Sentry-Monitoring-362D59?logo=sentry&logoColor=white)](https://sentry.io)
 
 ---
 
@@ -38,6 +39,7 @@ Motakaro turns market research into content and sales: it detects buying signals
 - **Trigger.dev** — Durable background jobs and long-running workflows.
 - **Tailwind CSS 4 + Shadcn** — Utility-first styling with composable, accessible components.
 - **Bun + Turborepo** — Fast runtime and monorepo orchestration with version catalogs.
+- **Sentry** — Error tracking and performance monitoring for every app.
 
 ## Getting Started
 
