@@ -55,7 +55,7 @@ Requires Bun 1.4.4 and Node 24.x.
 
 ## License
 
-MIT © 2026 Jorge Cabrera. See [LICENSE](LICENSE) for details. Feel free to use this as the base for your project.
+MIT © 2026 Jorge Cabrera. See [LICENSE](LICENSE) for details.
 
 ---
 
