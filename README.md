@@ -33,14 +33,14 @@ Motakaro turns market research into content and sales: it detects buying signals
 
 ## Stack
 
-- **Next.js** — Full-stack React framework for every app, with typed routes and server components.
-- **Convex** — Reactive backend and single source of truth: database, identity, orgs and billing.
-- **Clerk** — Authentication and user management across all the apps.
-- **Eve** — Vercel's AI agent framework, powering the dedicated agent apps.
-- **Trigger.dev** — Durable background jobs and long-running workflows.
-- **Tailwind CSS 4 + Shadcn** — Utility-first styling with composable, accessible components.
-- **Bun + Turborepo** — Fast runtime and monorepo orchestration with version catalogs.
-- **Sentry** — Error tracking and performance monitoring for every app.
+- **Next.js**: Full-stack React framework for every app, with typed routes and server components.
+- **Convex**: Reactive backend and single source of truth: database, identity, orgs and billing.
+- **Clerk**: Authentication and user management across all the apps.
+- **Eve**: Vercel's AI agent framework, powering the dedicated agent apps.
+- **Trigger.dev**: Durable background jobs and long-running workflows.
+- **Tailwind CSS 4 + Shadcn**: Utility-first styling with composable, accessible components.
+- **Bun + Turborepo**: Fast runtime and monorepo orchestration with version catalogs.
+- **Sentry**: Error tracking and performance monitoring for every app.
 
 ## Getting Started
 
@@ -55,7 +55,7 @@ Requires Bun 1.4.4 and Node 24.x.
 
 ## License
 
-MIT © 2026 Jorge Cabrera — see [LICENSE](LICENSE) for details. Feel free to use this as the base for your project.
+MIT © 2026 Jorge Cabrera. See [LICENSE](LICENSE) for details. Feel free to use this as the base for your project.
 
 ---
 
