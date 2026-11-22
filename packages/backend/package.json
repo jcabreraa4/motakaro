@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "convex dev",
     "lint": "eslint",
-    "format": "prettier --write \"**/*.{ts,tsx}\"",
+    "format": "prettier --write \"**/*.{ts,tsx}\" \"!**/convex/_generated/**\"",
     "typecheck": "bun check --no-script -p convex/tsconfig.json",
     "test": "vitest run"
   },
