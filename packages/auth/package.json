@@ -10,7 +10,8 @@
     "test": "vitest run tests"
   },
   "dependencies": {
-    "@workspace/ui": "workspace:*",
+    "@workspace/assets": "workspace:*",
+    "@workspace/branding": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:",
     "zod": "catalog:"

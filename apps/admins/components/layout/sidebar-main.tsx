@@ -1,3 +1,4 @@
+import LogoImage from '@workspace/assets/logo.webp';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@workspace/ui/components/sidebar';
 
 import { SidebarLinks } from '@/components/layout/sidebar-links';
@@ -17,7 +18,7 @@ export async function SidebarMain({ ...props }: React.ComponentProps<typeof Side
         <SidebarTeam
           name="Motakaro"
           plan="Internal"
-          logo="/logo.webp"
+          logo={LogoImage.src}
         />
       </SidebarHeader>
       <SidebarContent>

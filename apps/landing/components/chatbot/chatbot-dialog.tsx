@@ -7,8 +7,8 @@ import { DefaultChatTransport } from 'ai';
 import type { UIMessage } from 'ai';
 import { BotIcon, XIcon } from 'lucide-react';
 
+import { Motakaro } from '@workspace/branding/components/motakaro';
 import { Button } from '@workspace/ui/components/button';
-import { MotakaroLogo } from '@workspace/ui/components/custom/motakaro-logo';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTrigger } from '@workspace/ui/components/dialog';
 import { Separator } from '@workspace/ui/components/separator';
 
@@ -52,7 +52,7 @@ export function ChatbotDialog() {
         className="flex h-[80vh] w-full flex-col gap-5 px-0 sm:max-w-[80vw]"
       >
         <DialogHeader className="flex h-fit flex-row items-center justify-between px-6">
-          <MotakaroLogo />
+          <Motakaro />
           <Button
             variant="outline"
             onClick={() => setOpen(false)}

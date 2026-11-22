@@ -7,8 +7,8 @@ import { useState } from 'react';
 import { FastLink } from '@fast-link/next';
 import { MenuIcon } from 'lucide-react';
 
+import { Motakaro } from '@workspace/branding/components/motakaro';
 import { Button } from '@workspace/ui/components/button';
-import { MotakaroLogo } from '@workspace/ui/components/custom/motakaro-logo';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@workspace/ui/components/sheet';
 import { cn } from '@workspace/ui/lib/utils';
 
@@ -148,7 +148,7 @@ export function AppNavbar() {
       <SectionInner className="lg:py-5">
         <SectionContent className="flex items-center justify-between">
           <FastLink href="/">
-            <MotakaroLogo />
+            <Motakaro />
           </FastLink>
           <DesktopTable
             isActive={isActive}

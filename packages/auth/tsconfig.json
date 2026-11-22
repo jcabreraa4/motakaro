@@ -2,8 +2,9 @@
   "extends": "@workspace/typescript/react.json",
   "compilerOptions": {
     "paths": {
+      "@workspace/assets/*": ["../../packages/assets/*"],
       "@workspace/auth/*": ["./src/*"],
-      "@workspace/ui/*": ["../../packages/ui/src/*"]
+      "@workspace/branding/*": ["../../packages/branding/src/*"]
     }
   },
   "include": [".", "../typescript"],

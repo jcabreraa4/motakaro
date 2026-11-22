@@ -1,11 +1,11 @@
-import { MotakaroLogo } from '@workspace/ui/components/custom/motakaro-logo';
+import { Motakaro } from '@workspace/branding/components/motakaro';
 
-interface ExceptionPageProps {
+interface ExceptionProps {
   code: number;
   text: string;
 }
 
-export function ExceptionPage({ code, text }: ExceptionPageProps) {
+export function Exception({ code, text }: ExceptionProps) {
   return (
     <main className="flex h-svh flex-col items-center justify-center gap-5">
       <section className="pointer-events-none flex h-14 w-full justify-center gap-5 select-none">
@@ -17,7 +17,7 @@ export function ExceptionPage({ code, text }: ExceptionPageProps) {
         </div>
       </section>
       <div className="fixed top-0 left-0 z-50 p-5 xl:p-8">
-        <MotakaroLogo />
+        <Motakaro />
       </div>
     </main>
   );

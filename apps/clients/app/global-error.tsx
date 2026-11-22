@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 
 import { captureException } from '@sentry/nextjs';
 
-import { ExceptionPage } from '@workspace/ui/components/custom/exception-page';
+import { Exception } from '@workspace/branding/components/exception';
 import '@workspace/ui/globals.css';
 import { cn } from '@workspace/ui/lib/utils';
 
@@ -35,7 +35,7 @@ export default function GlobalError({ error }: GlobalErrorProps) {
       className={cn('antialiased', fontMono.variable, 'font-sans', fontSans.variable)}
     >
       <body suppressHydrationWarning>
-        <ExceptionPage
+        <Exception
           code={500}
           text="Internal error"
         />

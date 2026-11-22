@@ -1,13 +1,12 @@
-import { MotakaroLogo } from '@workspace/ui/components/custom/motakaro-logo';
-
-const background = '/tree.webp';
+import TreeImage from '@workspace/assets/tree.webp';
+import { Motakaro } from '@workspace/branding/components/motakaro';
 
 export function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <main className="flex h-svh">
       <section className="relative flex h-full w-full items-center justify-center border-r p-5">
         <div className="absolute top-0 left-0 flex w-full justify-between p-5 xl:p-8">
-          <MotakaroLogo />
+          <Motakaro />
         </div>
         <div className="w-full max-w-md">{children}</div>
       </section>
@@ -18,7 +17,7 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
         </div>
         <img
           alt="Motakaro"
-          src={background}
+          src={TreeImage.src}
           className="w-full object-cover opacity-30"
         />
       </section>

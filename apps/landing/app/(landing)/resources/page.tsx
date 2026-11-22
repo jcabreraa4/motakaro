@@ -2,6 +2,7 @@
 
 import { useQuery } from 'convex/react';
 
+import HeaderImage from '@workspace/assets/header.webp';
 import { api } from '@workspace/backend/_generated/api';
 import { VideoDialog } from '@workspace/ui/components/magicui/video-dialog';
 import { Skeleton } from '@workspace/ui/components/skeleton';
@@ -39,7 +40,7 @@ export default function Page() {
                 >
                   <VideoDialog
                     video={resource.embed}
-                    thumbnail={resource.thumbnail?.startsWith('http') || resource.thumbnail?.startsWith('/') ? resource.thumbnail : '/header.webp'}
+                    thumbnail={resource.thumbnail?.startsWith('http') || resource.thumbnail?.startsWith('/') ? resource.thumbnail : HeaderImage.src}
                   />
                   <p
                     className={cn(`truncate text-xl font-bold transition select-none xl:text-xl`, resource.link && 'cursor-pointer hover:underline')}

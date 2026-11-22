@@ -1,7 +1,7 @@
 import { FastLink } from '@fast-link/next';
 
+import { Motakaro } from '@workspace/branding/components/motakaro';
 import { Button } from '@workspace/ui/components/button';
-import { MotakaroLogo } from '@workspace/ui/components/custom/motakaro-logo';
 
 import { Paragraph } from '@/components/layout/app-heading';
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
@@ -12,7 +12,7 @@ export function AppFooter() {
       <SectionInner className="lg:py-5">
         <SectionContent>
           <FastLink href="/">
-            <MotakaroLogo />
+            <Motakaro />
           </FastLink>
         </SectionContent>
         <SectionContent className="flex flex-col gap-2 lg:flex-row lg:items-center">

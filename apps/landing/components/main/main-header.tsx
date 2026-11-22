@@ -1,5 +1,6 @@
 import Image from 'next/image';
 
+import HeaderImage from '@workspace/assets/header.webp';
 import { VelocityScroll } from '@workspace/ui/components/magicui/velocity-scroll';
 
 import { Heading1, Heading2, Heading3 } from '@/components/layout/app-heading';
@@ -30,14 +31,12 @@ export function MainHeader() {
                 controls
                 src={video}
                 preload="metadata"
-                poster="/header.webp"
+                poster={HeaderImage.src}
                 className="aspect-video w-full cursor-pointer rounded-lg object-cover"
               />
             ) : (
               <Image
-                width={500}
-                height={500}
-                src="/header.webp"
+                src={HeaderImage}
                 alt="Header Image"
                 className="pointer-events-none aspect-video w-full rounded-lg border object-cover select-none"
               />
