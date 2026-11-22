@@ -24,6 +24,7 @@
     "@trigger.dev/sdk": "catalog:",
     "@vercel/analytics": "catalog:",
     "@workspace/agents": "workspace:*",
+    "@workspace/assets": "workspace:*",
     "@workspace/auth": "workspace:*",
     "@workspace/backend": "workspace:*",
     "@workspace/branding": "workspace:*",

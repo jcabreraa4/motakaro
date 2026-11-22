@@ -4,6 +4,7 @@
     "paths": {
       "@/*": ["./*"],
       "@workspace/agents/*": ["../../packages/agents/src/*"],
+      "@workspace/assets/*": ["../../packages/assets/*"],
       "@workspace/auth/*": ["../../packages/auth/src/*"],
       "@workspace/backend/*": ["../../packages/backend/convex/*"],
       "@workspace/branding/*": ["../../packages/branding/src/*"],
