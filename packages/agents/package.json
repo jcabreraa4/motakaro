@@ -10,8 +10,12 @@
   },
   "dependencies": {
     "@workspace/ui": "workspace:*",
+    "eve": "catalog:",
+    "lucide-react": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "sonner": "catalog:",
+    "streamdown": "catalog:",
     "zustand": "catalog:"
   },
   "devDependencies": {

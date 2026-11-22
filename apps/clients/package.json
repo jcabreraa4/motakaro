@@ -43,7 +43,6 @@
     "react-dropzone": "catalog:",
     "react-hook-form": "catalog:",
     "sonner": "catalog:",
-    "streamdown": "catalog:",
     "zustand": "catalog:"
   },
   "devDependencies": {

@@ -1,31 +1,48 @@
 'use client';
 
 import { useEveAgent } from 'eve/react';
+import type { UseEveAgentReturn } from 'eve/react';
 
+import { AgentsHeader } from '@workspace/agents/components/agents-header';
+import { AgentsMain } from '@workspace/agents/components/agents-main';
 import { useAgents } from '@workspace/agents/hooks/use-agents';
+import { Sheet, SheetContent } from '@workspace/ui/components/sheet';
 import { SidebarInset } from '@workspace/ui/components/sidebar';
+import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { cn } from '@workspace/ui/lib/utils';
 
-import { AgentsHeader } from '@/components/agents/agents-header';
-import { AgentsInput } from '@/components/agents/agents-input';
-import { AgentsMain } from '@/components/agents/agents-main';
+const baseUrl = process.env.NEXT_PUBLIC_EVE_URL!;
 
-export function AgentsInset() {
-  const { agents } = useAgents();
-
-  const agent = useEveAgent({
-    baseUrl: process.env.NEXT_PUBLIC_EVE_URL
-  });
+function MobileAgents({ agent }: { agent: UseEveAgentReturn }) {
+  const { open, setOpen } = useAgents();
 
   return (
-    <SidebarInset className={cn('hidden w-full overflow-hidden md:max-w-100 print:hidden', agents && 'xl:flex')}>
-      <AgentsHeader />
-      <section className="flex flex-1 flex-col gap-3 overflow-hidden py-5">
+    <Sheet
+      open={open}
+      onOpenChange={setOpen}
+    >
+      <SheetContent showCloseButton={false}>
+        <AgentsHeader />
         <AgentsMain agent={agent} />
-        <div className="px-5">
-          <AgentsInput agent={agent} />
-        </div>
-      </section>
+      </SheetContent>
+    </Sheet>
+  );
+}
+
+function DesktopAgents({ agent }: { agent: UseEveAgentReturn }) {
+  const { open } = useAgents();
+
+  return (
+    <SidebarInset className={cn('w-full overflow-hidden md:max-w-100 print:hidden', open ? 'md:flex' : 'hidden')}>
+      <AgentsHeader />
+      <AgentsMain agent={agent} />
     </SidebarInset>
   );
+}
+
+export function AgentsInset() {
+  const mobile = useIsMobile();
+  const agent = useEveAgent({ baseUrl });
+
+  return mobile ? <MobileAgents agent={agent} /> : <DesktopAgents agent={agent} />;
 }

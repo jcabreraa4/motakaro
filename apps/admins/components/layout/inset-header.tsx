@@ -111,16 +111,16 @@ function ThemeButton({ className }: { className?: string }) {
 }
 
 function AgentsButton({ className }: { className?: string }) {
-  const { agents, setAgents } = useAgents();
+  const { open, setOpen } = useAgents();
 
   return (
     <>
-      {!agents && (
+      {!open && (
         <Button
           size="icon-sm"
           variant="ghost"
           className={className}
-          onClick={() => setAgents(true)}
+          onClick={() => setOpen(true)}
         >
           <GhostIcon className="size-5" />
         </Button>
@@ -143,9 +143,9 @@ export function InsetHeader() {
       <div className="flex items-center gap-2">
         <UserPresence className="hidden select-none 2xl:flex" />
         <div className="flex gap-2">
-          <NotificationsPopover />
-          <ThemeButton className="hidden md:flex" />
-          <AgentsButton className="hidden xl:flex" />
+          <NotificationsPopover className="hidden md:flex" />
+          <ThemeButton className="hidden xl:flex" />
+          <AgentsButton />
         </div>
       </div>
     </header>

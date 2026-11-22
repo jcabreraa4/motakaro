@@ -4,7 +4,7 @@ import { useAgents } from '@workspace/agents/hooks/use-agents';
 import { Button } from '@workspace/ui/components/button';
 
 export function AgentsHeader() {
-  const { setAgents } = useAgents();
+  const { setOpen } = useAgents();
 
   return (
     <header className="flex h-12 shrink-0 items-center justify-between border-b bg-sidebar px-4 md:h-16 md:bg-transparent">
@@ -12,7 +12,7 @@ export function AgentsHeader() {
       <Button
         size="icon-sm"
         variant="ghost"
-        onClick={() => setAgents(false)}
+        onClick={() => setOpen(false)}
       >
         <XIcon className="size-5" />
       </Button>

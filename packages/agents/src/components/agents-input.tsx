@@ -1,14 +1,13 @@
-import { useState } from 'react';
-
 import type { UseEveAgentReturn } from 'eve/react';
 import { SendHorizontalIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { useAgents } from '@workspace/agents/hooks/use-agents';
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupTextarea } from '@workspace/ui/components/input-group';
 import { Spinner } from '@workspace/ui/components/spinner';
 
 export function AgentsInput({ agent }: { agent: UseEveAgentReturn }) {
-  const [input, setInput] = useState('');
+  const { input, setInput } = useAgents();
 
   const busy = agent.status === 'busy' || agent.status === 'resuming';
   const disabled = busy || !input.trim();

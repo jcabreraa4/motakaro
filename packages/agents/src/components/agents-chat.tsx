@@ -6,7 +6,7 @@ import { Message, MessageContent } from '@workspace/ui/components/message';
 import { MessageScroller, MessageScrollerButton, MessageScrollerContent, MessageScrollerItem, MessageScrollerProvider, MessageScrollerViewport } from '@workspace/ui/components/message-scroller';
 import { Spinner } from '@workspace/ui/components/spinner';
 
-export function AgentsMain({ agent }: { agent: UseEveAgentReturn }) {
+export function AgentsChat({ agent }: { agent: UseEveAgentReturn }) {
   const busy = agent.status === 'busy';
   const pending = busy && agent.messages.at(-1)?.role === 'user';
 

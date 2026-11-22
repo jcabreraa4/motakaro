@@ -1,11 +1,15 @@
 import { create } from 'zustand';
 
 interface AgentsStore {
-  agents: boolean;
-  setAgents: (agents: boolean) => void;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  input: string;
+  setInput: (input: string) => void;
 }
 
 export const useAgentsStore = create<AgentsStore>((set) => ({
-  agents: false,
-  setAgents: (agents: boolean) => set({ agents })
+  open: false,
+  setOpen: (open: boolean) => set({ open }),
+  input: '',
+  setInput: (input: string) => set({ input })
 }));

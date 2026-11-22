@@ -83,7 +83,7 @@ function MultimediaItem({ file }: { file: MediaFile }) {
 }
 
 export function MultimediaTable({ multimedia }: { multimedia: MediaFile[] }) {
-  const { agents } = useAgents();
+  const { open } = useAgents();
 
   const starredFiles = multimedia.filter((file) => file.starred);
   const nonStarredFiles = multimedia!.filter((file) => !file.starred);
@@ -91,7 +91,7 @@ export function MultimediaTable({ multimedia }: { multimedia: MediaFile[] }) {
   return (
     <section className="flex min-h-0 flex-1 flex-col gap-8 overflow-y-auto">
       {starredFiles.length != 0 && (
-        <div className={cn('grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3', agents ? '2xl:grid-cols-3' : '2xl:grid-cols-4')}>
+        <div className={cn('grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3', open ? '2xl:grid-cols-3' : '2xl:grid-cols-4')}>
           {starredFiles.map((file) => (
             <MultimediaItem
               key={file._id}
@@ -101,7 +101,7 @@ export function MultimediaTable({ multimedia }: { multimedia: MediaFile[] }) {
         </div>
       )}
       {nonStarredFiles.length != 0 && (
-        <div className={cn('grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3', agents ? '2xl:grid-cols-3' : '2xl:grid-cols-4')}>
+        <div className={cn('grid grid-flow-row grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3', open ? '2xl:grid-cols-3' : '2xl:grid-cols-4')}>
           {nonStarredFiles.map((file) => (
             <MultimediaItem
               key={file._id}

@@ -14,7 +14,7 @@ import { cn } from '@workspace/ui/lib/utils';
 
 function MeetingsItem({ meeting }: { meeting: Meeting }) {
   const { push } = useRouter();
-  const { agents } = useAgents();
+  const { open } = useAgents();
 
   const updateMeeting = useMutation(api.meetings.update);
 
@@ -37,7 +37,7 @@ function MeetingsItem({ meeting }: { meeting: Meeting }) {
   return (
     <Card className="min-h-fit">
       <CardHeader>
-        <CardTitle className={cn('flex items-center gap-3 truncate', agents && 'lg:flex-col lg:items-start lg:gap-5')}>
+        <CardTitle className={cn('flex items-center gap-3 truncate', open && 'lg:flex-col lg:items-start lg:gap-5')}>
           <div className={cn('pointer-events-none flex max-w-40 items-center justify-center rounded-lg p-2 text-black select-none lg:min-w-40', meeting.status === 'scheduled' ? 'bg-motakaro text-white' : meeting.status === 'cancelled' ? 'bg-red-300' : meeting.status === 'ongoing' ? 'animate-pulse bg-green-300' : meeting.status === 'finished' ? 'bg-primary text-white dark:text-black' : 'bg-yellow-300')}>
             <div className="flex gap-2">
               {meeting.status === 'scheduled' ? <ClockIcon className="size-5" /> : meeting.status === 'cancelled' ? <CalendarX2Icon className="size-5" /> : meeting.status === 'ongoing' ? <RadioIcon className="size-5" /> : meeting.status === 'finished' ? <CheckCircleIcon className="size-5" /> : <CircleSlash className="size-5" />}

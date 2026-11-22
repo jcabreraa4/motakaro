@@ -26,7 +26,7 @@ function NotificationsItem({ notification }: { notification: Notification }) {
   );
 }
 
-export function NotificationsPopover() {
+export function NotificationsPopover({ className }: { className?: string }) {
   const { isLoaded } = useAuth();
 
   const [open, setOpen] = useState(false);
@@ -43,6 +43,7 @@ export function NotificationsPopover() {
         <Button
           size="icon-sm"
           variant="ghost"
+          className={className}
         >
           <BellIcon className="size-5" />
           {hasUnread && <span className="absolute top-0 right-0 size-2 rounded-full bg-primary" />}
