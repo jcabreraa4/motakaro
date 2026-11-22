@@ -1,16 +1,15 @@
 {
   "name": "clients",
   "version": "0.1.0",
-  "type": "module",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "bun --bun next dev --port 3001",
     "build": "bun --bun next build",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "bun check --no-script",
-    "deploy": "vercel pull --environment=production --yes && vercel build --prod && vercel deploy --prebuilt --prod"
+    "typecheck": "bun check --no-script"
   },
   "dependencies": {
     "@clerk/nextjs": "catalog:",

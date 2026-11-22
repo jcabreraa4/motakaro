@@ -1,14 +1,13 @@
 {
   "name": "@workspace/trigger",
   "version": "0.1.0",
-  "type": "module",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "trigger dev",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "bun check --no-script",
-    "deploy": "trigger deploy"
+    "typecheck": "bun check --no-script"
   },
   "dependencies": {
     "@trigger.dev/sdk": "catalog:"

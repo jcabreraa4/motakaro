@@ -50,10 +50,6 @@
     "test": {
       "dependsOn": ["transit"]
     },
-    "deploy": {
-      "cache": false,
-      "dependsOn": ["typecheck"]
-    },
     "eval": {
       "cache": false,
       "dependsOn": ["typecheck"]

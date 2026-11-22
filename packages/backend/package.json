@@ -1,15 +1,14 @@
 {
   "name": "@workspace/backend",
   "version": "0.1.0",
-  "type": "module",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "convex dev",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "bun check --no-script -p convex/tsconfig.json",
-    "test": "vitest run",
-    "deploy": "convex deploy -y"
+    "test": "vitest run"
   },
   "dependencies": {
     "@clerk/backend": "catalog:",

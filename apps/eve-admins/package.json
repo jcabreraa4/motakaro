@@ -1,8 +1,8 @@
 {
   "name": "eve-admins",
   "version": "0.1.0",
-  "type": "module",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "eve dev --no-default-extensions --port 3005",
     "build": "eve build",
@@ -10,7 +10,6 @@
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "bun check --no-script",
-    "deploy": "eve deploy",
     "eval": "eve eval"
   },
   "dependencies": {
