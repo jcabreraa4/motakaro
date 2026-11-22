@@ -202,6 +202,10 @@
         "typescript": "catalog:",
       },
     },
+    "packages/assets": {
+      "name": "@workspace/assets",
+      "version": "0.1.0",
+    },
     "packages/auth": {
       "name": "@workspace/auth",
       "version": "0.1.0",
@@ -1787,6 +1791,8 @@
     "@workflow/serde": ["@workflow/serde@4.1.0", "", {}, "sha512-pav4F2BoirECWR7Nf1TKt+2eETcBj7jj4cBefQ8VXQCA6NPkaKeLfj/zMgi+3zYV5ZIBT4GuUiphsj0/b9hPQQ=="],
 
     "@workspace/agents": ["@workspace/agents@workspace:packages/agents"],
+
+    "@workspace/assets": ["@workspace/assets@workspace:packages/assets"],
 
     "@workspace/auth": ["@workspace/auth@workspace:packages/auth"],
 

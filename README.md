@@ -1,5 +1,5 @@
 <h1 align="left">
-  <img src="apps/landing/public/logo.webp" alt="Motakaro logo" width="60" align="absmiddle"> Motakaro
+  <img src="packages/assets/logo.webp" alt="Motakaro logo" width="60" align="absmiddle"> Motakaro
 </h1>
 
 > Business Infrastructure
@@ -56,4 +56,3 @@ Requires Bun 1.4.4 and Node 24.x.
 ## License
 
 MIT © 2026 Jorge Cabrera. See [LICENSE](LICENSE) for details.
-

@@ -27,10 +27,7 @@ const fontMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Motakaro',
-  description: 'Motakaro Clients',
-  icons: {
-    icon: '/logo.webp'
-  }
+  description: 'Motakaro Clients'
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
