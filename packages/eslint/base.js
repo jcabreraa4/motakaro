@@ -28,6 +28,6 @@ export const config = [
     }
   },
   {
-    ignores: ['dist/**', '.next/**', '**/.turbo/**', '**/coverage/**']
+    ignores: ['dist/**', '.next/**', '**/.turbo/**', '**/coverage/**', '**/src-tauri/target/**', '**/.vercel/**']
   }
 ];
