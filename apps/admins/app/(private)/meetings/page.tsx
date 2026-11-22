@@ -20,9 +20,9 @@ import { useParams } from '@/hooks/use-params';
 export default function Page() {
   const { isLoaded } = useAuth();
 
-  const [dateFilter, setDateFilter] = useParams('date');
+  const [dateFilter] = useParams('date');
   const [searchFilter, setSearchFilter] = useParams('search');
-  const [statusFilter, setStatusFilter] = useParams('status');
+  const [statusFilter] = useParams('status');
   const effectiveStatusFilter = statusFilter || 'all';
 
   const meetings = useQuery(api.meetings.list, isLoaded ? {} : 'skip');
