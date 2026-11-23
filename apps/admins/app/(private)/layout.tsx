@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 
 import { SidebarInset, SidebarProvider } from '@workspace/ui/components/sidebar';
 
-import { AgentsInset } from '@/components/agents/agents-inset';
+import { AgentsInset } from '@/components/layout/agents-inset';
 import { AppOnboard } from '@/components/layout/app-onboard';
 import { InsetHeader } from '@/components/layout/inset-header';
 import { SidebarMain } from '@/components/layout/sidebar-main';
