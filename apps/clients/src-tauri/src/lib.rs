@@ -5,6 +5,8 @@ use tauri::{
   AppHandle, Manager, WindowEvent,
 };
 
+mod cli;
+
 // The splash screen is embedded at compile time so it is available instantly
 // and works without any network connection, independently of the remote
 // frontend configured in `build.frontendDist` (which disables Tauri's local
@@ -55,6 +57,14 @@ fn reload_main_window(app: AppHandle) -> Result<(), String> {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+  let context = tauri::generate_context!();
+
+  // `--version` and `--help` are answered before the runtime starts, so they
+  // never open the splash screen or the remote webview.
+  if cli::handle(&context) {
+    std::process::exit(0);
+  }
+
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![finish_startup, reload_main_window])
     .register_uri_scheme_protocol("motakarosplash", |_ctx, request: HttpRequest<Vec<u8>>| {
@@ -86,6 +96,6 @@ pub fn run() {
       }
       Ok(())
     })
-    .run(tauri::generate_context!())
+    .run(context)
     .expect("error while building tauri application");
 }
