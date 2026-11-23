@@ -1,3 +1,3 @@
 # Packages > Typescript
 
-Shared typescript configuration for the workspace.
+Shared typescript config for the workspace.
