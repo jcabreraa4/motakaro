@@ -2,7 +2,7 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   typedRoutes: true,
-  transpilePackages: ['@workspace/ui'],
+  transpilePackages: ['@workspace/agents', '@workspace/branding', '@workspace/ui'],
   allowedDevOrigins: ['*.ts.cabrerajorge.com'],
   images: {
     remotePatterns: [
