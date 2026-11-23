@@ -1,4 +1,4 @@
-# Trigger
+# Packages > Trigger
 
 > Trigger instance.
 > Bun as runtime.

@@ -1,4 +1,4 @@
-# Clients
+# Apps > Clients
 
 > Nextjs instance.
 > Bun as runtime.

@@ -1,4 +1,4 @@
-# Landing
+# Apps > Landing
 
 > Nextjs instance.
 > Bun as runtime.

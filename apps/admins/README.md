@@ -1,4 +1,4 @@
-# Admins
+# Apps > Admins
 
 > Nextjs instance.
 > Bun as runtime.

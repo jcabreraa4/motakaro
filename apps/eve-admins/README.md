@@ -1,4 +1,4 @@
-# Eve Admins
+# Apps > Eve Admins
 
 > Eve instance.
 > Bun as runtime.

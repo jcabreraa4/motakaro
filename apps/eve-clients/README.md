@@ -1,4 +1,4 @@
-# Eve Clients
+# Apps > Eve Clients
 
 > Eve instance.
 > Bun as runtime.
