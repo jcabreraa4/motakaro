@@ -6,6 +6,7 @@ use tauri::{
 };
 
 mod cli;
+mod updater;
 
 // The splash screen is embedded at compile time so it is available instantly
 // and works without any network connection, independently of the remote
@@ -59,10 +60,10 @@ fn reload_main_window(app: AppHandle) -> Result<(), String> {
 pub fn run() {
   let context = tauri::generate_context!();
 
-  // `--version` and `--help` are answered before the runtime starts, so they
-  // never open the splash screen or the remote webview.
-  if cli::handle(&context) {
-    return;
+  // `--version`, `--help` and `update` are answered before the runtime starts,
+  // so they never open the splash screen or the remote webview.
+  if let Some(code) = cli::handle(&context) {
+    std::process::exit(code);
   }
 
   tauri::Builder::default()

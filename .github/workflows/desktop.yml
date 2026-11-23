@@ -147,11 +147,42 @@ jobs:
       contents: write
 
     steps:
+      - name: Clone Repository
+        uses: actions/checkout@v7
+
       - name: Download Artifacts
         uses: actions/download-artifact@v8
         with:
           merge-multiple: true
           path: dist
+
+      # `motakaro update` reads this manifest instead of downloading a package
+      # to find out its version. The version comes from the Tauri config and
+      # must match the one inside the packaged .deb, so the manifest cannot
+      # advertise something the installers do not contain.
+      - name: Generate Version Manifest
+        run: |
+          set -euo pipefail
+
+          entry() {
+            local dir="$1" file="$2"
+            local version packaged sha256
+            version="$(jq -r .version "apps/$dir/src-tauri/tauri.conf.json")"
+            packaged="$(dpkg-deb -f "dist/$file" Version)"
+            if [ "$version" != "$packaged" ]; then
+              echo "::error::$file is $packaged but apps/$dir/src-tauri/tauri.conf.json says $version" >&2
+              exit 1
+            fi
+            sha256="$(sha256sum "dist/$file" | cut -d' ' -f1)"
+            jq -n --arg version "$version" --arg file "$file" --arg sha256 "$sha256" \
+              '{version: $version, file: $file, sha256: $sha256}'
+          }
+
+          clients="$(entry clients motakaro_amd64.deb)"
+          admins="$(entry admins motakaro-admins_amd64.deb)"
+          jq -n --argjson clients "$clients" --argjson admins "$admins" \
+            '{clients: $clients, admins: $admins}' > dist/latest.json
+          cat dist/latest.json
 
       - name: Upload to Release
         env:
