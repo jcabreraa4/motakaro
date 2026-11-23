@@ -62,7 +62,7 @@ pub fn run() {
   // `--version` and `--help` are answered before the runtime starts, so they
   // never open the splash screen or the remote webview.
   if cli::handle(&context) {
-    std::process::exit(0);
+    return;
   }
 
   tauri::Builder::default()

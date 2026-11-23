@@ -113,6 +113,22 @@ jobs:
           mkdir -p dist
           cp "${files[0]}" "dist/${{ matrix.file }}"
 
+      - name: Verify Version Flag
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          deb="dist/${{ matrix.file }}"
+          version="$(dpkg-deb -f "$deb" Version)"
+          rm -rf cli-check
+          dpkg-deb -x "$deb" cli-check
+          binary="$(basename "$(find cli-check/usr/bin -maxdepth 1 -type f | head -n 1)")"
+          output="$(cli-check/usr/bin/"$binary" --version)"
+          echo "$output"
+          [ "$output" = "$binary $version" ] || {
+            echo "::error::Expected '$binary $version' from --version, got '$output'"
+            exit 1
+          }
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
         with:
