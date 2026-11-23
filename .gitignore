@@ -5,23 +5,19 @@ node_modules/
 .env*
 !.env.example
 
-# Turbo
-.turbo
-
-# Vercel
-.vercel
-
-# Next.js Build Output
+# Build Outputs
+dist/
 .next/
 out/
+.turbo/
+coverage/
+.eve/
+.nitro/
+.output/
+.trigger/
 
-# Eve (Nitro-based)
-.eve
-.nitro
-.output
-
-# Trigger.dev
-.trigger
+# Vercel
+.vercel/
 
 # Tauri
 **/src-tauri/target/
@@ -29,9 +25,6 @@ out/
 
 # TypeScript
 *.tsbuildinfo
-
-# Testing
-coverage/
 
 # Logs
 logs/

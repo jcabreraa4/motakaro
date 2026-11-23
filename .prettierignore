@@ -5,14 +5,28 @@ bun.lock
 # Build Outputs
 dist/
 .next/
+out/
 .turbo/
 coverage/
+.eve/
+.nitro/
+.output/
+.trigger/
 
 # Vercel
 .vercel/
 
-# Convex
-convex/_generated/
+# Tauri
+**/src-tauri/target/
+**/src-tauri/gen/schemas
 
-# Auto-Generated Docs
+# Convex
+**/convex/_generated/
+
+# Vendored Skills
+.agents/
+.claude/
+
+# Auto-Generated
 CHANGELOG.md
+next-env.d.ts

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "trigger dev",
     "lint": "eslint",
-    "format": "prettier --write \"**/*.{ts,tsx}\"",
+    "format": "prettier --write \"**/*.{ts,tsx}\" --ignore-path ../../.prettierignore",
     "typecheck": "bun check --no-script"
   },
   "dependencies": {

@@ -8,7 +8,7 @@
     "build": "eve build",
     "start": "eve start",
     "lint": "eslint",
-    "format": "prettier --write \"**/*.{ts,tsx}\"",
+    "format": "prettier --write \"**/*.{ts,tsx}\" --ignore-path ../../.prettierignore",
     "typecheck": "bun check --no-script",
     "eval": "eve eval"
   },

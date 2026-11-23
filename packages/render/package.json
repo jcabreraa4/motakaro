@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "lint": "eslint",
-    "format": "prettier --write \"**/*.{ts,tsx}\"",
+    "format": "prettier --write \"**/*.{ts,tsx}\" --ignore-path ../../.prettierignore",
     "typecheck": "bun check --no-script"
   },
   "dependencies": {
