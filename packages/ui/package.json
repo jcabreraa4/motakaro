@@ -11,6 +11,7 @@
   "dependencies": {
     "@base-ui/react": "catalog:",
     "@shadcn/react": "catalog:",
+    "@workspace/assets": "workspace:*",
     "class-variance-authority": "catalog:",
     "cmdk": "catalog:",
     "cn": "catalog:",

@@ -9,6 +9,7 @@
     "typecheck": "bun check --no-script"
   },
   "dependencies": {
+    "@workspace/assets": "workspace:*",
     "@workspace/ui": "workspace:*",
     "eve": "catalog:",
     "lucide-react": "catalog:",

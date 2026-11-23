@@ -6,6 +6,6 @@
       "@workspace/branding/*": ["./src/*"]
     }
   },
-  "include": [".", "../typescript"],
+  "include": [".", "../assets"],
   "exclude": ["node_modules", "dist"]
 }

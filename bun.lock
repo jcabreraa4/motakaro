@@ -190,6 +190,7 @@
       "name": "@workspace/agents",
       "version": "0.1.0",
       "dependencies": {
+        "@workspace/assets": "workspace:*",
         "@workspace/ui": "workspace:*",
         "eve": "catalog:",
         "lucide-react": "catalog:",
@@ -294,6 +295,7 @@
       "name": "@workspace/render",
       "version": "0.1.0",
       "dependencies": {
+        "@workspace/assets": "workspace:*",
         "@workspace/ui": "workspace:*",
         "lucide-react": "catalog:",
         "react": "catalog:",
@@ -322,6 +324,7 @@
         "@tiptap/extension-text-style": "catalog:",
         "@tiptap/react": "catalog:",
         "@tiptap/starter-kit": "catalog:",
+        "@workspace/assets": "workspace:*",
         "@workspace/ui": "workspace:*",
         "lucide-react": "catalog:",
         "react": "catalog:",
@@ -361,6 +364,7 @@
       "dependencies": {
         "@base-ui/react": "catalog:",
         "@shadcn/react": "catalog:",
+        "@workspace/assets": "workspace:*",
         "class-variance-authority": "catalog:",
         "cmdk": "catalog:",
         "cn": "catalog:",

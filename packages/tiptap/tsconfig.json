@@ -2,10 +2,11 @@
   "extends": "@workspace/typescript/react.json",
   "compilerOptions": {
     "paths": {
+      "@workspace/assets/*": ["../../packages/assets/*"],
       "@workspace/tiptap/*": ["./src/*"],
       "@workspace/ui/*": ["../../packages/ui/src/*"]
     }
   },
-  "include": [".", "../typescript"],
+  "include": [".", "../assets"],
   "exclude": ["node_modules", "dist"]
 }

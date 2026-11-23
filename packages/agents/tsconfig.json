@@ -3,9 +3,10 @@
   "compilerOptions": {
     "paths": {
       "@workspace/agents/*": ["./src/*"],
+      "@workspace/assets/*": ["../../packages/assets/*"],
       "@workspace/ui/*": ["../../packages/ui/src/*"]
     }
   },
-  "include": [".", "../typescript"],
+  "include": [".", "../assets"],
   "exclude": ["node_modules", "dist"]
 }
