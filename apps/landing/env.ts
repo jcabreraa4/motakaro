@@ -9,7 +9,7 @@ export const env = createEnv({
   },
   client: {
     // System
-    NEXT_PUBLIC_VIDEO_URL: z.url(),
+    NEXT_PUBLIC_VIDEO_URL: z.url().optional(),
     NEXT_PUBLIC_CLIENTS_URL: z.url(),
 
     // Convex
@@ -19,7 +19,7 @@ export const env = createEnv({
     NEXT_PUBLIC_GAMMA_URL: z.url(),
 
     // Calcom
-    NEXT_PUBLIC_CALCOM_URL: z.url()
+    NEXT_PUBLIC_CALCOM_URL: z.string()
   },
   // Client Destructuring
   experimental__runtimeEnv: {
@@ -35,5 +35,7 @@ export const env = createEnv({
 
     // Calcom
     NEXT_PUBLIC_CALCOM_URL: process.env.NEXT_PUBLIC_CALCOM_URL
-  }
+  },
+  // Empty Strings
+  emptyStringAsUndefined: true
 });
