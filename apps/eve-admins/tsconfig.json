@@ -1,4 +1,9 @@
 {
   "extends": "@workspace/typescript/eve.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
   "include": ["agent/**/*.ts", "evals/**/*.ts"]
 }

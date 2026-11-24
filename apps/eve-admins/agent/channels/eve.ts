@@ -1,7 +1,9 @@
 import { localDev, placeholderAuth, vercelOidc } from 'eve/channels/auth';
 import { eveChannel } from 'eve/channels/eve';
 
-const origin = process.env.CORS_ORIGINS!.split(',');
+import { env } from '@/env';
+
+const origin = env.CORS_ORIGINS.split(',');
 
 export default eveChannel({
   auth: [
