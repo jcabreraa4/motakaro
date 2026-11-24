@@ -9,11 +9,11 @@ import { Sheet, SheetContent } from '@workspace/ui/components/sheet';
 import { SidebarInset } from '@workspace/ui/components/sidebar';
 import { cn } from '@workspace/ui/lib/utils';
 
-function AgentsHeader() {
+function AgentsHeader({ className }: { className?: string }) {
   const { setOpen } = useAgents();
 
   return (
-    <header className="flex h-12 shrink-0 items-center justify-between border-b bg-sidebar px-4 md:h-16 md:bg-transparent">
+    <header className={cn('flex h-12 shrink-0 items-center justify-between border-b bg-sidebar px-3 md:h-16 md:bg-transparent md:px-4', className)}>
       <p className="text-sm font-medium select-none">Ghost Agents</p>
       <Button
         size="icon-sm"
@@ -49,8 +49,12 @@ function AgentsMobile({ agent }: { agent: UseEveAgentReturn }) {
         showCloseButton={false}
         className="w-full min-w-full"
       >
-        <AgentsHeader />
-        <AgentsSection agent={agent} />
+        <div className="flex flex-1 bg-sidebar md:p-2">
+          <div className="flex flex-1 flex-col rounded-xl bg-background shadow-sm">
+            <AgentsHeader />
+            <AgentsSection agent={agent} />
+          </div>
+        </div>
       </SheetContent>
     </Sheet>
   );
@@ -60,7 +64,7 @@ function AgentsDesktop({ agent }: { agent: UseEveAgentReturn }) {
   const { open } = useAgents();
 
   return (
-    <SidebarInset className={cn('w-full overflow-hidden md:max-w-100 print:hidden', open ? 'md:flex' : 'hidden')}>
+    <SidebarInset className={cn('w-full max-w-100 min-w-100 overflow-hidden print:hidden', open ? 'md:flex' : 'hidden')}>
       <AgentsHeader />
       <AgentsSection agent={agent} />
     </SidebarInset>

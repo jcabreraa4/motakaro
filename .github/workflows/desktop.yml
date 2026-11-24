@@ -170,7 +170,7 @@ jobs:
           jq -n --argjson clients "$clients" --argjson admins "$admins" '$ARGS.named' > dist/latest.json
           cat dist/latest.json
 
-      - name: Upload to Release
+      - name: Upload Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release upload desktop dist/* --clobber --repo "$GITHUB_REPOSITORY"
