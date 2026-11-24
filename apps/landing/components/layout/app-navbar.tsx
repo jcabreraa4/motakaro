@@ -15,9 +15,10 @@ import { cn } from '@workspace/ui/lib/utils';
 import { Paragraph } from '@/components/layout/app-heading';
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
 import { ContactLink } from '@/components/motakaro/contact-link';
+import { env } from '@/env';
 import { useLocation } from '@/hooks/use-location';
 
-const clients = process.env.NEXT_PUBLIC_CLIENTS_URL!;
+const clients = env.NEXT_PUBLIC_CLIENTS_URL;
 
 interface Item {
   url: string;

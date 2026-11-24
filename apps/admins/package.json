@@ -19,6 +19,7 @@
     "@fast-link/next": "catalog:",
     "@hookform/resolvers": "catalog:",
     "@sentry/nextjs": "catalog:",
+    "@t3-oss/env-nextjs": "catalog:",
     "@tauri-apps/api": "catalog:",
     "@tiptap/react": "catalog:",
     "@trigger.dev/sdk": "catalog:",
@@ -44,6 +45,7 @@
     "react-dropzone": "catalog:",
     "react-hook-form": "catalog:",
     "sonner": "catalog:",
+    "zod": "catalog:",
     "zustand": "catalog:"
   },
   "devDependencies": {

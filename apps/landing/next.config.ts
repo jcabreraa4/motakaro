@@ -1,5 +1,7 @@
 import type { NextConfig } from 'next';
 
+import './env';
+
 const nextConfig: NextConfig = {
   typedRoutes: true,
   transpilePackages: ['@workspace/agents', '@workspace/branding', '@workspace/ui'],

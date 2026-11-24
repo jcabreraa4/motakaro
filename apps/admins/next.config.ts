@@ -2,6 +2,8 @@ import type { NextConfig } from 'next';
 
 import { withSentryConfig } from '@sentry/nextjs/config';
 
+import './env';
+
 const nextConfig: NextConfig = {
   typedRoutes: true,
   transpilePackages: ['@workspace/agents', '@workspace/auth', '@workspace/branding', '@workspace/render', '@workspace/tiptap', '@workspace/ui'],

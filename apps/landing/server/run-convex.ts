@@ -1,6 +1,8 @@
 import { ConvexHttpClient } from 'convex/browser';
 
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+import { env } from '@/env';
+
+const convex = new ConvexHttpClient(env.NEXT_PUBLIC_CONVEX_URL);
 
 export async function runConvex() {
   // Return Convex

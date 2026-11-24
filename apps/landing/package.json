@@ -16,6 +16,7 @@
     "@calcom/embed-react": "catalog:",
     "@fast-link/next": "catalog:",
     "@openrouter/ai-sdk-provider": "catalog:",
+    "@t3-oss/env-nextjs": "catalog:",
     "@vercel/analytics": "catalog:",
     "@vercel/speed-insights": "catalog:",
     "@workspace/assets": "workspace:*",
@@ -30,7 +31,8 @@
     "react-dom": "catalog:",
     "react-icons": "catalog:",
     "sonner": "catalog:",
-    "streamdown": "catalog:"
+    "streamdown": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:",

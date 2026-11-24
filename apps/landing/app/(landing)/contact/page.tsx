@@ -7,8 +7,9 @@ import Cal, { getCalApi } from '@calcom/embed-react';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
+import { env } from '@/env';
 
-const calcom = process.env.NEXT_PUBLIC_CALCOM_URL!;
+const calcom = env.NEXT_PUBLIC_CALCOM_URL;
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState(true);

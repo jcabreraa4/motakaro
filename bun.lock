@@ -26,6 +26,7 @@
         "@fast-link/next": "catalog:",
         "@hookform/resolvers": "catalog:",
         "@sentry/nextjs": "catalog:",
+        "@t3-oss/env-nextjs": "catalog:",
         "@tauri-apps/api": "catalog:",
         "@tiptap/react": "catalog:",
         "@trigger.dev/sdk": "catalog:",
@@ -51,6 +52,7 @@
         "react-dropzone": "catalog:",
         "react-hook-form": "catalog:",
         "sonner": "catalog:",
+        "zod": "catalog:",
         "zustand": "catalog:",
       },
       "devDependencies": {
@@ -76,6 +78,7 @@
         "@fast-link/next": "catalog:",
         "@hookform/resolvers": "catalog:",
         "@sentry/nextjs": "catalog:",
+        "@t3-oss/env-nextjs": "catalog:",
         "@tauri-apps/api": "catalog:",
         "@tiptap/react": "catalog:",
         "@trigger.dev/sdk": "catalog:",
@@ -100,6 +103,7 @@
         "react-dropzone": "catalog:",
         "react-hook-form": "catalog:",
         "sonner": "catalog:",
+        "zod": "catalog:",
         "zustand": "catalog:",
       },
       "devDependencies": {
@@ -160,6 +164,7 @@
         "@calcom/embed-react": "catalog:",
         "@fast-link/next": "catalog:",
         "@openrouter/ai-sdk-provider": "catalog:",
+        "@t3-oss/env-nextjs": "catalog:",
         "@vercel/analytics": "catalog:",
         "@vercel/speed-insights": "catalog:",
         "@workspace/assets": "workspace:*",
@@ -175,6 +180,7 @@
         "react-icons": "catalog:",
         "sonner": "catalog:",
         "streamdown": "catalog:",
+        "zod": "catalog:",
       },
       "devDependencies": {
         "@tailwindcss/postcss": "catalog:",
@@ -423,6 +429,7 @@
     "@openrouter/ai-sdk-provider": "^3.1.0",
     "@sentry/nextjs": "^10.72.0",
     "@shadcn/react": "^0.3.0",
+    "@t3-oss/env-nextjs": "^0.13.11",
     "@tailwindcss/postcss": "^4.3.3",
     "@tauri-apps/api": "^2.12.4",
     "@tauri-apps/cli": "^2.12.4",
@@ -1452,6 +1459,10 @@
     "@standard-schema/utils": ["@standard-schema/utils@0.3.0", "", {}, "sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g=="],
 
     "@swc/helpers": ["@swc/helpers@0.5.23", "", { "dependencies": { "tslib": "^2.8.0" } }, "sha512-5lSsMOTXURePglDfvuAQUqkGek9Hg2kksOYay2m0+XR++b2NWYL/4sWyuvVBIs8oKnJaxkdi9whaL/sqN13afw=="],
+
+    "@t3-oss/env-core": ["@t3-oss/env-core@0.13.11", "", { "peerDependencies": { "arktype": "^2.1.0", "typescript": ">=5.0.0", "valibot": "^1.0.0-beta.7 || ^1.0.0", "zod": "^3.24.0 || ^4.0.0" }, "optionalPeers": ["arktype", "typescript", "valibot", "zod"] }, "sha512-sM7GYY+KL7H/Hl0BE0inWfk3nRHZOLhmVn7sHGxaZt9FAR6KqREXAE+6TqKfiavfXmpRxO/OZ2QgKRd+oiBYRQ=="],
+
+    "@t3-oss/env-nextjs": ["@t3-oss/env-nextjs@0.13.11", "", { "dependencies": { "@t3-oss/env-core": "0.13.11" }, "peerDependencies": { "arktype": "^2.1.0", "typescript": ">=5.0.0", "valibot": "^1.0.0-beta.7 || ^1.0.0", "zod": "^3.24.0 || ^4.0.0" }, "optionalPeers": ["arktype", "typescript", "valibot", "zod"] }, "sha512-NC+3j7YWgpzdFu1t5y/8wqibTK0lm5RS4bjXA1n8uwik3wIR4iZM4Fa+U2BaMa5k3Qk8RZiYhoAIX0WogmGkzg=="],
 
     "@tailwindcss/node": ["@tailwindcss/node@4.3.5", "", { "dependencies": { "@jridgewell/remapping": "^2.3.5", "enhanced-resolve": "^5.24.5", "jiti": "^2.7.0", "lightningcss": "1.33.0", "magic-string": "^1.1.0", "source-map-js": "^1.2.1", "tailwindcss": "4.3.5" } }, "sha512-yT53FzV4ke0cr/BguDxhWMpm5MJu1O2muzk+tKw6lKHjODAsYArBbWwFbJiaksfzFv1tpkO9QHGzmfs1hJT66g=="],
 

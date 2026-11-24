@@ -52,6 +52,7 @@
     "@openrouter/ai-sdk-provider": "^3.1.0",
     "@sentry/nextjs": "^10.72.0",
     "@shadcn/react": "^0.3.0",
+    "@t3-oss/env-nextjs": "^0.13.11",
     "@tailwindcss/postcss": "^4.3.3",
     "@tauri-apps/api": "^2.12.4",
     "@tauri-apps/cli": "^2.12.4",

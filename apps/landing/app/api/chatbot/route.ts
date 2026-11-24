@@ -4,12 +4,13 @@ import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { UIMessage, convertToModelMessages, createUIMessageStreamResponse, streamText, toUIMessageStream } from 'ai';
 
 import instructions from '@/app/api/chatbot/instructions.md' with { type: 'text' };
+import { env } from '@/env';
 import { rateLimiter } from '@/server/rate-limiter';
 
-const model = process.env.OPENROUTER_MODEL || 'z-ai/glm-5.3-flash';
+const model = env.OPENROUTER_MODEL;
 
 const openrouter = createOpenRouter({
-  apiKey: process.env.OPENROUTER_API_KEY
+  apiKey: env.OPENROUTER_API_KEY
 });
 
 export async function POST(request: NextRequest) {

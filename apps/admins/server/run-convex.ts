@@ -1,9 +1,10 @@
 import { auth } from '@clerk/nextjs/server';
 import { ConvexHttpClient } from 'convex/browser';
 
+import { env } from '@/env';
 import { verifyAuth } from '@/server/verify-auth';
 
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+const convex = new ConvexHttpClient(env.NEXT_PUBLIC_CONVEX_URL);
 
 export async function runConvex() {
   // Verify Identity

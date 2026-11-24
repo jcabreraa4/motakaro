@@ -7,8 +7,9 @@ import { Heading1, Heading2, Heading3 } from '@/components/layout/app-heading';
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
 import { ContactLink } from '@/components/motakaro/contact-link';
 import { PlaybookLink } from '@/components/motakaro/playbook-link';
+import { env } from '@/env';
 
-const video = process.env.NEXT_PUBLIC_VIDEO_URL!;
+const video = env.NEXT_PUBLIC_VIDEO_URL;
 
 const industries = ['DataOps', 'B2B Consulting', 'Fintech', 'Cyber Security', 'RevOps', 'MarTech', 'FinOps', 'Enterprise IT'];
 

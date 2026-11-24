@@ -13,7 +13,9 @@ import { Button } from '@workspace/ui/components/button';
 import { GenericLoader } from '@workspace/ui/components/custom/generic-loader';
 import { Field, FieldDescription, FieldGroup } from '@workspace/ui/components/field';
 
-const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
+import { env } from '@/env';
+
+const redirectPage = env.NEXT_PUBLIC_REDIRECT_PAGE;
 
 const errorMessage = 'An internal error has occurred.';
 const successMessage = 'Organization selected successfully.';

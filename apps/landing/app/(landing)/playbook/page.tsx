@@ -1,6 +1,7 @@
 import { SectionContent, SectionInner, SectionWrapper } from '@/components/layout/app-section';
+import { env } from '@/env';
 
-const playbook = process.env.NEXT_PUBLIC_GAMMA_URL!;
+const playbook = env.NEXT_PUBLIC_GAMMA_URL;
 
 export default function Page() {
   return (

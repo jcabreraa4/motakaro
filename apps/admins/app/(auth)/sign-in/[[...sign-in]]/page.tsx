@@ -18,8 +18,10 @@ import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@wo
 import { Input } from '@workspace/ui/components/input';
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@workspace/ui/components/input-otp';
 
-const pageStatus = process.env.NEXT_PUBLIC_SIGN_IN_ACTIVE!;
-const redirectPage = process.env.NEXT_PUBLIC_REDIRECT_PAGE!;
+import { env } from '@/env';
+
+const isActive = env.NEXT_PUBLIC_SIGN_IN_ACTIVE;
+const redirectPage = env.NEXT_PUBLIC_REDIRECT_PAGE;
 
 const errorMessage = 'An internal error has occurred.';
 const successMessage = 'You signed in successfully.';
@@ -37,7 +39,6 @@ export default function Page() {
     if (isSignedIn) push(redirectPage as Route);
   }, [isSignedIn, push]);
 
-  const isDisabled = pageStatus === 'false';
   const isLoading = fetchStatus === 'fetching';
 
   const signInForm = useForm<SignInFormType>({
@@ -118,7 +119,7 @@ export default function Page() {
   }
 
   // Disabled Card
-  if (isDisabled) {
+  if (!isActive) {
     return (
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 select-none">
