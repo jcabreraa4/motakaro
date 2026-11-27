@@ -7,6 +7,7 @@
       "@workspace/auth/*": ["../../packages/auth/src/*"],
       "@workspace/backend/*": ["../../packages/backend/convex/*"],
       "@workspace/branding/*": ["../../packages/branding/src/*"],
+      "@workspace/layout/*": ["../../packages/layout/src/*"],
       "@workspace/render/*": ["../../packages/render/src/*"],
       "@workspace/tiptap/*": ["../../packages/tiptap/src/*"],
       "@workspace/trigger/*": ["../../packages/trigger/src/*"],

@@ -1,0 +1,30 @@
+{
+  "name": "@workspace/layout",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "eslint",
+    "format": "prettier --write \"**/*.{ts,tsx}\" --ignore-path ../../.prettierignore",
+    "typecheck": "bun check --no-script"
+  },
+  "dependencies": {
+    "@workspace/assets": "workspace:*",
+    "@workspace/ui": "workspace:*",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:",
+    "@workspace/eslint": "workspace:*",
+    "@workspace/typescript": "workspace:*",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
+  },
+  "exports": {
+    "./*": [
+      "./src/*.ts",
+      "./src/*.tsx"
+    ]
+  }
+}

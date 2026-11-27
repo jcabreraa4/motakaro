@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest';
 
-import { signInSchema, signUpSchema } from '@workspace/auth/schemas/auth';
+import { signInSchema } from '@workspace/auth/schemas/sign-in';
+import { signUpSchema } from '@workspace/auth/schemas/sign-up';
 
 // Sign In Tests
 

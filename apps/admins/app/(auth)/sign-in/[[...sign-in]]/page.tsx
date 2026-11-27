@@ -11,8 +11,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { RefreshCwIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
-import { signInSchema } from '@workspace/auth/schemas/auth';
-import type { SignInFormType } from '@workspace/auth/schemas/auth';
+import { signInSchema } from '@workspace/auth/schemas/sign-in';
+import type { SignInFormType } from '@workspace/auth/schemas/sign-in';
 import { Button } from '@workspace/ui/components/button';
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@workspace/ui/components/field';
 import { Input } from '@workspace/ui/components/input';

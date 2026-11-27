@@ -28,6 +28,7 @@
     "@workspace/auth": "workspace:*",
     "@workspace/backend": "workspace:*",
     "@workspace/branding": "workspace:*",
+    "@workspace/layout": "workspace:*",
     "@workspace/render": "workspace:*",
     "@workspace/tiptap": "workspace:*",
     "@workspace/trigger": "workspace:*",

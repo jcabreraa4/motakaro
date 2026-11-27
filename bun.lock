@@ -36,6 +36,7 @@
         "@workspace/auth": "workspace:*",
         "@workspace/backend": "workspace:*",
         "@workspace/branding": "workspace:*",
+        "@workspace/layout": "workspace:*",
         "@workspace/render": "workspace:*",
         "@workspace/tiptap": "workspace:*",
         "@workspace/trigger": "workspace:*",
@@ -87,6 +88,7 @@
         "@workspace/auth": "workspace:*",
         "@workspace/backend": "workspace:*",
         "@workspace/branding": "workspace:*",
+        "@workspace/layout": "workspace:*",
         "@workspace/render": "workspace:*",
         "@workspace/tiptap": "workspace:*",
         "@workspace/trigger": "workspace:*",
@@ -296,6 +298,23 @@
         "globals": "catalog:",
         "typescript": "catalog:",
         "typescript-eslint": "catalog:",
+      },
+    },
+    "packages/layout": {
+      "name": "@workspace/layout",
+      "version": "0.1.0",
+      "dependencies": {
+        "@workspace/assets": "workspace:*",
+        "@workspace/ui": "workspace:*",
+        "react": "catalog:",
+        "react-dom": "catalog:",
+      },
+      "devDependencies": {
+        "@types/react": "catalog:",
+        "@workspace/eslint": "workspace:*",
+        "@workspace/typescript": "workspace:*",
+        "eslint": "catalog:",
+        "typescript": "catalog:",
       },
     },
     "packages/render": {
@@ -1839,6 +1858,8 @@
     "@workspace/branding": ["@workspace/branding@workspace:packages/branding"],
 
     "@workspace/eslint": ["@workspace/eslint@workspace:packages/eslint"],
+
+    "@workspace/layout": ["@workspace/layout@workspace:packages/layout"],
 
     "@workspace/render": ["@workspace/render@workspace:packages/render"],
 

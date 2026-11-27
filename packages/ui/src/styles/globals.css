@@ -9,6 +9,7 @@
 @source '../../../agents/src/**/*.{ts,tsx}'; /* packages/agents */
 @source '../../../auth/src/**/*.{ts,tsx}'; /* packages/auth */
 @source '../../../branding/src/**/*.{ts,tsx}'; /* packages/branding */
+@source '../../../layout/src/**/*.{ts,tsx}'; /* packages/layout */
 @source '../../../render/src/**/*.{ts,tsx}'; /* packages/render */
 @source '../../../tiptap/src/**/*.{ts,tsx}'; /* packages/tiptap */
 @source '../**/*.{ts,tsx}'; /* packages/ui */
